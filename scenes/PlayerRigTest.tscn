@@ -1,0 +1,157 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://scripts/Player.gd" type="Script" id=1]
+[ext_resource path="res://assets/player/foot_placeholder.png" type="Texture" id=2]
+[ext_resource path="res://assets/player/hand_placeholder.png" type="Texture" id=3]
+[ext_resource path="res://assets/player/body_placeholder.png" type="Texture" id=4]
+[ext_resource path="res://assets/player/head_placeholder.png" type="Texture" id=5]
+[ext_resource path="res://assets/icon.png" type="Texture" id=6]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 6.25297
+
+[sub_resource type="CircleShape2D" id=5]
+radius = 24.9598
+
+[sub_resource type="CircleShape2D" id=6]
+radius = 42.2635
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "on_wall",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "run",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "jump",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 11.881, 40.838 )
+
+[node name="Player Rig" type="KinematicBody2D"]
+position = Vector2( 0, -8.11656 )
+collision_layer = 8
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+max_speed = 50
+acceleration = 50.0
+deceleration = 0.65
+jump_height = 10
+
+[node name="Sprites" type="Node2D" parent="."]
+
+[node name="Right Foot" type="Sprite" parent="Sprites"]
+position = Vector2( 6, 0 )
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 2 )
+
+[node name="Left Pin" type="PinJoint2D" parent="Sprites"]
+position = Vector2( 7.87, -26.57 )
+node_a = NodePath("../Left Hand")
+node_b = NodePath("../../Arms")
+softness = 1.0
+
+[node name="Left Hand" type="RigidBody2D" parent="Sprites"]
+position = Vector2( 10.49, -16.12 )
+collision_layer = 2
+collision_mask = 3
+mass = 1.96
+gravity_scale = 10.0
+linear_damp = 5.0
+
+[node name="Sprite" type="Sprite" parent="Sprites/Left Hand"]
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Sprites/Left Hand"]
+position = Vector2( -0.01, 0 )
+shape = SubResource( 1 )
+
+[node name="Body" type="Sprite" parent="Sprites"]
+position = Vector2( 0, -16.74 )
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 4 )
+
+[node name="Left Foot" type="Sprite" parent="Sprites"]
+position = Vector2( -6, 0 )
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 2 )
+
+[node name="Head" type="RigidBody2D" parent="Sprites"]
+position = Vector2( 0, -51.77 )
+collision_layer = 0
+gravity_scale = -128.0
+linear_damp = 30.0
+
+[node name="Sprite" type="Sprite" parent="Sprites/Head"]
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprites/Head"]
+shape = SubResource( 5 )
+
+[node name="Right Pin" type="PinJoint2D" parent="Sprites"]
+position = Vector2( -7.6, -26.3 )
+node_a = NodePath("../Right Hand")
+node_b = NodePath("../../Arms")
+softness = 1.0
+
+[node name="Head Pin" type="PinJoint2D" parent="Sprites"]
+position = Vector2( 0, -27.11 )
+z_as_relative = false
+node_a = NodePath("../Head")
+node_b = NodePath("../../Arms")
+softness = 0.1
+
+[node name="Right Hand" type="RigidBody2D" parent="Sprites"]
+position = Vector2( -10.49, -16.12 )
+collision_layer = 4
+collision_mask = 5
+mass = 1.96
+gravity_scale = 7.5
+linear_damp = 5.0
+
+[node name="Sprite" type="Sprite" parent="Sprites/Right Hand"]
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprites/Right Hand"]
+shape = SubResource( 1 )
+
+[node name="Arms" type="KinematicBody2D" parent="."]
+position = Vector2( 0, -26.19 )
+scale = Vector2( 0.1, 0.1 )
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arms"]
+position = Vector2( 0, -6.23 )
+shape = SubResource( 6 )
+
+[node name="Skeleton2D" type="Skeleton2D" parent="."]
+
+[node name="Sprite" type="AnimatedSprite" parent="."]
+visible = false
+frames = SubResource( 3 )
+animation = "idle"
+playing = true
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -32.9 )
+shape = SubResource( 4 )
