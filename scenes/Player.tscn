@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://scripts/PlayerStateMachine.gd" type="Script" id=2]
@@ -72,10 +72,25 @@ transitions = [ "Idle", "Run", SubResource( 11 ), "Run", "Idle", SubResource( 12
 start_node = "Idle"
 graph_offset = Vector2( -26, 57 )
 
+[sub_resource type="AnimationNodeAnimation" id=24]
+animation = "wall_slide"
+
 [sub_resource type="AnimationNodeStateMachineTransition" id=14]
 xfade_time = 0.2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=15]
+xfade_time = 0.1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=25]
+xfade_time = 0.1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=26]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=27]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=28]
 xfade_time = 0.1
 
 [sub_resource type="AnimationNodeStateMachine" id=16]
@@ -83,9 +98,11 @@ states/Airborne/node = SubResource( 6 )
 states/Airborne/position = Vector2( 723, 137 )
 states/Grounded/node = SubResource( 13 )
 states/Grounded/position = Vector2( 533, 137 )
-transitions = [ "Grounded", "Airborne", SubResource( 14 ), "Airborne", "Grounded", SubResource( 15 ) ]
+"states/Wall Slide/node" = SubResource( 24 )
+"states/Wall Slide/position" = Vector2( 613.555, 211 )
+transitions = [ "Grounded", "Airborne", SubResource( 14 ), "Airborne", "Grounded", SubResource( 15 ), "Airborne", "Wall Slide", SubResource( 25 ), "Wall Slide", "Airborne", SubResource( 26 ), "Wall Slide", "Grounded", SubResource( 27 ), "Grounded", "Wall Slide", SubResource( 28 ) ]
 start_node = "Grounded"
-graph_offset = Vector2( 309.555, 47 )
+graph_offset = Vector2( 210.555, 80 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=17]
 
@@ -215,6 +232,7 @@ shape = SubResource( 23 )
 position = Vector2( 0.17, -7.36 )
 node_a = NodePath("../Body")
 node_b = NodePath("../Feet")
+bias = 0.5
 
 [node name="Right Hand" type="RigidBody2D" parent="StateMachine/Sprites"]
 editor/display_folded = true
