@@ -16,7 +16,7 @@ var is_grounded
 var is_jumping = false
 
 var max_jump_velocity
-var min_jump_velocity 
+var min_jump_velocity
 var max_jump_height = 7.25 * Globals.CELL_SIZE
 var min_jump_height = 0.8 * Globals.CELL_SIZE
 var jump_duration = 0.4
@@ -98,7 +98,7 @@ func _check_is_grounded():
 	for raycast in raycasts.get_children():
 		if raycast.is_colliding():
 			return true
-	
+
 	# If loop completes then raycast was not detected so return false
 	return false
 
@@ -106,7 +106,7 @@ func _check_is_grounded():
 func _update_wall_direction():
 	var is_near_wall_left = _check_is_valid_wall(left_wall_raycasts)
 	var is_near_wall_right = _check_is_valid_wall(right_wall_raycasts)
-	
+
 	if is_near_wall_left && is_near_wall_right:
 		wall_direction = move_direction
 	else:

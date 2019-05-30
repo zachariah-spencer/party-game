@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="party-game"
-run/main_scene="res://Scenes/World.tscn"
+run/main_scene="res://scenes/World.tscn"
 config/icon="res://assets/icon.png"
 
 [autoload]
