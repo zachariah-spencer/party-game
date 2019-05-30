@@ -1,49 +1,214 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scripts/Player.gd" type="Script" id=1]
-[ext_resource path="res://assets/icon.png" type="Texture" id=2]
+[ext_resource path="res://scripts/PlayerStateMachine.gd" type="Script" id=2]
+[ext_resource path="res://assets/player/head_placeholder.png" type="Texture" id=3]
+[ext_resource path="res://assets/player/body_placeholder.png" type="Texture" id=4]
+[ext_resource path="res://assets/player/hand_placeholder.png" type="Texture" id=5]
+[ext_resource path="res://assets/player/foot_placeholder.png" type="Texture" id=6]
 
-[sub_resource type="SpriteFrames" id=1]
-animations = [ {
-"frames": [ ExtResource( 2 ) ],
-"loop": true,
-"name": "idle",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 2 ) ],
-"loop": true,
-"name": "on_wall",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 2 ) ],
-"loop": true,
-"name": "run",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 2 ) ],
-"loop": true,
-"name": "jump",
-"speed": 5.0
-} ]
+[sub_resource type="CircleShape2D" id=2]
+radius = 24.9598
 
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 32, 32 )
+[sub_resource type="CircleShape2D" id=3]
+radius = 6.25297
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 42.2635
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 11.881, 40.838 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 25, 43 )
 
 [node name="Player" type="KinematicBody2D"]
+position = Vector2( 0, -8.11656 )
+collision_layer = 8
+collision_mask = 17
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
 }
-max_speed = 50
-acceleration = 50.0
-deceleration = 0.65
-jump_height = 10
 
-[node name="Sprite" type="AnimatedSprite" parent="."]
-frames = SubResource( 1 )
-animation = "idle"
-playing = true
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource( 2 )
 
-[node name="Collision" type="CollisionShape2D" parent="."]
+[node name="Body" type="Node2D" parent="."]
+
+[node name="Limbs" type="Node2D" parent="Body"]
+editor/display_folded = true
+
+[node name="Head" type="RigidBody2D" parent="Body/Limbs"]
+editor/display_folded = true
+position = Vector2( 0, -51.77 )
+collision_layer = 0
+gravity_scale = -128.0
+linear_damp = 30.0
+
+[node name="Sprite" type="Sprite" parent="Body/Limbs/Head"]
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body/Limbs/Head"]
 shape = SubResource( 2 )
 
+[node name="Body" type="Sprite" parent="Body/Limbs"]
+position = Vector2( 0, -16.74 )
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 4 )
+
+[node name="Right Hand" type="RigidBody2D" parent="Body/Limbs"]
+editor/display_folded = true
+position = Vector2( -10.49, -16.12 )
+collision_layer = 4
+collision_mask = 5
+mass = 1.96
+gravity_scale = 7.5
+linear_damp = 5.0
+
+[node name="Sprite" type="Sprite" parent="Body/Limbs/Right Hand"]
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body/Limbs/Right Hand"]
+shape = SubResource( 3 )
+
+[node name="Left Hand" type="RigidBody2D" parent="Body/Limbs"]
+editor/display_folded = true
+position = Vector2( 10.49, -16.12 )
+collision_layer = 2
+collision_mask = 3
+mass = 1.96
+gravity_scale = 10.0
+linear_damp = 5.0
+
+[node name="Sprite" type="Sprite" parent="Body/Limbs/Left Hand"]
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 5 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Body/Limbs/Left Hand"]
+position = Vector2( -0.01, 0 )
+shape = SubResource( 3 )
+
+[node name="Right Foot" type="Sprite" parent="Body/Limbs"]
+position = Vector2( 6, 0 )
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 6 )
+
+[node name="Left Foot" type="Sprite" parent="Body/Limbs"]
+position = Vector2( -6, 0 )
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 6 )
+
+[node name="Left Pin" type="PinJoint2D" parent="Body/Limbs"]
+position = Vector2( 7.87, -26.57 )
+node_a = NodePath("../Left Hand")
+node_b = NodePath("../../Arms")
+softness = 1.0
+
+[node name="Right Pin" type="PinJoint2D" parent="Body/Limbs"]
+position = Vector2( -7.6, -26.3 )
+node_a = NodePath("../Right Hand")
+node_b = NodePath("../../Arms")
+softness = 1.0
+
+[node name="Head Pin" type="PinJoint2D" parent="Body/Limbs"]
+position = Vector2( 0, -27.11 )
+z_as_relative = false
+node_a = NodePath("../Head")
+node_b = NodePath("../../Arms")
+softness = 0.1
+
+[node name="Arms" type="KinematicBody2D" parent="Body"]
+editor/display_folded = true
+position = Vector2( 0, -26.19 )
+scale = Vector2( 0.1, 0.1 )
+collision_layer = 0
+collision_mask = 0
+
+[node name="Collision" type="CollisionShape2D" parent="Body/Arms"]
+position = Vector2( 0, -6.23 )
+shape = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Body"]
+
+[node name="Facing" type="Line2D" parent="Body"]
+position = Vector2( 0, -25 )
+points = PoolVector2Array( 0, -14.8834, 32, -14.8834, 32, -14.8834, 16, -30.8834 )
+width = 2.0
+
+[node name="PlayerShape" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -32.9 )
+shape = SubResource( 4 )
+
+[node name="GroundRaycasts" type="Node2D" parent="."]
+editor/display_folded = true
+
+[node name="CenterGroundRaycast" type="RayCast2D" parent="GroundRaycasts"]
+position = Vector2( 0, 8 )
+enabled = true
+cast_to = Vector2( 0, 10 )
+collision_mask = 17
+
+[node name="LeftGroundRaycast" type="RayCast2D" parent="GroundRaycasts"]
+position = Vector2( -10, 8 )
+enabled = true
+cast_to = Vector2( 0, 10 )
+collision_mask = 17
+
+[node name="RightGroundRaycast" type="RayCast2D" parent="GroundRaycasts"]
+position = Vector2( 10, 8 )
+enabled = true
+cast_to = Vector2( 0, 10 )
+collision_mask = 17
+
+[node name="WallRaycasts" type="Node2D" parent="."]
+editor/display_folded = true
+
+[node name="LeftWallRaycasts" type="Node2D" parent="WallRaycasts"]
+editor/display_folded = true
+
+[node name="LeftWallRaycastTop" type="RayCast2D" parent="WallRaycasts/LeftWallRaycasts"]
+position = Vector2( -12, -56 )
+enabled = true
+cast_to = Vector2( -1, 0 )
+
+[node name="LeftWallRaycastBottom" type="RayCast2D" parent="WallRaycasts/LeftWallRaycasts"]
+position = Vector2( -12, -16 )
+enabled = true
+cast_to = Vector2( -1, 0 )
+
+[node name="RightWallRaycasts" type="Node2D" parent="WallRaycasts"]
+editor/display_folded = true
+
+[node name="RightWallRaycastTop" type="RayCast2D" parent="WallRaycasts/RightWallRaycasts"]
+position = Vector2( 12, -56 )
+enabled = true
+cast_to = Vector2( 1, 0 )
+
+[node name="RightWallRaycastBottom" type="RayCast2D" parent="WallRaycasts/RightWallRaycasts"]
+position = Vector2( 12, -16 )
+enabled = true
+cast_to = Vector2( 1, 0 )
+
+[node name="FallingThroughPlatformArea" type="Area2D" parent="."]
+editor/display_folded = true
+position = Vector2( 0, -35 )
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FallingThroughPlatformArea"]
+shape = SubResource( 5 )
+
+[node name="WallSlideCooldown" type="Timer" parent="."]
+process_mode = 0
+wait_time = 0.2
+one_shot = true
+
+[node name="WallSlideStickyTimer" type="Timer" parent="."]
+wait_time = 0.08
+one_shot = true
+
+[connection signal="body_exited" from="FallingThroughPlatformArea" to="." method="_on_FallingThroughPlatformArea_body_exited"]
+[connection signal="timeout" from="WallSlideStickyTimer" to="StateMachine" method="_on_WallSlideStickyTimer_timeout"]

@@ -1,4 +1,5 @@
 extends Node
 
-var GRAVITY = 50
-var UP = Vector2.UP
+const GRAVITY = 2400
+const UP = Vector2.UP
+const CELL_SIZE = 32
