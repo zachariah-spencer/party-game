@@ -38,6 +38,7 @@ func _state_logic(delta):
 		parent._cap_gravity_wall_slide()
 		parent._handle_wall_slide_sticking()
 	parent._apply_movement()
+	$AnimationTree['parameters/Airborne/blend_position'] = parent.velocity.y / 300
 
 func _get_transition(delta):
 	match state:

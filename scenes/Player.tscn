@@ -73,7 +73,7 @@ states/Grounded/node = SubResource( 13 )
 states/Grounded/position = Vector2( 533, 137 )
 transitions = [ "Grounded", "Airborne", SubResource( 14 ), "Airborne", "Grounded", SubResource( 15 ) ]
 start_node = "Grounded"
-graph_offset = Vector2( 229.194, 47 )
+graph_offset = Vector2( 309.555, 47 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=17]
 
@@ -403,16 +403,13 @@ __meta__ = {
 }
 
 [node name="StateMachine" type="Node2D" parent="."]
-editor/display_folded = true
 script = ExtResource( 2 )
 
 [node name="Sprites" type="Node2D" parent="StateMachine"]
-editor/display_folded = true
-position = Vector2( 0, -8.11656 )
 
 [node name="Right Foot" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( 5.71782, -0.353379 )
-rotation = 0.155238
+position = Vector2( 6.11309, 0.147484 )
+rotation = -0.0520383
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
 
@@ -423,7 +420,6 @@ node_b = NodePath("../Body/Arms")
 softness = 1.0
 
 [node name="Left Hand" type="RigidBody2D" parent="StateMachine/Sprites"]
-editor/display_folded = true
 position = Vector2( 10.49, -16.12 )
 collision_layer = 2
 collision_mask = 3
@@ -440,14 +436,12 @@ position = Vector2( -0.01, 0 )
 shape = SubResource( 1 )
 
 [node name="Body" type="Sprite" parent="StateMachine/Sprites"]
-editor/display_folded = true
-position = Vector2( 0.127636, -17.1237 )
-rotation = -0.0523044
+position = Vector2( -0.0478205, -16.6436 )
+rotation = 0.0165348
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 5 )
 
 [node name="Arms" type="KinematicBody2D" parent="StateMachine/Sprites/Body"]
-editor/display_folded = true
 position = Vector2( 0.617449, -104.582 )
 rotation = 7.45058e-09
 collision_layer = 0
@@ -458,13 +452,12 @@ position = Vector2( 0, -6.23 )
 shape = SubResource( 2 )
 
 [node name="Left Foot" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( -5.73164, -0.46184 )
-rotation = 0.18899
+position = Vector2( -6.0837, 0.180753 )
+rotation = -0.0646842
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
 
 [node name="Head" type="RigidBody2D" parent="StateMachine/Sprites"]
-editor/display_folded = true
 position = Vector2( 0, -51.77 )
 collision_layer = 0
 gravity_scale = -128.0
@@ -491,7 +484,6 @@ node_b = NodePath("../Body/Arms")
 softness = 0.1
 
 [node name="Right Hand" type="RigidBody2D" parent="StateMachine/Sprites"]
-editor/display_folded = true
 position = Vector2( -10.49, -16.12 )
 collision_layer = 4
 collision_mask = 5
@@ -527,7 +519,6 @@ position = Vector2( 0, -32.9 )
 shape = SubResource( 23 )
 
 [node name="GroundRaycasts" type="Node2D" parent="."]
-editor/display_folded = true
 visible = false
 
 [node name="CenterGroundRaycast" type="RayCast2D" parent="GroundRaycasts"]
@@ -549,11 +540,9 @@ cast_to = Vector2( 0, 10 )
 collision_mask = 17
 
 [node name="WallRaycasts" type="Node2D" parent="."]
-editor/display_folded = true
 visible = false
 
 [node name="LeftWallRaycasts" type="Node2D" parent="WallRaycasts"]
-editor/display_folded = true
 
 [node name="LeftWallRaycastTop" type="RayCast2D" parent="WallRaycasts/LeftWallRaycasts"]
 position = Vector2( -12, -56 )
@@ -566,7 +555,6 @@ enabled = true
 cast_to = Vector2( -1, 0 )
 
 [node name="RightWallRaycasts" type="Node2D" parent="WallRaycasts"]
-editor/display_folded = true
 
 [node name="RightWallRaycastTop" type="RayCast2D" parent="WallRaycasts/RightWallRaycasts"]
 position = Vector2( 12, -56 )
@@ -579,7 +567,6 @@ enabled = true
 cast_to = Vector2( 1, 0 )
 
 [node name="FallingThroughPlatformArea" type="Area2D" parent="."]
-editor/display_folded = true
 visible = false
 position = Vector2( 0, -35 )
 collision_layer = 0
