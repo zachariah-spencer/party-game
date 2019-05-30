@@ -3,7 +3,7 @@ extends KinematicBody2D
 const UP = Vector2.UP
 const SLOPE_STOP = 64
 const DROP_THRU_BIT = 4
-const WALL_JUMP_VELOCITY = Vector2(600, -1200)
+const WALL_JUMP_VELOCITY = Vector2(900, -1200)
 
 var velocity = Vector2()
 var target_velocity = Vector2()
