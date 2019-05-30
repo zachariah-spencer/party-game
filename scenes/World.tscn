@@ -228,4 +228,3 @@ position = Vector2( 0, 304 )
 offset = Vector2( 704, 128 )
 current = true
 zoom = Vector2( 1.5, 1.5 )
-
