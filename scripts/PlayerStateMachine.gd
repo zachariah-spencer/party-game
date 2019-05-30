@@ -1,5 +1,7 @@
 extends StateMachine
 
+var wall_action
+
 func _ready():
 	add_state('idle')
 	add_state('run')
@@ -9,8 +11,16 @@ func _ready():
 	$AnimationTree.active = true
 	call_deferred('set_state', states.idle)
 
+func _update_wall_action():
+	match parent.wall_direction:
+		-1:
+			wall_action = 'move_left'	
+		1:
+			wall_action = 'move_right'
+	return wall_action
 
 func _input(event):
+	
 	if [states.idle, states.run].has(state) && state != states.wall_slide:
 		#JUMP
 		if event.is_action_pressed('jump'):
@@ -19,17 +29,8 @@ func _input(event):
 			else:
 				parent.jump()
 	elif state == states.wall_slide:
-		var wall_direction
 		
-		match parent.wall_direction:
-			-1:
-				wall_direction = 'move_left'
-				
-			1:
-				wall_direction = 'move_right'
-				
-		
-		if event.is_action_pressed('jump') && Input.is_action_pressed(wall_direction):
+		if event.is_action_pressed('jump') && Input.is_action_pressed(wall_action):
 			
 			set_state(states.jump)
 			parent.wall_jump()
@@ -42,6 +43,7 @@ func _input(event):
 func _state_logic(delta):
 	parent._update_move_direction()
 	parent._update_wall_direction()
+	_update_wall_action()
 	if state != states.wall_slide:
 		parent._handle_move_input()
 	parent._apply_gravity(delta)
@@ -70,27 +72,27 @@ func _get_transition(delta):
 			elif abs(parent.move_direction) == 0:
 				return states.idle
 		states.jump:
-			print('in jump state')
-			if parent.wall_direction != 0  && parent.wall_slide_cooldown.is_stopped():
+			if parent.wall_direction != 0  && parent.wall_slide_cooldown.is_stopped() && Input.is_action_pressed(wall_action):
 				return states.wall_slide
 			elif parent.is_on_floor():
 				return states.idle
 			elif parent.velocity.y >= 0:
 				return states.fall
 		states.fall:
-			if parent.wall_direction != 0 && parent.wall_slide_cooldown.is_stopped():
+			if parent.wall_direction != 0 && parent.wall_slide_cooldown.is_stopped() && Input.is_action_pressed(wall_action):
 				return states.wall_slide
 			elif parent.is_on_floor():
 				return states.idle
 			elif parent.velocity.y < 0:
 				return states.jump
 		states.wall_slide:
-			print('in wall_slide state')
 			if parent.is_on_floor():
 				return states.idle
 			elif parent.wall_direction == 0:
 				return states.fall
-
+			elif !Input.is_action_pressed(wall_action):
+				return states.fall
+	
 	#Error in transitions if this is returned
 	return null
 
