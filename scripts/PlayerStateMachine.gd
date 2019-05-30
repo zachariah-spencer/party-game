@@ -19,7 +19,18 @@ func _input(event):
 			else:
 				parent.jump()
 	elif state == states.wall_slide:
-		if event.is_action_pressed('jump'):
+		var wall_direction
+		
+		match parent.wall_direction:
+			-1:
+				wall_direction = 'move_left'
+				
+			1:
+				wall_direction = 'move_right'
+				
+		
+		if event.is_action_pressed('jump') && Input.is_action_pressed(wall_direction):
+			
 			set_state(states.jump)
 			parent.wall_jump()
 
@@ -59,6 +70,7 @@ func _get_transition(delta):
 			elif abs(parent.move_direction) == 0:
 				return states.idle
 		states.jump:
+			print('in jump state')
 			if parent.wall_direction != 0  && parent.wall_slide_cooldown.is_stopped():
 				return states.wall_slide
 			elif parent.is_on_floor():
@@ -73,6 +85,7 @@ func _get_transition(delta):
 			elif parent.velocity.y < 0:
 				return states.jump
 		states.wall_slide:
+			print('in wall_slide state')
 			if parent.is_on_floor():
 				return states.idle
 			elif parent.wall_direction == 0:

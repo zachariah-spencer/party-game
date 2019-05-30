@@ -406,10 +406,11 @@ __meta__ = {
 script = ExtResource( 2 )
 
 [node name="Sprites" type="Node2D" parent="StateMachine"]
+editor/display_folded = true
 
 [node name="Right Foot" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( 6.11309, 0.147484 )
-rotation = -0.0520383
+position = Vector2( 4.57358, -1.79497 )
+rotation = 0.769699
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
 
@@ -436,14 +437,14 @@ position = Vector2( -0.01, 0 )
 shape = SubResource( 1 )
 
 [node name="Body" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( -0.0478205, -16.6436 )
-rotation = 0.0165348
+position = Vector2( 0.640277, -18.5948 )
+rotation = -0.257861
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 5 )
 
 [node name="Arms" type="KinematicBody2D" parent="StateMachine/Sprites/Body"]
 position = Vector2( 0.617449, -104.582 )
-rotation = 7.45058e-09
+rotation = 7.45058e-009
 collision_layer = 0
 collision_mask = 0
 
@@ -452,8 +453,8 @@ position = Vector2( 0, -6.23 )
 shape = SubResource( 2 )
 
 [node name="Left Foot" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( -6.0837, 0.180753 )
-rotation = -0.0646842
+position = Vector2( -4.67867, -2.32818 )
+rotation = 0.939016
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
 
@@ -519,6 +520,7 @@ position = Vector2( 0, -32.9 )
 shape = SubResource( 23 )
 
 [node name="GroundRaycasts" type="Node2D" parent="."]
+editor/display_folded = true
 visible = false
 
 [node name="CenterGroundRaycast" type="RayCast2D" parent="GroundRaycasts"]
@@ -540,6 +542,7 @@ cast_to = Vector2( 0, 10 )
 collision_mask = 17
 
 [node name="WallRaycasts" type="Node2D" parent="."]
+editor/display_folded = true
 visible = false
 
 [node name="LeftWallRaycasts" type="Node2D" parent="WallRaycasts"]
@@ -567,6 +570,7 @@ enabled = true
 cast_to = Vector2( 1, 0 )
 
 [node name="FallingThroughPlatformArea" type="Area2D" parent="."]
+editor/display_folded = true
 visible = false
 position = Vector2( 0, -35 )
 collision_layer = 0
@@ -581,7 +585,7 @@ wait_time = 0.2
 one_shot = true
 
 [node name="WallSlideStickyTimer" type="Timer" parent="."]
-wait_time = 0.08
+wait_time = 0.02
 one_shot = true
 
 [node name="Collision" type="CollisionShape2D" parent="."]
@@ -590,5 +594,6 @@ position = Vector2( 0, -32.9 )
 shape = SubResource( 25 )
 
 [node name="Skeleton2D" type="Skeleton2D" parent="."]
+
 [connection signal="body_exited" from="FallingThroughPlatformArea" to="." method="_on_FallingThroughPlatformArea_body_exited"]
 [connection signal="timeout" from="WallSlideStickyTimer" to="StateMachine" method="_on_WallSlideStickyTimer_timeout"]
