@@ -395,6 +395,7 @@ extents = Vector2( 25, 43 )
 extents = Vector2( 11.881, 40.838 )
 
 [node name="Player" type="KinematicBody2D"]
+editor/display_folded = true
 position = Vector2( 0, -8.11656 )
 collision_layer = 16
 script = ExtResource( 1 )
@@ -403,14 +404,15 @@ __meta__ = {
 }
 
 [node name="StateMachine" type="Node2D" parent="."]
+editor/display_folded = true
 script = ExtResource( 2 )
 
 [node name="Sprites" type="Node2D" parent="StateMachine"]
 editor/display_folded = true
 
 [node name="Right Foot" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( 6.00223, 0.00281751 )
-rotation = -0.00118174
+position = Vector2( 6.11303, 0.151849 )
+rotation = -0.0442894
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
 
@@ -437,8 +439,8 @@ position = Vector2( -0.01, 0 )
 shape = SubResource( 1 )
 
 [node name="Body" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( -0.000993729, -16.7372 )
-rotation = 0.000393782
+position = Vector2( -0.0452661, -16.6872 )
+rotation = 0.013167
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 5 )
 
@@ -453,12 +455,13 @@ position = Vector2( 0, -6.23 )
 shape = SubResource( 2 )
 
 [node name="Left Foot" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( -6.00201, 0.00362968 )
-rotation = -0.00144457
+position = Vector2( -6.06556, 0.177362 )
+rotation = -0.0562598
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
 
 [node name="Head" type="RigidBody2D" parent="StateMachine/Sprites"]
+editor/display_folded = true
 position = Vector2( 0, -51.77 )
 collision_layer = 0
 gravity_scale = -128.0
