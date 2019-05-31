@@ -33,6 +33,7 @@ config/icon="res://assets/icon.png"
 [autoload]
 
 Globals="*res://scripts/Globals.gd"
+Manager="*res://scripts/GameStateManager.gd"
 
 [input]
 
