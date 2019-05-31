@@ -167,7 +167,7 @@ gravity_scale = -60.0
 linear_damp = 30.0
 
 [node name="Body" type="Sprite" parent="StateMachine/Sprites/Body"]
-position = Vector2( -0.0242982, 0.398 )
+position = Vector2( -0.024, -3.562 )
 rotation = 0.00317418
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 5 )
