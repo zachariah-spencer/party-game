@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "Minigame",
 "language": "GDScript",
-"path": "res://scripts/Minigame.gd"
+"path": "res://scripts/minigame_scripts/Minigame.gd"
 }, {
 "base": "Node",
 "class": "StateMachine",
@@ -32,8 +32,8 @@ config/icon="res://assets/icon.png"
 
 [autoload]
 
-Manager="*res://scripts/GameStateManager.gd"
-Globals="*res://scripts/Globals.gd"
+Manager="*res://scripts/autoloads/GameStateManager.gd"
+Globals="*res://scripts/autoloads/Globals.gd"
 
 [input]
 
