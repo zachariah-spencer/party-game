@@ -5,7 +5,7 @@ class_name StateMachine
 
 var state = null setget set_state
 var previous_state = null
-var states = {}
+var states : Dictionary = {}
 
 #warning-ignore:unused_class_variable
 onready var parent = get_parent()

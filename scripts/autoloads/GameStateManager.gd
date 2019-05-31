@@ -1,6 +1,6 @@
 extends Node
 
-const GAMES = {
+const GAMES : Dictionary = {
 	
 	'lobby' : preload('res://scenes/Minigames/MG_Lobby.tscn'),
 	'fighter' : preload('res://scenes/Minigames/MG_Fighter.tscn'),
@@ -8,13 +8,13 @@ const GAMES = {
 }
 
 #warning-ignore:unused_class_variable
-var current_game_name
+var current_game_name : String
 #warning-ignore:unused_class_variable
-var current_game_time
+var current_game_time : int
 #warning-ignore:unused_class_variable
-var current_game_reference
+var current_game_reference : Node
 
-var player_spawns = [0,1,2,3]
+var player_spawns : Array = [0,1,2,3]
 
 func _ready():
 	randomize()
@@ -22,7 +22,7 @@ func _ready():
 	game_to_play_next.instance()
 
 #warning-ignore:unused_argument
-func _start_new_minigame(new_minigame):
+func _start_new_minigame(new_minigame : PackedScene):
 	#check if a minigame is loaded
 	#remove old minigame
 	#instance new minigame
@@ -32,8 +32,8 @@ func _on_game_times_up():
 	print('called game ending')
 
 func _select_random_minigame():
-	var selected_num = int(rand_range(0, GAMES.size()))
-	var selected_game = GAMES.values()[selected_num]
+	var selected_num : int = int(rand_range(0, GAMES.size()))
+	var selected_game : PackedScene = GAMES.values()[selected_num]
 	return selected_game
 
 func _randomize_spawn_positions():

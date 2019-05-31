@@ -1,7 +1,7 @@
 extends StateMachine
 #warning-ignore-all:unused_argument
 
-var wall_action
+var wall_action : String
 
 func _ready():
 	add_state('idle')
@@ -20,7 +20,7 @@ func _update_wall_action():
 			wall_action = 'move_right'
 	return wall_action
 
-func _input(event):
+func _input(event : InputEvent):
 	
 	if [states.idle, states.run].has(state) && state != states.wall_slide:
 		#JUMP
@@ -41,7 +41,7 @@ func _input(event):
 		if event.is_action_released('jump') && parent.velocity.y < parent.min_jump_velocity:
 			parent.velocity.y = parent.min_jump_velocity
 
-func _state_logic(delta):
+func _state_logic(delta : float):
 	parent._update_move_direction()
 	parent._update_wall_direction()
 	_update_wall_action()
@@ -54,7 +54,7 @@ func _state_logic(delta):
 	parent._apply_movement()
 	$AnimationTree['parameters/Airborne/blend_position'] = parent.velocity.y / 300
 
-func _get_transition(delta):
+func _get_transition(delta : float):
 	match state:
 		states.idle:
 			if !parent.is_on_floor():
