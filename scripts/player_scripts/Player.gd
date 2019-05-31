@@ -1,5 +1,5 @@
 extends KinematicBody2D
-
+#warning-ignore-all:unused_class_variable
 const UP = Vector2.UP
 const SLOPE_STOP = 64
 const DROP_THRU_BIT = 4
@@ -21,11 +21,10 @@ var max_jump_height = 7.25 * Globals.CELL_SIZE
 var min_jump_height = 0.8 * Globals.CELL_SIZE
 var jump_duration = 0.4
 
-onready var body = $StateMachine/Sprites
+onready var wall_slide_cooldown = $WallSlideCooldown
 onready var raycasts = $GroundRaycasts
 onready var left_wall_raycasts = $WallRaycasts/LeftWallRaycasts
 onready var right_wall_raycasts = $WallRaycasts/RightWallRaycasts
-onready var wall_slide_cooldown = $WallSlideCooldown
 onready var wall_slide_sticky_timer = $WallSlideStickyTimer
 
 
@@ -122,5 +121,5 @@ func _check_is_valid_wall(wall_raycasts):
 	return false
 
 
-func _on_FallingThroughPlatformArea_body_exited(body):
+func _on_FallingThroughPlatformArea_body_exited():
 	set_collision_mask_bit(DROP_THRU_BIT, true)

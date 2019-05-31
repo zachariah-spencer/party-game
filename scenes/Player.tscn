@@ -392,7 +392,6 @@ extents = Vector2( 11.881, 40.838 )
 extents = Vector2( 25, 43 )
 
 [node name="Player" type="KinematicBody2D"]
-editor/display_folded = true
 position = Vector2( 0, -8.11656 )
 collision_layer = 16
 script = ExtResource( 1 )
@@ -408,8 +407,8 @@ script = ExtResource( 2 )
 editor/display_folded = true
 
 [node name="Right Foot" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( 4.57185, -1.79726 )
-rotation = 0.770435
+position = Vector2( 6.00735, 0.0133676 )
+rotation = 0.00317842
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
 
@@ -438,8 +437,8 @@ shape = SubResource( 1 )
 
 [node name="Body" type="Sprite" parent="StateMachine/Sprites"]
 editor/display_folded = true
-position = Vector2( 0.640988, -18.596 )
-rotation = -0.258088
+position = Vector2( -0.00096041, -16.7707 )
+rotation = -0.00177969
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 5 )
 
@@ -455,8 +454,8 @@ position = Vector2( 0, -6.23 )
 shape = SubResource( 2 )
 
 [node name="Left Foot" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( -4.67753, -2.33092 )
-rotation = 0.93994
+position = Vector2( -5.99007, 0.00895399 )
+rotation = 0.00292444
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
 

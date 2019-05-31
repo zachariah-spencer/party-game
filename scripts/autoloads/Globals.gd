@@ -1,4 +1,5 @@
 extends Node
+#warning-ignore-all:unused_class_variable
 
 const GRAVITY = 2400
 const UP = Vector2.UP

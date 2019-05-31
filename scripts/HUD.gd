@@ -1,15 +1,18 @@
 extends Control
 
-var current_game_time
-
 onready var time_display = $TimeLeft
 
 signal game_times_up
 
 func _ready():
 	Globals.HUD = self
-	connect('game_times_up', get_parent(), '_on_game_times_up')
+	
+	#warning-ignore:return_value_discarded
+	connect('game_times_up', Manager, '_on_game_times_up')
 
 func _on_Timer_timeout():
-	Manager.current_game_time -= 1
-	time_display.text = String(Manager.current_game_time)
+	if Manager.current_game_time != 0:
+		Manager.current_game_time -= 1
+		time_display.text = String(Manager.current_game_time)
+	elif Manager.current_game_time == 0:
+		emit_signal('game_times_up')

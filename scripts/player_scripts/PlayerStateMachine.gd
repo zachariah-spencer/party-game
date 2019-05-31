@@ -1,4 +1,5 @@
 extends StateMachine
+#warning-ignore-all:unused_argument
 
 var wall_action
 

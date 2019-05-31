@@ -1,10 +1,13 @@
 extends Node
+
+#warning-ignore-all:unused_argument
 class_name StateMachine
 
 var state = null setget set_state
 var previous_state = null
 var states = {}
 
+#warning-ignore:unused_class_variable
 onready var parent = get_parent()
 
 func _physics_process(delta):
