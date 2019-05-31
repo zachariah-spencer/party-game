@@ -20,6 +20,7 @@ var min_jump_velocity
 var max_jump_height = 7.25 * Globals.CELL_SIZE
 var min_jump_height = 0.8 * Globals.CELL_SIZE
 var jump_duration = 0.4
+                                    
 
 onready var body = $StateMachine/Sprites
 onready var raycasts = $GroundRaycasts
@@ -30,10 +31,12 @@ onready var wall_slide_sticky_timer = $WallSlideStickyTimer
 
 
 
+
 func _ready():
     gravity = 2 * max_jump_height / pow(jump_duration, 2)
     max_jump_velocity = -sqrt(2 * gravity * max_jump_height)
     min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
+    
 
 
 func _apply_gravity(delta):
@@ -61,9 +64,31 @@ func wall_jump():
     wall_jump_velocity.x *= -wall_direction
     velocity += wall_jump_velocity
 
+func _update_sprite_direction():
+    # this function mirrors the sprites/groups if facing a certain direction
+    # we don't want the character to always look right
+    
+    pass
 
 func _update_move_direction():
     move_direction = -int(Input.is_action_pressed('move_left')) + int(Input.is_action_pressed('move_right'))
+    print(move_direction)
+    
+    if move_direction != 0:
+        # all nodes in here will be mirrored when changing directions
+        # these range from simple sprites to feet that require mirroring the parent node, not the sprites themselves
+        var mirror_group = [get_node("StateMachine/Sprites/Right Foot"),
+                            get_node("StateMachine/Sprites/Left Foot"),
+                            get_node("StateMachine/Sprites/Body/Body"),
+                            get_node("StateMachine/Sprites/Head/Sprite"),
+                            get_node("StateMachine/Sprites/Right Hand/Sprite"),
+                            get_node("StateMachine/Sprites/Left Hand/Sprite")]
+        for i in mirror_group:
+            var scale = i.get_scale()
+            match move_direction:
+                1: if scale.x < 0: scale.x *= -1
+                -1: if scale.x > 0: scale.x *= -1
+            i.set_scale(Vector2(scale.x,scale.y))
 
 
 func _handle_move_input():

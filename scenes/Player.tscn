@@ -130,21 +130,29 @@ script = ExtResource( 2 )
 
 [node name="Sprites" type="Node2D" parent="StateMachine"]
 
-[node name="Right Foot" type="Node2D" parent="StateMachine/Sprites"]
-
-[node name="Right Foot Sprite" type="Sprite" parent="StateMachine/Sprites/Right Foot"]
-position = Vector2( 13.59, -6.03 )
-rotation = -0.872665
-scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 3 )
-
 [node name="Left Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
 position = Vector2( 7.87, -26.57 )
 node_a = NodePath("../Left Hand")
-node_b = NodePath("../Body/Body/Arms")
+node_b = NodePath("../Body/Arms")
 softness = 1.0
 
+[node name="Right Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
+position = Vector2( -7.6, -26.3 )
+node_a = NodePath("../Right Hand")
+node_b = NodePath("../Body/Arms")
+softness = 1.0
+
+[node name="Right Foot" type="Node2D" parent="StateMachine/Sprites"]
+editor/display_folded = true
+
+[node name="Right Foot Sprite" type="Sprite" parent="StateMachine/Sprites/Right Foot"]
+position = Vector2( 0.35, 1.09 )
+rotation = -0.174533
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 3 )
+
 [node name="Left Hand" type="RigidBody2D" parent="StateMachine/Sprites"]
+editor/display_folded = true
 position = Vector2( 10.49, -16.12 )
 collision_layer = 2
 collision_mask = 3
@@ -166,21 +174,21 @@ collision_layer = 0
 gravity_scale = -60.0
 linear_damp = 30.0
 
-[node name="Body" type="Sprite" parent="StateMachine/Sprites/Body"]
-position = Vector2( -0.024, -3.562 )
-rotation = 0.00317418
+[node name="Arms" type="KinematicBody2D" parent="StateMachine/Sprites/Body"]
+position = Vector2( 0.0949407, -10.458 )
+rotation = 0.00317419
 scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 5 )
-
-[node name="Arms" type="KinematicBody2D" parent="StateMachine/Sprites/Body/Body"]
-position = Vector2( 0.617449, -104.582 )
-rotation = 7.45058e-009
 collision_layer = 0
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Body/Body/Arms"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Body/Arms"]
 position = Vector2( 0, -6.23 )
 shape = SubResource( 2 )
+
+[node name="Body" type="Sprite" parent="StateMachine/Sprites/Body"]
+rotation = 0.00317418
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Body"]
 position = Vector2( 0, 0.398 )
@@ -189,8 +197,8 @@ shape = SubResource( 3 )
 [node name="Left Foot" type="Node2D" parent="StateMachine/Sprites"]
 
 [node name="Left Foot Sprite" type="Sprite" parent="StateMachine/Sprites/Left Foot"]
-position = Vector2( -15.39, -5.84 )
-rotation = 0.785398
+position = Vector2( 5.06, -1.29 )
+rotation = -1.20602
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
 
@@ -207,17 +215,11 @@ texture = ExtResource( 6 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Head"]
 shape = SubResource( 4 )
 
-[node name="Right Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
-position = Vector2( -7.6, -26.3 )
-node_a = NodePath("../Right Hand")
-node_b = NodePath("../Body/Body/Arms")
-softness = 1.0
-
 [node name="Head Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
 position = Vector2( 0, -27.11 )
 z_as_relative = false
 node_a = NodePath("../Head")
-node_b = NodePath("../Body/Body/Arms")
+node_b = NodePath("../Body/Arms")
 softness = 0.1
 
 [node name="Feet" type="KinematicBody2D" parent="StateMachine/Sprites"]
@@ -238,7 +240,6 @@ node_b = NodePath("../Feet")
 bias = 0.5
 
 [node name="Right Hand" type="RigidBody2D" parent="StateMachine/Sprites"]
-editor/display_folded = true
 position = Vector2( -10.49, -16.12 )
 collision_layer = 4
 collision_mask = 5
