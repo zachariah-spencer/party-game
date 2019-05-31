@@ -12,3 +12,6 @@ var player_four
 var players = [player_one, player_two, player_three, player_four]
 
 var HUD
+
+func _ready():
+	randomize()

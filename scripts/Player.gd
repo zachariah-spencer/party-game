@@ -59,6 +59,7 @@ func jump():
 func wall_jump():
 	var wall_jump_velocity = WALL_JUMP_VELOCITY
 	wall_jump_velocity.x *= -wall_direction
+	velocity.y = 0
 	velocity += wall_jump_velocity
 
 

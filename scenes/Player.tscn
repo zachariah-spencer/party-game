@@ -411,8 +411,8 @@ script = ExtResource( 2 )
 editor/display_folded = true
 
 [node name="Right Foot" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( 6.02928, 0.046519 )
-rotation = 0.00101171
+position = Vector2( 5.78905, -0.431205 )
+rotation = -0.174025
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
 
@@ -439,8 +439,8 @@ position = Vector2( -0.01, 0 )
 shape = SubResource( 1 )
 
 [node name="Body" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( -0.00763665, -16.7967 )
-rotation = -0.00202045
+position = Vector2( 0.000425875, -15.3912 )
+rotation = 0.0870972
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 5 )
 
@@ -455,8 +455,8 @@ position = Vector2( 0, -6.23 )
 shape = SubResource( 2 )
 
 [node name="Left Foot" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( -5.98773, 0.0406156 )
-rotation = -0.00100776
+position = Vector2( -6.47913, -0.221555 )
+rotation = -0.173913
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
 

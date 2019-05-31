@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://scenes/HUD.gd" type="Script" id=1]
+[ext_resource path="res://scripts/HUD.gd" type="Script" id=1]
 
 [sub_resource type="DynamicFontData" id=1]
 font_path = "res://assets/monogram.ttf"
@@ -12,7 +12,6 @@ use_filter = true
 font_data = SubResource( 1 )
 
 [node name="HUD" type="Control"]
-editor/display_folded = true
 margin_right = 1536.0
 margin_bottom = 896.0
 script = ExtResource( 1 )
@@ -25,8 +24,7 @@ margin_left = -200.0
 margin_top = 150.0
 margin_right = 200.0
 custom_fonts/font = SubResource( 2 )
-text = "0
-"
+text = "60"
 align = 1
 valign = 1
 
