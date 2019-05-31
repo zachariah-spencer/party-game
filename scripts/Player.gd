@@ -1,4 +1,4 @@
-extends KinematicBody2D
+ extends KinematicBody2D
 
 const UP = Vector2.UP
 const SLOPE_STOP = 64

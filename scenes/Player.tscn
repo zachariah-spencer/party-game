@@ -18,103 +18,103 @@ radius = 6.25297
 [sub_resource type="CircleShape2D" id=2]
 radius = 42.2635
 
-[sub_resource type="CapsuleShape2D" id=22]
+[sub_resource type="CapsuleShape2D" id=3]
 radius = 8.31231
 height = 10.0689
 
-[sub_resource type="CircleShape2D" id=3]
+[sub_resource type="CircleShape2D" id=4]
 radius = 24.9598
 
-[sub_resource type="CircleShape2D" id=23]
+[sub_resource type="CircleShape2D" id=5]
 radius = 64.8637
 
-[sub_resource type="AnimationNodeAnimation" id=4]
+[sub_resource type="AnimationNodeAnimation" id=6]
 animation = "fall"
 
-[sub_resource type="AnimationNodeAnimation" id=5]
+[sub_resource type="AnimationNodeAnimation" id=7]
 animation = "jump"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id=6]
-blend_point_0/node = SubResource( 4 )
+[sub_resource type="AnimationNodeBlendSpace1D" id=8]
+blend_point_0/node = SubResource( 6 )
 blend_point_0/pos = 1.0
-blend_point_1/node = SubResource( 5 )
+blend_point_1/node = SubResource( 7 )
 blend_point_1/pos = -1.0
 
-[sub_resource type="AnimationNodeAnimation" id=7]
+[sub_resource type="AnimationNodeAnimation" id=9]
 animation = "idle"
 
-[sub_resource type="AnimationNodeAnimation" id=8]
+[sub_resource type="AnimationNodeAnimation" id=10]
 animation = "run"
 
-[sub_resource type="AnimationNodeTimeScale" id=9]
+[sub_resource type="AnimationNodeTimeScale" id=11]
 
-[sub_resource type="AnimationNodeBlendTree" id=10]
+[sub_resource type="AnimationNodeBlendTree" id=12]
 graph_offset = Vector2( -274, 59 )
-nodes/anim/node = SubResource( 8 )
+nodes/anim/node = SubResource( 10 )
 nodes/anim/position = Vector2( -80, 140 )
 nodes/output/position = Vector2( 300, 140 )
-nodes/speed/node = SubResource( 9 )
+nodes/speed/node = SubResource( 11 )
 nodes/speed/position = Vector2( 120, 140 )
 node_connections = [ "speed", 0, "anim", "output", 0, "speed" ]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=11]
+[sub_resource type="AnimationNodeStateMachineTransition" id=13]
 xfade_time = 0.1
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=12]
-xfade_time = 0.2
-
-[sub_resource type="AnimationNodeStateMachine" id=13]
-states/Idle/node = SubResource( 7 )
-states/Idle/position = Vector2( 381, 137 )
-states/Run/node = SubResource( 10 )
-states/Run/position = Vector2( 544, 137 )
-transitions = [ "Idle", "Run", SubResource( 11 ), "Run", "Idle", SubResource( 12 ) ]
-start_node = "Idle"
-graph_offset = Vector2( -26, 57 )
-
-[sub_resource type="AnimationNodeAnimation" id=24]
-animation = "wall_slide"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=14]
 xfade_time = 0.2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=15]
-xfade_time = 0.1
+[sub_resource type="AnimationNodeStateMachine" id=15]
+states/Idle/node = SubResource( 9 )
+states/Idle/position = Vector2( 381, 137 )
+states/Run/node = SubResource( 12 )
+states/Run/position = Vector2( 544, 137 )
+transitions = [ "Idle", "Run", SubResource( 13 ), "Run", "Idle", SubResource( 14 ) ]
+start_node = "Idle"
+graph_offset = Vector2( -26, 57 )
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=25]
-xfade_time = 0.1
+[sub_resource type="AnimationNodeAnimation" id=16]
+animation = "wall_slide"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=26]
+[sub_resource type="AnimationNodeStateMachineTransition" id=17]
 xfade_time = 0.2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=27]
-xfade_time = 0.2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=28]
+[sub_resource type="AnimationNodeStateMachineTransition" id=18]
 xfade_time = 0.1
 
-[sub_resource type="AnimationNodeStateMachine" id=16]
-states/Airborne/node = SubResource( 6 )
+[sub_resource type="AnimationNodeStateMachineTransition" id=19]
+xfade_time = 0.1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=20]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=21]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=22]
+xfade_time = 0.1
+
+[sub_resource type="AnimationNodeStateMachine" id=23]
+states/Airborne/node = SubResource( 8 )
 states/Airborne/position = Vector2( 723, 137 )
-states/Grounded/node = SubResource( 13 )
+states/Grounded/node = SubResource( 15 )
 states/Grounded/position = Vector2( 533, 137 )
-"states/Wall Slide/node" = SubResource( 24 )
+"states/Wall Slide/node" = SubResource( 16 )
 "states/Wall Slide/position" = Vector2( 613.555, 211 )
-transitions = [ "Grounded", "Airborne", SubResource( 14 ), "Airborne", "Grounded", SubResource( 15 ), "Airborne", "Wall Slide", SubResource( 25 ), "Wall Slide", "Airborne", SubResource( 26 ), "Wall Slide", "Grounded", SubResource( 27 ), "Grounded", "Wall Slide", SubResource( 28 ) ]
+transitions = [ "Grounded", "Airborne", SubResource( 17 ), "Airborne", "Grounded", SubResource( 18 ), "Airborne", "Wall Slide", SubResource( 19 ), "Wall Slide", "Airborne", SubResource( 20 ), "Wall Slide", "Grounded", SubResource( 21 ), "Grounded", "Wall Slide", SubResource( 22 ) ]
 start_node = "Grounded"
 graph_offset = Vector2( 210.555, 80 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=17]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=24]
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=18]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=25]
 
-[sub_resource type="RectangleShape2D" id=19]
+[sub_resource type="RectangleShape2D" id=26]
 extents = Vector2( 11.881, 40.838 )
 
-[sub_resource type="RectangleShape2D" id=20]
+[sub_resource type="RectangleShape2D" id=27]
 extents = Vector2( 25, 43 )
 
-[sub_resource type="RectangleShape2D" id=21]
+[sub_resource type="RectangleShape2D" id=28]
 extents = Vector2( 11.881, 40.838 )
 
 [node name="Player" type="KinematicBody2D"]
@@ -130,9 +130,11 @@ script = ExtResource( 2 )
 
 [node name="Sprites" type="Node2D" parent="StateMachine"]
 
-[node name="Right Foot" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( 6.07004, 0.100696 )
-rotation = -0.0159866
+[node name="Right Foot" type="Node2D" parent="StateMachine/Sprites"]
+
+[node name="Right Foot Sprite" type="Sprite" parent="StateMachine/Sprites/Right Foot"]
+position = Vector2( 13.59, -6.03 )
+rotation = -0.872665
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
 
@@ -182,12 +184,13 @@ shape = SubResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Body"]
 position = Vector2( 0, 0.398 )
-scale = Vector2( 1, 1 )
-shape = SubResource( 22 )
+shape = SubResource( 3 )
 
-[node name="Left Foot" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( -6.01378, 0.105021 )
-rotation = -0.0224121
+[node name="Left Foot" type="Node2D" parent="StateMachine/Sprites"]
+
+[node name="Left Foot Sprite" type="Sprite" parent="StateMachine/Sprites/Left Foot"]
+position = Vector2( -15.39, -5.84 )
+rotation = 0.785398
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
 
@@ -202,7 +205,7 @@ scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Head"]
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [node name="Right Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
 position = Vector2( -7.6, -26.3 )
@@ -226,7 +229,7 @@ collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Feet"]
 position = Vector2( 0, -6.23 )
-shape = SubResource( 23 )
+shape = SubResource( 5 )
 
 [node name="Feet Body Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
 position = Vector2( 0.17, -7.36 )
@@ -251,12 +254,12 @@ texture = ExtResource( 4 )
 shape = SubResource( 1 )
 
 [node name="AnimationTree" type="AnimationTree" parent="StateMachine"]
-tree_root = SubResource( 16 )
+tree_root = SubResource( 23 )
 anim_player = NodePath("../AnimationPlayer")
 process_mode = 0
-parameters/playback = SubResource( 17 )
+parameters/playback = SubResource( 24 )
 parameters/Airborne/blend_position = 1.072
-parameters/Grounded/playback = SubResource( 18 )
+parameters/Grounded/playback = SubResource( 25 )
 parameters/Grounded/Run/speed/scale = 1.5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="StateMachine"]
@@ -269,7 +272,7 @@ anims/wall_slide = ExtResource( 11 )
 [node name="PlayerShape" type="CollisionShape2D" parent="."]
 visible = false
 position = Vector2( 0, -32.9 )
-shape = SubResource( 19 )
+shape = SubResource( 26 )
 
 [node name="GroundRaycasts" type="Node2D" parent="."]
 editor/display_folded = true
@@ -329,7 +332,7 @@ collision_layer = 0
 collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FallingThroughPlatformArea"]
-shape = SubResource( 20 )
+shape = SubResource( 27 )
 
 [node name="WallSlideCooldown" type="Timer" parent="."]
 process_mode = 0
@@ -343,6 +346,6 @@ one_shot = true
 [node name="Collision" type="CollisionShape2D" parent="."]
 visible = false
 position = Vector2( 0, -32.9 )
-shape = SubResource( 21 )
+shape = SubResource( 28 )
 [connection signal="body_exited" from="FallingThroughPlatformArea" to="." method="_on_FallingThroughPlatformArea_body_exited"]
 [connection signal="timeout" from="WallSlideStickyTimer" to="StateMachine" method="_on_WallSlideStickyTimer_timeout"]

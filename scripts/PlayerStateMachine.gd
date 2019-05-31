@@ -109,9 +109,7 @@ func _enter_state(new_state, old_state):
         states.fall:
             $AnimationTree['parameters/playback'].travel('Airborne')
         states.wall_slide:
-            pass #flip here
-            #parent.anim_player.play('wall_slide')
-#			parent.body.scale.x = -parent.wall_direction
+            $AnimationTree['parameters/playback'].travel('Wall Slide')
     pass
 
 func _exit_state(old_state, new_state):
