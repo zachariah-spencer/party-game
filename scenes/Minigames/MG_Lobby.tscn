@@ -253,7 +253,9 @@ rotation = 1.5708
 position = Vector2( 32, 96 )
 rotation = 1.5708
 
-[node name="SpawnPoints" type="Node2D" parent="."]
+[node name="SpawnPoints" type="Node2D" parent="." groups=[
+"spawnpoints",
+]]
 
 [node name="PlayerOneSpawn" type="Position2D" parent="SpawnPoints"]
 position = Vector2( 192, 672 )

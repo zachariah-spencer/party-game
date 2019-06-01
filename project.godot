@@ -32,8 +32,8 @@ config/icon="res://assets/icon.png"
 
 [autoload]
 
-Manager="*res://scripts/autoloads/GameStateManager.gd"
-Globals="*res://scripts/autoloads/Globals.gd"
+Manager="*res://scripts/minigame_scripts/autoloads/GameStateManager.gd"
+Globals="*res://scripts/minigame_scripts/autoloads/Globals.gd"
 
 [input]
 
