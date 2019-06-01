@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scripts/minigame_scripts/MG_Lobby.gd" type="Script" id=1]
 [ext_resource path="res://scenes/Terrain.tscn" type="PackedScene" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 768, 448 )
 
 [node name="MG_Lobby" type="Node2D" groups=[
 "minigames",
@@ -253,7 +256,10 @@ rotation = 1.5708
 position = Vector2( 32, 96 )
 rotation = 1.5708
 
-[node name="SpawnPoints" type="Node2D" parent="."]
+[node name="SpawnPoints" type="Node2D" parent="." groups=[
+"spawnpoints",
+]]
+editor/display_folded = true
 
 [node name="PlayerOneSpawn" type="Position2D" parent="SpawnPoints"]
 position = Vector2( 192, 672 )
@@ -266,4 +272,10 @@ position = Vector2( 960, 672 )
 
 [node name="PlayerFourSpawn" type="Position2D" parent="SpawnPoints"]
 position = Vector2( 1344, 672 )
+
+[node name="Area" type="Area2D" parent="."]
+
+[node name="Size" type="CollisionShape2D" parent="Area"]
+position = Vector2( 768, 448 )
+shape = SubResource( 1 )
 
