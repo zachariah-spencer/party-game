@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://scripts/PlayerStateMachine.gd" type="Script" id=2]
@@ -6,11 +6,12 @@
 [ext_resource path="res://assets/player/hand_placeholder.png" type="Texture" id=4]
 [ext_resource path="res://assets/player/body_placeholder.png" type="Texture" id=5]
 [ext_resource path="res://assets/player/head_placeholder.png" type="Texture" id=6]
-[ext_resource path="res://misc/player_anim/fall.anim" type="Animation" id=7]
-[ext_resource path="res://misc/player_anim/idle.anim" type="Animation" id=8]
-[ext_resource path="res://misc/player_anim/jump.anim" type="Animation" id=9]
-[ext_resource path="res://misc/player_anim/run.anim" type="Animation" id=10]
-[ext_resource path="res://misc/player_anim/wall_slide.anim" type="Animation" id=11]
+[ext_resource path="res://assets/player/face_v.png" type="Texture" id=7]
+[ext_resource path="res://misc/player_anim/fall.anim" type="Animation" id=8]
+[ext_resource path="res://misc/player_anim/idle.anim" type="Animation" id=9]
+[ext_resource path="res://misc/player_anim/jump.anim" type="Animation" id=10]
+[ext_resource path="res://misc/player_anim/run.anim" type="Animation" id=11]
+[ext_resource path="res://misc/player_anim/wall_slide.anim" type="Animation" id=12]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 6.25297
@@ -76,7 +77,7 @@ graph_offset = Vector2( -26, 57 )
 animation = "wall_slide"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=17]
-xfade_time = 0.2
+xfade_time = 0.05
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=18]
 xfade_time = 0.1
@@ -143,16 +144,15 @@ node_b = NodePath("../Body/Arms")
 softness = 1.0
 
 [node name="Right Foot" type="Node2D" parent="StateMachine/Sprites"]
-editor/display_folded = true
 
 [node name="Right Foot Sprite" type="Sprite" parent="StateMachine/Sprites/Right Foot"]
-position = Vector2( 0.35, 1.09 )
-rotation = -0.174533
+position = Vector2( 12.6, 0 )
+rotation = -0.731293
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
+offset = Vector2( 0, -95 )
 
 [node name="Left Hand" type="RigidBody2D" parent="StateMachine/Sprites"]
-editor/display_folded = true
 position = Vector2( 10.49, -16.12 )
 collision_layer = 2
 collision_mask = 3
@@ -163,6 +163,7 @@ linear_damp = 5.0
 [node name="Sprite" type="Sprite" parent="StateMachine/Sprites/Left Hand"]
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 4 )
+offset = Vector2( -32, 0 )
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="StateMachine/Sprites/Left Hand"]
 position = Vector2( -0.01, 0 )
@@ -197,10 +198,11 @@ shape = SubResource( 3 )
 [node name="Left Foot" type="Node2D" parent="StateMachine/Sprites"]
 
 [node name="Left Foot Sprite" type="Sprite" parent="StateMachine/Sprites/Left Foot"]
-position = Vector2( 5.06, -1.29 )
-rotation = -1.20602
+position = Vector2( -14, -1.32 )
+rotation = 0.731293
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
+offset = Vector2( 0, -95 )
 
 [node name="Head" type="RigidBody2D" parent="StateMachine/Sprites"]
 position = Vector2( 0, -51.77 )
@@ -211,6 +213,11 @@ linear_damp = 30.0
 [node name="Sprite" type="Sprite" parent="StateMachine/Sprites/Head"]
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 6 )
+offset = Vector2( 0, -128 )
+
+[node name="Face" type="Sprite" parent="StateMachine/Sprites/Head"]
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Head"]
 shape = SubResource( 4 )
@@ -250,6 +257,7 @@ linear_damp = 4.0
 [node name="Sprite" type="Sprite" parent="StateMachine/Sprites/Right Hand"]
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 4 )
+offset = Vector2( -32, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Right Hand"]
 shape = SubResource( 1 )
@@ -264,11 +272,11 @@ parameters/Grounded/playback = SubResource( 25 )
 parameters/Grounded/Run/speed/scale = 1.5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="StateMachine"]
-anims/fall = ExtResource( 7 )
-anims/idle = ExtResource( 8 )
-anims/jump = ExtResource( 9 )
-anims/run = ExtResource( 10 )
-anims/wall_slide = ExtResource( 11 )
+anims/fall = ExtResource( 8 )
+anims/idle = ExtResource( 9 )
+anims/jump = ExtResource( 10 )
+anims/run = ExtResource( 11 )
+anims/wall_slide = ExtResource( 12 )
 
 [node name="PlayerShape" type="CollisionShape2D" parent="."]
 visible = false
