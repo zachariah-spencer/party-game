@@ -1,7 +1,7 @@
 extends Minigame
 
 const GAME_NAME : String = 'lobby'
-const GAME_TIME : int = 3
+const GAME_TIME : int = 4
 
 func _ready():
 	add_to_group('minigames')

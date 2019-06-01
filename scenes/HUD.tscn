@@ -11,7 +11,9 @@ use_mipmaps = true
 use_filter = true
 font_data = SubResource( 1 )
 
-[node name="HUD" type="Control"]
+[node name="HUD" type="Control" groups=[
+"HUD",
+]]
 margin_right = 1536.0
 margin_bottom = 896.0
 script = ExtResource( 1 )

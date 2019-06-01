@@ -1,11 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/World.gd" type="Script" id=1]
 [ext_resource path="res://scenes/HUD.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/player/PlayerOne.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/player/PlayerTwo.tscn" type="PackedScene" id=4]
-[ext_resource path="res://scenes/player/PlayerThree.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scenes/player/PlayerFour.tscn" type="PackedScene" id=6]
 
 [node name="World" type="Node"]
 script = ExtResource( 1 )
@@ -24,10 +22,4 @@ position = Vector2( 288, 256 )
 "players",
 ] instance=ExtResource( 4 )]
 position = Vector2( 224, 256 )
-
-[node name="PlayerThree" parent="Players" instance=ExtResource( 5 )]
-position = Vector2( 352, 256 )
-
-[node name="PlayerFour" parent="Players" instance=ExtResource( 6 )]
-position = Vector2( 160, 255.883 )
 

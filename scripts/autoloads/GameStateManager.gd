@@ -7,6 +7,9 @@ const GAMES : Dictionary = {
 	
 }
 
+var transition_scene : PackedScene = preload('res://scenes/Transition.tscn')
+var finish_transition_instance
+
 #warning-ignore:unused_class_variable
 var current_game_name : String
 #warning-ignore:unused_class_variable
@@ -26,10 +29,12 @@ func _start_new_minigame(new_minigame : PackedScene):
 	if !get_tree().get_nodes_in_group('minigames').empty():
 		#remove old minigame
 		print('game currently active')
-		current_game_reference.queue_free()
-	#instance new minigame
-	var instance_of_new_minigame = new_minigame.instance()
-	add_child(instance_of_new_minigame)
+		var instance_of_transition = transition_scene.instance()
+		add_child(instance_of_transition)
+		finish_transition_instance = new_minigame.instance()
+	else:
+		var instance_of_new_minigame = new_minigame.instance()
+		add_child(instance_of_new_minigame)
 
 func _on_game_times_up():
 	_start_new_minigame(GAMES['fighter'])

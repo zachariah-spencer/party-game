@@ -21,6 +21,11 @@ var max_jump_height : float = 7.25 * Globals.CELL_SIZE
 var min_jump_height : float = 0.8 * Globals.CELL_SIZE
 var jump_duration : float = 0.4
 
+var move_left : String
+var move_right : String
+var move_down : String
+var move_jump : String
+
 onready var wall_slide_cooldown : Node = $WallSlideCooldown
 onready var raycasts : Node = $GroundRaycasts
 onready var left_wall_raycasts : Node = $WallRaycasts/LeftWallRaycasts
@@ -40,7 +45,7 @@ func _apply_gravity(delta : float):
 
 
 func _cap_gravity_wall_slide():
-	var max_velocity : float = 4 * Globals.CELL_SIZE if !Input.is_action_pressed('down') else 16 * Globals.CELL_SIZE
+	var max_velocity : float = 4 * Globals.CELL_SIZE if !Input.is_action_pressed(move_down) else 16 * Globals.CELL_SIZE
 	velocity.y = min(velocity.y, max_velocity)
 
 
@@ -64,7 +69,7 @@ func wall_jump():
 
 
 func _update_move_direction():
-	move_direction = -int(Input.is_action_pressed('move_left')) + int(Input.is_action_pressed('move_right'))
+	move_direction = -int(Input.is_action_pressed(move_left)) + int(Input.is_action_pressed(move_right))
 
 
 func _handle_move_input():
