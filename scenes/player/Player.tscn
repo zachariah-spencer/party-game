@@ -1,7 +1,7 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=31 format=2]
 
-[ext_resource path="res://scripts/Player.gd" type="Script" id=1]
-[ext_resource path="res://scripts/PlayerStateMachine.gd" type="Script" id=2]
+[ext_resource path="res://scripts/player_scripts/Player.gd" type="Script" id=1]
+[ext_resource path="res://scripts/player_scripts/PlayerStateMachine.gd" type="Script" id=2]
 [ext_resource path="res://assets/player/foot_placeholder.png" type="Texture" id=3]
 [ext_resource path="res://assets/player/hand_placeholder.png" type="Texture" id=4]
 [ext_resource path="res://assets/player/body_placeholder.png" type="Texture" id=5]
@@ -391,9 +391,6 @@ extents = Vector2( 11.881, 40.838 )
 [sub_resource type="RectangleShape2D" id=24]
 extents = Vector2( 25, 43 )
 
-[sub_resource type="RectangleShape2D" id=25]
-extents = Vector2( 11.881, 40.838 )
-
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 0, -8.11656 )
 collision_layer = 16
@@ -403,14 +400,15 @@ __meta__ = {
 }
 
 [node name="StateMachine" type="Node2D" parent="."]
+editor/display_folded = true
 script = ExtResource( 2 )
 
 [node name="Sprites" type="Node2D" parent="StateMachine"]
 editor/display_folded = true
 
 [node name="Right Foot" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( 6.00223, 0.00281751 )
-rotation = -0.00118174
+position = Vector2( 5.29302, -0.884252 )
+rotation = 0.390866
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
 
@@ -421,6 +419,7 @@ node_b = NodePath("../Body/Arms")
 softness = 1.0
 
 [node name="Left Hand" type="RigidBody2D" parent="StateMachine/Sprites"]
+editor/display_folded = true
 position = Vector2( 10.49, -16.12 )
 collision_layer = 2
 collision_mask = 3
@@ -433,16 +432,18 @@ scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 4 )
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="StateMachine/Sprites/Left Hand"]
-position = Vector2( -0.01, 0 )
+position = Vector2( 3, 0 )
 shape = SubResource( 1 )
 
 [node name="Body" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( -0.000993729, -16.7372 )
-rotation = 0.000393782
+editor/display_folded = true
+position = Vector2( 0.320414, -17.7122 )
+rotation = -0.131885
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 5 )
 
 [node name="Arms" type="KinematicBody2D" parent="StateMachine/Sprites/Body"]
+editor/display_folded = true
 position = Vector2( 0.617449, -104.582 )
 rotation = 7.45058e-009
 collision_layer = 0
@@ -453,12 +454,13 @@ position = Vector2( 0, -6.23 )
 shape = SubResource( 2 )
 
 [node name="Left Foot" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( -6.00201, 0.00362968 )
-rotation = -0.00144457
+position = Vector2( -5.32313, -1.15793 )
+rotation = 0.475598
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
 
 [node name="Head" type="RigidBody2D" parent="StateMachine/Sprites"]
+editor/display_folded = true
 position = Vector2( 0, -51.77 )
 collision_layer = 0
 gravity_scale = -128.0
@@ -469,6 +471,7 @@ scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Head"]
+position = Vector2( 0, 12 )
 shape = SubResource( 3 )
 
 [node name="Right Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
@@ -485,6 +488,7 @@ node_b = NodePath("../Body/Arms")
 softness = 0.1
 
 [node name="Right Hand" type="RigidBody2D" parent="StateMachine/Sprites"]
+editor/display_folded = true
 position = Vector2( -10.49, -16.12 )
 collision_layer = 4
 collision_mask = 5
@@ -497,6 +501,7 @@ scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Right Hand"]
+position = Vector2( 3, 0 )
 shape = SubResource( 1 )
 
 [node name="AnimationTree" type="AnimationTree" parent="StateMachine"]
@@ -516,12 +521,11 @@ anims/jump = SubResource( 21 )
 anims/run = SubResource( 22 )
 
 [node name="PlayerShape" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -32.9 )
+position = Vector2( 0, -24 )
 shape = SubResource( 23 )
 
 [node name="GroundRaycasts" type="Node2D" parent="."]
 editor/display_folded = true
-visible = false
 
 [node name="CenterGroundRaycast" type="RayCast2D" parent="GroundRaycasts"]
 position = Vector2( 0, 8 )
@@ -543,7 +547,6 @@ collision_mask = 17
 
 [node name="WallRaycasts" type="Node2D" parent="."]
 editor/display_folded = true
-visible = false
 
 [node name="LeftWallRaycasts" type="Node2D" parent="WallRaycasts"]
 
@@ -571,8 +574,7 @@ cast_to = Vector2( 1, 0 )
 
 [node name="FallingThroughPlatformArea" type="Area2D" parent="."]
 editor/display_folded = true
-visible = false
-position = Vector2( 0, -35 )
+position = Vector2( 0, -25 )
 collision_layer = 0
 collision_mask = 16
 
@@ -587,13 +589,6 @@ one_shot = true
 [node name="WallSlideStickyTimer" type="Timer" parent="."]
 wait_time = 0.02
 one_shot = true
-
-[node name="Collision" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2( 0, -32.9 )
-shape = SubResource( 25 )
-
-[node name="Skeleton2D" type="Skeleton2D" parent="."]
 
 [connection signal="body_exited" from="FallingThroughPlatformArea" to="." method="_on_FallingThroughPlatformArea_body_exited"]
 [connection signal="timeout" from="WallSlideStickyTimer" to="StateMachine" method="_on_WallSlideStickyTimer_timeout"]
