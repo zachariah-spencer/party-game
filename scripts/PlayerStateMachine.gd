@@ -1,14 +1,26 @@
 extends StateMachine
 
+var wall_action
+
 func _ready():
 	add_state('idle')
 	add_state('run')
 	add_state('jump')
 	add_state('fall')
 	add_state('wall_slide')
+	$AnimationTree.active = true
 	call_deferred('set_state', states.idle)
 
+func _update_wall_action():
+	match parent.wall_direction:
+		-1:
+			wall_action = 'move_left'	
+		1:
+			wall_action = 'move_right'
+	return wall_action
+
 func _input(event):
+	
 	if [states.idle, states.run].has(state) && state != states.wall_slide:
 		#JUMP
 		if event.is_action_pressed('jump'):
@@ -17,10 +29,12 @@ func _input(event):
 			else:
 				parent.jump()
 	elif state == states.wall_slide:
-		if event.is_action_pressed('jump'):
+		
+		if event.is_action_pressed('jump') && Input.is_action_pressed(wall_action):
+			
 			set_state(states.jump)
 			parent.wall_jump()
-			
+
 	elif state == states.jump:
 		#VARIABLE JUMP
 		if event.is_action_released('jump') && parent.velocity.y < parent.min_jump_velocity:
@@ -29,6 +43,7 @@ func _input(event):
 func _state_logic(delta):
 	parent._update_move_direction()
 	parent._update_wall_direction()
+	_update_wall_action()
 	if state != states.wall_slide:
 		parent._handle_move_input()
 	parent._apply_gravity(delta)
@@ -36,6 +51,7 @@ func _state_logic(delta):
 		parent._cap_gravity_wall_slide()
 		parent._handle_wall_slide_sticking()
 	parent._apply_movement()
+	$AnimationTree['parameters/Airborne/blend_position'] = parent.velocity.y / 300
 
 func _get_transition(delta):
 	match state:
@@ -45,7 +61,7 @@ func _get_transition(delta):
 					return states.jump
 				elif parent.velocity.y >= 0:
 					return states.fall
-			elif parent.velocity.x != 0:
+			elif abs(parent.move_direction) != 0:
 				return states.run
 		states.run:
 			if !parent.is_on_floor():
@@ -53,17 +69,17 @@ func _get_transition(delta):
 					return states.jump
 				elif parent.velocity.y >= 0:
 					return states.fall
-			elif parent.velocity.x == 0:
+			elif abs(parent.move_direction) == 0:
 				return states.idle
 		states.jump:
-			if parent.wall_direction != 0  && parent.wall_slide_cooldown.is_stopped():
+			if parent.wall_direction != 0  && parent.wall_slide_cooldown.is_stopped() && Input.is_action_pressed(wall_action):
 				return states.wall_slide
 			elif parent.is_on_floor():
 				return states.idle
 			elif parent.velocity.y >= 0:
 				return states.fall
 		states.fall:
-			if parent.wall_direction != 0 && parent.wall_slide_cooldown.is_stopped():
+			if parent.wall_direction != 0 && parent.wall_slide_cooldown.is_stopped() && Input.is_action_pressed(wall_action):
 				return states.wall_slide
 			elif parent.is_on_floor():
 				return states.idle
@@ -74,6 +90,8 @@ func _get_transition(delta):
 				return states.idle
 			elif parent.wall_direction == 0:
 				return states.fall
+			elif !Input.is_action_pressed(wall_action):
+				return states.fall
 	
 	#Error in transitions if this is returned
 	return null
@@ -81,20 +99,19 @@ func _get_transition(delta):
 func _enter_state(new_state, old_state):
 	match new_state:
 		states.idle:
-			pass
-			#parent.anim_player.play('idle')
+			$AnimationTree['parameters/playback'].travel('Grounded')
+			$AnimationTree['parameters/Grounded/playback'].travel('Idle')
 		states.run:
-			pass
-			#parent.anim_player.play('run')
+			$AnimationTree['parameters/playback'].travel('Grounded')
+			$AnimationTree['parameters/Grounded/playback'].travel('Run')
 		states.jump:
-			pass
-			#parent.anim_player.play('jump')
+			$AnimationTree['parameters/playback'].travel('Airborne')
 		states.fall:
-			pass
-			#parent.anim_player.play('fall')
+			$AnimationTree['parameters/playback'].travel('Airborne')
 		states.wall_slide:
+			pass #flip here
 			#parent.anim_player.play('wall_slide')
-			parent.body.scale.x = -parent.wall_direction
+#			parent.body.scale.x = -parent.wall_direction
 	pass
 
 func _exit_state(old_state, new_state):

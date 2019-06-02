@@ -3,7 +3,7 @@ extends KinematicBody2D
 const UP = Vector2.UP
 const SLOPE_STOP = 64
 const DROP_THRU_BIT = 4
-const WALL_JUMP_VELOCITY = Vector2(600, -1200)
+const WALL_JUMP_VELOCITY = Vector2(900, -1200)
 
 var velocity = Vector2()
 var target_velocity = Vector2()
@@ -16,19 +16,18 @@ var is_grounded
 var is_jumping = false
 
 var max_jump_velocity
-var min_jump_velocity 
+var min_jump_velocity
 var max_jump_height = 7.25 * Globals.CELL_SIZE
 var min_jump_height = 0.8 * Globals.CELL_SIZE
 var jump_duration = 0.4
 
-onready var anim_player = $Body/AnimationPlayer
+onready var body = $StateMachine/Sprites
 onready var raycasts = $GroundRaycasts
-onready var body = $Body
 onready var left_wall_raycasts = $WallRaycasts/LeftWallRaycasts
 onready var right_wall_raycasts = $WallRaycasts/RightWallRaycasts
-onready var face_line = $Body/Facing
 onready var wall_slide_cooldown = $WallSlideCooldown
 onready var wall_slide_sticky_timer = $WallSlideStickyTimer
+
 
 
 func _ready():
@@ -70,8 +69,8 @@ func _update_move_direction():
 func _handle_move_input():
 	target_velocity = move_speed * move_direction
 	velocity.x = lerp(velocity.x, target_velocity, _get_h_weight())
-	if move_direction != 0:
-		$Body.scale.x = move_direction
+#	if move_direction != 0:
+#		$Body.scale.x = move_direction
 
 
 func _handle_wall_slide_sticking():
@@ -98,7 +97,7 @@ func _check_is_grounded():
 	for raycast in raycasts.get_children():
 		if raycast.is_colliding():
 			return true
-	
+
 	# If loop completes then raycast was not detected so return false
 	return false
 
@@ -106,7 +105,7 @@ func _check_is_grounded():
 func _update_wall_direction():
 	var is_near_wall_left = _check_is_valid_wall(left_wall_raycasts)
 	var is_near_wall_right = _check_is_valid_wall(right_wall_raycasts)
-	
+
 	if is_near_wall_left && is_near_wall_right:
 		wall_direction = move_direction
 	else:
