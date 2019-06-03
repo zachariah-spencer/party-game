@@ -1,6 +1,7 @@
 extends StateMachine
+#warning-ignore-all:unused_argument
 
-var wall_action
+var wall_action : String
 
 func _ready():
 	add_state('idle')
@@ -14,33 +15,33 @@ func _ready():
 func _update_wall_action():
 	match parent.wall_direction:
 		-1:
-			wall_action = 'move_left'	
+			wall_action = parent.move_left
 		1:
-			wall_action = 'move_right'
+			wall_action = parent.move_right
 	return wall_action
 
-func _input(event):
+func _input(event : InputEvent):
 	
 	if [states.idle, states.run].has(state) && state != states.wall_slide:
 		#JUMP
-		if event.is_action_pressed('jump'):
-			if Input.is_action_pressed('down'):
+		if event.is_action_pressed(parent.move_jump):
+			if Input.is_action_pressed(parent.move_down):
 				parent.set_collision_mask_bit(parent.DROP_THRU_BIT, false)
 			else:
 				parent.jump()
 	elif state == states.wall_slide:
 		
-		if event.is_action_pressed('jump') && Input.is_action_pressed(wall_action):
+		if event.is_action_pressed(parent.move_jump) && Input.is_action_pressed(wall_action):
 			
 			set_state(states.jump)
 			parent.wall_jump()
 
 	elif state == states.jump:
 		#VARIABLE JUMP
-		if event.is_action_released('jump') && parent.velocity.y < parent.min_jump_velocity:
+		if event.is_action_released(parent.move_jump) && parent.velocity.y < parent.min_jump_velocity:
 			parent.velocity.y = parent.min_jump_velocity
 
-func _state_logic(delta):
+func _state_logic(delta : float):
 	parent._update_move_direction()
 	parent._update_wall_direction()
 	_update_wall_action()
@@ -53,7 +54,7 @@ func _state_logic(delta):
 	parent._apply_movement()
 	$AnimationTree['parameters/Airborne/blend_position'] = parent.velocity.y / 300
 
-func _get_transition(delta):
+func _get_transition(delta : float):
 	match state:
 		states.idle:
 			if !parent.is_on_floor():
