@@ -10,4 +10,3 @@ func _ready():
 	Manager.current_game_time = GAME_TIME
 	$Cam.current = true
 	call_deferred('_insert_players')
-

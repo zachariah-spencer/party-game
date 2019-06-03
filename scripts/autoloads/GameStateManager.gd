@@ -2,10 +2,11 @@ extends Node
 
 const GAMES : Dictionary = {
 	
-	'lobby' : preload('res://scenes/Minigames/MG_Lobby.tscn'),
-	'fighter' : preload('res://scenes/Minigames/MG_Fighter.tscn'),
+	'lobby' : preload('res://scenes/minigames/MG_Lobby.tscn'),
+	'fighter' : preload('res://scenes/minigames/MG_Fighter.tscn'),
 	
 }
+var world_node
 
 var transition_scene : PackedScene = preload('res://scenes/Transition.tscn')
 var finish_transition_instance
@@ -20,6 +21,8 @@ var current_game_reference : Node
 var player_spawns : Array = [0,1,2,3]
 
 func _ready():
+	world_node = get_parent().get_node('World')
+	
 	randomize()
 	_start_new_minigame(GAMES['lobby'])
 
@@ -30,7 +33,7 @@ func _start_new_minigame(new_minigame : PackedScene):
 		#remove old minigame
 		print('game currently active')
 		var instance_of_transition = transition_scene.instance()
-		add_child(instance_of_transition)
+		add_child_below_node(world_node, instance_of_transition)
 		finish_transition_instance = new_minigame.instance()
 	else:
 		var instance_of_new_minigame = new_minigame.instance()

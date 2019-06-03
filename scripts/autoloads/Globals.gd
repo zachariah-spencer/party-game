@@ -12,7 +12,7 @@ var player_four : Node
 
 var players : Array = [player_one, player_two, player_three, player_four]
 
-var HUD : Node
+var current_HUD : Node
 
 func _ready():
 	randomize()
