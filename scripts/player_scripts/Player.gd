@@ -39,6 +39,8 @@ onready var right_wall_raycasts : Node = $WallRaycasts/RightWallRaycasts
 onready var wall_slide_sticky_timer : Node = $WallSlideStickyTimer
 onready var attack_timer : Node = $AttackTimer
 onready var attack_cooldown_timer : Node = $AttackCooldown
+onready var right_fist: Node = get_node('StateMachine/Sprites/Right Hand')
+onready var left_fist: Node = get_node('StateMachine/Sprites/Left Hand')
 
 
 func _ready():
@@ -81,9 +83,9 @@ func _update_move_direction():
 	if move_direction != 0:
 		facing_direction = move_direction
 	if facing_direction < 0:
-		attack_area.position.x = -30
+		attack_area.position.x = -35
 	elif facing_direction > 0:
-		attack_area.position.x = 30
+		attack_area.position.x = 35
 
 
 func _handle_move_input():
@@ -170,6 +172,15 @@ func _on_AttackArea_body_entered(body):
 			bump_player(body)
 			hurt_player(body)
 
+#func handle_player_attacked(body):
+#	#determine attack type from gamemode and handle attack interaction accordingly
+#	match Manager.current_game_attack_mode:
+#		'nonlethal':
+#			bump_player(body)
+#		'lethal':
+#			bump_player(body)
+#			hurt_player(body)
+
 func bump_player(affected_player):
 	var bump_velocity : Vector2 = Vector2(0,-500)
 	bump_velocity.x = (50 * Globals.CELL_SIZE) * facing_direction
@@ -189,3 +200,16 @@ func die():
 		#CODE GOES HERE
 	#begin respawntimer
 	get_parent().respawn_timer.start()
+
+
+
+
+#BOTH OF THESE FUNCTIONS ARE MEANT TO POTENTIALLY REPLACE THE ATTACKAREA NODE BUT STILL NEED SOME WORK DONE SO THAT THE HANDS DONT COLLIDE WITH THE ORIGINAL PLAYER
+func _on_Right_Hand_body_entered(body):
+	if $StateMachine.state == $StateMachine.states.attack:
+#		handle_player_attacked(body)
+		pass
+func _on_Left_Hand_body_entered(body):
+	if $StateMachine.state == $StateMachine.states.attack:
+#		handle_player_attacked(body)
+		pass

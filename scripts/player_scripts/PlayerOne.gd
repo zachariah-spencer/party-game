@@ -6,6 +6,9 @@ func _ready():
 	register_player_inputs()
 	register_collisions()
 
+func _physics_process(delta):
+	print($Player.velocity)
+
 func register_player_inputs():
 	child = $Player
 	child.move_left = 'player_one_move_left'

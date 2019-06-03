@@ -117,9 +117,9 @@ func _enter_state(new_state, old_state):
 			$StateLabel.text = 'run'
 		states.attack:
 			if parent.facing_direction > 0:
-				$AnimationPlayer.play('attack_right')
+				get_node('Sprites/Left Hand').apply_central_impulse(Vector2(5000,-2500))
 			elif parent.facing_direction < 0:
-				$AnimationPlayer.play('attack_left')
+				get_node('Sprites/Right Hand').apply_central_impulse(Vector2(-5000,-2500))
 			$StateLabel.text = 'attack'
 		states.jump:
 			$AnimationTree['parameters/playback'].travel('Airborne')
