@@ -8,12 +8,14 @@ const WALL_JUMP_VELOCITY : Vector2 = Vector2(900, -1200)
 var velocity : Vector2
 var target_velocity : float
 var move_direction : int
+var facing_direction : int = 1
 var wall_direction : int = 1
 var move_speed : float = 14 * Globals.CELL_SIZE
 var gravity : float
 
 var is_grounded : bool
 var is_jumping : bool = false
+var can_attack = true
 
 var max_jump_velocity : float
 var min_jump_velocity : float
@@ -25,13 +27,16 @@ var move_left : String
 var move_right : String
 var move_down : String
 var move_jump : String
+var attack_input : String
 
+onready var attack_area : Node = $AttackArea
 onready var wall_slide_cooldown : Node = $WallSlideCooldown
 onready var raycasts : Node = $GroundRaycasts
 onready var left_wall_raycasts : Node = $WallRaycasts/LeftWallRaycasts
 onready var right_wall_raycasts : Node = $WallRaycasts/RightWallRaycasts
 onready var wall_slide_sticky_timer : Node = $WallSlideStickyTimer
-
+onready var attack_timer : Node = $AttackTimer
+onready var attack_cooldown_timer : Node = $AttackCooldown
 
 
 func _ready():
@@ -70,6 +75,12 @@ func wall_jump():
 
 func _update_move_direction():
 	move_direction = -int(Input.is_action_pressed(move_left)) + int(Input.is_action_pressed(move_right))
+	if move_direction != 0:
+		facing_direction = move_direction
+	if facing_direction < 0:
+		attack_area.position.x = -30
+	elif facing_direction > 0:
+		attack_area.position.x = 30
 
 
 func _handle_move_input():
@@ -77,7 +88,6 @@ func _handle_move_input():
 	velocity.x = lerp(velocity.x, target_velocity, _get_h_weight())
 #	if move_direction != 0:
 #		$Body.scale.x = move_direction
-
 
 func _handle_wall_slide_sticking():
 	if move_direction != 0 && move_direction != wall_direction:
@@ -129,3 +139,47 @@ func _check_is_valid_wall(wall_raycasts : Node):
 
 func _on_FallingThroughPlatformArea_body_exited():
 	set_collision_mask_bit(DROP_THRU_BIT, true)
+
+func _determine_attack_type():
+	match Manager.current_game_attack_mode:
+		'lethal':
+			lethal_attack()
+		'nonlethal':
+			non_lethal_attack()
+		'special':
+			pass
+
+func non_lethal_attack():
+	attack_timer.start()
+	attack_area.monitoring = true
+	print('monitoring attack area: '+ String(attack_area.monitoring))
+	can_attack = false
+
+func lethal_attack():
+	attack_timer.start()
+	#do attack stuff here
+	can_attack = false
+
+func _is_attack_over():
+	if attack_timer.is_stopped():
+		return true
+	else:
+		return false
+
+
+func _on_AttackTimer_timeout():
+	attack_area.monitoring = false
+	attack_cooldown_timer.start()
+
+
+func _on_AttackCooldown_timeout():
+	can_attack = true
+
+
+func _on_AttackArea_body_entered(body):
+	print('collided fist with other player')
+	match Manager.current_game_attack_mode:
+		'nonlethal':
+			var bump_velocity : Vector2 = Vector2(0,-500)
+			bump_velocity.x = (50 * Globals.CELL_SIZE) * facing_direction
+			body.velocity = bump_velocity

@@ -17,6 +17,8 @@ var current_game_name : String
 var current_game_time : int
 #warning-ignore:unused_class_variable
 var current_game_reference : Node
+#warning-ignore:unused_class_variable
+var current_game_attack_mode : String
 
 var player_spawns : Array = [0,1,2,3]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://scripts/player_scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://scripts/player_scripts/PlayerStateMachine.gd" type="Script" id=2]
@@ -78,6 +78,62 @@ graph_offset = Vector2( 309.555, 47 )
 [sub_resource type="AnimationNodeStateMachinePlayback" id=17]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=18]
+
+[sub_resource type="Animation" id=29]
+resource_name = "attack_left"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/Body:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 30.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprites/Right Hand/Sprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 20, 0 ), Vector2( -40, -10 ), Vector2( 20, 0 ) ]
+}
+
+[sub_resource type="Animation" id=28]
+resource_name = "attack_right"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/Left Hand/Sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 40, -10 ), Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprites/Body:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, -30.0, 0.0 ]
+}
 
 [sub_resource type="Animation" id=19]
 length = 0.3
@@ -385,30 +441,37 @@ tracks/5/keys = {
 "values": [ Vector2( 13.59, -6.03 ), Vector2( 9.148, -1.473 ), Vector2( -4.18, 1.04 ), Vector2( -9.785, -0.765 ), Vector2( -15.39, -5.84 ), Vector2( -5.285, -1.637 ), Vector2( 5.52, -2.28 ) ]
 }
 
+[sub_resource type="DynamicFontData" id=25]
+font_path = "res://monogram.ttf"
+
+[sub_resource type="DynamicFont" id=26]
+size = 40
+font_data = SubResource( 25 )
+
 [sub_resource type="RectangleShape2D" id=23]
 extents = Vector2( 11.881, 40.838 )
 
 [sub_resource type="RectangleShape2D" id=24]
 extents = Vector2( 25, 43 )
 
+[sub_resource type="CapsuleShape2D" id=27]
+height = 40.0
+
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 0, -8.11656 )
-collision_layer = 16
+collision_layer = 0
+collision_mask = 25
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="StateMachine" type="Node2D" parent="."]
-editor/display_folded = true
 script = ExtResource( 2 )
 
 [node name="Sprites" type="Node2D" parent="StateMachine"]
 editor/display_folded = true
 
 [node name="Right Foot" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( 4.77888, -1.59778 )
-rotation = 0.552691
+position = Vector2( 4.89851, -1.46405 )
+rotation = 0.458968
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
 
@@ -437,8 +500,8 @@ shape = SubResource( 1 )
 
 [node name="Body" type="Sprite" parent="StateMachine/Sprites"]
 editor/display_folded = true
-position = Vector2( 0.513336, -17.7289 )
-rotation = -0.174534
+position = Vector2( 0.450087, -17.4088 )
+rotation = -0.140217
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 5 )
 
@@ -454,8 +517,8 @@ position = Vector2( 0, -6.23 )
 shape = SubResource( 2 )
 
 [node name="Left Foot" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( -5.11777, -1.94779 )
-rotation = 0.68844
+position = Vector2( -5.29695, -1.7401 )
+rotation = 0.577991
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
 
@@ -497,6 +560,7 @@ gravity_scale = 7.5
 linear_damp = 4.0
 
 [node name="Sprite" type="Sprite" parent="StateMachine/Sprites/Right Hand"]
+position = Vector2( 20, 0 )
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 4 )
 
@@ -515,10 +579,24 @@ parameters/Grounded/playback = SubResource( 18 )
 parameters/Grounded/Run/speed/scale = 1.5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="StateMachine"]
+anims/attack_left = SubResource( 29 )
+anims/attack_right = SubResource( 28 )
 anims/fall = SubResource( 19 )
 anims/idle = SubResource( 20 )
 anims/jump = SubResource( 21 )
 anims/run = SubResource( 22 )
+
+[node name="StateLabel" type="Label" parent="StateMachine"]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -50.0
+margin_top = -110.0
+margin_right = 50.0
+margin_bottom = -80.0
+custom_fonts/font = SubResource( 26 )
+text = "RUN"
+align = 1
 
 [node name="PlayerShape" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -24 )
@@ -574,6 +652,7 @@ cast_to = Vector2( 1, 0 )
 
 [node name="FallingThroughPlatformArea" type="Area2D" parent="."]
 editor/display_folded = true
+visible = false
 position = Vector2( 0, -25 )
 collision_layer = 0
 collision_mask = 16
@@ -590,5 +669,25 @@ one_shot = true
 wait_time = 0.02
 one_shot = true
 
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="AttackCooldown" type="Timer" parent="."]
+
+[node name="AttackArea" type="Area2D" parent="."]
+position = Vector2( 30, 0 )
+monitoring = false
+collision_layer = 32
+collision_mask = 960
+
+[node name="Shape" type="CollisionShape2D" parent="AttackArea"]
+position = Vector2( 0, -16 )
+rotation = 1.5708
+shape = SubResource( 27 )
+
 [connection signal="body_exited" from="FallingThroughPlatformArea" to="." method="_on_FallingThroughPlatformArea_body_exited"]
 [connection signal="timeout" from="WallSlideStickyTimer" to="StateMachine" method="_on_WallSlideStickyTimer_timeout"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
+[connection signal="timeout" from="AttackCooldown" to="." method="_on_AttackCooldown_timeout"]
+[connection signal="body_entered" from="AttackArea" to="." method="_on_AttackArea_body_entered"]

@@ -9,6 +9,7 @@ func _ready():
 	add_state('jump')
 	add_state('fall')
 	add_state('wall_slide')
+	add_state('attack')
 	$AnimationTree.active = true
 	call_deferred('set_state', states.idle)
 
@@ -21,6 +22,10 @@ func _update_wall_action():
 	return wall_action
 
 func _input(event : InputEvent):
+	
+	if event.is_action_pressed(parent.attack_input) && parent._is_attack_over() && state != states.wall_slide && parent.can_attack:
+		set_state(states.attack)
+		parent._determine_attack_type()
 	
 	if [states.idle, states.run].has(state) && state != states.wall_slide:
 		#JUMP
@@ -35,7 +40,7 @@ func _input(event : InputEvent):
 			
 			set_state(states.jump)
 			parent.wall_jump()
-
+		
 	elif state == states.jump:
 		#VARIABLE JUMP
 		if event.is_action_released(parent.move_jump) && parent.velocity.y < parent.min_jump_velocity:
@@ -93,6 +98,9 @@ func _get_transition(delta : float):
 				return states.fall
 			elif !Input.is_action_pressed(wall_action):
 				return states.fall
+		states.attack:
+			if parent._is_attack_over():
+				return states.idle
 	
 	#Error in transitions if this is returned
 	return null
@@ -102,15 +110,25 @@ func _enter_state(new_state, old_state):
 		states.idle:
 			$AnimationTree['parameters/playback'].travel('Grounded')
 			$AnimationTree['parameters/Grounded/playback'].travel('Idle')
+			$StateLabel.text = 'idle'
 		states.run:
 			$AnimationTree['parameters/playback'].travel('Grounded')
 			$AnimationTree['parameters/Grounded/playback'].travel('Run')
+			$StateLabel.text = 'run'
+		states.attack:
+			if parent.facing_direction > 0:
+				$AnimationPlayer.play('attack_right')
+			elif parent.facing_direction < 0:
+				$AnimationPlayer.play('attack_left')
+			$StateLabel.text = 'attack'
 		states.jump:
 			$AnimationTree['parameters/playback'].travel('Airborne')
+			$StateLabel.text = 'jump'
 		states.fall:
 			$AnimationTree['parameters/playback'].travel('Airborne')
+			$StateLabel.text = 'fall'
 		states.wall_slide:
-			pass #flip here
+			$StateLabel.text = 'wall_slide'#flip here
 			#parent.anim_player.play('wall_slide')
 #			parent.body.scale.x = -parent.wall_direction
 	pass
