@@ -20,6 +20,11 @@ _global_script_classes=[ {
 "path": "res://scripts/minigame_scripts/Minigame.gd"
 }, {
 "base": "Node",
+"class": "PlayersManager",
+"language": "GDScript",
+"path": "res://scripts/player_scripts/PlayersManager.gd"
+}, {
+"base": "Node",
 "class": "StateMachine",
 "language": "GDScript",
 "path": "res://scripts/StateMachine.gd"
@@ -27,6 +32,7 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "HUD": "",
 "Minigame": "",
+"PlayersManager": "",
 "StateMachine": ""
 }
 
@@ -150,6 +156,7 @@ player_four_attack={
 2d_physics/layer_8="player_two"
 2d_physics/layer_9="player_three"
 2d_physics/layer_10="player_four"
+2d_physics/layer_11="top_of_players_head"
 
 [physics]
 

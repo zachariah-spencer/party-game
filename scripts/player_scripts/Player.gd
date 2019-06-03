@@ -12,6 +12,7 @@ var facing_direction : int = 1
 var wall_direction : int = 1
 var move_speed : float = 14 * Globals.CELL_SIZE
 var gravity : float
+var hit_points : int = 100
 
 var is_grounded : bool
 var is_jumping : bool = false
@@ -29,6 +30,7 @@ var move_down : String
 var move_jump : String
 var attack_input : String
 
+onready var hit_points_label : Node = $StateMachine/HitPoints
 onready var attack_area : Node = $AttackArea
 onready var wall_slide_cooldown : Node = $WallSlideCooldown
 onready var raycasts : Node = $GroundRaycasts
@@ -40,6 +42,7 @@ onready var attack_cooldown_timer : Node = $AttackCooldown
 
 
 func _ready():
+	hit_points_label.text = String(hit_points)
 	gravity = 2 * max_jump_height / pow(jump_duration, 2)
 	max_jump_velocity = -sqrt(2 * gravity * max_jump_height)
 	min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
@@ -140,24 +143,9 @@ func _check_is_valid_wall(wall_raycasts : Node):
 func _on_FallingThroughPlatformArea_body_exited():
 	set_collision_mask_bit(DROP_THRU_BIT, true)
 
-func _determine_attack_type():
-	match Manager.current_game_attack_mode:
-		'lethal':
-			lethal_attack()
-		'nonlethal':
-			non_lethal_attack()
-		'special':
-			pass
-
-func non_lethal_attack():
+func attack():
 	attack_timer.start()
 	attack_area.monitoring = true
-	print('monitoring attack area: '+ String(attack_area.monitoring))
-	can_attack = false
-
-func lethal_attack():
-	attack_timer.start()
-	#do attack stuff here
 	can_attack = false
 
 func _is_attack_over():
@@ -166,20 +154,38 @@ func _is_attack_over():
 	else:
 		return false
 
-
 func _on_AttackTimer_timeout():
 	attack_area.monitoring = false
 	attack_cooldown_timer.start()
 
-
 func _on_AttackCooldown_timeout():
 	can_attack = true
 
-
 func _on_AttackArea_body_entered(body):
-	print('collided fist with other player')
+	#determine attack type from gamemode and handle attack interaction accordingly
 	match Manager.current_game_attack_mode:
 		'nonlethal':
-			var bump_velocity : Vector2 = Vector2(0,-500)
-			bump_velocity.x = (50 * Globals.CELL_SIZE) * facing_direction
-			body.velocity = bump_velocity
+			bump_player(body)
+		'lethal':
+			bump_player(body)
+			hurt_player(body)
+
+func bump_player(affected_player):
+	var bump_velocity : Vector2 = Vector2(0,-500)
+	bump_velocity.x = (50 * Globals.CELL_SIZE) * facing_direction
+	affected_player.velocity = bump_velocity
+
+func hurt_player(affected_player):
+	affected_player.get_node('StateMachine/AnimationPlayer').play('hurt')
+	affected_player.hit_points -= 20
+	affected_player.hit_points_label.text = String(affected_player.hit_points)
+	if affected_player.hit_points == 0:
+		affected_player.die()
+
+func die():
+	#remove controllable player instance
+	queue_free()
+	#instance ragdoll player
+		#CODE GOES HERE
+	#begin respawntimer
+	get_parent().respawn_timer.start()

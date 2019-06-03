@@ -25,7 +25,7 @@ func _input(event : InputEvent):
 	
 	if event.is_action_pressed(parent.attack_input) && parent._is_attack_over() && state != states.wall_slide && parent.can_attack:
 		set_state(states.attack)
-		parent._determine_attack_type()
+		parent.attack()
 	
 	if [states.idle, states.run].has(state) && state != states.wall_slide:
 		#JUMP
