@@ -1,13 +1,12 @@
-extends PlayersManager
+extends PlayersManager 
 
 func _ready():
 	add_to_group('players')
 	Globals.player_one = self
+	display_name = 'Player One'
+	is_dead = false
 	register_player_inputs()
 	register_collisions()
-
-func _physics_process(delta):
-	print($Player.velocity)
 
 func register_player_inputs():
 	child = $Player
@@ -39,9 +38,4 @@ func _on_RespawnTimer_timeout():
 	_transform_player_position(instance_of_player)
 
 
-func _transform_player_position(player_instance):
-	var spawn_point : Node = select_spawn_point()
-	var ragdoll_body_parts : Array = player_instance.get_node('StateMachine/Sprites').get_children().get_nodes_in_group('ragdolls')
-	
-	self.position = Vector2.ZERO
-	player_instance.position = spawn_point.position
+

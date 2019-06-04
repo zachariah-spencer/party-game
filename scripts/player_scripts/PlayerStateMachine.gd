@@ -47,6 +47,7 @@ func _input(event : InputEvent):
 			parent.velocity.y = parent.min_jump_velocity
 
 func _state_logic(delta : float):
+	parent._update_player_stats()
 	parent._update_move_direction()
 	parent._update_wall_direction()
 	_update_wall_action()

@@ -4,6 +4,7 @@ const GAMES : Dictionary = {
 	
 	'lobby' : preload('res://scenes/minigames/MG_Lobby.tscn'),
 	'fighter' : preload('res://scenes/minigames/MG_Fighter.tscn'),
+	'goafk' : preload('res://scenes/minigames/MG_GoAFK.tscn')
 	
 }
 var world_node
@@ -19,7 +20,9 @@ var current_game_time : int
 var current_game_reference : Node
 #warning-ignore:unused_class_variable
 var current_game_attack_mode : String
-
+#warning-ignore:unused_class_variable
+var current_game_allow_respawns : bool
+#warning-ignore:unused_class_variable
 var current_game_spawns : Node
 
 var player_spawns : Array = [0,1,2,3]
@@ -43,11 +46,20 @@ func _start_new_minigame(new_minigame : PackedScene):
 		add_child(instance_of_new_minigame)
 
 func _on_game_times_up():
-	_start_new_minigame(GAMES['fighter'])
+	var next_minigame
+	next_minigame = _select_random_minigame()
+	_start_new_minigame(next_minigame)
+
 
 func _select_random_minigame():
+	#DO
 	var selected_num : int = int(rand_range(0, GAMES.size()))
+	#WHILE
+	while GAMES.keys()[selected_num] == current_game_name:
+		selected_num = int(rand_range(0, GAMES.size()))
+
 	var selected_game : PackedScene = GAMES.values()[selected_num]
+
 	return selected_game
 
 func _randomize_spawn_positions():

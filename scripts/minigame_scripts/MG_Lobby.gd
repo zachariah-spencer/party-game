@@ -1,7 +1,7 @@
 extends Minigame
 
 const GAME_NAME : String = 'lobby'
-const GAME_TIME : int = 2
+const GAME_TIME : int = 60
 
 func _ready():
 	add_to_group('minigames')
@@ -9,5 +9,6 @@ func _ready():
 	Manager.current_game_reference = self
 	Manager.current_game_time = GAME_TIME
 	Manager.current_game_attack_mode = 'nonlethal'
+	Manager.current_game_allow_respawns = false
 	$Cam.current = true
 	call_deferred('_insert_players')

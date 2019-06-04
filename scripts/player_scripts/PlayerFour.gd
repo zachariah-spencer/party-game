@@ -3,6 +3,8 @@ extends PlayersManager
 func _ready():
 	add_to_group('players')
 	Globals.player_four = self
+	display_name = 'Player Four'
+	is_dead = false
 	register_player_inputs()
 	register_collisions()
 

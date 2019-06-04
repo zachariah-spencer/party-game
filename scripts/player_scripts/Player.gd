@@ -189,9 +189,6 @@ func bump_player(affected_player):
 func hurt_player(affected_player):
 	affected_player.get_node('StateMachine/AnimationPlayer').play('hurt')
 	affected_player.hit_points -= 20
-	affected_player.hit_points_label.text = String(affected_player.hit_points)
-	if affected_player.hit_points == 0:
-		affected_player.die()
 
 func die():
 	#remove controllable player instance
@@ -201,7 +198,16 @@ func die():
 	#begin respawntimer
 	get_parent().respawn_timer.start()
 
+func die_no_respawn():
+	queue_free()
 
+func _update_player_stats():
+	hit_points_label.text = String(hit_points)
+	if hit_points == 0:
+		if Manager.current_game_allow_respawns == true:
+			die()
+		elif Manager.current_game_allow_respawns == false:
+			die_no_respawn()
 
 
 #BOTH OF THESE FUNCTIONS ARE MEANT TO POTENTIALLY REPLACE THE ATTACKAREA NODE BUT STILL NEED SOME WORK DONE SO THAT THE HANDS DONT COLLIDE WITH THE ORIGINAL PLAYER
