@@ -221,7 +221,7 @@ scale_amount_random = 0.1
 scale_amount_curve = SubResource( 29 )
 
 [node name="Sprite" type="Sprite" parent="StateMachine/Sprites/Left Hand"]
-scale = Vector2( 0.109375, 0.109375 )
+scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 7 )
 offset = Vector2( -32, 0 )
 
