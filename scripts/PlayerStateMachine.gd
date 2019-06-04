@@ -28,6 +28,7 @@ func _input(event):
                 parent.set_collision_mask_bit(parent.DROP_THRU_BIT, false)
             else:
                 parent.jump()
+        if event.is_action_pressed('punch'): parent.punch()
     elif state == states.wall_slide:
         
         if event.is_action_pressed('jump') && Input.is_action_pressed(wall_action):

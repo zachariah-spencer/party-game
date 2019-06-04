@@ -14,6 +14,8 @@ var gravity
 
 var is_grounded
 var is_jumping = false
+var can_punch = true
+var punch_arm = 'left'
 
 var max_jump_velocity
 var min_jump_velocity
@@ -28,9 +30,6 @@ onready var left_wall_raycasts = $WallRaycasts/LeftWallRaycasts
 onready var right_wall_raycasts = $WallRaycasts/RightWallRaycasts
 onready var wall_slide_cooldown = $WallSlideCooldown
 onready var wall_slide_sticky_timer = $WallSlideStickyTimer
-
-
-
 
 func _ready():
     gravity = 2 * max_jump_height / pow(jump_duration, 2)
@@ -62,6 +61,36 @@ func wall_jump():
     wall_jump_velocity.x *= -wall_direction
     velocity.y = 0
     velocity += wall_jump_velocity
+    
+func punch():
+    if can_punch:
+        var hand = null
+        var vel = Vector2(0,0)
+        var dir = 1
+        var scale = $StateMachine/Sprites/Head/Sprite.scale.x
+        if scale > 0: dir = 1
+        else: dir = -1
+        if punch_arm == 'right':
+            
+            punch_arm = 'left'
+            hand = get_node("StateMachine/Sprites/Left Hand")
+            
+            vel = Vector2(10000*dir,0)-hand.get_linear_velocity()
+            hand.set_linear_velocity(Vector2(hand.get_linear_velocity().x,-hand.get_linear_velocity().y))
+        else:
+            punch_arm = 'right'
+            hand = get_node("StateMachine/Sprites/Right Hand")
+            vel = Vector2(7500*dir,0)-hand.get_linear_velocity()
+            hand.set_linear_velocity(Vector2(hand.get_linear_velocity().x,-hand.get_linear_velocity().y))
+        hand.apply_impulse(hand.get_position(),vel)
+        print(move_direction)
+        $StateMachine/AnimationPlayer.play('attack_'+punch_arm)
+        
+        can_punch = false
+        $PunchCooldown.start()
+        print("Punch!")
+
+func _punch_cooldown_reset(): can_punch = true
 
 func _update_move_direction():
     move_direction = -int(Input.is_action_pressed('move_left')) + int(Input.is_action_pressed('move_right'))

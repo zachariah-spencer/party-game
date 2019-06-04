@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=43 format=2]
 
 [ext_resource path="res://scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://scripts/PlayerStateMachine.gd" type="Script" id=2]
@@ -7,11 +7,13 @@
 [ext_resource path="res://assets/player/body_placeholder.png" type="Texture" id=5]
 [ext_resource path="res://assets/player/head_placeholder.png" type="Texture" id=6]
 [ext_resource path="res://assets/player/face_v.png" type="Texture" id=7]
-[ext_resource path="res://misc/player_anim/fall.anim" type="Animation" id=8]
-[ext_resource path="res://misc/player_anim/idle.anim" type="Animation" id=9]
-[ext_resource path="res://misc/player_anim/jump.anim" type="Animation" id=10]
-[ext_resource path="res://misc/player_anim/run.anim" type="Animation" id=11]
-[ext_resource path="res://misc/player_anim/wall_slide.anim" type="Animation" id=12]
+[ext_resource path="res://misc/player_anim/attack_left.anim" type="Animation" id=8]
+[ext_resource path="res://misc/player_anim/attack_right.anim" type="Animation" id=9]
+[ext_resource path="res://misc/player_anim/fall.anim" type="Animation" id=10]
+[ext_resource path="res://misc/player_anim/idle.anim" type="Animation" id=11]
+[ext_resource path="res://misc/player_anim/jump.anim" type="Animation" id=12]
+[ext_resource path="res://misc/player_anim/run.anim" type="Animation" id=13]
+[ext_resource path="res://misc/player_anim/wall_slide.anim" type="Animation" id=14]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 6.25297
@@ -23,10 +25,10 @@ radius = 42.2635
 radius = 8.31231
 height = 10.0689
 
-[sub_resource type="CircleShape2D" id=5]
+[sub_resource type="CircleShape2D" id=4]
 radius = 24.9598
 
-[sub_resource type="CapsuleShape2D" id=29]
+[sub_resource type="CapsuleShape2D" id=5]
 radius = 70.0755
 height = 187.102
 
@@ -136,15 +138,18 @@ script = ExtResource( 2 )
 position = Vector2( 7.87, -26.57 )
 node_a = NodePath("../Left Hand")
 node_b = NodePath("../Body/Arms")
-softness = 1.0
+bias = 0.4
+softness = 4.0
 
 [node name="Right Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
 position = Vector2( -7.6, -26.3 )
 node_a = NodePath("../Right Hand")
 node_b = NodePath("../Body/Arms")
-softness = 1.0
+bias = 0.4
+softness = 4.0
 
 [node name="Right Foot" type="Node2D" parent="StateMachine/Sprites"]
+position = Vector2( 0, 1.5 )
 
 [node name="Right Foot Sprite" type="Sprite" parent="StateMachine/Sprites/Right Foot"]
 position = Vector2( 6, 0 )
@@ -155,7 +160,6 @@ offset = Vector2( 0, -95 )
 [node name="Left Hand" type="RigidBody2D" parent="StateMachine/Sprites"]
 position = Vector2( 10.49, -16.12 )
 collision_layer = 2
-collision_mask = 5
 mass = 1.96
 gravity_scale = 10.0
 linear_damp = 5.0
@@ -197,6 +201,7 @@ shape = SubResource( 3 )
 
 [node name="Left Foot" type="Node2D" parent="StateMachine/Sprites"]
 editor/display_folded = true
+position = Vector2( 0, 1.5 )
 
 [node name="Left Foot Sprite" type="Sprite" parent="StateMachine/Sprites/Left Foot"]
 position = Vector2( -6, 0 )
@@ -221,7 +226,7 @@ scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Head"]
-shape = SubResource( 5 )
+shape = SubResource( 4 )
 
 [node name="Head Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
 position = Vector2( 0, -27.11 )
@@ -240,7 +245,7 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Feet"]
 position = Vector2( 0, -6.23 )
 rotation = 1.5708
-shape = SubResource( 29 )
+shape = SubResource( 5 )
 
 [node name="Feet Body Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
 position = Vector2( 0.17, -7.36 )
@@ -251,7 +256,6 @@ bias = 0.5
 [node name="Right Hand" type="RigidBody2D" parent="StateMachine/Sprites"]
 position = Vector2( -10.49, -16.12 )
 collision_layer = 4
-collision_mask = 3
 mass = 1.96
 gravity_scale = 7.5
 linear_damp = 4.0
@@ -274,11 +278,13 @@ parameters/Grounded/playback = SubResource( 25 )
 parameters/Grounded/Run/speed/scale = 1.5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="StateMachine"]
-anims/fall = ExtResource( 8 )
-anims/idle = ExtResource( 9 )
-anims/jump = ExtResource( 10 )
-anims/run = ExtResource( 11 )
-anims/wall_slide = ExtResource( 12 )
+anims/attack_left = ExtResource( 8 )
+anims/attack_right = ExtResource( 9 )
+anims/fall = ExtResource( 10 )
+anims/idle = ExtResource( 11 )
+anims/jump = ExtResource( 12 )
+anims/run = ExtResource( 13 )
+anims/wall_slide = ExtResource( 14 )
 
 [node name="PlayerShape" type="CollisionShape2D" parent="."]
 visible = false
@@ -345,12 +351,17 @@ collision_mask = 16
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FallingThroughPlatformArea"]
 shape = SubResource( 27 )
 
+[node name="PunchCooldown" type="Timer" parent="."]
+process_mode = 0
+wait_time = 0.8
+
 [node name="WallSlideCooldown" type="Timer" parent="."]
 process_mode = 0
 wait_time = 0.2
 one_shot = true
 
 [node name="WallSlideStickyTimer" type="Timer" parent="."]
+process_mode = 0
 wait_time = 0.02
 one_shot = true
 
@@ -359,4 +370,5 @@ visible = false
 position = Vector2( 0, -32.9 )
 shape = SubResource( 28 )
 [connection signal="body_exited" from="FallingThroughPlatformArea" to="." method="_on_FallingThroughPlatformArea_body_exited"]
+[connection signal="timeout" from="PunchCooldown" to="." method="_punch_cooldown_reset"]
 [connection signal="timeout" from="WallSlideStickyTimer" to="StateMachine" method="_on_WallSlideStickyTimer_timeout"]
