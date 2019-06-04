@@ -9,7 +9,7 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 6.25297
 
-[sub_resource type="PhysicsMaterial" id=6]
+[sub_resource type="PhysicsMaterial" id=2]
 friction = 10.0
 bounce = 0.1
 
@@ -17,10 +17,10 @@ bounce = 0.1
 radius = 8.31231
 height = 10.0689
 
-[sub_resource type="CircleShape2D" id=5]
+[sub_resource type="CircleShape2D" id=4]
 radius = 24.9598
 
-[sub_resource type="CapsuleShape2D" id=7]
+[sub_resource type="CapsuleShape2D" id=5]
 radius = 74.5766
 height = 77.3426
 
@@ -30,7 +30,8 @@ position = Vector2( 0, -8.11656 )
 [node name="Left Hand" type="RigidBody2D" parent="."]
 editor/display_folded = true
 position = Vector2( 10.49, -16.12 )
-collision_layer = 4
+collision_layer = 512
+collision_mask = 529
 gravity_scale = 20.0
 linear_damp = 5.0
 
@@ -46,10 +47,10 @@ shape = SubResource( 1 )
 [node name="Body" type="RigidBody2D" parent="."]
 editor/display_folded = true
 position = Vector2( 0, -16 )
-collision_layer = 8
-collision_mask = 9
+collision_layer = 512
+collision_mask = 513
 mass = 1.75
-physics_material_override = SubResource( 6 )
+physics_material_override = SubResource( 2 )
 gravity_scale = 120.0
 linear_damp = 30.0
 angular_damp = 1.0
@@ -67,10 +68,10 @@ shape = SubResource( 3 )
 [node name="Head" type="RigidBody2D" parent="."]
 editor/display_folded = true
 position = Vector2( 0, -54.82 )
-collision_layer = 0
-collision_mask = 9
+collision_layer = 512
+collision_mask = 513
 mass = 2.25
-physics_material_override = SubResource( 6 )
+physics_material_override = SubResource( 2 )
 gravity_scale = 100.0
 linear_damp = 30.0
 angular_damp = 1.0
@@ -85,12 +86,13 @@ scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head"]
-shape = SubResource( 5 )
+shape = SubResource( 4 )
 
 [node name="Right Hand" type="RigidBody2D" parent="."]
 editor/display_folded = true
 position = Vector2( -10.49, -16.12 )
-collision_layer = 2
+collision_layer = 512
+collision_mask = 529
 gravity_scale = 20.0
 linear_damp = 4.0
 
@@ -105,8 +107,8 @@ shape = SubResource( 1 )
 [node name="Right Foot" type="RigidBody2D" parent="."]
 editor/display_folded = true
 position = Vector2( 6, 0 )
-collision_layer = 0
-collision_mask = 3
+collision_layer = 512
+collision_mask = 513
 gravity_scale = 20.0
 
 [node name="Sprite" type="Sprite" parent="Right Foot"]
@@ -118,13 +120,13 @@ offset = Vector2( 0, -95 )
 position = Vector2( 0, 0.53 )
 rotation = 1.5708
 scale = Vector2( 0.1, 0.1 )
-shape = SubResource( 7 )
+shape = SubResource( 5 )
 
 [node name="Left Foot" type="RigidBody2D" parent="."]
 editor/display_folded = true
 position = Vector2( -6, 0 )
-collision_layer = 0
-collision_mask = 5
+collision_layer = 512
+collision_mask = 513
 gravity_scale = 20.0
 
 [node name="Sprite" type="Sprite" parent="Left Foot"]
@@ -136,35 +138,42 @@ offset = Vector2( 0, -95 )
 position = Vector2( 0, 0.53 )
 rotation = 1.5708
 scale = Vector2( 0.1, 0.1 )
-shape = SubResource( 7 )
+shape = SubResource( 5 )
 
 [node name="Head Arms Pin" type="PinJoint2D" parent="."]
-position = Vector2( 0, -24.5 )
+position = Vector2( 0, -32.33 )
 node_a = NodePath("../Head")
 node_b = NodePath("../Body")
-softness = 2.0
+disable_collision = false
 
 [node name="Left Pin" type="PinJoint2D" parent="."]
-position = Vector2( 7.87, -26.57 )
+position = Vector2( 12.47, -26.57 )
 node_a = NodePath("../Left Hand")
 node_b = NodePath("../Body")
+bias = 0.2
+disable_collision = false
 softness = 2.0
 
 [node name="Left Foot Pin" type="PinJoint2D" parent="."]
-position = Vector2( 4.32, -8.11 )
+position = Vector2( 4.32, -0.59 )
 node_a = NodePath("../Left Foot")
 node_b = NodePath("../Body")
+bias = 0.2
+disable_collision = false
 softness = 2.0
 
 [node name="Right Pin" type="PinJoint2D" parent="."]
-position = Vector2( -7.6, -26.3 )
+position = Vector2( -12.47, -26.3 )
 node_a = NodePath("../Right Hand")
 node_b = NodePath("../Body")
+bias = 0.2
+disable_collision = false
 softness = 2.0
 
 [node name="Right Foot Pin" type="PinJoint2D" parent="."]
-position = Vector2( -4.32, -8.11 )
+position = Vector2( -4.32, -0.59 )
 node_a = NodePath("../Right Foot")
 node_b = NodePath("../Body")
+bias = 0.2
 disable_collision = false
 softness = 2.0

@@ -75,6 +75,7 @@ func punch():
         var vel = Vector2(0,0)
         var body_part = $StateMachine/Sprites/Body
         var head = $StateMachine/Sprites/Head
+        $Sounds/Punch.play()
         
         # dictate punch direction based on the head direction
         var dir = 1

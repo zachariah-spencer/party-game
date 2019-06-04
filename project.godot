@@ -63,6 +63,7 @@ punch={
 2d_physics/layer_3="right_arm"
 2d_physics/layer_4="player_body"
 2d_physics/layer_5="platform"
+2d_physics/layer_10="corpse"
 
 [physics]
 

@@ -1,20 +1,30 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=49 format=2]
 
 [ext_resource path="res://scripts/Player.gd" type="Script" id=1]
-[ext_resource path="res://scripts/PlayerStateMachine.gd" type="Script" id=2]
-[ext_resource path="res://assets/player/foot_placeholder.png" type="Texture" id=3]
-[ext_resource path="res://assets/vfx/punch_trail.png" type="Texture" id=4]
-[ext_resource path="res://assets/player/hand_placeholder.png" type="Texture" id=5]
-[ext_resource path="res://assets/player/body_placeholder.png" type="Texture" id=6]
-[ext_resource path="res://assets/player/head_placeholder.png" type="Texture" id=7]
-[ext_resource path="res://assets/player/face_punch.png" type="Texture" id=8]
-[ext_resource path="res://misc/player_anim/attack_left.anim" type="Animation" id=9]
-[ext_resource path="res://misc/player_anim/attack_right.anim" type="Animation" id=10]
-[ext_resource path="res://misc/player_anim/fall.anim" type="Animation" id=11]
-[ext_resource path="res://misc/player_anim/idle.anim" type="Animation" id=12]
-[ext_resource path="res://misc/player_anim/jump.anim" type="Animation" id=13]
-[ext_resource path="res://misc/player_anim/run.anim" type="Animation" id=14]
-[ext_resource path="res://misc/player_anim/wall_slide.anim" type="Animation" id=15]
+[ext_resource path="res://assets/audio/foot.wav" type="AudioStream" id=2]
+[ext_resource path="res://assets/audio/punch_whiff.wav" type="AudioStream" id=3]
+[ext_resource path="res://scripts/PlayerStateMachine.gd" type="Script" id=4]
+[ext_resource path="res://assets/player/foot_placeholder.png" type="Texture" id=5]
+[ext_resource path="res://assets/vfx/punch_trail.png" type="Texture" id=6]
+[ext_resource path="res://assets/player/hand_placeholder.png" type="Texture" id=7]
+[ext_resource path="res://assets/player/body_placeholder.png" type="Texture" id=8]
+[ext_resource path="res://assets/player/head_placeholder.png" type="Texture" id=9]
+[ext_resource path="res://assets/player/face_punch.png" type="Texture" id=10]
+[ext_resource path="res://misc/player_anim/attack_left.anim" type="Animation" id=11]
+[ext_resource path="res://misc/player_anim/attack_right.anim" type="Animation" id=12]
+[ext_resource path="res://misc/player_anim/fall.anim" type="Animation" id=13]
+[ext_resource path="res://misc/player_anim/idle.anim" type="Animation" id=14]
+[ext_resource path="res://misc/player_anim/jump.anim" type="Animation" id=15]
+[ext_resource path="res://misc/player_anim/run.anim" type="Animation" id=16]
+[ext_resource path="res://misc/player_anim/wall_slide.anim" type="Animation" id=17]
+
+[sub_resource type="AudioStreamRandomPitch" id=31]
+audio_stream = ExtResource( 2 )
+random_pitch = 1.02
+
+[sub_resource type="AudioStreamRandomPitch" id=30]
+audio_stream = ExtResource( 3 )
+random_pitch = 1.02
 
 [sub_resource type="Curve" id=29]
 max_value = 0.4
@@ -141,6 +151,8 @@ bus = "Voices"
 area_mask = 0
 
 [node name="Feet" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = SubResource( 31 )
+volume_db = -35.0
 bus = "Ambience"
 area_mask = 0
 
@@ -148,12 +160,15 @@ area_mask = 0
 bus = "Sounds"
 area_mask = 0
 
+[node name="Punch" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = SubResource( 30 )
+bus = "Sounds"
+area_mask = 0
+
 [node name="StateMachine" type="Node2D" parent="."]
-editor/display_folded = true
-script = ExtResource( 2 )
+script = ExtResource( 4 )
 
 [node name="Sprites" type="Node2D" parent="StateMachine"]
-editor/display_folded = true
 
 [node name="Left Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
 position = Vector2( 7.87, -26.57 )
@@ -170,15 +185,18 @@ bias = 0.4
 softness = 2.0
 
 [node name="Right Foot" type="Node2D" parent="StateMachine/Sprites"]
+editor/display_folded = true
 position = Vector2( 0, 1.5 )
 
 [node name="Right Foot Sprite" type="Sprite" parent="StateMachine/Sprites/Right Foot"]
-position = Vector2( 6, 0 )
+position = Vector2( -8.20271, 0.238809 )
+rotation = 0.475118
 scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 offset = Vector2( 0, -95 )
 
 [node name="Left Hand" type="RigidBody2D" parent="StateMachine/Sprites"]
+editor/display_folded = true
 position = Vector2( 10.49, -16.12 )
 collision_layer = 2
 mass = 1.96
@@ -192,7 +210,7 @@ lifetime = 0.4
 one_shot = true
 randomness = 0.1
 local_coords = false
-texture = ExtResource( 4 )
+texture = ExtResource( 6 )
 spread = 180.0
 gravity = Vector2( 0, 96 )
 initial_velocity = 50.0
@@ -204,7 +222,7 @@ scale_amount_curve = SubResource( 29 )
 
 [node name="Sprite" type="Sprite" parent="StateMachine/Sprites/Left Hand"]
 scale = Vector2( 0.109375, 0.109375 )
-texture = ExtResource( 5 )
+texture = ExtResource( 7 )
 offset = Vector2( -32, 0 )
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="StateMachine/Sprites/Left Hand"]
@@ -212,6 +230,7 @@ position = Vector2( -0.01, 0 )
 shape = SubResource( 1 )
 
 [node name="Body" type="RigidBody2D" parent="StateMachine/Sprites"]
+editor/display_folded = true
 position = Vector2( 0, -16.06 )
 collision_layer = 0
 gravity_scale = -60.0
@@ -229,9 +248,10 @@ position = Vector2( 0, -6.23 )
 shape = SubResource( 2 )
 
 [node name="Body" type="Sprite" parent="StateMachine/Sprites/Body"]
+position = Vector2( -0.0241988, -0.922005 )
 rotation = 0.00317418
 scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 6 )
+texture = ExtResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Body"]
 position = Vector2( 0, 0.398 )
@@ -242,12 +262,14 @@ editor/display_folded = true
 position = Vector2( 0, 1.5 )
 
 [node name="Left Foot Sprite" type="Sprite" parent="StateMachine/Sprites/Left Foot"]
-position = Vector2( -6, 0 )
+position = Vector2( 9.38323, -1.82008 )
+rotation = -0.627027
 scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 offset = Vector2( 0, -95 )
 
 [node name="Head" type="RigidBody2D" parent="StateMachine/Sprites"]
+editor/display_folded = true
 position = Vector2( 0, -51.77 )
 collision_layer = 8
 gravity_scale = -128.0
@@ -255,12 +277,12 @@ linear_damp = 20.0
 
 [node name="Sprite" type="Sprite" parent="StateMachine/Sprites/Head"]
 scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 7 )
+texture = ExtResource( 9 )
 offset = Vector2( 0, -128 )
 
 [node name="Face" type="Sprite" parent="StateMachine/Sprites/Head"]
 scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 8 )
+texture = ExtResource( 10 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Head"]
 shape = SubResource( 4 )
@@ -273,6 +295,7 @@ node_b = NodePath("../Body/Arms")
 softness = 0.1
 
 [node name="Feet" type="KinematicBody2D" parent="StateMachine/Sprites"]
+editor/display_folded = true
 position = Vector2( 0.071, 1.85 )
 rotation = 0.00317418
 scale = Vector2( 0.1, 0.1 )
@@ -291,6 +314,7 @@ node_b = NodePath("../Feet")
 bias = 0.5
 
 [node name="Right Hand" type="RigidBody2D" parent="StateMachine/Sprites"]
+editor/display_folded = true
 position = Vector2( -10.49, -16.12 )
 collision_layer = 4
 mass = 1.96
@@ -304,7 +328,7 @@ lifetime = 0.4
 one_shot = true
 randomness = 0.1
 local_coords = false
-texture = ExtResource( 4 )
+texture = ExtResource( 6 )
 spread = 180.0
 gravity = Vector2( 0, 96 )
 initial_velocity = 50.0
@@ -316,7 +340,7 @@ scale_amount_curve = SubResource( 29 )
 
 [node name="Sprite" type="Sprite" parent="StateMachine/Sprites/Right Hand"]
 scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 5 )
+texture = ExtResource( 7 )
 offset = Vector2( -32, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Right Hand"]
@@ -332,13 +356,13 @@ parameters/Grounded/playback = SubResource( 25 )
 parameters/Grounded/Run/speed/scale = 1.5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="StateMachine"]
-anims/attack_left = ExtResource( 9 )
-anims/attack_right = ExtResource( 10 )
-anims/fall = ExtResource( 11 )
-anims/idle = ExtResource( 12 )
-anims/jump = ExtResource( 13 )
-anims/run = ExtResource( 14 )
-anims/wall_slide = ExtResource( 15 )
+anims/attack_left = ExtResource( 11 )
+anims/attack_right = ExtResource( 12 )
+anims/fall = ExtResource( 13 )
+anims/idle = ExtResource( 14 )
+anims/jump = ExtResource( 15 )
+anims/run = ExtResource( 16 )
+anims/wall_slide = ExtResource( 17 )
 
 [node name="PlayerShape" type="CollisionShape2D" parent="."]
 visible = false
