@@ -8,5 +8,6 @@ func _ready():
 	Manager.current_game_name = GAME_NAME
 	Manager.current_game_reference = self
 	Manager.current_game_time = GAME_TIME
+	Manager.current_game_attack_mode = 'lethal'
 	$Cam.current = true
 	call_deferred('_insert_players')

@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://scripts/player_scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://scripts/player_scripts/PlayerStateMachine.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://assets/player/hand_placeholder.png" type="Texture" id=4]
 [ext_resource path="res://assets/player/body_placeholder.png" type="Texture" id=5]
 [ext_resource path="res://assets/player/head_placeholder.png" type="Texture" id=6]
+[ext_resource path="res://monogram.ttf" type="DynamicFontData" id=7]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 6.25297
@@ -80,6 +81,62 @@ graph_offset = Vector2( 309.555, 47 )
 [sub_resource type="AnimationNodeStateMachinePlayback" id=18]
 
 [sub_resource type="Animation" id=19]
+resource_name = "attack_left"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/Body:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 30.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprites/Right Hand/Sprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( -40, -10 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=20]
+resource_name = "attack_right"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/Left Hand/Sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 40, -10 ), Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprites/Body:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, -30.0, 0.0 ]
+}
+
+[sub_resource type="Animation" id=21]
 length = 0.3
 loop = true
 tracks/0/type = "value"
@@ -155,7 +212,23 @@ tracks/5/keys = {
 "values": [ Vector2( 0, -19.95 ) ]
 }
 
-[sub_resource type="Animation" id=20]
+[sub_resource type="Animation" id=22]
+resource_name = "hurt"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("..:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 2.07555e-007, 0.000155586, 2.38419e-007, 0.001011, 6.81768e-010 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.521569, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 0.521569, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=23]
 loop = true
 step = 0.01
 tracks/0/type = "value"
@@ -231,7 +304,7 @@ tracks/5/keys = {
 "values": [ 0.0, 55.0, -10.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=21]
+[sub_resource type="Animation" id=24]
 length = 0.3
 loop = true
 step = 0.05
@@ -308,7 +381,7 @@ tracks/5/keys = {
 "values": [ 104.9, 100.0 ]
 }
 
-[sub_resource type="Animation" id=22]
+[sub_resource type="Animation" id=25]
 length = 0.6
 loop = true
 step = 0.05
@@ -385,19 +458,31 @@ tracks/5/keys = {
 "values": [ Vector2( 13.59, -6.03 ), Vector2( 9.148, -1.473 ), Vector2( -4.18, 1.04 ), Vector2( -9.785, -0.765 ), Vector2( -15.39, -5.84 ), Vector2( -5.285, -1.637 ), Vector2( 5.52, -2.28 ) ]
 }
 
-[sub_resource type="RectangleShape2D" id=23]
+[sub_resource type="DynamicFontData" id=26]
+font_path = "res://monogram.ttf"
+
+[sub_resource type="DynamicFont" id=27]
+size = 40
+font_data = SubResource( 26 )
+
+[sub_resource type="DynamicFont" id=28]
+size = 40
+font_data = ExtResource( 7 )
+
+[sub_resource type="RectangleShape2D" id=29]
 extents = Vector2( 11.881, 40.838 )
 
-[sub_resource type="RectangleShape2D" id=24]
+[sub_resource type="RectangleShape2D" id=30]
 extents = Vector2( 25, 43 )
+
+[sub_resource type="CapsuleShape2D" id=31]
+height = 60.0
 
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 0, -8.11656 )
-collision_layer = 16
+collision_layer = 0
+collision_mask = 25
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="StateMachine" type="Node2D" parent="."]
 editor/display_folded = true
@@ -407,8 +492,8 @@ script = ExtResource( 2 )
 editor/display_folded = true
 
 [node name="Right Foot" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( 4.77888, -1.59778 )
-rotation = 0.552691
+position = Vector2( 5.99997, -5.6237e-005 )
+rotation = -2.28366e-005
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
 
@@ -418,11 +503,13 @@ node_a = NodePath("../Left Hand")
 node_b = NodePath("../Body/Arms")
 softness = 1.0
 
-[node name="Left Hand" type="RigidBody2D" parent="StateMachine/Sprites"]
+[node name="Left Hand" type="RigidBody2D" parent="StateMachine/Sprites" groups=[
+"ragdolls",
+]]
 editor/display_folded = true
 position = Vector2( 10.49, -16.12 )
 collision_layer = 2
-collision_mask = 3
+collision_mask = 2
 mass = 1.96
 gravity_scale = 10.0
 linear_damp = 5.0
@@ -437,13 +524,13 @@ shape = SubResource( 1 )
 
 [node name="Body" type="Sprite" parent="StateMachine/Sprites"]
 editor/display_folded = true
-position = Vector2( 0.513336, -17.7289 )
-rotation = -0.174534
+modulate = Color( 1, 1, 1, 0.893617 )
+position = Vector2( -2.98023e-008, -16.7398 )
+rotation = 1.14183e-005
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 5 )
 
 [node name="Arms" type="KinematicBody2D" parent="StateMachine/Sprites/Body"]
-editor/display_folded = true
 position = Vector2( 0.617449, -104.582 )
 rotation = 7.45058e-009
 collision_layer = 0
@@ -454,15 +541,17 @@ position = Vector2( 0, -6.23 )
 shape = SubResource( 2 )
 
 [node name="Left Foot" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( -5.11777, -1.94779 )
-rotation = 0.68844
+position = Vector2( -6.00006, -2.88486e-005 )
+rotation = -2.29032e-005
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
 
-[node name="Head" type="RigidBody2D" parent="StateMachine/Sprites"]
-editor/display_folded = true
+[node name="Head" type="RigidBody2D" parent="StateMachine/Sprites" groups=[
+"ragdolls",
+]]
 position = Vector2( 0, -51.77 )
 collision_layer = 0
+collision_mask = 0
 gravity_scale = -128.0
 linear_damp = 30.0
 
@@ -487,13 +576,13 @@ node_a = NodePath("../Head")
 node_b = NodePath("../Body/Arms")
 softness = 0.1
 
-[node name="Right Hand" type="RigidBody2D" parent="StateMachine/Sprites"]
-editor/display_folded = true
+[node name="Right Hand" type="RigidBody2D" parent="StateMachine/Sprites" groups=[
+"ragdolls",
+]]
 position = Vector2( -10.49, -16.12 )
 collision_layer = 4
-collision_mask = 5
+collision_mask = 4
 mass = 1.96
-gravity_scale = 7.5
 linear_damp = 4.0
 
 [node name="Sprite" type="Sprite" parent="StateMachine/Sprites/Right Hand"]
@@ -515,32 +604,56 @@ parameters/Grounded/playback = SubResource( 18 )
 parameters/Grounded/Run/speed/scale = 1.5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="StateMachine"]
-anims/fall = SubResource( 19 )
-anims/idle = SubResource( 20 )
-anims/jump = SubResource( 21 )
-anims/run = SubResource( 22 )
+anims/attack_left = SubResource( 19 )
+anims/attack_right = SubResource( 20 )
+anims/fall = SubResource( 21 )
+anims/hurt = SubResource( 22 )
+anims/idle = SubResource( 23 )
+anims/jump = SubResource( 24 )
+anims/run = SubResource( 25 )
+
+[node name="StateLabel" type="Label" parent="StateMachine"]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -50.0
+margin_top = -150.0
+margin_right = 50.0
+margin_bottom = -118.0
+custom_fonts/font = SubResource( 27 )
+align = 1
+
+[node name="HitPoints" type="Label" parent="StateMachine"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -50.0
+margin_top = -118.0
+margin_right = 50.0
+margin_bottom = -120.0
+custom_fonts/font = SubResource( 28 )
+align = 1
 
 [node name="PlayerShape" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -24 )
-shape = SubResource( 23 )
+position = Vector2( 0, -25 )
+shape = SubResource( 29 )
 
 [node name="GroundRaycasts" type="Node2D" parent="."]
 editor/display_folded = true
 
 [node name="CenterGroundRaycast" type="RayCast2D" parent="GroundRaycasts"]
-position = Vector2( 0, 8 )
+position = Vector2( 0, 10 )
 enabled = true
 cast_to = Vector2( 0, 10 )
 collision_mask = 17
 
 [node name="LeftGroundRaycast" type="RayCast2D" parent="GroundRaycasts"]
-position = Vector2( -10, 8 )
+position = Vector2( -10, 10 )
 enabled = true
 cast_to = Vector2( 0, 10 )
 collision_mask = 17
 
 [node name="RightGroundRaycast" type="RayCast2D" parent="GroundRaycasts"]
-position = Vector2( 10, 8 )
+position = Vector2( 10, 10 )
 enabled = true
 cast_to = Vector2( 0, 10 )
 collision_mask = 17
@@ -574,12 +687,26 @@ cast_to = Vector2( 1, 0 )
 
 [node name="FallingThroughPlatformArea" type="Area2D" parent="."]
 editor/display_folded = true
+visible = false
 position = Vector2( 0, -25 )
 collision_layer = 0
 collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FallingThroughPlatformArea"]
-shape = SubResource( 24 )
+shape = SubResource( 30 )
+
+[node name="AttackArea" type="Area2D" parent="."]
+editor/display_folded = true
+visible = false
+position = Vector2( 35, 0 )
+monitoring = false
+collision_layer = 32
+collision_mask = 960
+
+[node name="Shape" type="CollisionShape2D" parent="AttackArea"]
+position = Vector2( 0, -16 )
+rotation = 1.5708
+shape = SubResource( 31 )
 
 [node name="WallSlideCooldown" type="Timer" parent="."]
 process_mode = 0
@@ -590,5 +717,17 @@ one_shot = true
 wait_time = 0.02
 one_shot = true
 
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="AttackCooldown" type="Timer" parent="."]
+wait_time = 0.4
+
+[connection signal="body_entered" from="StateMachine/Sprites/Left Hand" to="." method="_on_Left_Hand_body_entered"]
+[connection signal="body_entered" from="StateMachine/Sprites/Right Hand" to="." method="_on_Right_Hand_body_entered"]
 [connection signal="body_exited" from="FallingThroughPlatformArea" to="." method="_on_FallingThroughPlatformArea_body_exited"]
+[connection signal="body_entered" from="AttackArea" to="." method="_on_AttackArea_body_entered"]
 [connection signal="timeout" from="WallSlideStickyTimer" to="StateMachine" method="_on_WallSlideStickyTimer_timeout"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
+[connection signal="timeout" from="AttackCooldown" to="." method="_on_AttackCooldown_timeout"]

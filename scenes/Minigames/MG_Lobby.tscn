@@ -10,7 +10,6 @@ extents = Vector2( 768, 448 )
 [node name="MG_Lobby" type="Node2D" groups=[
 "minigames",
 ]]
-editor/display_folded = true
 script = ExtResource( 1 )
 
 [node name="Cam" type="Camera2D" parent="."]
