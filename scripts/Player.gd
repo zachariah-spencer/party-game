@@ -66,29 +66,32 @@ func punch():
     if can_punch:
         var hand = null
         var vel = Vector2(0,0)
+        var body_part = $StateMachine/Sprites/Body
+        var head = $StateMachine/Sprites/Head
+        
+        # dictate punch direction based on the head direction
         var dir = 1
         var scale = $StateMachine/Sprites/Head/Sprite.scale.x
         if scale > 0: dir = 1
         else: dir = -1
+        # change hands for each punch
         if punch_arm == 'right':
-            
             punch_arm = 'left'
             hand = get_node("StateMachine/Sprites/Left Hand")
-            
-            vel = Vector2(10000*dir,0)-hand.get_linear_velocity()
-            hand.set_linear_velocity(Vector2(hand.get_linear_velocity().x,-hand.get_linear_velocity().y))
         else:
             punch_arm = 'right'
             hand = get_node("StateMachine/Sprites/Right Hand")
-            vel = Vector2(7500*dir,0)-hand.get_linear_velocity()
-            hand.set_linear_velocity(Vector2(hand.get_linear_velocity().x,-hand.get_linear_velocity().y))
-        hand.apply_impulse(hand.get_position(),vel)
-        print(move_direction)
+            
+        # launch hand
+        vel = Vector2(hand.get_gravity_scale()*400*dir,0)
+        hand.apply_central_impulse(vel)
+        # launch body
+        body_part.apply_torque_impulse(3000*dir)
+        
         $StateMachine/AnimationPlayer.play('attack_'+punch_arm)
         
         can_punch = false
         $PunchCooldown.start()
-        print("Punch!")
 
 func _punch_cooldown_reset(): can_punch = true
 

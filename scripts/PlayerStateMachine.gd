@@ -40,6 +40,8 @@ func _input(event):
         #VARIABLE JUMP
         if event.is_action_released('jump') && parent.velocity.y < parent.min_jump_velocity:
             parent.velocity.y = parent.min_jump_velocity
+        if event.is_action_pressed('punch'): parent.punch()
+    elif state == states.fall && event.is_action_pressed('punch'): parent.punch()
 
 func _state_logic(delta):
     parent._update_move_direction()

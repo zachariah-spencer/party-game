@@ -139,14 +139,14 @@ position = Vector2( 7.87, -26.57 )
 node_a = NodePath("../Left Hand")
 node_b = NodePath("../Body/Arms")
 bias = 0.4
-softness = 4.0
+softness = 2.0
 
 [node name="Right Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
 position = Vector2( -7.6, -26.3 )
 node_a = NodePath("../Right Hand")
 node_b = NodePath("../Body/Arms")
 bias = 0.4
-softness = 4.0
+softness = 2.0
 
 [node name="Right Foot" type="Node2D" parent="StateMachine/Sprites"]
 position = Vector2( 0, 1.5 )
@@ -214,7 +214,7 @@ editor/display_folded = true
 position = Vector2( 0, -51.77 )
 collision_layer = 8
 gravity_scale = -128.0
-linear_damp = 30.0
+linear_damp = 20.0
 
 [node name="Sprite" type="Sprite" parent="StateMachine/Sprites/Head"]
 scale = Vector2( 0.1, 0.1 )
