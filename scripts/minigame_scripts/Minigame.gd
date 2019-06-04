@@ -13,6 +13,7 @@ func _insert_players():
 	var active_players : Array = get_tree().get_nodes_in_group('players')
 	var x : int = 0
 	
+	
 	while x < active_players.size():
 		active_players[x].get_node('Player').position = Vector2(0,0)
 		active_players[x].position = spawn_points.get_children()[Manager.player_spawns[x]].position
