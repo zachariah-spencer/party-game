@@ -28,7 +28,7 @@ var face_textures = [['normal',preload("res://assets/player/face_v.png")],
                      ['punch',preload("res://assets/player/face_punch.png")],
                      ['ecstasy',preload("res://assets/player/face_ecstasy.png")],
                      ['dead',preload("res://assets/player/face_dead.png")]]
-                                    
+
 
 onready var body = $StateMachine/Sprites
 onready var raycasts = $GroundRaycasts
@@ -68,7 +68,7 @@ func wall_jump():
     wall_jump_velocity.x *= -wall_direction
     velocity.y = 0
     velocity += wall_jump_velocity
-    
+
 func punch():
     if can_punch:
         var hand = null
@@ -76,7 +76,7 @@ func punch():
         var body_part = $StateMachine/Sprites/Body
         var head = $StateMachine/Sprites/Head
         $Sounds/Punch.play()
-        
+
         # dictate punch direction based on the head direction
         var dir = 1
         var scale = $StateMachine/Sprites/Head/Sprite.scale.x
@@ -89,15 +89,15 @@ func punch():
         else:
             punch_arm = 'right'
             hand = get_node("StateMachine/Sprites/Right Hand")
-            
+
         # launch hand
         vel = Vector2(hand.get_gravity_scale()*PUNCH_DISTANCE*dir,0)
         hand.apply_central_impulse(vel)
         # launch body
         body_part.apply_torque_impulse(3000*dir)
-        
+
         $StateMachine/AnimationPlayer.play('attack_'+punch_arm)
-        
+
         can_punch = false
         $PunchCooldown.start()
 
@@ -105,7 +105,7 @@ func _punch_cooldown_reset(): can_punch = true
 
 func _update_move_direction():
     move_direction = -int(Input.is_action_pressed('move_left')) + int(Input.is_action_pressed('move_right'))
-    
+
     if move_direction != 0:
         # all nodes in here will be mirrored when changing directions
         # these range from simple sprites to feet that require mirroring the parent node, not the sprites themselves
@@ -181,13 +181,13 @@ func _check_is_valid_wall(wall_raycasts):
 
 func _on_FallingThroughPlatformArea_body_exited(body):
     set_collision_mask_bit(DROP_THRU_BIT, true)
-    
+
 func _set_face():
     # this function will get called every time we need a new face
     # used for punching, but can also be used for more personality during the game
     # just leave this to me - TheMikirog
     var face = $StateMachine/Sprites/Head/Face
-    
+
     # for now it's just the punching, but I plan to implement more
     face.set_texture(face_textures[0][1])
     pass

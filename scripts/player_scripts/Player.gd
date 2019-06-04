@@ -4,6 +4,7 @@ const UP : Vector2 = Vector2.UP
 const SLOPE_STOP : int = 64
 const DROP_THRU_BIT : int = 4
 const WALL_JUMP_VELOCITY : Vector2 = Vector2(900, -1200)
+const PUNCH_DISTANCE := 600
 
 var velocity : Vector2
 var target_velocity : float
@@ -16,13 +17,20 @@ var hit_points : int = 100
 
 var is_grounded : bool
 var is_jumping : bool = false
-var can_attack = true
+var can_attack := true
+var punch_arm := 'left'
 
 var max_jump_velocity : float
 var min_jump_velocity : float
 var max_jump_height : float = 7.25 * Globals.CELL_SIZE
 var min_jump_height : float = 0.8 * Globals.CELL_SIZE
 var jump_duration : float = 0.4
+
+var face_textures = [['normal',preload("res://assets/player/face_v.png")],
+                     ['punch',preload("res://assets/player/face_punch.png")],
+                     ['ecstasy',preload("res://assets/player/face_ecstasy.png")],
+                     ['dead',preload("res://assets/player/face_dead.png")]]
+
 
 var move_left : String
 var move_right : String
@@ -48,7 +56,7 @@ func _ready():
 	gravity = 2 * max_jump_height / pow(jump_duration, 2)
 	max_jump_velocity = -sqrt(2 * gravity * max_jump_height)
 	min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
-
+	_set_face()
 
 func _apply_gravity(delta : float):
 	velocity.y += gravity * delta
@@ -77,22 +85,63 @@ func wall_jump():
 	velocity.y = 0
 	velocity += wall_jump_velocity
 
+func attack():
+	if can_attack:
+		var hand = null
+		var vel = Vector2(0,0)
+		var body_part = $StateMachine/Sprites/Body
+		var head = $StateMachine/Sprites/Head
+		$Sounds/Punch.play()
+
+		# dictate punch direction based on the head direction
+		var dir = 1
+		var scale = $StateMachine/Sprites/Head/Sprite.scale.x
+		if scale > 0: dir = 1
+		else: dir = -1
+        # change hands for each punch
+		if punch_arm == 'right':
+			punch_arm = 'left'
+			hand = get_node("StateMachine/Sprites/Left Hand")
+		else:
+			punch_arm = 'right'
+			hand = get_node("StateMachine/Sprites/Right Hand")
+
+        # launch hand
+		vel = Vector2(hand.get_gravity_scale()*PUNCH_DISTANCE*dir,0)
+		hand.apply_central_impulse(vel)
+        # launch body
+		body_part.apply_torque_impulse(3000*dir)
+
+		$StateMachine/AnimationPlayer.play('attack_'+punch_arm)
+
+		attack_area.monitoring = false
+		attack_cooldown_timer.start()
+		$AttackCooldown.start()
 
 func _update_move_direction():
 	move_direction = -int(Input.is_action_pressed(move_left)) + int(Input.is_action_pressed(move_right))
 	if move_direction != 0:
-		facing_direction = move_direction
-	if facing_direction < 0:
-		attack_area.position.x = -35
-	elif facing_direction > 0:
-		attack_area.position.x = 35
+		# all nodes in here will be mirrored when changing directions
+		# these range from simple sprites to feet that require mirroring the parent node, not the sprites themselves
+		var mirror_group = [get_node("StateMachine/Sprites/Right Foot"),
+				get_node("StateMachine/Sprites/Left Foot"),
+				get_node("StateMachine/Sprites/Body/Body"),
+				get_node("StateMachine/Sprites/Head/Sprite"),
+				get_node("StateMachine/Sprites/Head/Face"),
+				get_node("StateMachine/Sprites/Right Hand/Sprite"),
+				get_node("StateMachine/Sprites/Left Hand/Sprite")]
+		for i in mirror_group:
+			var scale = i.get_scale()
+			match move_direction:
+				1: if scale.x < 0: scale.x *= -1
+				-1: if scale.x > 0: scale.x *= -1
+			i.set_scale(Vector2(scale.x,scale.y))
 
 
 func _handle_move_input():
 	target_velocity = move_speed * move_direction
 	velocity.x = lerp(velocity.x, target_velocity, _get_h_weight())
-#	if move_direction != 0:
-#		$Body.scale.x = move_direction
+
 
 func _handle_wall_slide_sticking():
 	if move_direction != 0 && move_direction != wall_direction:
@@ -145,16 +194,17 @@ func _check_is_valid_wall(wall_raycasts : Node):
 func _on_FallingThroughPlatformArea_body_exited():
 	set_collision_mask_bit(DROP_THRU_BIT, true)
 
-func attack():
-	attack_timer.start()
-	attack_area.monitoring = true
-	can_attack = false
+func _set_face():
+    # this function will get called every time we need a new face
+    # used for punching, but can also be used for more personality during the game
+    # just leave this to me - TheMikirog
+    var face = $StateMachine/Sprites/Head/Face
 
-func _is_attack_over():
-	if attack_timer.is_stopped():
-		return true
-	else:
-		return false
+    # for now it's just the punching, but I plan to implement more
+    face.set_texture(face_textures[0][1])
+    pass
+
+
 
 func _on_AttackTimer_timeout():
 	attack_area.monitoring = false
@@ -201,15 +251,3 @@ func die():
 	#begin respawntimer
 	get_parent().respawn_timer.start()
 
-
-
-
-#BOTH OF THESE FUNCTIONS ARE MEANT TO POTENTIALLY REPLACE THE ATTACKAREA NODE BUT STILL NEED SOME WORK DONE SO THAT THE HANDS DONT COLLIDE WITH THE ORIGINAL PLAYER
-func _on_Right_Hand_body_entered(body):
-	if $StateMachine.state == $StateMachine.states.attack:
-#		handle_player_attacked(body)
-		pass
-func _on_Left_Hand_body_entered(body):
-	if $StateMachine.state == $StateMachine.states.attack:
-#		handle_player_attacked(body)
-		pass
