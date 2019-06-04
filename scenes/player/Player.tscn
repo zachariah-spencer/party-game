@@ -479,7 +479,6 @@ extents = Vector2( 25, 43 )
 height = 60.0
 
 [node name="Player" type="KinematicBody2D"]
-editor/display_folded = true
 position = Vector2( 0, -8.11656 )
 collision_layer = 0
 collision_mask = 25
@@ -490,10 +489,11 @@ editor/display_folded = true
 script = ExtResource( 2 )
 
 [node name="Sprites" type="Node2D" parent="StateMachine"]
+editor/display_folded = true
 
 [node name="Right Foot" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( 5.80809, -0.24059 )
-rotation = 0.105131
+position = Vector2( 5.99997, -5.6237e-005 )
+rotation = -2.28366e-005
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
 
@@ -506,6 +506,7 @@ softness = 1.0
 [node name="Left Hand" type="RigidBody2D" parent="StateMachine/Sprites" groups=[
 "ragdolls",
 ]]
+editor/display_folded = true
 position = Vector2( 10.49, -16.12 )
 collision_layer = 2
 collision_mask = 2
@@ -518,18 +519,18 @@ scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 4 )
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="StateMachine/Sprites/Left Hand"]
+position = Vector2( 3, 0 )
 shape = SubResource( 1 )
 
 [node name="Body" type="Sprite" parent="StateMachine/Sprites"]
 editor/display_folded = true
 modulate = Color( 1, 1, 1, 0.893617 )
-position = Vector2( 0.0866591, -16.9984 )
-rotation = -0.035378
+position = Vector2( -2.98023e-008, -16.7398 )
+rotation = 1.14183e-005
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 5 )
 
 [node name="Arms" type="KinematicBody2D" parent="StateMachine/Sprites/Body"]
-editor/display_folded = true
 position = Vector2( 0.617449, -104.582 )
 rotation = 7.45058e-009
 collision_layer = 0
@@ -540,15 +541,14 @@ position = Vector2( 0, -6.23 )
 shape = SubResource( 2 )
 
 [node name="Left Foot" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( -5.81854, -0.313908 )
-rotation = 0.128047
+position = Vector2( -6.00006, -2.88486e-005 )
+rotation = -2.29032e-005
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
 
 [node name="Head" type="RigidBody2D" parent="StateMachine/Sprites" groups=[
 "ragdolls",
 ]]
-editor/display_folded = true
 position = Vector2( 0, -51.77 )
 collision_layer = 0
 collision_mask = 0
@@ -560,6 +560,7 @@ scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Head"]
+position = Vector2( 0, 12 )
 shape = SubResource( 3 )
 
 [node name="Right Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
@@ -589,6 +590,7 @@ scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Right Hand"]
+position = Vector2( 3, 0 )
 shape = SubResource( 1 )
 
 [node name="AnimationTree" type="AnimationTree" parent="StateMachine"]
@@ -632,26 +634,26 @@ custom_fonts/font = SubResource( 28 )
 align = 1
 
 [node name="PlayerShape" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -33 )
+position = Vector2( 0, -25 )
 shape = SubResource( 29 )
 
 [node name="GroundRaycasts" type="Node2D" parent="."]
 editor/display_folded = true
 
 [node name="CenterGroundRaycast" type="RayCast2D" parent="GroundRaycasts"]
-position = Vector2( 0, 3 )
+position = Vector2( 0, 10 )
 enabled = true
 cast_to = Vector2( 0, 10 )
 collision_mask = 17
 
 [node name="LeftGroundRaycast" type="RayCast2D" parent="GroundRaycasts"]
-position = Vector2( -10, 3 )
+position = Vector2( -10, 10 )
 enabled = true
 cast_to = Vector2( 0, 10 )
 collision_mask = 17
 
 [node name="RightGroundRaycast" type="RayCast2D" parent="GroundRaycasts"]
-position = Vector2( 10, 3 )
+position = Vector2( 10, 10 )
 enabled = true
 cast_to = Vector2( 0, 10 )
 collision_mask = 17
