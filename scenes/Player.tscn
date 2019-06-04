@@ -134,10 +134,26 @@ __meta__ = {
 "_edit_group_": true
 }
 
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="Voice" type="AudioStreamPlayer2D" parent="Sounds"]
+bus = "Voices"
+area_mask = 0
+
+[node name="Feet" type="AudioStreamPlayer2D" parent="Sounds"]
+bus = "Ambience"
+area_mask = 0
+
+[node name="Effect" type="AudioStreamPlayer2D" parent="Sounds"]
+bus = "Sounds"
+area_mask = 0
+
 [node name="StateMachine" type="Node2D" parent="."]
+editor/display_folded = true
 script = ExtResource( 2 )
 
 [node name="Sprites" type="Node2D" parent="StateMachine"]
+editor/display_folded = true
 
 [node name="Left Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
 position = Vector2( 7.87, -26.57 )
