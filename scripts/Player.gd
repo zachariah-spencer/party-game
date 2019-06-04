@@ -4,6 +4,7 @@ const UP = Vector2.UP
 const SLOPE_STOP = 64
 const DROP_THRU_BIT = 4
 const WALL_JUMP_VELOCITY = Vector2(900, -1200)
+const PUNCH_DISTANCE = 800
 
 var velocity = Vector2()
 var target_velocity = Vector2()
@@ -22,6 +23,11 @@ var min_jump_velocity
 var max_jump_height = 7.25 * Globals.CELL_SIZE
 var min_jump_height = 0.8 * Globals.CELL_SIZE
 var jump_duration = 0.4
+
+var face_textures = [['normal',preload("res://assets/player/face_v.png")],
+                     ['punch',preload("res://assets/player/face_punch.png")],
+                     ['ecstasy',preload("res://assets/player/face_ecstasy.png")],
+                     ['dead',preload("res://assets/player/face_dead.png")]]
                                     
 
 onready var body = $StateMachine/Sprites
@@ -35,6 +41,7 @@ func _ready():
     gravity = 2 * max_jump_height / pow(jump_duration, 2)
     max_jump_velocity = -sqrt(2 * gravity * max_jump_height)
     min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
+    _set_face()
 
 func _apply_gravity(delta):
     velocity.y += gravity * delta
@@ -83,7 +90,7 @@ func punch():
             hand = get_node("StateMachine/Sprites/Right Hand")
             
         # launch hand
-        vel = Vector2(hand.get_gravity_scale()*400*dir,0)
+        vel = Vector2(hand.get_gravity_scale()*PUNCH_DISTANCE*dir,0)
         hand.apply_central_impulse(vel)
         # launch body
         body_part.apply_torque_impulse(3000*dir)
@@ -173,3 +180,13 @@ func _check_is_valid_wall(wall_raycasts):
 
 func _on_FallingThroughPlatformArea_body_exited(body):
     set_collision_mask_bit(DROP_THRU_BIT, true)
+    
+func _set_face():
+    # this function will get called every time we need a new face
+    # used for punching, but can also be used for more personality during the game
+    # just leave this to me - TheMikirog
+    var face = $StateMachine/Sprites/Head/Face
+    
+    # for now it's just the punching, but I plan to implement more
+    face.set_texture(face_textures[0][1])
+    pass
