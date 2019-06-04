@@ -4,7 +4,7 @@ const UP = Vector2.UP
 const SLOPE_STOP = 64
 const DROP_THRU_BIT = 4
 const WALL_JUMP_VELOCITY = Vector2(900, -1200)
-const PUNCH_DISTANCE = 800
+const PUNCH_DISTANCE = 600
 
 var velocity = Vector2()
 var target_velocity = Vector2()
