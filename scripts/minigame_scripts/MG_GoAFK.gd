@@ -21,10 +21,10 @@ func _ready():
 	has_buffered = true
 
 func _physics_process(delta):
-	_check_last_alive(active_players)
+	_check_last_alive(Players.active_players)
 	
 	if !is_game_won && has_buffered:
-		_test_if_players_move(active_players)
+		_test_if_players_move(Players.active_players)
 	
 
 

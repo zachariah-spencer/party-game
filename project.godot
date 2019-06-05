@@ -46,6 +46,7 @@ config/icon="res://assets/icon.png"
 
 Globals="*res://scripts/autoloads/Globals.gd"
 Manager="*res://scripts/autoloads/GameStateManager.gd"
+Players="*res://scripts/autoloads/Players.gd"
 
 [display]
 
