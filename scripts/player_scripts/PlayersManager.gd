@@ -22,3 +22,5 @@ func _check_is_dead():
 	else:
 		is_dead = false
 
+func _respawn(respawn_delay : float = 3):
+	respawn_timer.start(respawn_delay)

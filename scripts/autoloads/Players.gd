@@ -8,13 +8,12 @@ func _ready():
 
 
 func spawn(player : Node, spawn_position : Vector2 = select_spawn_point()):
-	var player_ref : Node = player.get_node('Player') 
-	remove_child(player_ref)
+	remove_child(player.child)
 	
 	player.position = Vector2.ZERO
-	player_ref.position = spawn_position
+	player.child.position = spawn_position
 	
-	add_child(player_ref)
+	add_child(player.child)
 
 
 func select_spawn_point():

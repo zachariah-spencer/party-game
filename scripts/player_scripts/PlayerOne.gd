@@ -9,7 +9,7 @@ func _ready():
 	register_collisions()
 
 func register_player_inputs():
-	child = $Player
+	#child = $Player
 	child.move_left = 'player_one_move_left'
 	child.move_right = 'player_one_move_right'
 	child.move_jump = 'player_one_move_jump'
@@ -31,8 +31,6 @@ func register_collisions():
 
 
 func _on_RespawnTimer_timeout():
-	var instance_of_player = player_scene.instance()
-	add_child(instance_of_player)
+	Players.spawn(self)
 	register_player_inputs()
 	register_collisions()
-	Players.spawn(instance_of_player.get_parent())

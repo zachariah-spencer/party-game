@@ -8,6 +8,7 @@ modulate = Color( 1, 0, 0, 1 )
 script = ExtResource( 1 )
 
 [node name="RespawnTimer" type="Timer" parent="."]
+process_mode = 0
 wait_time = 3.0
 one_shot = true
 
