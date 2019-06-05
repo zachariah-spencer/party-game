@@ -31,10 +31,9 @@ func _physics_process(delta):
 func _test_if_players_move(active_players):
 	for player in active_players:
 		if !player.is_dead:
-			var player_ref = player.get_node('Player')
-			var player_state_ref = player_ref.get_node('StateMachine')
+			var player_state_ref = player.child.get_node('StateMachine')
 			if player_state_ref.state == player_state_ref.states.run || player_state_ref.state == player_state_ref.states.jump:
-				player_ref.hit_points = 0
+				player.child.hit_points = 0
 
 func _check_last_alive(active_players):
 	for player in active_players:
