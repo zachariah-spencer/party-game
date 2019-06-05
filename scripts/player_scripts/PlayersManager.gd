@@ -31,6 +31,6 @@ func _check_is_dead():
 func _transform_player_position(player_instance):
 	var spawn_point : Node = select_spawn_point()
 	var ragdoll_body_parts : Array = get_tree().get_nodes_in_group('ragdolls')
-	
+
 	self.position = Vector2.ZERO
 	player_instance.position = spawn_point.position

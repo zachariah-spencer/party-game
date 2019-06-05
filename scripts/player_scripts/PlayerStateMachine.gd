@@ -22,11 +22,11 @@ func _update_wall_action():
 	return wall_action
 
 func _input(event : InputEvent):
-	
-	if event.is_action_pressed(parent.attack_input) && parent._is_attack_over() && state != states.wall_slide && parent.can_attack:
+
+	if event.is_action_pressed(parent.attack_input) && parent.attack_timer.is_stopped() && state != states.wall_slide && parent.can_attack:
 		set_state(states.attack)
 		parent.attack()
-	
+
 	if [states.idle, states.run].has(state) && state != states.wall_slide:
 		#JUMP
 		if event.is_action_pressed(parent.move_jump):
@@ -35,12 +35,12 @@ func _input(event : InputEvent):
 			else:
 				parent.jump()
 	elif state == states.wall_slide:
-		
+
 		if event.is_action_pressed(parent.move_jump) && Input.is_action_pressed(wall_action):
-			
+
 			set_state(states.jump)
 			parent.wall_jump()
-		
+
 	elif state == states.jump:
 		#VARIABLE JUMP
 		if event.is_action_released(parent.move_jump) && parent.velocity.y < parent.min_jump_velocity:
@@ -100,9 +100,9 @@ func _get_transition(delta : float):
 			elif !Input.is_action_pressed(wall_action):
 				return states.fall
 		states.attack:
-			if parent._is_attack_over():
+			if parent.attack_timer.is_stopped():
 				return states.idle
-	
+
 	#Error in transitions if this is returned
 	return null
 
@@ -116,12 +116,6 @@ func _enter_state(new_state, old_state):
 			$AnimationTree['parameters/playback'].travel('Grounded')
 			$AnimationTree['parameters/Grounded/playback'].travel('Run')
 			$StateLabel.text = 'run'
-		states.attack:
-			if parent.facing_direction > 0:
-				get_node('Sprites/Left Hand').apply_central_impulse(Vector2(5000,-2500))
-			elif parent.facing_direction < 0:
-				get_node('Sprites/Right Hand').apply_central_impulse(Vector2(-5000,-2500))
-			$StateLabel.text = 'attack'
 		states.jump:
 			$AnimationTree['parameters/playback'].travel('Airborne')
 			$StateLabel.text = 'jump'
