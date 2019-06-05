@@ -210,7 +210,6 @@ softness = 2.0
 editor/display_folded = true
 position = Vector2( 10.49, -16.12 )
 collision_layer = 2
-mass = 1.96
 gravity_scale = 10.0
 linear_damp = 5.0
 
@@ -246,6 +245,7 @@ modulate = Color( 1, 1, 1, 0.893617 )
 position = Vector2( 0, -16.06 )
 rotation = 0.00837352
 collision_layer = 0
+mass = 1.5
 gravity_scale = -60.0
 linear_damp = 30.0
 
@@ -281,9 +281,9 @@ texture = ExtResource( 5 )
 offset = Vector2( 0, -95 )
 
 [node name="Head" type="RigidBody2D" parent="StateMachine/Sprites"]
-editor/display_folded = true
-position = Vector2( 0, -51.77 )
-collision_layer = 8
+position = Vector2( 0, -53.9 )
+collision_layer = 0
+mass = 2.25
 gravity_scale = -128.0
 linear_damp = 20.0
 
@@ -300,11 +300,10 @@ texture = ExtResource( 10 )
 shape = SubResource( 7 )
 
 [node name="Head Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
-position = Vector2( 0, -27.11 )
+position = Vector2( 0, -29.75 )
 z_as_relative = false
 node_a = NodePath("../Head")
 node_b = NodePath("../Body/Arms")
-softness = 0.1
 
 [node name="Feet" type="KinematicBody2D" parent="StateMachine/Sprites"]
 editor/display_folded = true
@@ -329,7 +328,6 @@ bias = 0.5
 editor/display_folded = true
 position = Vector2( -10.49, -16.12 )
 collision_layer = 4
-mass = 1.96
 gravity_scale = 7.5
 linear_damp = 4.0
 
