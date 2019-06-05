@@ -29,8 +29,3 @@ func register_collisions():
 	child.set_collision_mask_bit(8, true)
 	child.set_collision_mask_bit(9, true)
 
-
-func _on_RespawnTimer_timeout():
-	Players.spawn(self)
-	register_player_inputs()
-	register_collisions()
