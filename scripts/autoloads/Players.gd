@@ -13,7 +13,7 @@ func spawn(player : Node, spawn_position : Vector2 = select_spawn_point()):
 	player.position = Vector2.ZERO
 	player.child.position = spawn_position
 	
-	add_child(player.child)
+	player.add_child(player.child)
 
 
 func select_spawn_point():

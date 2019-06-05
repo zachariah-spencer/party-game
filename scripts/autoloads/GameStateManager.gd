@@ -50,16 +50,15 @@ func _on_game_times_up():
 	next_minigame = _select_random_minigame()
 	_start_new_minigame(next_minigame)
 
-
 func _select_random_minigame():
 	#DO
 	var selected_num : int = int(rand_range(0, GAMES.size()))
 	#WHILE
 	while GAMES.keys()[selected_num] == current_game_name || GAMES.keys()[selected_num] == 'lobby':
 		selected_num = int(rand_range(0, GAMES.size()))
-
+	
 	var selected_game : PackedScene = GAMES.values()[selected_num]
-
+	
 	return selected_game
 
 func _randomize_spawn_positions():
