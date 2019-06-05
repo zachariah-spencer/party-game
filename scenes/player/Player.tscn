@@ -178,17 +178,21 @@ bus = "Sounds"
 area_mask = 0
 
 [node name="StateMachine" type="Node2D" parent="."]
-editor/display_folded = true
 script = ExtResource( 4 )
 
 [node name="Sprites" type="Node2D" parent="StateMachine"]
-editor/display_folded = true
 
 [node name="Right Foot" type="Sprite" parent="StateMachine/Sprites"]
 position = Vector2( 6.09558, 0.132068 )
 rotation = -0.0311069
 scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 3 )
+
+[node name="Right Foot Sprite" type="Sprite" parent="StateMachine/Sprites/Right Foot"]
+position = Vector2( -8.20271, 0.238809 )
+rotation = 0.475118
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 5 )
+offset = Vector2( 0, -95 )
 
 [node name="Left Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
 position = Vector2( 7.87, -26.57 )
@@ -207,13 +211,6 @@ softness = 2.0
 [node name="Right Foot" type="Node2D" parent="StateMachine/Sprites"]
 editor/display_folded = true
 position = Vector2( 0, 1.5 )
-
-[node name="Right Foot Sprite" type="Sprite" parent="StateMachine/Sprites/Right Foot"]
-position = Vector2( -8.20271, 0.238809 )
-rotation = 0.475118
-scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 5 )
-offset = Vector2( 0, -95 )
 
 [node name="Left Hand" type="RigidBody2D" parent="StateMachine/Sprites"]
 editor/display_folded = true
@@ -254,13 +251,12 @@ editor/display_folded = true
 modulate = Color( 1, 1, 1, 0.893617 )
 position = Vector2( 0, -16.06 )
 rotation = 0.00837352
-scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 5 )
 collision_layer = 0
 gravity_scale = -60.0
 linear_damp = 30.0
 
 [node name="Arms" type="KinematicBody2D" parent="StateMachine/Sprites/Body"]
+editor/display_folded = true
 position = Vector2( 0.0949407, -10.458 )
 rotation = 0.00317419
 scale = Vector2( 0.1, 0.1 )
@@ -271,10 +267,6 @@ collision_mask = 0
 position = Vector2( 0, -6.23 )
 shape = SubResource( 5 )
 
-[node name="Left Foot" type="Sprite" parent="StateMachine/Sprites"]
-position = Vector2( -6.04057, 0.147282 )
-rotation = -0.0406802
-
 [node name="Body" type="Sprite" parent="StateMachine/Sprites/Body"]
 position = Vector2( -0.0241988, -0.922005 )
 rotation = 0.00317418
@@ -284,6 +276,11 @@ texture = ExtResource( 8 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Body"]
 position = Vector2( 0, 0.398 )
 shape = SubResource( 6 )
+
+[node name="Left Foot" type="Sprite" parent="StateMachine/Sprites"]
+editor/display_folded = true
+position = Vector2( -6.04057, 0.147282 )
+rotation = -0.0406802
 
 [node name="Left Foot Sprite" type="Sprite" parent="StateMachine/Sprites/Left Foot"]
 position = Vector2( 9.38323, -1.82008 )
@@ -499,6 +496,7 @@ one_shot = true
 
 [node name="AttackCooldown" type="Timer" parent="."]
 wait_time = 0.4
+
 [connection signal="body_exited" from="FallingThroughPlatformArea" to="." method="_on_FallingThroughPlatformArea_body_exited"]
 [connection signal="body_entered" from="AttackArea" to="." method="_on_AttackArea_body_entered"]
 [connection signal="timeout" from="WallSlideStickyTimer" to="StateMachine" method="_on_WallSlideStickyTimer_timeout"]
