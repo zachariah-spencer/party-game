@@ -1,4 +1,4 @@
-extends PlayersManager 
+extends PlayersManager
 
 signal player_one_got_a_kill
 

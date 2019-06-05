@@ -31,7 +31,7 @@ func _check_ready_ups():
 		player_three_ready = true
 	if Input.is_action_just_pressed('player_four_start'):
 		player_four_ready = true
-	
+
 	if player_one_ready:
 		if !is_starting:
 			Manager._on_game_times_up()

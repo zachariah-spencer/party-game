@@ -115,8 +115,7 @@ func attack():
 		$StateMachine/AnimationPlayer.play('attack_'+punch_arm)
 
 		attack_area.monitoring = false
-		attack_cooldown_timer.start()
-		$AttackCooldown.start()
+		attack_timer.start()
 
 func _update_move_direction():
 	move_direction = -int(Input.is_action_pressed(move_left)) + int(Input.is_action_pressed(move_right))
