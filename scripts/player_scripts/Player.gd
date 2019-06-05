@@ -244,15 +244,15 @@ func die():
 	#remove controllable player instance
 	#begin respawntimer
 	get_parent()._respawn()
-	get_parent().remove_child(self)
+#	get_parent().remove_child(self)
 	#instance ragdoll player
 		#CODE GOES HERE
-	
-	
+
+
 
 func die_no_respawn():
 	#remove controllable player instance
-	parent.remove_child(self)
+	queue_free()
 	#instance ragdoll player
 		#CODE GOES HERE
 	#begin respawntimer

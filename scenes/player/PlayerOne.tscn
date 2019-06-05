@@ -13,5 +13,4 @@ wait_time = 3.0
 one_shot = true
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_RespawnTimer_timeout"]

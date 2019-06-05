@@ -15,16 +15,14 @@ func _insert_players():
 	var x : int = 0
 
 	while x < Players.active_players.size():
-		if !Players.active_players[x].is_dead:
-
-			Players.spawn(Players.active_players[x], spawn_points.get_children()[Manager.player_spawns[x]].position)
-			x += 1
+		Players.spawn(Players.active_players[x], spawn_points.get_children()[Manager.player_spawns[x]].position)
+		x += 1
 
 func _check_last_alive(active_players):
 	for player in active_players:
-		if !player.is_dead && !alive_players.has(player):
+		if !player.is_dead() && !alive_players.has(player):
 			alive_players.append(player)
-		elif player.is_dead && alive_players.has(player):
+		elif player.is_dead() && alive_players.has(player):
 			alive_players.remove(alive_players.find(player))
 
 	if alive_players.size() == 1:

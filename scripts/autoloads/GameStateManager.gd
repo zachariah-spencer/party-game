@@ -56,9 +56,9 @@ func _select_random_minigame():
 	#WHILE
 	while GAMES.keys()[selected_num] == current_game_name || GAMES.keys()[selected_num] == 'lobby':
 		selected_num = int(rand_range(0, GAMES.size()))
-	
+
 	var selected_game : PackedScene = GAMES.values()[selected_num]
-	
+
 	return selected_game
 
 func _randomize_spawn_positions():

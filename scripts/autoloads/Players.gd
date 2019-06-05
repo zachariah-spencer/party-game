@@ -8,7 +8,7 @@ func _ready():
 
 
 func spawn(player : PlayersManager, spawn_position : Vector2 = select_spawn_point()):
-	if player.child != null :
+	if is_instance_valid(player.child) :
 		player.child.queue_free()
 		yield(player.child, "tree_exited")
 
@@ -18,6 +18,7 @@ func spawn(player : PlayersManager, spawn_position : Vector2 = select_spawn_poin
 	add.hit_points = 100
 	player.child = add
 	player.add_child(add)
+
 	player.register_player_inputs()
 	player.register_collisions()
 
