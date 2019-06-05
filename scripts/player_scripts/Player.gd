@@ -199,7 +199,11 @@ func die():
 	get_parent().respawn_timer.start()
 
 func die_no_respawn():
+	#remove controllable player instance
 	queue_free()
+	#instance ragdoll player
+		#CODE GOES HERE
+	#begin respawntimer
 
 func _update_player_stats():
 	hit_points_label.text = String(hit_points)

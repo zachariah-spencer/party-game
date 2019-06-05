@@ -55,7 +55,7 @@ func _select_random_minigame():
 	#DO
 	var selected_num : int = int(rand_range(0, GAMES.size()))
 	#WHILE
-	while GAMES.keys()[selected_num] == current_game_name:
+	while GAMES.keys()[selected_num] == current_game_name || GAMES.keys()[selected_num] == 'lobby':
 		selected_num = int(rand_range(0, GAMES.size()))
 
 	var selected_game : PackedScene = GAMES.values()[selected_num]

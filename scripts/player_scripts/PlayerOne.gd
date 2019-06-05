@@ -1,5 +1,7 @@
 extends PlayersManager 
 
+signal player_one_got_a_kill
+
 func _ready():
 	add_to_group('players')
 	Globals.player_one = self
