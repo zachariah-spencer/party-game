@@ -178,12 +178,12 @@ bus = "Sounds"
 area_mask = 0
 
 [node name="StateMachine" type="Node2D" parent="."]
-editor/display_folded = true
 script = ExtResource( 4 )
 
 [node name="Sprites" type="Node2D" parent="StateMachine"]
 
 [node name="Right Foot" type="Node2D" parent="StateMachine/Sprites"]
+editor/display_folded = true
 position = Vector2( 0, 1 )
 rotation = -0.0311069
 
@@ -211,6 +211,7 @@ softness = 2.0
 editor/display_folded = true
 position = Vector2( 10.49, -16.12 )
 collision_layer = 2
+mass = 1.96
 gravity_scale = 10.0
 linear_damp = 5.0
 
@@ -272,6 +273,7 @@ position = Vector2( 0, 0.398 )
 shape = SubResource( 6 )
 
 [node name="Left Foot" type="Node2D" parent="StateMachine/Sprites"]
+editor/display_folded = true
 position = Vector2( 0, 1 )
 rotation = -0.0406802
 
@@ -282,6 +284,7 @@ texture = ExtResource( 5 )
 offset = Vector2( 0, -95 )
 
 [node name="Head" type="RigidBody2D" parent="StateMachine/Sprites"]
+editor/display_folded = true
 position = Vector2( 0, -53.9 )
 collision_layer = 0
 mass = 2.25
@@ -329,8 +332,9 @@ bias = 0.5
 editor/display_folded = true
 position = Vector2( -10.49, -16.12 )
 collision_layer = 4
+mass = 1.96
 gravity_scale = 7.5
-linear_damp = 4.0
+linear_damp = 5.0
 
 [node name="Trail" type="CPUParticles2D" parent="StateMachine/Sprites/Right Hand"]
 emitting = false
@@ -487,6 +491,7 @@ process_mode = 0
 process_mode = 0
 wait_time = 0.4
 one_shot = true
+
 [connection signal="body_exited" from="FallingThroughPlatformArea" to="." method="_on_FallingThroughPlatformArea_body_exited"]
 [connection signal="body_entered" from="AttackArea" to="." method="_on_AttackArea_body_entered"]
 [connection signal="timeout" from="WallSlideStickyTimer" to="StateMachine" method="_on_WallSlideStickyTimer_timeout"]
