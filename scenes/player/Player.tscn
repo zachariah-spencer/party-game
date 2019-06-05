@@ -139,8 +139,9 @@ graph_offset = Vector2( 210.555, 80 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=31]
 
-[sub_resource type="RectangleShape2D" id=32]
-extents = Vector2( 11.881, 40.838 )
+[sub_resource type="CapsuleShape2D" id=32]
+radius = 12.0
+height = 61.0
 
 [sub_resource type="RectangleShape2D" id=33]
 extents = Vector2( 25, 43 )
@@ -178,9 +179,11 @@ bus = "Sounds"
 area_mask = 0
 
 [node name="StateMachine" type="Node2D" parent="."]
+editor/display_folded = true
 script = ExtResource( 4 )
 
 [node name="Sprites" type="Node2D" parent="StateMachine"]
+editor/display_folded = true
 
 [node name="Right Foot" type="Node2D" parent="StateMachine/Sprites"]
 editor/display_folded = true
@@ -401,7 +404,7 @@ anims/run = ExtResource( 17 )
 anims/wall_slide = ExtResource( 18 )
 
 [node name="PlayerShape" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -33.58 )
+position = Vector2( 0, -36 )
 shape = SubResource( 32 )
 
 [node name="GroundRaycasts" type="Node2D" parent="."]
