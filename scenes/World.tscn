@@ -18,4 +18,3 @@ position = Vector2( 288, 256 )
 "players",
 ] instance=ExtResource( 3 )]
 position = Vector2( 224, 256 )
-

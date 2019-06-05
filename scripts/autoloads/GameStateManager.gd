@@ -1,11 +1,11 @@
 extends Node
 
 const GAMES : Dictionary = {
-	
+
 	'lobby' : preload('res://scenes/minigames/MG_Lobby.tscn'),
 	'fighter' : preload('res://scenes/minigames/MG_Fighter.tscn'),
 	'goafk' : preload('res://scenes/minigames/MG_GoAFK.tscn')
-	
+
 }
 var world_node
 
@@ -29,7 +29,7 @@ var player_spawns : Array = [0,1,2,3]
 
 func _ready():
 	world_node = get_parent().get_node('World')
-	
+
 	randomize()
 	_start_new_minigame(GAMES['lobby'])
 
