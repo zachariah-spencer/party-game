@@ -4,7 +4,6 @@ func _ready():
 	add_to_group('players')
 	Globals.player_three = self
 	display_name = 'Player Three'
-	is_dead = false
 	register_player_inputs()
 	register_collisions()
 

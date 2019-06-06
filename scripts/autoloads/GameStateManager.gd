@@ -3,7 +3,7 @@ extends Node
 const GAMES : Dictionary = {
 
 	'lobby' : preload('res://scenes/minigames/MG_Lobby.tscn'),
-	'fighter' : preload('res://scenes/minigames/MG_Fighter.tscn'),
+	'sumo' : preload('res://scenes/minigames/MG_Sumo.tscn'),
 	'goafk' : preload('res://scenes/minigames/MG_GoAFK.tscn')
 
 }
@@ -31,7 +31,7 @@ func _ready():
 	world_node = get_parent().get_node('World')
 
 	randomize()
-	_start_new_minigame(GAMES['lobby'])
+	_start_new_minigame(GAMES['goafk'])
 
 #warning-ignore:unused_argument
 func _start_new_minigame(new_minigame : PackedScene):

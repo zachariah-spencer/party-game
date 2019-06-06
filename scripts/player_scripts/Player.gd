@@ -265,7 +265,7 @@ func die_no_respawn():
 func _update_player_stats():
 	hit_points_label.text = String(hit_points)
 	if hit_points == 0:
-		if !parent.is_dead:
+		if !parent.is_dead():
 			if Manager.current_game_allow_respawns == true:
 				die()
 			elif Manager.current_game_allow_respawns == false:

@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://scripts/minigame_scripts/MG_Fighter.gd" type="Script" id=1]
+[ext_resource path="res://scripts/minigame_scripts/MG_Sumo.gd" type="Script" id=1]
 [ext_resource path="res://scenes/Terrain.tscn" type="PackedScene" id=2]
-[ext_resource path="res://scenes/huds/Fighter_HUD.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/huds/Sumo_HUD.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scripts/DeathBoundary.gd" type="Script" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -11,7 +11,7 @@ extents = Vector2( 448, 192 )
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 1200, 10 )
 
-[node name="MG_Fighter" type="Node2D" groups=[
+[node name="MG_Sumo" type="Node2D" groups=[
 "minigames",
 ]]
 script = ExtResource( 1 )
@@ -21,12 +21,6 @@ offset = Vector2( 448, 192 )
 
 [node name="Terrain" type="Node2D" parent="."]
 editor/display_folded = true
-
-[node name="Terrain" parent="Terrain" instance=ExtResource( 2 )]
-position = Vector2( 96, 352 )
-
-[node name="Terrain2" parent="Terrain" instance=ExtResource( 2 )]
-position = Vector2( 160, 352 )
 
 [node name="Terrain3" parent="Terrain" instance=ExtResource( 2 )]
 position = Vector2( 224, 352 )
@@ -52,30 +46,26 @@ position = Vector2( 608, 352 )
 [node name="Terrain10" parent="Terrain" instance=ExtResource( 2 )]
 position = Vector2( 672, 352 )
 
-[node name="Terrain11" parent="Terrain" instance=ExtResource( 2 )]
-position = Vector2( 736, 352 )
-
-[node name="Terrain12" parent="Terrain" instance=ExtResource( 2 )]
-position = Vector2( 800, 352 )
-
 [node name="SpawnPoints" type="Node2D" parent="." groups=[
 "spawnpoints",
 ]]
 editor/display_folded = true
 
 [node name="PlayerOneSpawnF" type="Position2D" parent="SpawnPoints"]
-position = Vector2( 192, 120 )
+position = Vector2( 256, 120 )
 
 [node name="PlayerTwoSpawnF" type="Position2D" parent="SpawnPoints"]
-position = Vector2( 352, 120 )
+position = Vector2( 384, 120 )
 
 [node name="PlayerThreeSpawnF" type="Position2D" parent="SpawnPoints"]
-position = Vector2( 544, 120 )
+position = Vector2( 512, 120 )
 
 [node name="PlayerFourSpawnF" type="Position2D" parent="SpawnPoints"]
-position = Vector2( 704, 120 )
+position = Vector2( 640, 120 )
 
 [node name="Area" type="Area2D" parent="."]
+editor/display_folded = true
+visible = false
 __meta__ = {
 "_edit_group_": true
 }
@@ -88,6 +78,7 @@ shape = SubResource( 1 )
 margin_bottom = 384.0
 
 [node name="DeathBoundary" type="Area2D" parent="."]
+editor/display_folded = true
 position = Vector2( 448, 600 )
 script = ExtResource( 4 )
 __meta__ = {

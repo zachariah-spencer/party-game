@@ -4,12 +4,10 @@ func _ready():
 	add_to_group('players')
 	Globals.player_one = self
 	display_name = 'Player One'
-	is_dead = false
 	register_player_inputs()
 	register_collisions()
 
 func register_player_inputs():
-	#child = $Player
 	child.move_left = 'player_one_move_left'
 	child.move_right = 'player_one_move_right'
 	child.move_jump = 'player_one_move_jump'
