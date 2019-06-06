@@ -40,7 +40,7 @@ var attack_input : String
 
 onready var parent : Node = get_parent()
 onready var hit_points_label : Node = $StateMachine/HitPoints
-onready var attack_area : Node = $AttackArea
+onready var attack_area : Area2D
 onready var wall_slide_cooldown : Node = $WallSlideCooldown
 onready var raycasts : Node = $GroundRaycasts
 onready var left_wall_raycasts : Node = $WallRaycasts/LeftWallRaycasts
@@ -48,11 +48,13 @@ onready var right_wall_raycasts : Node = $WallRaycasts/RightWallRaycasts
 onready var wall_slide_sticky_timer : Node = $WallSlideStickyTimer
 onready var attack_timer : Node = $AttackTimer
 onready var attack_cooldown_timer : Node = $AttackCooldown
-onready var right_fist: Node = get_node('StateMachine/Sprites/Right Hand')
-onready var left_fist: Node = get_node('StateMachine/Sprites/Left Hand')
+onready var right_hand := $'StateMachine/Sprites/Right Hand'
+onready var left_hand := $'StateMachine/Sprites/Left Hand'
 
 
 func _ready():
+	right_hand.get_node('Hitbox').connect("body_entered", self, "_on_AttackArea_body_entered")
+	left_hand.get_node('Hitbox').connect("body_entered", self, "_on_AttackArea_body_entered")
 	hit_points_label.text = String(hit_points)
 	gravity = 2 * max_jump_height / pow(jump_duration, 2)
 	max_jump_velocity = -sqrt(2 * gravity * max_jump_height)
@@ -102,10 +104,12 @@ func attack():
         # change hands for each punch
 		if punch_arm == 'right':
 			punch_arm = 'left'
-			hand = get_node("StateMachine/Sprites/Left Hand")
+			hand = left_hand
 		else:
 			punch_arm = 'right'
-			hand = get_node("StateMachine/Sprites/Right Hand")
+			hand = right_hand
+
+		attack_area = hand.get_node('Hitbox')
 
         # launch hand
 		vel = Vector2(hand.get_gravity_scale()*PUNCH_DISTANCE*dir,0)
