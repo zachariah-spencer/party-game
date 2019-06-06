@@ -9,7 +9,6 @@ func _ready():
 	register_collisions()
 
 func register_player_inputs():
-#	child = $Player
 	child.move_left = 'player_two_move_left'
 	child.move_right = 'player_two_move_right'
 	child.move_jump = 'player_two_move_jump'
