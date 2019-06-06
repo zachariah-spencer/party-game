@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/minigame_scripts/MG_Lobby.gd" type="Script" id=1]
 [ext_resource path="res://scenes/Terrain.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/huds/Lobby_HUD.tscn" type="PackedScene" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 768, 448 )
@@ -274,8 +275,11 @@ position = Vector2( 960, 672 )
 position = Vector2( 1344, 672 )
 
 [node name="Area" type="Area2D" parent="."]
+editor/display_folded = true
 
 [node name="Size" type="CollisionShape2D" parent="Area"]
 position = Vector2( 768, 448 )
 shape = SubResource( 1 )
+
+[node name="HUD" parent="." instance=ExtResource( 3 )]
 

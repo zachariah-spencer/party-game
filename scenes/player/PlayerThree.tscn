@@ -6,9 +6,8 @@
 [node name="PlayerThree" type="Node2D" groups=[
 "players",
 ]]
-editor/display_folded = true
 modulate = Color( 1, 0.937255, 0, 1 )
 script = ExtResource( 1 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-
+position = Vector2( 0, 0 )

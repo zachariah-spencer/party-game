@@ -9,6 +9,7 @@ func _ready():
 	add_state('jump')
 	add_state('fall')
 	add_state('wall_slide')
+	add_state('attack')
 	$AnimationTree.active = true
 	call_deferred('set_state', states.idle)
 
@@ -21,7 +22,11 @@ func _update_wall_action():
 	return wall_action
 
 func _input(event : InputEvent):
-	
+
+	if event.is_action_pressed(parent.attack_input) && parent.attack_timer.is_stopped() && state != states.wall_slide && parent.can_attack:
+		set_state(states.attack)
+		parent.attack()
+
 	if [states.idle, states.run].has(state) && state != states.wall_slide:
 		#JUMP
 		if event.is_action_pressed(parent.move_jump):
@@ -30,9 +35,9 @@ func _input(event : InputEvent):
 			else:
 				parent.jump()
 	elif state == states.wall_slide:
-		
+
 		if event.is_action_pressed(parent.move_jump) && Input.is_action_pressed(wall_action):
-			
+
 			set_state(states.jump)
 			parent.wall_jump()
 
@@ -42,6 +47,7 @@ func _input(event : InputEvent):
 			parent.velocity.y = parent.min_jump_velocity
 
 func _state_logic(delta : float):
+	parent._update_player_stats()
 	parent._update_move_direction()
 	parent._update_wall_direction()
 	_update_wall_action()
@@ -93,7 +99,10 @@ func _get_transition(delta : float):
 				return states.fall
 			elif !Input.is_action_pressed(wall_action):
 				return states.fall
-	
+		states.attack:
+			if parent.attack_timer.is_stopped():
+				return states.idle
+
 	#Error in transitions if this is returned
 	return null
 
@@ -102,15 +111,19 @@ func _enter_state(new_state, old_state):
 		states.idle:
 			$AnimationTree['parameters/playback'].travel('Grounded')
 			$AnimationTree['parameters/Grounded/playback'].travel('Idle')
+			$StateLabel.text = 'idle'
 		states.run:
 			$AnimationTree['parameters/playback'].travel('Grounded')
 			$AnimationTree['parameters/Grounded/playback'].travel('Run')
+			$StateLabel.text = 'run'
 		states.jump:
 			$AnimationTree['parameters/playback'].travel('Airborne')
+			$StateLabel.text = 'jump'
 		states.fall:
 			$AnimationTree['parameters/playback'].travel('Airborne')
+			$StateLabel.text = 'fall'
 		states.wall_slide:
-			pass #flip here
+			$StateLabel.text = 'wall_slide'#flip here
 			#parent.anim_player.play('wall_slide')
 #			parent.body.scale.x = -parent.wall_direction
 	pass
