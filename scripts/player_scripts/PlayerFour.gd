@@ -22,6 +22,7 @@ func register_collisions():
 	child.set_collision_layer_bit(9, true)
 	#make players fist ignore himself
 	child.get_node('AttackArea').set_collision_mask_bit(9, false)
+	child.get_node('TopOfHeadArea').set_collision_mask_bit(9, false)
 
 	#set all other players to be collideable with this player
 	child.set_collision_mask_bit(6, true)
