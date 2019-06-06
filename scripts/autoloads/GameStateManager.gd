@@ -31,7 +31,7 @@ func _ready():
 	world_node = get_parent().get_node('World')
 
 	randomize()
-	_start_new_minigame(GAMES['goafk'])
+	_start_new_minigame(GAMES['lobby'])
 
 #warning-ignore:unused_argument
 func _start_new_minigame(new_minigame : PackedScene):
