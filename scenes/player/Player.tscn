@@ -146,8 +146,8 @@ height = 61.0
 [sub_resource type="RectangleShape2D" id=33]
 extents = Vector2( 25, 43 )
 
-[sub_resource type="RectangleShape2D" id=34]
-extents = Vector2( 18, 5 )
+[sub_resource type="CapsuleShape2D" id=34]
+height = 60.0
 
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 0, -8.11656 )
