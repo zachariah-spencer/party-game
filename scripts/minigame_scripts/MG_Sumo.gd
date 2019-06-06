@@ -1,6 +1,6 @@
 extends Minigame
 
-const GAME_NAME : String = 'fighter'
+const GAME_NAME : String = 'sumo'
 const GAME_TIME : int = 15
 
 func _ready():
@@ -9,7 +9,7 @@ func _ready():
 	Manager.current_game_reference = self
 	Manager.current_game_time = GAME_TIME
 	Manager.current_game_attack_mode = 'lethal'
-	Manager.current_game_allow_respawns = true
+	Manager.current_game_allow_respawns = false
 	$Cam.current = true
 	call_deferred('_insert_players')
 

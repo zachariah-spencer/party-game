@@ -2,7 +2,7 @@ extends Minigame
 
 const GAME_NAME : String = 'goafk'
 const GAME_TIME : int = 5
-var has_buffered : bool = false
+
 
 
 
@@ -15,42 +15,29 @@ func _ready():
 	Manager.current_game_allow_respawns = false
 	$Cam.current = true
 	call_deferred('_insert_players')
-
-	yield(get_tree().create_timer(.4),"timeout")
-
-	has_buffered = true
+	
+	yield(get_tree().create_timer(2),"timeout")
+	
+	game_active = true
 
 func _physics_process(delta):
-	_check_last_alive(Players.active_players)
+	alive_players = _check_alive_players(Players.active_players)
+	if game_active:
+		_test_if_players_move(alive_players)
+		_check_game_win_conditions(alive_players)
 
-	if !is_game_won && has_buffered:
-		_test_if_players_move(Players.active_players)
 
 
-
-func _test_if_players_move(active_players):
-	for player in active_players:
-		if !player.is_dead():
+func _test_if_players_move(alive_players):
+	for player in alive_players:
+		if !player.is_dead:
 			var player_state_ref = player.child.get_node('StateMachine')
 			if player_state_ref.state == player_state_ref.states.run || player_state_ref.state == player_state_ref.states.jump:
 				player.child.hit_points = 0
 
-func _check_last_alive(active_players):
-	for player in active_players:
-		if !player.is_dead() && !alive_players.has(player):
-			alive_players.append(player)
-		elif player.is_dead() && alive_players.has(player):
-			alive_players.remove(alive_players.find(player))
-	if has_buffered:
-		if alive_players.size() == 1:
-			is_game_won = true
-			_game_won()
-		elif alive_players.size() == 0:
-			is_game_won = true
-			_game_won(true)
-
 
 func _game_won(no_winner = false):
+	game_active = false
 	if !no_winner:
 		Manager.current_game_time = 0
 		$HUD/Instructions.text = alive_players[0].display_name + ' Won!'

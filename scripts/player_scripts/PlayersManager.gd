@@ -27,9 +27,6 @@ func register_collisions():
 func _check_is_dead():
 	is_dead = !is_instance_valid(child)
 
-func is_dead():
-	return !is_instance_valid(child)
-
 func _respawn(respawn_delay : float = 3):
 	child.queue_free()
 	respawn_timer.start(respawn_delay)
