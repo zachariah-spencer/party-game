@@ -1,7 +1,5 @@
 extends PlayersManager
 
-signal player_one_got_a_kill
-
 func _ready():
 	add_to_group('players')
 	Globals.player_one = self
@@ -11,7 +9,7 @@ func _ready():
 	register_collisions()
 
 func register_player_inputs():
-	child = $Player
+	#child = $Player
 	child.move_left = 'player_one_move_left'
 	child.move_right = 'player_one_move_right'
 	child.move_jump = 'player_one_move_jump'
@@ -31,18 +29,3 @@ func register_collisions():
 	child.set_collision_mask_bit(8, true)
 	child.set_collision_mask_bit(9, true)
 
-
-func _on_RespawnTimer_timeout():
-	var instance_of_player = player_scene.instance()
-	add_child(instance_of_player)
-	register_player_inputs()
-	register_collisions()
-	_transform_player_position(instance_of_player)
-
-
-func _transform_player_position(player_instance):
-	var spawn_point : Node = select_spawn_point()
-	var ragdoll_body_parts : Array = player_instance.get_node('StateMachine/Sprites').get_children().get_nodes_in_group('ragdolls')
-
-	self.position = Vector2.ZERO
-	player_instance.position = spawn_point.position

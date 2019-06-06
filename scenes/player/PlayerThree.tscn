@@ -11,8 +11,3 @@ script = ExtResource( 1 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 0, 0 )
-
-[node name="RespawnTimer" type="Timer" parent="."]
-wait_time = 3.0
-one_shot = true
-

@@ -2,10 +2,18 @@ extends Node
 class_name PlayersManager
 
 onready var child : Node = $Player
-onready var respawn_timer : Node = $RespawnTimer
-onready var player_scene : PackedScene = preload('res://scenes/player/Player.tscn')
-var is_dead : bool
+onready var respawn_timer : Node = Timer.new()
+
+var is_dead : bool = false
 var display_name : String
+
+func _ready():
+	respawn_timer.wait_time = 3
+	respawn_timer.process_mode = Timer.TIMER_PROCESS_PHYSICS
+	respawn_timer.one_shot = true
+	add_child(respawn_timer)
+	respawn_timer.connect('timeout', self, '_on_respawn_timeout')
+
 
 func _physics_process(delta):
 	_check_is_dead()
@@ -16,21 +24,17 @@ func register_player_inputs():
 func register_collisions():
 	pass
 
-func select_spawn_point():
-	var spawn_points = get_tree().get_nodes_in_group('spawnpoints')[0]
-	Manager._randomize_spawn_positions()
-	Manager._randomize_spawn_positions()
-	return spawn_points.get_children()[Manager.player_spawns[0]]
-
 func _check_is_dead():
-	if $Player == null:
-		is_dead = true
-	else:
-		is_dead = false
+	is_dead = !is_instance_valid(child)
 
-func _transform_player_position(player_instance):
-	var spawn_point : Node = select_spawn_point()
-	var ragdoll_body_parts : Array = get_tree().get_nodes_in_group('ragdolls')
+func is_dead():
+	return !is_instance_valid(child)
 
-	self.position = Vector2.ZERO
-	player_instance.position = spawn_point.position
+func _respawn(respawn_delay : float = 3):
+	child.queue_free()
+	respawn_timer.start(respawn_delay)
+
+func _on_respawn_timeout():
+	Players.spawn(self)
+	register_player_inputs()
+	register_collisions()

@@ -38,6 +38,7 @@ var move_down : String
 var move_jump : String
 var attack_input : String
 
+onready var parent : Node = get_parent()
 onready var hit_points_label : Node = $StateMachine/HitPoints
 onready var attack_area : Node = $AttackArea
 onready var wall_slide_cooldown : Node = $WallSlideCooldown
@@ -241,11 +242,13 @@ func hurt_player(affected_player):
 
 func die():
 	#remove controllable player instance
-	queue_free()
+	#begin respawntimer
+	get_parent()._respawn()
+#	get_parent().remove_child(self)
 	#instance ragdoll player
 		#CODE GOES HERE
-	#begin respawntimer
-	get_parent().respawn_timer.start()
+
+
 
 func die_no_respawn():
 	#remove controllable player instance
@@ -257,7 +260,8 @@ func die_no_respawn():
 func _update_player_stats():
 	hit_points_label.text = String(hit_points)
 	if hit_points == 0:
-		if Manager.current_game_allow_respawns == true:
-			die()
-		elif Manager.current_game_allow_respawns == false:
-			die_no_respawn()
+		if !parent.is_dead:
+			if Manager.current_game_allow_respawns == true:
+				die()
+			elif Manager.current_game_allow_respawns == false:
+				die_no_respawn()

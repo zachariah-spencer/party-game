@@ -50,7 +50,6 @@ func _on_game_times_up():
 	next_minigame = _select_random_minigame()
 	_start_new_minigame(next_minigame)
 
-
 func _select_random_minigame():
 	#DO
 	var selected_num : int = int(rand_range(0, GAMES.size()))

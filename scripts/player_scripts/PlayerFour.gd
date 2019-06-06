@@ -28,13 +28,3 @@ func register_collisions():
 	child.set_collision_mask_bit(6, true)
 	child.set_collision_mask_bit(7, true)
 	child.set_collision_mask_bit(8, true)
-
-func _on_RespawnTimer_timeout():
-	var instance_of_player = player_scene.instance()
-	add_child(instance_of_player)
-	register_player_inputs()
-	register_collisions()
-
-	var spawn_point : Node = select_spawn_point()
-	self.position = Vector2.ZERO
-	instance_of_player.position = spawn_point.position

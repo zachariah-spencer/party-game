@@ -482,6 +482,7 @@ one_shot = true
 visible = false
 position = Vector2( 0, -32.9 )
 shape = SubResource( 34 )
+
 [connection signal="body_exited" from="FallingThroughPlatformArea" to="." method="_on_FallingThroughPlatformArea_body_exited"]
 [connection signal="timeout" from="PunchCooldown" to="." method="_punch_cooldown_reset"]
 [connection signal="timeout" from="WallSlideStickyTimer" to="StateMachine" method="_on_WallSlideStickyTimer_timeout"]
