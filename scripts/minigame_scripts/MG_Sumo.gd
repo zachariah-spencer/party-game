@@ -12,7 +12,25 @@ func _ready():
 	Manager.current_game_allow_respawns = false
 	$Cam.current = true
 	call_deferred('_insert_players')
+	
+	yield(get_tree().create_timer(.5),"timeout")
+	
+	game_active = true
+
+func _physics_process(delta):
+	_run_minigame_loop()
+
+func _run_minigame_loop():
+	alive_players = _check_alive_players(Players.active_players)
+	if game_active:
+		_check_game_win_conditions(alive_players)
 
 func on_out_of_bounds(body):
 	if body.get_parent().is_in_group('players'):
 		body.hit_points = 0
+
+func _game_won(no_winner = false):
+	game_active = false
+	if !no_winner:
+		Manager.current_game_time = 0
+		$HUD/Instructions.text = alive_players[0].display_name + ' Won!'

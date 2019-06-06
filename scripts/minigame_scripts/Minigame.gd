@@ -8,6 +8,9 @@ var alive_players : Array
 var is_game_won : bool = false
 var game_active = false
 
+func _run_minigame_loop():
+	pass
+
 func _insert_players():
 	Manager._randomize_spawn_positions()
 	Manager._randomize_spawn_positions()
@@ -23,11 +26,9 @@ func _check_alive_players(active_players):
 	var players_to_add : Array = []
 	var players_to_remove : Array = []
 	for player in active_players:
-		print(String(player.name) + ': ' + String(player.is_dead) + ' ' + String(alive_players.has(player)))
-		if !player.is_dead && !alive_players.has(player):
+		if !player.is_dead() && !alive_players.has(player):
 			players_to_add.append(player)
-		elif player.is_dead && alive_players.has(player):
-			print('player added to players_to_remove')
+		elif player.is_dead() && alive_players.has(player):
 			players_to_remove.append(player)
 	
 	for player in players_to_add:
@@ -45,4 +46,7 @@ func _check_game_win_conditions(alive_players):
 		_game_won(true)
 
 func _game_won(no_winner = false):
+	pass
+
+func _pregame_timer():
 	pass

@@ -3,8 +3,6 @@ class_name PlayersManager
 
 onready var child : Node = $Player
 onready var respawn_timer : Node = Timer.new()
-
-var is_dead : bool = false
 var display_name : String
 
 func _ready():
@@ -14,18 +12,14 @@ func _ready():
 	add_child(respawn_timer)
 	respawn_timer.connect('timeout', self, '_on_respawn_timeout')
 
-
-func _physics_process(delta):
-	_check_is_dead()
-
 func register_player_inputs():
 	pass
 
 func register_collisions():
 	pass
 
-func _check_is_dead():
-	is_dead = !is_instance_valid(child)
+func is_dead():
+	return !is_instance_valid(child)
 
 func _respawn(respawn_delay : float = 3):
 	child.queue_free()

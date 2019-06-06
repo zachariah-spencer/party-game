@@ -16,21 +16,22 @@ func _ready():
 	$Cam.current = true
 	call_deferred('_insert_players')
 	
-	yield(get_tree().create_timer(2),"timeout")
+	yield(get_tree().create_timer(.5),"timeout")
 	
 	game_active = true
 
 func _physics_process(delta):
+	_run_minigame_loop()
+
+func _run_minigame_loop():
 	alive_players = _check_alive_players(Players.active_players)
 	if game_active:
 		_test_if_players_move(alive_players)
 		_check_game_win_conditions(alive_players)
 
-
-
 func _test_if_players_move(alive_players):
 	for player in alive_players:
-		if !player.is_dead:
+		if !player.is_dead():
 			var player_state_ref = player.child.get_node('StateMachine')
 			if player_state_ref.state == player_state_ref.states.run || player_state_ref.state == player_state_ref.states.jump:
 				player.child.hit_points = 0
