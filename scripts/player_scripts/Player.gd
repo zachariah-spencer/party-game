@@ -196,7 +196,7 @@ func _check_is_valid_wall(wall_raycasts : Node):
 	return false
 
 
-func _on_FallingThroughPlatformArea_body_exited():
+func _on_FallingThroughPlatformArea_body_exited(body):
 	set_collision_mask_bit(DROP_THRU_BIT, true)
 
 func _set_face():

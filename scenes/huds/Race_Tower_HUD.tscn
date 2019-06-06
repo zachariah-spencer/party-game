@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://scripts/hud_scripts/GoAFKHUD.gd" type="Script" id=1]
+[ext_resource path="res://scripts/hud_scripts/RaceTowerHUD.gd" type="Script" id=1]
 
 [sub_resource type="DynamicFontData" id=1]
 font_path = "res://assets/monogram.ttf"
@@ -20,10 +20,11 @@ script = ExtResource( 1 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -200.0
-margin_top = 150.0
+margin_top = -20.0
 margin_right = 200.0
+margin_bottom = 143.0
 custom_fonts/font = SubResource( 2 )
-text = "5"
+text = "30"
 align = 1
 valign = 1
 
@@ -32,15 +33,14 @@ autostart = true
 
 [node name="Instructions" type="Label" parent="."]
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -247.0
-margin_top = -168.0
-margin_right = 247.0
-margin_bottom = -88.0
+margin_left = -304.0
+margin_top = 100.0
+margin_right = 304.0
+margin_bottom = 263.0
 custom_fonts/font = SubResource( 2 )
-text = "DON'T MOVE!!!"
+text = "Race to
+Escape the Lava!"
 align = 1
 valign = 1
 

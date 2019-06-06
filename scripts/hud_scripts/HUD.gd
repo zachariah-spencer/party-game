@@ -14,7 +14,7 @@ func _ready():
 
 
 func _every_second():
-	if !Manager.current_game_reference.is_game_won:
+	if Manager.current_game_reference.game_active:
 		if Manager.current_game_time != 0:
 			Manager.current_game_time -= 1
 			time_display.text = String(Manager.current_game_time)

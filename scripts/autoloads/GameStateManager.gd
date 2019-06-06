@@ -4,7 +4,8 @@ const GAMES : Dictionary = {
 
 	'lobby' : preload('res://scenes/minigames/MG_Lobby.tscn'),
 	'sumo' : preload('res://scenes/minigames/MG_Sumo.tscn'),
-	'goafk' : preload('res://scenes/minigames/MG_GoAFK.tscn')
+	'goafk' : preload('res://scenes/minigames/MG_GoAFK.tscn'),
+	'race_tower' : preload('res://scenes/minigames/MG_Race_Tower.tscn')
 
 }
 var world_node
