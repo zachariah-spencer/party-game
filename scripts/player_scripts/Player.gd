@@ -265,3 +265,11 @@ func _update_player_stats():
 				die()
 			elif Manager.current_game_allow_respawns == false:
 				die_no_respawn()
+
+
+func _on_TopOfHeadArea_body_entered(affected_player):
+	var affected_player_states = affected_player.get_node('StateMachine')
+	var affected_player_feet = affected_player.get_node('StateMachine/Sprites/Feet/CollisionShape2D')
+	if affected_player_states.state != affected_player_states.states.jump:
+		affected_player.velocity.y = -25 * Globals.CELL_SIZE
+		velocity.y = 25 * Globals.CELL_SIZE
