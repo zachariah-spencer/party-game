@@ -140,6 +140,7 @@ func _update_move_direction():
 				1: if scale.x < 0: scale.x *= -1
 				-1: if scale.x > 0: scale.x *= -1
 			i.set_scale(Vector2(scale.x,scale.y))
+		facing_direction = move_direction
 
 
 func _handle_move_input():
@@ -279,4 +280,3 @@ func _on_TopOfHeadArea_body_entered(affected_player):
 		affected_player.velocity.y = -30 * Globals.CELL_SIZE
 		$StateMachine.set_state($StateMachine.states.fall)
 		velocity.y = 25 * Globals.CELL_SIZE
-		

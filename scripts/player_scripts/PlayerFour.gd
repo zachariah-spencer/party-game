@@ -21,7 +21,8 @@ func register_collisions():
 	#this allows the game to differentiate which player is being hit at a given time
 	child.set_collision_layer_bit(9, true)
 	#make players fist ignore himself
-	child.get_node('AttackArea').set_collision_mask_bit(9, false)
+	child.left_hand.get_node("Hitbox").set_collision_mask_bit(9, false)
+	child.right_hand.get_node("Hitbox").set_collision_mask_bit(9, false)
 	child.get_node('TopOfHeadArea').set_collision_mask_bit(9, false)
 
 	#set all other players to be collideable with this player
