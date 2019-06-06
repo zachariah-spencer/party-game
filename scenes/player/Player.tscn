@@ -150,7 +150,7 @@ extents = Vector2( 25, 43 )
 height = 60.0
 
 [sub_resource type="RectangleShape2D" id=35]
-extents = Vector2( 18, 5 )
+extents = Vector2( 10, 5 )
 
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 0, -8.11656 )
