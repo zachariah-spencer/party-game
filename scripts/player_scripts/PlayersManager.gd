@@ -36,5 +36,5 @@ func _respawn(respawn_delay : float = 3):
 
 func _on_respawn_timeout():
 	Players.spawn(self)
-	register_player_inputs()
-	register_collisions()
+#	register_player_inputs()
+#	register_collisions()
