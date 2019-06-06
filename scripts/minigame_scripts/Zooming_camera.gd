@@ -29,7 +29,7 @@ func _process(delta):
 		if center.distance_to(player.child.global_position) < zoom_in_threshold : zoom_in = true
 
 
-	zoom = lerp(zoom, Vector2.ONE * max(.2 ,log(dist)/log(40)), .5)
+	zoom = lerp(zoom, Vector2.ONE * max(.1,log(dist)/log(40)-.3), .5)
 #	if zoom_out :
 #		zoom += Vector2.ONE *.1
 #	elif zoom_in and zoom.length() > 1:

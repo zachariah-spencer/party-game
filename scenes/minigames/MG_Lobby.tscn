@@ -285,3 +285,4 @@ position = Vector2( 768, 448 )
 shape = SubResource( 1 )
 
 [node name="HUD" parent="." instance=ExtResource( 4 )]
+

@@ -3,4 +3,8 @@
 [ext_resource path="res://scripts/minigame_scripts/Zooming_camera.gd" type="Script" id=1]
 
 [node name="Zooming_camera" type="Camera2D"]
+drag_margin_h_enabled = false
+smoothing_enabled = true
+smoothing_speed = 8.0
 script = ExtResource( 1 )
+
