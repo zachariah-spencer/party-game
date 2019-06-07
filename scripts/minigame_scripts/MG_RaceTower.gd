@@ -22,15 +22,14 @@ func _physics_process(delta):
 	_run_minigame_loop()
 
 func _run_minigame_loop():
-	alive_players = _check_alive_players(Players.active_players)
 	if game_active:
-		_check_game_win_conditions(alive_players)
+		_check_game_win_conditions()
 
 func _game_won(no_winner = false):
 	game_active = false
 	if !no_winner:
 		Manager.current_game_time = 0
-		$CanvasLayer/HUD/Instructions.text = alive_players[0].display_name + ' Won!'
+		$CanvasLayer/HUD/Instructions.text = Players._get_alive_players()[0].display_name + ' Won!'
 	elif no_winner:
 		Manager.current_game_time = 0
 		$CanvasLayer/HUD/Instructions.text = 'Nobody Won!'
@@ -38,10 +37,10 @@ func _game_won(no_winner = false):
 func _on_VictoryArea_body_entered(player):
 	winning_player = player.get_parent()
 
-func _check_game_win_conditions(alive_players):
+func _check_game_win_conditions():
 	if is_instance_valid(winning_player):
 		_game_won()
-	elif Manager.current_game_time == 0 || alive_players.size() == 0:
+	elif Manager.current_game_time == 0 || Players._get_alive_players().size() == 0:
 		_game_won(true)
 
 

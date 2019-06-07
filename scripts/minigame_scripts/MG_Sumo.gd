@@ -21,9 +21,9 @@ func _physics_process(delta):
 	_run_minigame_loop()
 
 func _run_minigame_loop():
-	alive_players = _check_alive_players(Players.active_players)
+	
 	if game_active:
-		_check_game_win_conditions(alive_players)
+		_check_game_win_conditions()
 
 func on_out_of_bounds(body):
 	if body.get_parent().is_in_group('players'):
@@ -33,4 +33,4 @@ func _game_won(no_winner = false):
 	game_active = false
 	if !no_winner:
 		Manager.current_game_time = 0
-		$HUD/Instructions.text = alive_players[0].display_name + ' Won!'
+		$CanvasLayer/HUD/Instructions.text = Players._get_alive_players()[0].display_name + ' Won!'

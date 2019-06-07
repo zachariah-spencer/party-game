@@ -209,7 +209,6 @@ bias = 0.4
 softness = 2.0
 
 [node name="Left Hand" type="RigidBody2D" parent="StateMachine/Sprites"]
-editor/display_folded = true
 position = Vector2( 10.49, -16.12 )
 collision_layer = 2
 mass = 1.96
