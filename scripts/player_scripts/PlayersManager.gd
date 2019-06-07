@@ -6,26 +6,26 @@ onready var respawn_timer : Node = Timer.new()
 var display_name : String
 
 func _ready():
-	respawn_timer.wait_time = 3
-	respawn_timer.process_mode = Timer.TIMER_PROCESS_PHYSICS
-	respawn_timer.one_shot = true
-	add_child(respawn_timer)
-	respawn_timer.connect('timeout', self, '_on_respawn_timeout')
+    respawn_timer.wait_time = 3
+    respawn_timer.process_mode = Timer.TIMER_PROCESS_PHYSICS
+    respawn_timer.one_shot = true
+    add_child(respawn_timer)
+    respawn_timer.connect('timeout', self, '_on_respawn_timeout')
 
 func register_player_inputs():
-	pass
+    pass
 
 func register_collisions():
-	pass
+    pass
 
 func is_dead():
-	return !is_instance_valid(child)
+    return !is_instance_valid(child)
 
 func _respawn(respawn_delay : float = 3):
-	child.queue_free()
-	respawn_timer.start(respawn_delay)
+    child.queue_free()
+    respawn_timer.start(respawn_delay)
 
 func _on_respawn_timeout():
-	Players.spawn(self)
+    Players.spawn(self)
 #	register_player_inputs()
 #	register_collisions()
