@@ -15,6 +15,8 @@ func _ready():
 	Manager.current_game_time = GAME_TIME
 	Manager.current_game_attack_mode = 'nonlethal'
 	Manager.current_game_allow_respawns = false
+	has_timer = false
+	game_instructions = "Press '1'\nto Start!"
 	$Cam.current = true
 	call_deferred('_insert_players')
 

@@ -5,7 +5,10 @@ class_name Minigame
 const PLAY_AREA_WIDTH : int = 1536
 const PLAY_AREA_HEIGHT : int = 896
 var is_game_won : bool = false
-var game_active = false
+var game_active : bool = false
+var game_instructions : String
+var has_timer : bool = true
+onready var hud : Node = $CanvasLayer/HUD
 
 func _run_minigame_loop():
 	pass
