@@ -16,10 +16,10 @@ func register_player_inputs():
 
 func register_collisions():
 
-	#register player into his player-specific collision layer
-	#this allows the game to differentiate which player is being hit at a given time
+#	register player into his player-specific collision layer
+#	this allows the game to differentiate which player is being hit at a given time
 	child.set_collision_layer_bit(6, true)
-	#make players fist ignore himself
+#	make players fist ignore himself
 	child.left_hand.get_node("Hitbox").set_collision_mask_bit(6, false)
 	child.right_hand.get_node("Hitbox").set_collision_mask_bit(6, false)
 	child.get_node('TopOfHeadArea').set_collision_mask_bit(6, false)

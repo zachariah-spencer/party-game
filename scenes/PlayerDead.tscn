@@ -30,8 +30,8 @@ position = Vector2( 0, -8.11656 )
 [node name="Left Hand" type="RigidBody2D" parent="."]
 editor/display_folded = true
 position = Vector2( 10.49, -16.12 )
-collision_layer = 512
-collision_mask = 529
+collision_layer = 1024
+collision_mask = 1025
 gravity_scale = 20.0
 linear_damp = 5.0
 
@@ -47,8 +47,8 @@ shape = SubResource( 1 )
 [node name="Body" type="RigidBody2D" parent="."]
 editor/display_folded = true
 position = Vector2( 0, -16 )
-collision_layer = 512
-collision_mask = 513
+collision_layer = 1024
+collision_mask = 1025
 mass = 1.75
 physics_material_override = SubResource( 2 )
 gravity_scale = 120.0
@@ -68,8 +68,8 @@ shape = SubResource( 3 )
 [node name="Head" type="RigidBody2D" parent="."]
 editor/display_folded = true
 position = Vector2( 0, -54.82 )
-collision_layer = 512
-collision_mask = 513
+collision_layer = 1024
+collision_mask = 1025
 mass = 2.25
 physics_material_override = SubResource( 2 )
 gravity_scale = 100.0
@@ -91,8 +91,8 @@ shape = SubResource( 4 )
 [node name="Right Hand" type="RigidBody2D" parent="."]
 editor/display_folded = true
 position = Vector2( -10.49, -16.12 )
-collision_layer = 512
-collision_mask = 529
+collision_layer = 1024
+collision_mask = 1025
 gravity_scale = 20.0
 linear_damp = 4.0
 
@@ -107,8 +107,8 @@ shape = SubResource( 1 )
 [node name="Right Foot" type="RigidBody2D" parent="."]
 editor/display_folded = true
 position = Vector2( 6, 0 )
-collision_layer = 512
-collision_mask = 513
+collision_layer = 1024
+collision_mask = 1025
 gravity_scale = 20.0
 
 [node name="Sprite" type="Sprite" parent="Right Foot"]
@@ -125,8 +125,8 @@ shape = SubResource( 5 )
 [node name="Left Foot" type="RigidBody2D" parent="."]
 editor/display_folded = true
 position = Vector2( -6, 0 )
-collision_layer = 512
-collision_mask = 513
+collision_layer = 1024
+collision_mask = 1025
 gravity_scale = 20.0
 
 [node name="Sprite" type="Sprite" parent="Left Foot"]
