@@ -26,6 +26,9 @@ var current_game_allow_respawns : bool
 #warning-ignore:unused_class_variable
 var current_game_spawns : Node
 
+#make this minigame
+var current_minigame : Node
+
 var player_spawns : Array = [0,1,2,3]
 
 func _ready():
@@ -36,15 +39,19 @@ func _ready():
 
 #warning-ignore:unused_argument
 func _start_new_minigame(new_minigame : PackedScene):
-	#check if a minigame is loaded
-	if !get_tree().get_nodes_in_group('minigames').empty():
-		#remove old minigame
-		var instance_of_transition = transition_scene.instance()
-		add_child_below_node(world_node, instance_of_transition)
-		finish_transition_instance = new_minigame.instance()
-	else:
-		var instance_of_new_minigame = new_minigame.instance()
-		add_child(instance_of_new_minigame)
+	if is_instance_valid(current_minigame) :
+		var transition = transition_scene.instance()
+		world_node.add_child(transition)
+		yield(transition, "covered")
+		current_minigame.queue_free()
+		yield(current_minigame, "tree_exited")
+		current_minigame = new_minigame.instance()
+		world_node.add_child(current_minigame)
+		transition.fade_out()
+		print(current_game_name)
+	else :
+		current_minigame = new_minigame.instance()
+		world_node.add_child(current_minigame)
 
 func _on_game_times_up():
 	Players.print_scores()

@@ -38,6 +38,7 @@ var move_down : String
 var move_jump : String
 var attack_input : String
 
+onready var state_machine := $StateMachine
 onready var parent : Node = get_parent()
 onready var hit_points_label : Node = $StateMachine/HitPoints
 onready var attack_area : Area2D

@@ -28,12 +28,12 @@ func _validate_active_players():
 
 func _update_hud():
 	yield(get_tree().create_timer(.1),'timeout')
-	
+
 	if !get_parent().get_parent().game_over:
 		$TimeLeft/Instructions.text = Manager.current_game_reference.game_instructions
-	
+
 	_validate_active_players()
-	
+
 	if !Manager.current_game_reference.has_timer:
 		$TimeLeft.text = ''
 	elif Manager.current_game_reference.has_timer:
