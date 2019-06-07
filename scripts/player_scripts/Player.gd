@@ -38,6 +38,7 @@ var move_down : String
 var move_jump : String
 var attack_input : String
 
+onready var state_machine := $StateMachine
 onready var parent : Node = get_parent()
 onready var hit_points_label : Node = $StateMachine/HitPoints
 onready var attack_area : Area2D
@@ -177,6 +178,8 @@ func _update_wall_direction():
 		wall_direction = -int(is_near_wall_left) + int(is_near_wall_right)
 
 func _check_is_valid_wall(wall_raycasts : Node):
+	if !is_instance_valid(wall_raycasts) :
+		return false
 	for raycast in wall_raycasts.get_children():
 		if raycast.is_colliding():
 			var dot : float = acos(Vector2.UP.dot(raycast.get_collision_normal()))
