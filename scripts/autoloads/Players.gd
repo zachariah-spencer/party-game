@@ -36,7 +36,7 @@ func _get_alive_players():
 	var alive_players : Array
 	var players_to_add : Array = []
 	var players_to_remove : Array = []
-	for player in active_players:
+	for player in _get_active_players():
 		if !player.is_dead() && !alive_players.has(player):
 			players_to_add.append(player)
 		elif player.is_dead() && alive_players.has(player):

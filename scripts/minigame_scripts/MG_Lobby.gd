@@ -18,7 +18,7 @@ func _ready():
 	Manager.current_game_allow_respawns = false
 	has_timer = false
 	game_instructions = "Press '1'\nto Start!"
-	#$Cam.current = true
+	$Cam.current = true
 	call_deferred('_insert_players')
 
 
