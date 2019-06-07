@@ -3,7 +3,8 @@ extends Camera2D
 export var default_zoom_mod = 1.25
 
 func _ready():
-	pass # Replace with function body.
+	set_process(false)
+	yield(set_process(true),'ready')
 
 var center = Vector2.ZERO
 # Called every frame. 'delta' is the elapsed time since the previous frame.

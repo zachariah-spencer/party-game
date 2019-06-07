@@ -21,8 +21,8 @@ func _insert_players():
 	var spawn_points : Node = get_tree().get_nodes_in_group('spawnpoints')[0]
 	var x : int = 0
 
-	while x < Players.active_players.size():
-		Players.spawn(Players.active_players[x], spawn_points.get_children()[Manager.player_spawns[x]].position)
+	while x < Players._get_active_players().size():
+		Players.spawn(Players._get_active_players()[x], spawn_points.get_children()[Manager.player_spawns[x]].position)
 		x += 1
 
 func _check_game_win_conditions():
