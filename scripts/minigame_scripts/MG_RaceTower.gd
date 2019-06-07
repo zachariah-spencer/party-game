@@ -14,9 +14,7 @@ func _ready():
 	game_instructions = "Race to\nEscape the Lava!"
 	$Cam.current = true
 	call_deferred('_insert_players')
-
 	yield(get_tree().create_timer(.5),"timeout")
-
 	game_active = true
 
 func _physics_process(delta):

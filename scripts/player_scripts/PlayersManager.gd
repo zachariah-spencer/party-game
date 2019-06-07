@@ -6,6 +6,7 @@ onready var child : Node = $Player
 var ragdoll
 onready var respawn_timer : Node = Timer.new()
 var display_name : String
+var score : int = 0
 
 
 func _ready():

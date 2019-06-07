@@ -13,6 +13,7 @@ func _ready():
 	Manager.current_game_time = GAME_TIME
 	Manager.current_game_attack_mode = 'lethal'
 	Manager.current_game_allow_respawns = false
+	game_instructions = "DON'T MOVE!!!"
 	$Cam.current = true
 	call_deferred('_insert_players')
 
@@ -24,13 +25,12 @@ func _physics_process(delta):
 	_run_minigame_loop()
 
 func _run_minigame_loop():
-	alive_players = _check_alive_players(Players.active_players)
 	if game_active:
-		_test_if_players_move(alive_players)
-		_check_game_win_conditions(alive_players)
+		_test_if_players_move()
+		_check_game_win_conditions()
 
-func _test_if_players_move(alive_players):
-	for player in alive_players:
+func _test_if_players_move():
+	for player in Players._get_alive_players():
 		if !player.is_dead():
 			var player_state_ref = player.child.get_node('StateMachine')
 			if player_state_ref.state == player_state_ref.states.run || player_state_ref.state == player_state_ref.states.jump:
@@ -41,7 +41,8 @@ func _game_won(no_winner = false):
 	game_active = false
 	if !no_winner:
 		Manager.current_game_time = 0
-		$HUD/Instructions.text = alive_players[0].display_name + ' Won!'
+		$CanvasLayer/HUD/TimeLeft/Instructions.text = Players._get_alive_players()[0].display_name + ' Won!'
+		Players._get_alive_players()[0].score += 1
 	else:
 		Manager.current_game_time = 0
-		$HUD/Instructions.text = 'Nobody Won!'
+		$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Nobody Won!'
