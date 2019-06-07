@@ -1,7 +1,7 @@
 extends Minigame
 
 const GAME_NAME : String = 'race_tower'
-const GAME_TIME : int = 30
+const GAME_TIME : int = 60
 var winning_player : PlayersManager
 
 func _ready():
