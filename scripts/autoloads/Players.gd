@@ -20,6 +20,7 @@ func spawn(player : PlayersManager, spawn_position : Vector2 = select_spawn_poin
 	add.hit_points = 100
 	player.child = add
 	player.add_child(add)
+	player.dead = false
 
 	player.register_player_inputs()
 	player.register_collisions()
@@ -34,13 +35,13 @@ func _get_alive_players():
 			players_to_add.append(player)
 		elif player.is_dead() && alive_players.has(player):
 			players_to_remove.append(player)
-	
+
 	for player in players_to_add:
 		alive_players.append(player)
-	
+
 	for player in players_to_remove:
 		alive_players.remove(alive_players.find(player))
-	
+
 	return alive_players
 
 

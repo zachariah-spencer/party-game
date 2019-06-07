@@ -6,10 +6,10 @@ onready var time_display = $TimeLeft
 
 func _ready():
 	Globals.current_HUD = self
-	
+
 	#warning-ignore:return_value_discarded
 	connect('game_times_up', Manager, '_on_game_times_up')
-	
+
 	call_deferred('_update_hud')
 
 func _update_hud():

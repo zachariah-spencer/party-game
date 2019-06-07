@@ -51,7 +51,7 @@ func _on_game_times_up():
 	var next_minigame
 	next_minigame = _select_random_minigame()
 	_start_new_minigame(next_minigame)
-	
+
 
 func _select_random_minigame():
 	#DO
