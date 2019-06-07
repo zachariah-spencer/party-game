@@ -45,12 +45,11 @@ custom_fonts/font = SubResource( 2 )
 align = 1
 valign = 1
 
-[node name="Scores" type="Control" parent="."]
-editor/display_folded = true
+[node name="Scorecards" type="Control" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
 
-[node name="P1Score" type="Label" parent="Scores"]
+[node name="P1Score" type="Label" parent="Scorecards"]
 visible = false
 margin_left = 260.0
 margin_top = 150.0
@@ -62,7 +61,7 @@ text = "0"
 align = 1
 valign = 1
 
-[node name="P2Score" type="Label" parent="Scores"]
+[node name="P2Score" type="Label" parent="Scorecards"]
 visible = false
 anchor_left = 1.0
 anchor_right = 1.0
@@ -76,7 +75,7 @@ text = "0"
 align = 1
 valign = 1
 
-[node name="P3Score" type="Label" parent="Scores"]
+[node name="P4Score" type="Label" parent="Scorecards"]
 visible = false
 anchor_left = 1.0
 anchor_right = 1.0
@@ -90,7 +89,7 @@ text = "0"
 align = 1
 valign = 1
 
-[node name="P4Score" type="Label" parent="Scores"]
+[node name="P3Score" type="Label" parent="Scorecards"]
 visible = false
 anchor_left = 1.0
 anchor_right = 1.0
@@ -101,6 +100,60 @@ margin_bottom = 741.0
 custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0.945098, 1, 0, 1 )
 text = "0"
+align = 1
+valign = 1
+
+[node name="P1Ready" type="Label" parent="Scorecards"]
+visible = false
+margin_left = 300.0
+margin_top = 150.0
+margin_right = 399.0
+margin_bottom = 201.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "Not Ready"
+align = 1
+valign = 1
+
+[node name="P2Ready" type="Label" parent="Scorecards"]
+visible = false
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = 1095.0
+margin_top = 150.0
+margin_right = 1194.0
+margin_bottom = 201.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0.0313726, 0, 1, 1 )
+text = "Not Ready"
+align = 1
+valign = 1
+
+[node name="P4Ready" type="Label" parent="Scorecards"]
+visible = false
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = 1095.0
+margin_top = 690.0
+margin_right = 1146.0
+margin_bottom = 741.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0, 0.815686, 0.0313726, 1 )
+text = "Not Ready"
+align = 1
+valign = 1
+
+[node name="P3Ready" type="Label" parent="Scorecards"]
+visible = false
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = 260.0
+margin_top = 690.0
+margin_right = 359.0
+margin_bottom = 741.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0.945098, 1, 0, 1 )
+text = "Not Ready"
 align = 1
 valign = 1
 

@@ -5,7 +5,7 @@ signal game_times_up
 onready var time_display = $TimeLeft
 
 func _ready():
-	Globals.current_HUD = self
+	Globals.HUD = self
 
 	#warning-ignore:return_value_discarded
 	connect('game_times_up', Manager, '_on_game_times_up')
@@ -14,17 +14,22 @@ func _ready():
 
 func _validate_active_players():
 	if is_instance_valid(Globals.player_one):
-		$Scores/P1Score.visible = true
-		$Scores/P1Score.text = String(Globals.player_one.score)
+		$Scorecards/P1Score.visible = true
+		$Scorecards/P1Ready.visible = true
+		$Scorecards/P1Score.text = String(Globals.player_one.score)
+		
 	if is_instance_valid(Globals.player_two):
-		$Scores/P2Score.visible = true
-		$Scores/P2Score.text = String(Globals.player_two.score)
+		$Scorecards/P2Score.visible = true
+		$Scorecards/P2Ready.visible = true
+		$Scorecards/P2Score.text = String(Globals.player_two.score)
 	if is_instance_valid(Globals.player_three):
-		$Scores/P3Score.visible = true
-		$Scores/P3Score.text = String(Globals.player_three.score)
+		$Scorecards/P3Score.visible = true
+		$Scorecards/P3Ready.visible = true
+		$Scorecards/P3Score.text = String(Globals.player_three.score)
 	if is_instance_valid(Globals.player_four):
-		$Scores/P4Score.visible = true
-		$Scores/P4Score.text = String(Globals.player_four.score)
+		$Scorecards/P4Score.visible = true
+		$Scorecards/P4Ready.visible = true
+		$Scorecards/P4Score.text = String(Globals.player_four.score)
 
 func _update_hud():
 	yield(get_tree().create_timer(.1),'timeout')

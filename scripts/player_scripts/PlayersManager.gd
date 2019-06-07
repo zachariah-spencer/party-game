@@ -44,6 +44,7 @@ func _ragdoll():
 
 func die(respawn := true):
 	dead = true
+	set_physics_process(false)
 	_ragdoll()
 	child.queue_free()
 	if respawn :

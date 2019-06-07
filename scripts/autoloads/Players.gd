@@ -57,23 +57,34 @@ func select_spawn_point():
 	Manager._randomize_spawn_positions()
 	return spawn_points.get_children()[Manager.player_spawns[0]].position
 
-func _activate_player(player_manager):
+func _activate_player(player_manager : Node, player_num : String, instant := false ):
 	if !is_instance_valid(player_manager):
 		var instance_of_player_manager
-		match player_manager:
-			Globals.player_one:
+		match player_num:
+			'1':
 				instance_of_player_manager = player_one_scene.instance()
-			Globals.player_two:
+			'2':
 				instance_of_player_manager = player_two_scene.instance()
-			Globals.player_three:
+			'3':
 				instance_of_player_manager = player_three_scene.instance()
-			Globals.player_four:
+			'4':
 				instance_of_player_manager = player_four_scene.instance()
 		Manager.world_node.get_node('Players').add_child(instance_of_player_manager)
+		Globals.HUD._update_hud()
 		spawn(instance_of_player_manager)
 
-func _deactivate_player(player):
-	pass
+func _deactivate_player(player_manager : Node, player_num : String):
+	player_manager.queue_free()
+	
+	match player_num:
+		'1':
+			Globals.player_one = null
+		'2':
+			Globals.player_two = null
+		'3':
+			Globals.player_three = null
+		'4':
+			Globals.player_four = null
 
 func _get_active_players():
 	return get_tree().get_nodes_in_group('players')

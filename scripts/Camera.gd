@@ -2,25 +2,23 @@ extends Camera2D
 
 export var default_zoom_mod = 1.25
 
-func _ready():
-	set_process(false)
-	yield(set_process(true),'ready')
-
 var center = Vector2.ZERO
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	center = Vector2.ZERO
 	var alive = 0
 	for player in Players._get_alive_players():
-		center += player.child.global_position
-		alive += 1
+		if Players._get_active_players().has(player):
+			center += player.child.global_position
+			alive += 1
 	
 	if alive > 0 : center = center/alive
 	var zoom_in = false
 	var zoom_out = false
 	var dist = 0
 	for player in Players._get_alive_players():
-		dist += center.distance_to(player.child.global_position)
+		if Players._get_active_players().has(player):
+			dist += center.distance_to(player.child.global_position)
 	if alive > 1 :
 		zoom = lerp(zoom, Vector2.ONE * max(.1,log(dist)/log(40)-.3), .5)
 	else :
