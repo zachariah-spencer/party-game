@@ -13,23 +13,23 @@ func _ready():
 	call_deferred('_update_hud')
 
 func _validate_active_players():
-	if is_instance_valid(Globals.player_one):
+	if Players.player_one.active:
 		$Scorecards/P1Score.visible = true
 		$Scorecards/P1Ready.visible = true
-		$Scorecards/P1Score.text = String(Globals.player_one.score)
-		
-	if is_instance_valid(Globals.player_two):
+		$Scorecards/P1Score.text = String(Players.player_one.score)
+
+	if Players.player_two.active:
 		$Scorecards/P2Score.visible = true
 		$Scorecards/P2Ready.visible = true
-		$Scorecards/P2Score.text = String(Globals.player_two.score)
-	if is_instance_valid(Globals.player_three):
+		$Scorecards/P2Score.text = String(Players.player_two.score)
+	if Players.player_three.active:
 		$Scorecards/P3Score.visible = true
 		$Scorecards/P3Ready.visible = true
-		$Scorecards/P3Score.text = String(Globals.player_three.score)
-	if is_instance_valid(Globals.player_four):
+		$Scorecards/P3Score.text = String(Players.player_three.score)
+	if Players.player_four.active:
 		$Scorecards/P4Score.visible = true
 		$Scorecards/P4Ready.visible = true
-		$Scorecards/P4Score.text = String(Globals.player_four.score)
+		$Scorecards/P4Score.text = String(Players.player_four.score)
 
 func _update_hud():
 	yield(get_tree().create_timer(.1),'timeout')

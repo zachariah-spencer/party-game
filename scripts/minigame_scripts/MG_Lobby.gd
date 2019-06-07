@@ -26,74 +26,73 @@ func _process(delta):
 	_check_ready_ups()
 
 func _check_ready_ups():
-	var num_of_players = Players._get_active_players().size()
-	
+	var num_of_players = Players.active_players.size()
+
 	if Input.is_action_just_pressed('player_one_start'):
-		if is_instance_valid(Globals.player_one) && !player_one_ready:
+		if Players.player_one.active && !player_one_ready:
 			player_one_ready = true
 			Globals.HUD.get_node('Scorecards/P1Ready').text = 'Ready'
 			num_of_ready_ups += 1
-		else:
-			Players._activate_player(Globals.player_one, '1', true)
+		elif !Players.player_one.active:
+			Players._activate_player(Players.player_one, '1', true)
 	if Input.is_action_just_pressed('player_two_start') && !player_two_ready:
-		if is_instance_valid(Globals.player_two):
+		if Players.player_two.active:
 			player_two_ready = true
 			Globals.HUD.get_node('Scorecards/P2Ready').text = 'Ready'
 			num_of_ready_ups += 1
 		else:
-			Players._activate_player(Globals.player_two, '2', true)
+			Players._activate_player(Players.player_two, '2', true)
 	if Input.is_action_just_pressed('player_three_start') && !player_three_ready:
-		if is_instance_valid(Globals.player_three):
+		if Players.player_three.active:
 			player_three_ready = true
 			Globals.HUD.get_node('Scorecards/P3Ready').text = 'Ready'
 			num_of_ready_ups += 1
 		else:
-			Players._activate_player(Globals.player_three, '3', true)
+			Players._activate_player(Players.player_three, '3', true)
 	if Input.is_action_just_pressed('player_four_start') && !player_four_ready:
-		if is_instance_valid(Globals.player_four):
+		if Players.player_four.active:
 			player_four_ready = true
 			Globals.HUD.get_node('Scorecards/P4Ready').text = 'Ready'
 			num_of_ready_ups += 1
 		else:
-			Players._activate_player(Globals.player_four, '4', true)
-	
-	
-	
+			Players._activate_player(Players.player_four, '4', true)
+
+
+
 	if Input.is_action_just_pressed('player_one_b'):
-		if is_instance_valid(Globals.player_one) && player_one_ready:
+		if Players.player_one.active&& player_one_ready:
 			player_one_ready = false
 			Globals.HUD.get_node('Scorecards/P1Ready').text = 'Not Ready'
 			num_of_ready_ups -= 1
-		elif is_instance_valid(Globals.player_one) && !player_one_ready:
-			Players._deactivate_player(Globals.player_one, '1')
-			
+		elif Players.player_two.active && !player_one_ready:
+			Players._deactivate_player(Players.player_one, '1')
+
 	if Input.is_action_just_pressed('player_two_b'):
-		if is_instance_valid(Globals.player_two) && player_two_ready:
+		if Players.player_two.active && player_two_ready:
 			player_two_ready = false
 			Globals.HUD.get_node('Scorecards/P2Ready').text = 'Not Ready'
 			num_of_ready_ups -= 1
-		elif is_instance_valid(Globals.player_two) && !player_two_ready:
-			print(Globals.player_two.name)
-			Players._deactivate_player(Globals.player_two, '2')
-			
+		elif Players.player_two.active  && !player_two_ready:
+			Players._deactivate_player(Players.player_two, '2')
+
 	if Input.is_action_just_pressed('player_three_b'):
-		if is_instance_valid(Globals.player_three) && player_three_ready:
+		if Players.player_three.active && player_three_ready:
 			player_three_ready = false
 			Globals.HUD.get_node('Scorecards/P3Ready').text = 'Not Ready'
 			num_of_ready_ups -= 1
-		elif is_instance_valid(Globals.player_three) && !player_three_ready:
-			Players._deactivate_player(Globals.player_three, '3')
-			
+		elif Players.player_three.active  && !player_three_ready:
+			Players._deactivate_player(Players.player_three, '3')
+
 	if Input.is_action_just_pressed('player_four_b'):
-		if is_instance_valid(Globals.player_four) && player_four_ready:
+		if Players.player_four.active && player_four_ready:
 			player_four_ready = false
 			Globals.HUD.get_node('Scorecards/P4Ready').text = 'Not Ready'
 			num_of_ready_ups -= 1
-		elif is_instance_valid(Globals.player_four) && !player_four_ready:
-			Players._deactivate_player(Globals.player_four, '4')
-	
-	
-	
+		elif Players.player_four.active  && !player_four_ready:
+			Players._deactivate_player(Players.player_four, '4')
+
+
+
 	if num_of_players >= 2 && num_of_ready_ups == num_of_players:
 		if !is_starting:
 			Manager._on_game_times_up()

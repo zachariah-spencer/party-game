@@ -1,15 +1,16 @@
 extends Node
 
 onready var player_scene : PackedScene = preload('res://scenes/player/Player.tscn')
-onready var player_one_scene : PackedScene = preload('res://scenes/player/PlayerOne.tscn')
-onready var player_two_scene : PackedScene = preload('res://scenes/player/PlayerTwo.tscn')
-onready var player_three_scene : PackedScene = preload('res://scenes/player/PlayerThree.tscn')
-onready var player_four_scene : PackedScene = preload('res://scenes/player/PlayerFour.tscn')
+
+var player_one : PlayersManager
+var player_two : PlayersManager
+var player_three : PlayersManager
+var player_four : PlayersManager
+var _players = []
 var active_players : Array
 
 func _ready():
-	active_players = get_tree().get_nodes_in_group('players')
-
+	pass
 
 func spawn(player : PlayersManager, spawn_position : Vector2 = select_spawn_point()):
 #	if there is a player, ensures it's freed before a new instance is created
@@ -18,6 +19,8 @@ func spawn(player : PlayersManager, spawn_position : Vector2 = select_spawn_poin
 		yield(player.child, "tree_exited")
 	if is_instance_valid(player.ragdoll) :
 		player.ragdoll.queue_free()
+	if !player.active :
+		return
 
 #	instances the player at a spawn point
 	var add = player_scene.instance()
@@ -33,20 +36,10 @@ func spawn(player : PlayersManager, spawn_position : Vector2 = select_spawn_poin
 
 
 func _get_alive_players():
-	var alive_players : Array
-	var players_to_add : Array = []
-	var players_to_remove : Array = []
-	for player in _get_active_players():
-		if !player.is_dead() && !alive_players.has(player):
-			players_to_add.append(player)
-		elif player.is_dead() && alive_players.has(player):
-			players_to_remove.append(player)
-
-	for player in players_to_add:
-		alive_players.append(player)
-
-	for player in players_to_remove:
-		alive_players.remove(alive_players.find(player))
+	var alive_players = []
+	for player in active_players:
+		if !player.is_dead():
+			alive_players.append(player)
 
 	return alive_players
 
@@ -58,33 +51,39 @@ func select_spawn_point():
 	return spawn_points.get_children()[Manager.player_spawns[0]].position
 
 func _activate_player(player_manager : Node, player_num : String, instant := false ):
-	if !is_instance_valid(player_manager):
-		var instance_of_player_manager
-		match player_num:
-			'1':
-				instance_of_player_manager = player_one_scene.instance()
-			'2':
-				instance_of_player_manager = player_two_scene.instance()
-			'3':
-				instance_of_player_manager = player_three_scene.instance()
-			'4':
-				instance_of_player_manager = player_four_scene.instance()
-		Manager.world_node.get_node('Players').add_child(instance_of_player_manager)
-		Globals.HUD._update_hud()
-		spawn(instance_of_player_manager)
 
-func _deactivate_player(player_manager : Node, player_num : String):
-	player_manager.queue_free()
-	
+	var player_tmp
 	match player_num:
 		'1':
-			Globals.player_one = null
+			player_tmp = player_one
 		'2':
-			Globals.player_two = null
+			player_tmp = player_two
 		'3':
-			Globals.player_three = null
+			player_tmp = player_three
 		'4':
-			Globals.player_four = null
+			player_tmp = player_four
+	player_tmp.active = true
+	if instant :
+		spawn(player_tmp)
+	_update_active_players()
+	Globals.HUD._update_hud()
 
-func _get_active_players():
-	return get_tree().get_nodes_in_group('players')
+func _deactivate_player(player_manager : Node, player_num : String):
+	var player_tmp
+	match player_num:
+		'1':
+			player_tmp = player_one
+		'2':
+			player_tmp = player_two
+		'3':
+			player_tmp = player_three
+		'4':
+			player_tmp = player_four
+	player_tmp.active = false
+	player_tmp.die()
+	_update_active_players()
+
+func _update_active_players():
+	active_players = []
+	for player in _players :
+		if player.active : active_players.append(player)

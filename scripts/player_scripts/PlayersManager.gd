@@ -7,7 +7,8 @@ var ragdoll
 onready var respawn_timer : Node = Timer.new()
 var display_name : String
 var score : int = 0
-var dead := false
+var dead := true
+var active := false
 
 func _ready():
 	respawn_timer.wait_time = 3

@@ -2,10 +2,9 @@ extends PlayersManager
 
 func _ready():
 	add_to_group('players')
-	Globals.player_four = self
+	Players.player_four = self
+	Players._players.append(self)
 	display_name = 'Player Four'
-	register_player_inputs()
-	register_collisions()
 
 func register_player_inputs():
 	child.move_left = 'player_four_move_left'
