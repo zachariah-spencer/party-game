@@ -12,9 +12,28 @@ func _ready():
 
 	call_deferred('_update_hud')
 
+func _validate_active_players():
+	if is_instance_valid(Globals.player_one):
+		$Scores/P1Score.visible = true
+		$Scores/P1Score.text = String(Globals.player_one.score)
+	if is_instance_valid(Globals.player_two):
+		$Scores/P2Score.visible = true
+		$Scores/P2Score.text = String(Globals.player_two.score)
+	if is_instance_valid(Globals.player_three):
+		$Scores/P3Score.visible = true
+		$Scores/P3Score.text = String(Globals.player_three.score)
+	if is_instance_valid(Globals.player_four):
+		$Scores/P4Score.visible = true
+		$Scores/P4Score.text = String(Globals.player_four.score)
+
 func _update_hud():
 	yield(get_tree().create_timer(.1),'timeout')
-	$TimeLeft/Instructions.text = Manager.current_game_reference.game_instructions
+	
+	if !get_parent().get_parent().game_over:
+		$TimeLeft/Instructions.text = Manager.current_game_reference.game_instructions
+	
+	_validate_active_players()
+	
 	if !Manager.current_game_reference.has_timer:
 		$TimeLeft.text = ''
 	elif Manager.current_game_reference.has_timer:

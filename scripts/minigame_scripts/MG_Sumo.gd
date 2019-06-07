@@ -32,10 +32,12 @@ func on_out_of_bounds(body):
 
 func _game_won(no_winner = false):
 	game_active = false
+	game_over = true
 	if !no_winner:
 		Manager.current_game_time = 0
-		$CanvasLayer/HUD/TimeLeft/Instructions.text = Players._get_alive_players()[0].display_name + ' Won!'
 		Players._get_alive_players()[0].score += 1
+		$CanvasLayer/HUD._update_hud()
+		$CanvasLayer/HUD/TimeLeft/Instructions.text = Players._get_alive_players()[0].display_name + ' Won!'
 	else:
 		Manager.current_game_time = 0
 		$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Nobody Won!'
