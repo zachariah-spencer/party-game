@@ -14,7 +14,7 @@ func _process(delta):
 		center += player.child.global_position
 		alive += 1
 	
-	center = center/alive
+	if alive > 0 : center = center/alive
 	var zoom_in = false
 	var zoom_out = false
 	var dist = 0
