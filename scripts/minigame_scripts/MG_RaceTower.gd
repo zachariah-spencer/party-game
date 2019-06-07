@@ -30,10 +30,10 @@ func _game_won(no_winner = false):
 	game_active = false
 	if !no_winner:
 		Manager.current_game_time = 0
-		$HUD/Instructions.text = alive_players[0].display_name + ' Won!'
+		$CanvasLayer/HUD/Instructions.text = alive_players[0].display_name + ' Won!'
 	elif no_winner:
 		Manager.current_game_time = 0
-		$HUD/Instructions.text = 'Nobody Won!'
+		$CanvasLayer/HUD/Instructions.text = 'Nobody Won!'
 
 func _on_VictoryArea_body_entered(player):
 	winning_player = player.get_parent()

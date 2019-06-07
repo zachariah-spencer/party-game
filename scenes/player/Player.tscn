@@ -179,11 +179,9 @@ bus = "Sounds"
 area_mask = 0
 
 [node name="StateMachine" type="Node2D" parent="."]
-editor/display_folded = true
 script = ExtResource( 4 )
 
 [node name="Sprites" type="Node2D" parent="StateMachine"]
-editor/display_folded = true
 
 [node name="Right Foot" type="Node2D" parent="StateMachine/Sprites"]
 editor/display_folded = true

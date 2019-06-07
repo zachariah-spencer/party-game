@@ -23,6 +23,23 @@ func spawn(player : PlayersManager, spawn_position : Vector2 = select_spawn_poin
 	player.register_collisions()
 
 
+func _get_alive_players():
+	var alive_players : Array
+	var players_to_add : Array = []
+	var players_to_remove : Array = []
+	for player in active_players:
+		if !player.is_dead() && !alive_players.has(player):
+			players_to_add.append(player)
+		elif player.is_dead() && alive_players.has(player):
+			players_to_remove.append(player)
+	
+	for player in players_to_add:
+		alive_players.append(player)
+	
+	for player in players_to_remove:
+		alive_players.remove(alive_players.find(player))
+	
+	return alive_players
 
 
 func select_spawn_point():
