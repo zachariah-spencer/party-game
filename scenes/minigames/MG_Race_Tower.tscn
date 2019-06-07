@@ -70,10 +70,10 @@ position = Vector2( 352, -3040 )
 position = Vector2( 352, -3584 )
 
 [node name="Terrain271" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 224, -2880 )
+position = Vector2( 224, -2784 )
 
 [node name="Terrain273" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 864, -2560 )
+position = Vector2( 864, -2656 )
 
 [node name="Terrain223" parent="Terrain" instance=ExtResource( 3 )]
 position = Vector2( 352, -1472 )
@@ -181,10 +181,10 @@ position = Vector2( 288, -3040 )
 position = Vector2( 288, -3584 )
 
 [node name="Terrain270" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 160, -2880 )
+position = Vector2( 160, -2784 )
 
 [node name="Terrain272" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 800, -2560 )
+position = Vector2( 800, -2656 )
 
 [node name="Terrain230" parent="Terrain" instance=ExtResource( 3 )]
 position = Vector2( 288, -1472 )
@@ -882,12 +882,6 @@ position = Vector2( 384, -3360 )
 [node name="Terrain294" parent="Terrain" instance=ExtResource( 3 )]
 position = Vector2( 672, -3360 )
 
-[node name="Terrain289" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 384, -3424 )
-
-[node name="Terrain295" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 672, -3424 )
-
 [node name="Terrain283" parent="Terrain" instance=ExtResource( 3 )]
 position = Vector2( 480, -3584 )
 
@@ -973,19 +967,16 @@ position = Vector2( 160, -368 )
 position = Vector2( 160, -2320 )
 
 [node name="Platform50" parent="Terrain" instance=ExtResource( 4 )]
-position = Vector2( 160, -2576 )
+position = Vector2( 160, -2480 )
 
 [node name="Platform51" parent="Terrain" instance=ExtResource( 4 )]
-position = Vector2( 480, -2576 )
+position = Vector2( 480, -2544 )
 
 [node name="Platform53" parent="Terrain" instance=ExtResource( 4 )]
-position = Vector2( 480, -2896 )
-
-[node name="Platform55" parent="Terrain" instance=ExtResource( 4 )]
-position = Vector2( 800, -2736 )
+position = Vector2( 480, -2768 )
 
 [node name="Platform57" parent="Terrain" instance=ExtResource( 4 )]
-position = Vector2( 800, -2896 )
+position = Vector2( 160, -2928 )
 
 [node name="Platform48" parent="Terrain" instance=ExtResource( 4 )]
 position = Vector2( 160, -3056 )
@@ -1009,7 +1000,7 @@ position = Vector2( 800, -2160 )
 position = Vector2( 640, -1872 )
 
 [node name="Platform44" parent="Terrain" instance=ExtResource( 4 )]
-position = Vector2( 288, -1968 )
+position = Vector2( 288, -1808 )
 
 [node name="Platform14" parent="Terrain" instance=ExtResource( 4 )]
 position = Vector2( 416, 16 )
@@ -1075,19 +1066,13 @@ position = Vector2( 224, -368 )
 position = Vector2( 224, -2320 )
 
 [node name="Platform49" parent="Terrain" instance=ExtResource( 4 )]
-position = Vector2( 224, -2576 )
+position = Vector2( 224, -2480 )
 
 [node name="Platform52" parent="Terrain" instance=ExtResource( 4 )]
-position = Vector2( 544, -2576 )
+position = Vector2( 544, -2544 )
 
 [node name="Platform54" parent="Terrain" instance=ExtResource( 4 )]
-position = Vector2( 544, -2896 )
-
-[node name="Platform56" parent="Terrain" instance=ExtResource( 4 )]
-position = Vector2( 864, -2736 )
-
-[node name="Platform58" parent="Terrain" instance=ExtResource( 4 )]
-position = Vector2( 864, -2896 )
+position = Vector2( 544, -2768 )
 
 [node name="Platform47" parent="Terrain" instance=ExtResource( 4 )]
 position = Vector2( 224, -3056 )
@@ -1111,7 +1096,7 @@ position = Vector2( 864, -2160 )
 position = Vector2( 704, -1872 )
 
 [node name="Platform43" parent="Terrain" instance=ExtResource( 4 )]
-position = Vector2( 352, -1968 )
+position = Vector2( 352, -1808 )
 
 [node name="Platform13" parent="Terrain" instance=ExtResource( 4 )]
 position = Vector2( 480, 16 )
@@ -1197,10 +1182,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -400.0
-margin_top = -200.0
-margin_right = 400.0
-margin_bottom = 200.0
+margin_left = -768.0
+margin_top = -448.0
+margin_right = 768.0
+margin_bottom = 448.0
 
 [connection signal="body_entered" from="VictoryArea" to="." method="_on_VictoryArea_body_entered"]
 [connection signal="body_entered" from="Lava" to="." method="_on_Lava_body_entered"]

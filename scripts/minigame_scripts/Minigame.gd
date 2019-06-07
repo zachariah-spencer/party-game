@@ -24,7 +24,7 @@ func _insert_players():
 func _check_game_win_conditions():
 	if Players._get_alive_players().size() == 1:
 		_game_won()
-	elif Players._get_alive_players().size() == 0:
+	elif Players._get_alive_players().size() == 0 || Manager.current_game_time == 0:
 		_game_won(true)
 
 func _game_won(no_winner = false):

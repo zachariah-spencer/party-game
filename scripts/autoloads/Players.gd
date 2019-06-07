@@ -47,3 +47,7 @@ func select_spawn_point():
 	Manager._randomize_spawn_positions()
 	Manager._randomize_spawn_positions()
 	return spawn_points.get_children()[Manager.player_spawns[0]].position
+
+func print_scores():
+	print('p1: ' + String(Globals.player_one.score))
+	print('p2: ' + String(Globals.player_two.score))

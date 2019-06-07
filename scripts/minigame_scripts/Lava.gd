@@ -1,4 +1,5 @@
 extends Area2D
 
 func _physics_process(delta):
-	position.y -= 1
+	if get_parent().game_active:
+		position.y -= 2

@@ -47,9 +47,11 @@ func _start_new_minigame(new_minigame : PackedScene):
 		add_child(instance_of_new_minigame)
 
 func _on_game_times_up():
+	Players.print_scores()
 	var next_minigame
 	next_minigame = _select_random_minigame()
 	_start_new_minigame(next_minigame)
+	
 
 func _select_random_minigame():
 	#DO

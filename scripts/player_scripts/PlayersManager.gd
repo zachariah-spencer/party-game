@@ -4,6 +4,7 @@ class_name PlayersManager
 onready var child : Node = $Player
 onready var respawn_timer : Node = Timer.new()
 var display_name : String
+var score : int = 0
 
 func _ready():
 	respawn_timer.wait_time = 3
