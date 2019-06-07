@@ -27,9 +27,9 @@ var min_jump_height : float = 0.8 * Globals.CELL_SIZE
 var jump_duration : float = 0.4
 
 var face_textures = [['normal',preload("res://assets/player/face_v.png")],
-                     ['punch',preload("res://assets/player/face_punch.png")],
-                     ['ecstasy',preload("res://assets/player/face_ecstasy.png")],
-                     ['dead',preload("res://assets/player/face_dead.png")]]
+					 ['punch',preload("res://assets/player/face_punch.png")],
+					 ['ecstasy',preload("res://assets/player/face_ecstasy.png")],
+					 ['dead',preload("res://assets/player/face_dead.png")]]
 
 
 var move_left : String
@@ -53,248 +53,186 @@ onready var left_hand := $'StateMachine/Sprites/Left Hand'
 
 
 func _ready():
-    right_hand.get_node('Hitbox').connect("body_entered", self, "_on_AttackArea_body_entered")
-    left_hand.get_node('Hitbox').connect("body_entered", self, "_on_AttackArea_body_entered")
-    hit_points_label.text = String(hit_points)
-    gravity = 2 * max_jump_height / pow(jump_duration, 2)
-    max_jump_velocity = -sqrt(2 * gravity * max_jump_height)
-    min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
-    _set_face()
+	right_hand.get_node('Hitbox').connect("body_entered", self, "_on_AttackArea_body_entered")
+	left_hand.get_node('Hitbox').connect("body_entered", self, "_on_AttackArea_body_entered")
+	hit_points_label.text = String(hit_points)
+	gravity = 2 * max_jump_height / pow(jump_duration, 2)
+	max_jump_velocity = -sqrt(2 * gravity * max_jump_height)
+	min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
+	_set_face()
 
 func _apply_gravity(delta : float):
-    velocity.y += gravity * delta
-
+	velocity.y += gravity * delta
 
 func _cap_gravity_wall_slide():
-    var max_velocity : float = 4 * Globals.CELL_SIZE if !Input.is_action_pressed(move_down) else 16 * Globals.CELL_SIZE
-    velocity.y = min(velocity.y, max_velocity)
-
+	var max_velocity : float = 4 * Globals.CELL_SIZE if !Input.is_action_pressed(move_down) else 16 * Globals.CELL_SIZE
+	velocity.y = min(velocity.y, max_velocity)
 
 func _apply_movement():
-    if is_jumping && velocity.y >= 0:
-        is_jumping = false
-    velocity = move_and_slide(velocity, UP, SLOPE_STOP)
-    is_grounded = !is_jumping && _check_is_grounded()
-
+	if is_jumping && velocity.y >= 0:
+		is_jumping = false
+	velocity = move_and_slide(velocity, UP, SLOPE_STOP)
+	is_grounded = !is_jumping && _check_is_grounded()
 
 func jump():
-    velocity.y = max_jump_velocity
-    is_jumping = true
-
+	velocity.y = max_jump_velocity
+	is_jumping = true
 
 func wall_jump():
-    var wall_jump_velocity : Vector2 = WALL_JUMP_VELOCITY
-    wall_jump_velocity.x *= -wall_direction
-    velocity.y = 0
-    velocity += wall_jump_velocity
+	var wall_jump_velocity : Vector2 = WALL_JUMP_VELOCITY
+	wall_jump_velocity.x *= -wall_direction
+	velocity.y = 0
+	velocity += wall_jump_velocity
 
 func attack():
-    if can_attack:
-        var hand = null
-        var vel = Vector2(0,0)
-        var body_part = $StateMachine/Sprites/Body
-        var head = $StateMachine/Sprites/Head
-        $Sounds/Punch.play()
+	if can_attack:
+		var hand = null
+		var vel = Vector2(0,0)
+		var body_part = $StateMachine/Sprites/Body
+		var head = $StateMachine/Sprites/Head
+		$Sounds/Punch.play()
 
-        # dictate punch direction based on the head direction
-        var dir = 1
-        var scale = $StateMachine/Sprites/Head/Sprite.scale.x
-        if scale > 0: dir = 1
-        else: dir = -1
-        # change hands for each punch
-        if punch_arm == 'right':
-            punch_arm = 'left'
-            hand = left_hand
-        else:
-            punch_arm = 'right'
-            hand = right_hand
+		# dictate punch direction based on the head direction
+		var dir = 1
+		var scale = $StateMachine/Sprites/Head/Sprite.scale.x
+		if scale > 0: dir = 1
+		else: dir = -1
+		# change hands for each punch
+		if punch_arm == 'right':
+			punch_arm = 'left'
+			hand = left_hand
+		else:
+			punch_arm = 'right'
+			hand = right_hand
 
-        attack_area = hand.get_node('Hitbox')
+		# set hitbox
+		attack_area = hand.get_node('Hitbox')
+		# launch hand
+		vel = Vector2(hand.get_gravity_scale()*PUNCH_DISTANCE*dir,0)
+		hand.apply_central_impulse(vel)
+		# launch body
+		body_part.apply_torque_impulse(3000*dir)
 
-        # launch hand
-        vel = Vector2(hand.get_gravity_scale()*PUNCH_DISTANCE*dir,0)
-        hand.apply_central_impulse(vel)
-        # launch body
-        body_part.apply_torque_impulse(3000*dir)
+		$StateMachine/AnimationPlayer.play('attack_'+punch_arm)
 
-        $StateMachine/AnimationPlayer.play('attack_'+punch_arm)
-
-        attack_area.monitoring = true
-        attack_timer.start()
+		attack_area.monitoring = true
+		attack_timer.start()
 
 func _update_move_direction():
-    move_direction = -int(Input.is_action_pressed(move_left)) + int(Input.is_action_pressed(move_right))
-    if move_direction != 0:
-        # all nodes in here will be mirrored when changing directions
-        # these range from simple sprites to feet that require mirroring the parent node, not the sprites themselves
-        var mirror_group = [get_node("StateMachine/Sprites/Right Foot"),
-                get_node("StateMachine/Sprites/Left Foot"),
-                get_node("StateMachine/Sprites/Body/Body"),
-                get_node("StateMachine/Sprites/Head/Sprite"),
-                get_node("StateMachine/Sprites/Head/Face"),
-                get_node("StateMachine/Sprites/Right Hand/Sprite"),
-                get_node("StateMachine/Sprites/Left Hand/Sprite")]
-        for i in mirror_group:
-            var scale = i.get_scale()
-            match move_direction:
-                1: if scale.x < 0: scale.x *= -1
-                -1: if scale.x > 0: scale.x *= -1
-            i.set_scale(Vector2(scale.x,scale.y))
-        facing_direction = move_direction
-
+	move_direction = -int(Input.is_action_pressed(move_left)) + int(Input.is_action_pressed(move_right))
+	if move_direction != 0:
+		# all nodes in here will be mirrored when changing directions
+		# these range from simple sprites to feet that require mirroring the parent node, not the sprites themselves
+		var mirror_group = [get_node("StateMachine/Sprites/Right Foot"),
+				get_node("StateMachine/Sprites/Left Foot"),
+				get_node("StateMachine/Sprites/Body/Body"),
+				get_node("StateMachine/Sprites/Head/Sprite"),
+				get_node("StateMachine/Sprites/Head/Face"),
+				get_node("StateMachine/Sprites/Right Hand/Sprite"),
+				get_node("StateMachine/Sprites/Left Hand/Sprite")]
+		for i in mirror_group:
+			var scale = i.get_scale()
+			match move_direction:
+				1: if scale.x < 0: scale.x *= -1
+				-1: if scale.x > 0: scale.x *= -1
+			i.set_scale(Vector2(scale.x,scale.y))
+		facing_direction = move_direction
 
 func _handle_move_input():
-    target_velocity = move_speed * move_direction
-    velocity.x = lerp(velocity.x, target_velocity, _get_h_weight())
-
+	target_velocity = move_speed * move_direction
+	velocity.x = lerp(velocity.x, target_velocity, _get_h_weight())
 
 func _handle_wall_slide_sticking():
-    if move_direction != 0 && move_direction != wall_direction:
-        if wall_slide_sticky_timer.is_stopped():
-            wall_slide_sticky_timer.start()
-    else:
-        wall_slide_sticky_timer.stop()
-
+	if move_direction != 0 && move_direction != wall_direction:
+		if wall_slide_sticky_timer.is_stopped():
+			wall_slide_sticky_timer.start()
+	else:
+		wall_slide_sticky_timer.stop()
 
 func _get_h_weight():
-    if is_on_floor():
-        return 0.2
-    else:
-        if move_direction == 0:
-            return 0.02
-        elif move_direction == sign(velocity.x) && abs(velocity.x) > move_speed:
-            return 0.0
-        else:
-            return 0.1
-
+	if is_on_floor():
+		return 0.2
+	else:
+		if move_direction == 0:
+			return 0.02
+		elif move_direction == sign(velocity.x) && abs(velocity.x) > move_speed:
+			return 0.0
+		else:
+			return 0.1
 
 func _check_is_grounded():
-    for raycast in raycasts.get_children():
-        if raycast.is_colliding():
-            return true
-
-    # If loop completes then raycast was not detected so return false
-    return false
-
+	for raycast in raycasts.get_children():
+		if raycast.is_colliding():
+			return true
+	# If loop completes then raycast was not detected so return false
+	return false
 
 func _update_wall_direction():
-    var is_near_wall_left : bool = _check_is_valid_wall(left_wall_raycasts)
-    var is_near_wall_right : bool = _check_is_valid_wall(right_wall_raycasts)
+	var is_near_wall_left : bool = _check_is_valid_wall(left_wall_raycasts)
+	var is_near_wall_right : bool = _check_is_valid_wall(right_wall_raycasts)
 
-    if is_near_wall_left && is_near_wall_right:
-        wall_direction = move_direction
-    else:
-        wall_direction = -int(is_near_wall_left) + int(is_near_wall_right)
-
+	if is_near_wall_left && is_near_wall_right:
+		wall_direction = move_direction
+	else:
+		wall_direction = -int(is_near_wall_left) + int(is_near_wall_right)
 
 func _check_is_valid_wall(wall_raycasts : Node):
-    for raycast in wall_raycasts.get_children():
-        if raycast.is_colliding():
-            var dot : float = acos(Vector2.UP.dot(raycast.get_collision_normal()))
-            if dot > PI * 0.35 && dot < PI * 0.55:
-                return true
-    return false
-
+	for raycast in wall_raycasts.get_children():
+		if raycast.is_colliding():
+			var dot : float = acos(Vector2.UP.dot(raycast.get_collision_normal()))
+			if dot > PI * 0.35 && dot < PI * 0.55:
+				return true
+	return false
 
 func _on_FallingThroughPlatformArea_body_exited():
-    set_collision_mask_bit(DROP_THRU_BIT, true)
+	set_collision_mask_bit(DROP_THRU_BIT, true)
 
 func _set_face():
-    # this function will get called every time we need a new face
-    # used for punching, but can also be used for more personality during the game
-    # just leave this to me - TheMikirog
-    var face = $StateMachine/Sprites/Head/Face
+	# this function will get called every time we need a new face
+	# used for punching, but can also be used for more personality during the game
+	# just leave this to me - TheMikirog
+	var face = $StateMachine/Sprites/Head/Face
 
-    # for now it's just the punching, but I plan to implement more
-    face.set_texture(face_textures[0][1])
-    pass
-
-
+	# for now it's just the punching, but I plan to implement more
+	face.set_texture(face_textures[0][1])
 
 func _on_AttackTimer_timeout():
-    attack_area.monitoring = false
-    attack_cooldown_timer.start()
+	attack_area.monitoring = false
+	attack_cooldown_timer.start()
 
 func _on_AttackCooldown_timeout():
-    can_attack = true
+	can_attack = true
 
 func _on_AttackArea_body_entered(body):
-    #determine attack type from gamemode and handle attack interaction accordingly
-    match Manager.current_game_attack_mode:
-        'nonlethal':
-            bump_player(body)
-            hurt_player(body)
-        'lethal':
-            bump_player(body)
-            hurt_player(body)
-
-#func handle_player_attacked(body):
-#	#determine attack type from gamemode and handle attack interaction accordingly
-#	match Manager.current_game_attack_mode:
-#		'nonlethal':
-#			bump_player(body)
-#		'lethal':
-#			bump_player(body)
-#			hurt_player(body)
+	#determine attack type from gamemode and handle attack interaction accordingly
+	match Manager.current_game_attack_mode:
+		'nonlethal':
+			bump_player(body)
+			hurt_player(body)
+		'lethal':
+			bump_player(body)
+			hurt_player(body)
 
 func bump_player(affected_player):
-    var bump_velocity : Vector2 = Vector2(0,-500)
-    bump_velocity.x = (25 * Globals.CELL_SIZE) * facing_direction
-    affected_player.velocity = bump_velocity
+	var bump_velocity : Vector2 = Vector2(0,-500)
+	bump_velocity.x = (25 * Globals.CELL_SIZE) * facing_direction
+	affected_player.velocity = bump_velocity
 
 func hurt_player(affected_player):
-    affected_player.get_node('StateMachine/AnimationPlayer').play('hurt')
-    affected_player.hit_points -= 20
-
-func die():
-    #remove controllable player instance
-    #begin respawntimer
-    get_parent()._respawn()
-#	get_parent().remove_child(self)
-    ragdoll()
-        
-func ragdoll():
-    # instance ragdoll
-    var ragdoll_file = load("res://scenes/PlayerDead.tscn")
-    var ragdoll = ragdoll_file.instance()
-    print("Ragdoll!")
-    # move all parts where they need to be
-#    var parts = [get_node("Left Hand"),
-#                 get_node("Body"),
-#                 get_node("Head"),
-#                 get_node("Right Hand"),
-#                 get_node("Right Foot"),
-#                 get_node("Left Foot"),
-#                 get_node("Head Arms Pin"),
-#                 get_node("Left Pin"),
-#                 get_node("Left Foot Pin"),
-#                 get_node("Right Pin"),
-#                 get_node("Right Foot Pin")]
-    #ragdoll.set_global_transform(self.get_global_transform())
-    pass
-
-
-
-func die_no_respawn():
-    #remove controllable player instance
-    queue_free()
-    ragdoll()
+	affected_player.get_node('StateMachine/AnimationPlayer').play('hurt')
+	affected_player.hit_points -= 20
 
 func _update_player_stats():
-    hit_points_label.text = String(hit_points)
-    if hit_points == 0:
-        if !parent.is_dead():
-            if Manager.current_game_allow_respawns == true:
-                die()
-            elif Manager.current_game_allow_respawns == false:
-                die_no_respawn()
-
+	hit_points_label.text = String(hit_points)
+	if hit_points == 0:
+		if !parent.is_dead():
+			parent.die(Manager.current_game_allow_respawns)
 
 func _on_TopOfHeadArea_body_entered(affected_player):
-    var affected_player_states = affected_player.get_node('StateMachine')
-    var affected_player_feet = affected_player.get_node('StateMachine/Sprites/Feet/CollisionShape2D')
-    if affected_player_states.state != affected_player_states.states.jump:
-        affected_player_states.set_state(affected_player_states.states.jump)
-        affected_player.velocity.y = -30 * Globals.CELL_SIZE
-        $StateMachine.set_state($StateMachine.states.fall)
-        velocity.y = 25 * Globals.CELL_SIZE
+	var affected_player_states = affected_player.get_node('StateMachine')
+	var affected_player_feet = affected_player.get_node('StateMachine/Sprites/Feet/CollisionShape2D')
+	if affected_player_states.state != affected_player_states.states.jump:
+		affected_player_states.set_state(affected_player_states.states.jump)
+		affected_player.velocity.y = -30 * Globals.CELL_SIZE
+		$StateMachine.set_state($StateMachine.states.fall)
+		velocity.y = 25 * Globals.CELL_SIZE
