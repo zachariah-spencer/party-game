@@ -3,8 +3,9 @@ extends Node
 const GAMES : Dictionary = {
 
 	'lobby' : preload('res://scenes/minigames/MG_Lobby.tscn'),
-	'fighter' : preload('res://scenes/minigames/MG_Fighter.tscn'),
-	'goafk' : preload('res://scenes/minigames/MG_GoAFK.tscn')
+	'sumo' : preload('res://scenes/minigames/MG_Sumo.tscn'),
+	'goafk' : preload('res://scenes/minigames/MG_GoAFK.tscn'),
+	'race_tower' : preload('res://scenes/minigames/MG_Race_Tower.tscn')
 
 }
 var world_node
@@ -46,9 +47,11 @@ func _start_new_minigame(new_minigame : PackedScene):
 		add_child(instance_of_new_minigame)
 
 func _on_game_times_up():
+	Players.print_scores()
 	var next_minigame
 	next_minigame = _select_random_minigame()
 	_start_new_minigame(next_minigame)
+
 
 func _select_random_minigame():
 	#DO

@@ -27,9 +27,9 @@ var min_jump_height : float = 0.8 * Globals.CELL_SIZE
 var jump_duration : float = 0.4
 
 var face_textures = [['normal',preload("res://assets/player/face_v.png")],
-                     ['punch',preload("res://assets/player/face_punch.png")],
-                     ['ecstasy',preload("res://assets/player/face_ecstasy.png")],
-                     ['dead',preload("res://assets/player/face_dead.png")]]
+					 ['punch',preload("res://assets/player/face_punch.png")],
+					 ['ecstasy',preload("res://assets/player/face_ecstasy.png")],
+					 ['dead',preload("res://assets/player/face_dead.png")]]
 
 
 var move_left : String
@@ -40,7 +40,7 @@ var attack_input : String
 
 onready var parent : Node = get_parent()
 onready var hit_points_label : Node = $StateMachine/HitPoints
-onready var attack_area : Node = $AttackArea
+onready var attack_area : Area2D
 onready var wall_slide_cooldown : Node = $WallSlideCooldown
 onready var raycasts : Node = $GroundRaycasts
 onready var left_wall_raycasts : Node = $WallRaycasts/LeftWallRaycasts
@@ -48,11 +48,13 @@ onready var right_wall_raycasts : Node = $WallRaycasts/RightWallRaycasts
 onready var wall_slide_sticky_timer : Node = $WallSlideStickyTimer
 onready var attack_timer : Node = $AttackTimer
 onready var attack_cooldown_timer : Node = $AttackCooldown
-onready var right_fist: Node = get_node('StateMachine/Sprites/Right Hand')
-onready var left_fist: Node = get_node('StateMachine/Sprites/Left Hand')
+onready var right_hand := $'StateMachine/Sprites/Right Hand'
+onready var left_hand := $'StateMachine/Sprites/Left Hand'
 
 
 func _ready():
+	right_hand.get_node('Hitbox').connect("body_entered", self, "_on_AttackArea_body_entered")
+	left_hand.get_node('Hitbox').connect("body_entered", self, "_on_AttackArea_body_entered")
 	hit_points_label.text = String(hit_points)
 	gravity = 2 * max_jump_height / pow(jump_duration, 2)
 	max_jump_velocity = -sqrt(2 * gravity * max_jump_height)
@@ -62,11 +64,9 @@ func _ready():
 func _apply_gravity(delta : float):
 	velocity.y += gravity * delta
 
-
 func _cap_gravity_wall_slide():
 	var max_velocity : float = 4 * Globals.CELL_SIZE if !Input.is_action_pressed(move_down) else 16 * Globals.CELL_SIZE
 	velocity.y = min(velocity.y, max_velocity)
-
 
 func _apply_movement():
 	if is_jumping && velocity.y >= 0:
@@ -74,11 +74,9 @@ func _apply_movement():
 	velocity = move_and_slide(velocity, UP, SLOPE_STOP)
 	is_grounded = !is_jumping && _check_is_grounded()
 
-
 func jump():
 	velocity.y = max_jump_velocity
 	is_jumping = true
-
 
 func wall_jump():
 	var wall_jump_velocity : Vector2 = WALL_JUMP_VELOCITY
@@ -99,23 +97,25 @@ func attack():
 		var scale = $StateMachine/Sprites/Head/Sprite.scale.x
 		if scale > 0: dir = 1
 		else: dir = -1
-        # change hands for each punch
+		# change hands for each punch
 		if punch_arm == 'right':
 			punch_arm = 'left'
-			hand = get_node("StateMachine/Sprites/Left Hand")
+			hand = left_hand
 		else:
 			punch_arm = 'right'
-			hand = get_node("StateMachine/Sprites/Right Hand")
+			hand = right_hand
 
-        # launch hand
+		# set hitbox
+		attack_area = hand.get_node('Hitbox')
+		# launch hand
 		vel = Vector2(hand.get_gravity_scale()*PUNCH_DISTANCE*dir,0)
 		hand.apply_central_impulse(vel)
-        # launch body
+		# launch body
 		body_part.apply_torque_impulse(3000*dir)
 
 		$StateMachine/AnimationPlayer.play('attack_'+punch_arm)
 
-		attack_area.monitoring = false
+		attack_area.monitoring = true
 		attack_timer.start()
 
 func _update_move_direction():
@@ -136,12 +136,11 @@ func _update_move_direction():
 				1: if scale.x < 0: scale.x *= -1
 				-1: if scale.x > 0: scale.x *= -1
 			i.set_scale(Vector2(scale.x,scale.y))
-
+		facing_direction = move_direction
 
 func _handle_move_input():
 	target_velocity = move_speed * move_direction
 	velocity.x = lerp(velocity.x, target_velocity, _get_h_weight())
-
 
 func _handle_wall_slide_sticking():
 	if move_direction != 0 && move_direction != wall_direction:
@@ -149,7 +148,6 @@ func _handle_wall_slide_sticking():
 			wall_slide_sticky_timer.start()
 	else:
 		wall_slide_sticky_timer.stop()
-
 
 func _get_h_weight():
 	if is_on_floor():
@@ -162,15 +160,12 @@ func _get_h_weight():
 		else:
 			return 0.1
 
-
 func _check_is_grounded():
 	for raycast in raycasts.get_children():
 		if raycast.is_colliding():
 			return true
-
 	# If loop completes then raycast was not detected so return false
 	return false
-
 
 func _update_wall_direction():
 	var is_near_wall_left : bool = _check_is_valid_wall(left_wall_raycasts)
@@ -181,7 +176,6 @@ func _update_wall_direction():
 	else:
 		wall_direction = -int(is_near_wall_left) + int(is_near_wall_right)
 
-
 func _check_is_valid_wall(wall_raycasts : Node):
 	for raycast in wall_raycasts.get_children():
 		if raycast.is_colliding():
@@ -191,20 +185,17 @@ func _check_is_valid_wall(wall_raycasts : Node):
 	return false
 
 
-func _on_FallingThroughPlatformArea_body_exited():
+func _on_FallingThroughPlatformArea_body_exited(body):
 	set_collision_mask_bit(DROP_THRU_BIT, true)
 
 func _set_face():
-    # this function will get called every time we need a new face
-    # used for punching, but can also be used for more personality during the game
-    # just leave this to me - TheMikirog
-    var face = $StateMachine/Sprites/Head/Face
+	# this function will get called every time we need a new face
+	# used for punching, but can also be used for more personality during the game
+	# just leave this to me - TheMikirog
+	var face = $StateMachine/Sprites/Head/Face
 
-    # for now it's just the punching, but I plan to implement more
-    face.set_texture(face_textures[0][1])
-    pass
-
-
+	# for now it's just the punching, but I plan to implement more
+	face.set_texture(face_textures[0][1])
 
 func _on_AttackTimer_timeout():
 	attack_area.monitoring = false
@@ -218,50 +209,31 @@ func _on_AttackArea_body_entered(body):
 	match Manager.current_game_attack_mode:
 		'nonlethal':
 			bump_player(body)
+			hurt_player(body)
 		'lethal':
 			bump_player(body)
 			hurt_player(body)
 
-#func handle_player_attacked(body):
-#	#determine attack type from gamemode and handle attack interaction accordingly
-#	match Manager.current_game_attack_mode:
-#		'nonlethal':
-#			bump_player(body)
-#		'lethal':
-#			bump_player(body)
-#			hurt_player(body)
-
 func bump_player(affected_player):
 	var bump_velocity : Vector2 = Vector2(0,-500)
-	bump_velocity.x = (50 * Globals.CELL_SIZE) * facing_direction
+	bump_velocity.x = (25 * Globals.CELL_SIZE) * facing_direction
 	affected_player.velocity = bump_velocity
 
 func hurt_player(affected_player):
 	affected_player.get_node('StateMachine/AnimationPlayer').play('hurt')
 	affected_player.hit_points -= 20
 
-func die():
-	#remove controllable player instance
-	#begin respawntimer
-	get_parent()._respawn()
-#	get_parent().remove_child(self)
-	#instance ragdoll player
-		#CODE GOES HERE
-
-
-
-func die_no_respawn():
-	#remove controllable player instance
-	queue_free()
-	#instance ragdoll player
-		#CODE GOES HERE
-	#begin respawntimer
-
 func _update_player_stats():
 	hit_points_label.text = String(hit_points)
 	if hit_points == 0:
-		if !parent.is_dead:
-			if Manager.current_game_allow_respawns == true:
-				die()
-			elif Manager.current_game_allow_respawns == false:
-				die_no_respawn()
+		if !parent.is_dead():
+			parent.die(Manager.current_game_allow_respawns)
+
+func _on_TopOfHeadArea_body_entered(affected_player):
+	var affected_player_states = affected_player.get_node('StateMachine')
+	var affected_player_feet = affected_player.get_node('StateMachine/Sprites/Feet/CollisionShape2D')
+	if affected_player_states.state != affected_player_states.states.jump:
+		affected_player_states.set_state(affected_player_states.states.jump)
+		affected_player.velocity.y = -30 * Globals.CELL_SIZE
+		$StateMachine.set_state($StateMachine.states.fall)
+		velocity.y = 25 * Globals.CELL_SIZE

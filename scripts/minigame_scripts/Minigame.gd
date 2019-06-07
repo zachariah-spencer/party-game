@@ -4,8 +4,15 @@ class_name Minigame
 
 const PLAY_AREA_WIDTH : int = 1536
 const PLAY_AREA_HEIGHT : int = 896
-var alive_players : Array
 var is_game_won : bool = false
+var game_active : bool = false
+var game_instructions : String
+var has_timer : bool = true
+var game_over : bool = false
+onready var hud : Node = $CanvasLayer/HUD
+
+func _run_minigame_loop():
+	pass
 
 func _insert_players():
 	Manager._randomize_spawn_positions()
@@ -18,17 +25,14 @@ func _insert_players():
 		Players.spawn(Players.active_players[x], spawn_points.get_children()[Manager.player_spawns[x]].position)
 		x += 1
 
-func _check_last_alive(active_players):
-	for player in active_players:
-		if !player.is_dead() && !alive_players.has(player):
-			alive_players.append(player)
-		elif player.is_dead() && alive_players.has(player):
-			alive_players.remove(alive_players.find(player))
+func _check_game_win_conditions():
+	if Players._get_alive_players().size() == 1:
+		_game_won()
+	elif Players._get_alive_players().size() == 0 || Manager.current_game_time == 0:
+		_game_won(true)
 
-	if alive_players.size() == 1:
-		is_game_won = true
-		Manager.current_game_time = 3
-		$HUD/Instructions.text = alive_players[0].display_name + ' Won!'
+func _game_won(no_winner = false):
+	pass
 
-func _game_won():
+func _pregame_timer():
 	pass

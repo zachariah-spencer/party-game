@@ -1,24 +1,20 @@
 extends Minigame
 
-const GAME_NAME : String = 'goafk'
-const GAME_TIME : int = 5
-
-
-
+const GAME_NAME : String = 'race_tower'
+const GAME_TIME : int = 60
+var winning_player : PlayersManager
 
 func _ready():
 	add_to_group('minigames')
 	Manager.current_game_name = GAME_NAME
 	Manager.current_game_reference = self
 	Manager.current_game_time = GAME_TIME
-	Manager.current_game_attack_mode = 'lethal'
+	Manager.current_game_attack_mode = 'nonlethal'
 	Manager.current_game_allow_respawns = false
-	game_instructions = "DON'T MOVE!!!"
+	game_instructions = "Race to\nEscape the Lava!"
 	$Cam.current = true
 	call_deferred('_insert_players')
-
-	yield(get_tree().create_timer(1),"timeout")
-
+	yield(get_tree().create_timer(.5),"timeout")
 	game_active = true
 
 func _physics_process(delta):
@@ -26,16 +22,7 @@ func _physics_process(delta):
 
 func _run_minigame_loop():
 	if game_active:
-		_test_if_players_move()
 		_check_game_win_conditions()
-
-func _test_if_players_move():
-	for player in Players._get_alive_players():
-		if !player.is_dead():
-			var player_state_ref = player.child.get_node('StateMachine')
-			if player_state_ref.state == player_state_ref.states.run || player_state_ref.state == player_state_ref.states.jump:
-				player.child.hit_points = 0
-
 
 func _game_won(no_winner = false):
 	game_over = true
@@ -45,9 +32,21 @@ func _game_won(no_winner = false):
 		Players._get_alive_players()[0].score += 1
 		$CanvasLayer/HUD._update_hud()
 		$CanvasLayer/HUD/TimeLeft/Instructions.text = Players._get_alive_players()[0].display_name + ' Won!'
-		
-	else:
+	elif no_winner:
 		Manager.current_game_time = 0
 		$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Nobody Won!'
 	
 	
+
+func _on_VictoryArea_body_entered(player):
+	winning_player = player.get_parent()
+
+func _check_game_win_conditions():
+	if is_instance_valid(winning_player):
+		_game_won()
+	elif Manager.current_game_time == 0 || Players._get_alive_players().size() == 0:
+		_game_won(true)
+
+
+func _on_Lava_body_entered(player):
+	player.hit_points = 0

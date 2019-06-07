@@ -1,11 +1,13 @@
 extends Node
 class_name PlayersManager
 
+onready var RAGDOLL = preload("res://scenes/PlayerDead.tscn")
 onready var child : Node = $Player
+var ragdoll
 onready var respawn_timer : Node = Timer.new()
-
-var is_dead : bool = false
 var display_name : String
+var score : int = 0
+var dead := false
 
 func _ready():
 	respawn_timer.wait_time = 3
@@ -14,27 +16,35 @@ func _ready():
 	add_child(respawn_timer)
 	respawn_timer.connect('timeout', self, '_on_respawn_timeout')
 
-
-func _physics_process(delta):
-	_check_is_dead()
-
 func register_player_inputs():
 	pass
 
 func register_collisions():
 	pass
 
-func _check_is_dead():
-	is_dead = !is_instance_valid(child)
-
 func is_dead():
-	return !is_instance_valid(child)
+	return dead
 
 func _respawn(respawn_delay : float = 3):
-	child.queue_free()
 	respawn_timer.start(respawn_delay)
 
 func _on_respawn_timeout():
+	if is_instance_valid(ragdoll) :
+		ragdoll.queue_free()
+	dead = false
 	Players.spawn(self)
-#	register_player_inputs()
-#	register_collisions()
+
+func _ragdoll():
+	if is_instance_valid(ragdoll) :
+		ragdoll.queue_free()
+	var add_rag = RAGDOLL.instance()
+	add_rag.position = child.position
+	ragdoll = add_rag
+	add_child(add_rag)
+
+func die(respawn := true):
+	dead = true
+	_ragdoll()
+	child.queue_free()
+	if respawn :
+		_respawn()

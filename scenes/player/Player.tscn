@@ -179,11 +179,9 @@ bus = "Sounds"
 area_mask = 0
 
 [node name="StateMachine" type="Node2D" parent="."]
-editor/display_folded = true
 script = ExtResource( 4 )
 
 [node name="Sprites" type="Node2D" parent="StateMachine"]
-editor/display_folded = true
 
 [node name="Right Foot" type="Node2D" parent="StateMachine/Sprites"]
 editor/display_folded = true
@@ -211,7 +209,6 @@ bias = 0.4
 softness = 2.0
 
 [node name="Left Hand" type="RigidBody2D" parent="StateMachine/Sprites"]
-editor/display_folded = true
 position = Vector2( 10.49, -16.12 )
 collision_layer = 2
 mass = 1.96
@@ -242,6 +239,16 @@ offset = Vector2( -32, 0 )
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="StateMachine/Sprites/Left Hand"]
 position = Vector2( -0.01, 0 )
+shape = SubResource( 4 )
+
+[node name="Hitbox" type="Area2D" parent="StateMachine/Sprites/Left Hand"]
+editor/display_folded = true
+monitoring = false
+collision_layer = 0
+collision_mask = 960
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StateMachine/Sprites/Left Hand/Hitbox"]
+position = Vector2( -0.0100002, 0 )
 shape = SubResource( 4 )
 
 [node name="Body" type="RigidBody2D" parent="StateMachine/Sprites"]
@@ -287,7 +294,6 @@ texture = ExtResource( 5 )
 offset = Vector2( 0, -95 )
 
 [node name="Head" type="RigidBody2D" parent="StateMachine/Sprites"]
-editor/display_folded = true
 position = Vector2( 0, -53.9 )
 collision_layer = 0
 mass = 2.25
@@ -332,7 +338,6 @@ node_b = NodePath("../Feet")
 bias = 0.5
 
 [node name="Right Hand" type="RigidBody2D" parent="StateMachine/Sprites"]
-editor/display_folded = true
 position = Vector2( -10.49, -16.12 )
 collision_layer = 4
 mass = 1.96
@@ -362,6 +367,15 @@ texture = ExtResource( 7 )
 offset = Vector2( -32, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Right Hand"]
+shape = SubResource( 4 )
+
+[node name="Hitbox" type="Area2D" parent="StateMachine/Sprites/Right Hand"]
+editor/display_folded = true
+monitoring = false
+collision_layer = 0
+collision_mask = 960
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StateMachine/Sprites/Right Hand/Hitbox"]
 shape = SubResource( 4 )
 
 [node name="StateLabel" type="Label" parent="StateMachine"]
@@ -457,26 +471,12 @@ cast_to = Vector2( 1, 0 )
 
 [node name="FallingThroughPlatformArea" type="Area2D" parent="."]
 editor/display_folded = true
-visible = false
-position = Vector2( 0, -25 )
+position = Vector2( 0, -35 )
 collision_layer = 0
 collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FallingThroughPlatformArea"]
 shape = SubResource( 33 )
-
-[node name="AttackArea" type="Area2D" parent="."]
-editor/display_folded = true
-visible = false
-position = Vector2( 35, 0 )
-monitoring = false
-collision_layer = 32
-collision_mask = 960
-
-[node name="Shape" type="CollisionShape2D" parent="AttackArea"]
-position = Vector2( 0, -16 )
-rotation = 1.5708
-shape = SubResource( 34 )
 
 [node name="WallSlideCooldown" type="Timer" parent="."]
 process_mode = 0
@@ -495,8 +495,16 @@ process_mode = 0
 wait_time = 0.4
 one_shot = true
 
+[node name="TopOfHeadArea" type="Area2D" parent="."]
+position = Vector2( 0, -84 )
+collision_layer = 2048
+collision_mask = 960
+
+[node name="Shape" type="CollisionShape2D" parent="TopOfHeadArea"]
+shape = SubResource( 34 )
+one_way_collision = true
 [connection signal="body_exited" from="FallingThroughPlatformArea" to="." method="_on_FallingThroughPlatformArea_body_exited"]
-[connection signal="body_entered" from="AttackArea" to="." method="_on_AttackArea_body_entered"]
 [connection signal="timeout" from="WallSlideStickyTimer" to="StateMachine" method="_on_WallSlideStickyTimer_timeout"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_AttackCooldown_timeout"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
+[connection signal="body_entered" from="TopOfHeadArea" to="." method="_on_TopOfHeadArea_body_entered"]
