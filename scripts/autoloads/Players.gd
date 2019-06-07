@@ -12,6 +12,8 @@ func spawn(player : PlayersManager, spawn_position : Vector2 = select_spawn_poin
 	if is_instance_valid(player.child) :
 		player.child.queue_free()
 		yield(player.child, "tree_exited")
+	if is_instance_valid(player.ragdoll) :
+		player.ragdoll.queue_free()
 
 #	instances the player at a spawn point
 	var add = player_scene.instance()
