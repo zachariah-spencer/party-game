@@ -11,7 +11,8 @@ var center = Vector2.ZERO
 func _process(delta):
 	center = Vector2.ZERO
 	for player in Players.active_players :
-		center += player.child.global_position
+		if !player.is_dead():
+			center += player.child.global_position
 #		var screen_pos = player.child.get_global_transform_with_canvas().origin
 #		print(screen_pos)
 #		var screen_size = get_viewport_rect().size
@@ -24,9 +25,10 @@ func _process(delta):
 	var zoom_out = false
 	var dist = 0
 	for player in Players.active_players :
-		dist += center.distance_to(player.child.global_position)
-		if center.distance_to(player.child.global_position) > zoom_out_threshold : zoom_out = true
-		if center.distance_to(player.child.global_position) < zoom_in_threshold : zoom_in = true
+		if !player.is_dead():
+			dist += center.distance_to(player.child.global_position)
+			if center.distance_to(player.child.global_position) > zoom_out_threshold : zoom_out = true
+			if center.distance_to(player.child.global_position) < zoom_in_threshold : zoom_in = true
 
 
 	zoom = lerp(zoom, Vector2.ONE * max(.1,log(dist)/log(40)-.3), .5)
