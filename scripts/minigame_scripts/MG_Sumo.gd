@@ -12,9 +12,9 @@ func _ready():
 	Manager.current_game_allow_respawns = false
 	$Cam.current = true
 	call_deferred('_insert_players')
-	
+
 	yield(get_tree().create_timer(.5),"timeout")
-	
+
 	game_active = true
 
 func _physics_process(delta):
