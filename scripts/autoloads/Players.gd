@@ -1,6 +1,10 @@
 extends Node
 
 onready var player_scene : PackedScene = preload('res://scenes/player/Player.tscn')
+onready var player_one_scene : PackedScene = preload('res://scenes/player/PlayerOne.tscn')
+onready var player_two_scene : PackedScene = preload('res://scenes/player/PlayerTwo.tscn')
+onready var player_three_scene : PackedScene = preload('res://scenes/player/PlayerThree.tscn')
+onready var player_four_scene : PackedScene = preload('res://scenes/player/PlayerFour.tscn')
 var active_players : Array
 
 func _ready():
@@ -53,6 +57,23 @@ func select_spawn_point():
 	Manager._randomize_spawn_positions()
 	return spawn_points.get_children()[Manager.player_spawns[0]].position
 
-func print_scores():
-	print('p1: ' + String(Globals.player_one.score))
-	print('p2: ' + String(Globals.player_two.score))
+func _activate_player(player_manager):
+	if !is_instance_valid(player_manager):
+		var instance_of_player_manager
+		match player_manager:
+			Globals.player_one:
+				instance_of_player_manager = player_one_scene.instance()
+			Globals.player_two:
+				instance_of_player_manager = player_two_scene.instance()
+			Globals.player_three:
+				instance_of_player_manager = player_three_scene.instance()
+			Globals.player_four:
+				instance_of_player_manager = player_four_scene.instance()
+		Manager.world_node.get_node('Players').add_child(instance_of_player_manager)
+		spawn(instance_of_player_manager)
+
+func _deactivate_player(player):
+	pass
+
+func _get_active_players():
+	return get_tree().get_nodes_in_group('players')

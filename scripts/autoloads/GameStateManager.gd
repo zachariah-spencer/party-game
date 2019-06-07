@@ -1,5 +1,6 @@
 extends Node
 
+#a list of all the minigames that can be played
 const GAMES : Dictionary = {
 
 	'lobby' : preload('res://scenes/minigames/MG_Lobby.tscn'),
@@ -8,8 +9,9 @@ const GAMES : Dictionary = {
 	'race_tower' : preload('res://scenes/minigames/MG_Race_Tower.tscn')
 
 }
-var world_node
-
+#the world node under the root
+var world_node : Node
+#the canvaslayer instance that will move in front of the playarea while the minigames switch
 var transition_scene : PackedScene = preload('res://scenes/Transition.tscn')
 var finish_transition_instance
 
@@ -30,7 +32,6 @@ var player_spawns : Array = [0,1,2,3]
 
 func _ready():
 	world_node = get_parent().get_node('World')
-
 	randomize()
 	_start_new_minigame(GAMES['lobby'])
 
@@ -47,7 +48,6 @@ func _start_new_minigame(new_minigame : PackedScene):
 		add_child(instance_of_new_minigame)
 
 func _on_game_times_up():
-	Players.print_scores()
 	var next_minigame
 	next_minigame = _select_random_minigame()
 	_start_new_minigame(next_minigame)
