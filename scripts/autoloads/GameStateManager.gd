@@ -11,7 +11,6 @@ const GAMES : Dictionary = {
 var world_node
 
 var transition_scene : PackedScene = preload('res://scenes/Transition.tscn')
-var finish_transition_instance
 
 #warning-ignore:unused_class_variable
 var current_game_name : String
