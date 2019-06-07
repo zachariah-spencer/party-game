@@ -8,6 +8,7 @@ var is_game_won : bool = false
 var game_active : bool = false
 var game_instructions : String
 var has_timer : bool = true
+var game_over : bool = false
 onready var hud : Node = $CanvasLayer/HUD
 
 func _run_minigame_loop():
