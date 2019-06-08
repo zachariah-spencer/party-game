@@ -39,6 +39,14 @@ func _ragdoll():
 		ragdoll.queue_free()
 	var add_rag = RAGDOLL.instance()
 	add_rag.position = child.position
+	var parts = ["Left Hand",
+				 "Body",
+				 "Head",
+				 "Right Hand",
+				 "Right Foot",
+				 "Left Foot"]
+	for p in parts: 
+		add_rag.get_node(p).linear_velocity = child.velocity*2
 	ragdoll = add_rag
 	add_child(add_rag)
 
