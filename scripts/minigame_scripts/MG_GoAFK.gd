@@ -45,9 +45,10 @@ func _game_won(no_winner = false):
 		for player in Players._get_alive_players():
 			player.score += 1
 		$CanvasLayer/HUD._update_hud()
-		$CanvasLayer/HUD/TimeLeft/Instructions.text = ''
+		$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Winners:\n'
 		for player in Players._get_alive_players():
-			$CanvasLayer/HUD/TimeLeft/Instructions.text = $CanvasLayer/HUD/TimeLeft/Instructions.text + '\n'+ player.display_name + ' Won!'
+			$CanvasLayer/HUD/TimeLeft/Instructions.text = $CanvasLayer/HUD/TimeLeft/Instructions.text +  player.display_name + '\n'
+		
 
 	else:
 		Manager.current_game_time = 0
@@ -57,8 +58,8 @@ func _game_won(no_winner = false):
 func _check_game_win_conditions():
 	if Players._get_alive_players().size() == 1:
 		_game_won()
-	elif Players._get_alive_players().size() == 0 && Manager.current_game_time == 0:
-		_game_won(true)
 	elif Players._get_alive_players().size() >= 1 && Manager.current_game_time == 0:
 		_game_won()
+	elif Players._get_alive_players().size() == 0 || Manager.current_game_time == 0:
+		_game_won(true)
 

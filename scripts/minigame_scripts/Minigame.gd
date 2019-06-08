@@ -17,10 +17,11 @@ func _run_minigame_loop():
 func _insert_players():
 	Manager._randomize_spawn_positions()
 	Manager._randomize_spawn_positions()
-
-	var spawn_points : Node = get_tree().get_nodes_in_group('spawnpoints')[0]
+	var i := 0
+	var spawn_points : Array = get_tree().get_nodes_in_group('spawnpoints')[0].get_children()
 	for player in Players.active_players :
-		Players.spawn(player)
+		Players.spawn(player, spawn_points[Manager.player_spawns[i]].position)
+		i += 1
 #	var x : int = 0
 #
 #	while x < Players._get_active_players().size():
