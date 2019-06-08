@@ -43,7 +43,7 @@ func _ragdoll():
 	ragdoll = add_rag
 	add_child(add_rag)
 
-func die(respawn := true):
+func die(respawn := false):
 	dead = true
 	set_physics_process(false)
 	_ragdoll()

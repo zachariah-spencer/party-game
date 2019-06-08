@@ -65,6 +65,8 @@ func _activate_player(player_manager : Node, player_num : String, instant := fal
 	player_tmp.active = true
 	if instant :
 		spawn(player_tmp)
+	else :
+		player_tmp.dead = true
 	_update_active_players()
 	Globals.HUD._update_hud()
 

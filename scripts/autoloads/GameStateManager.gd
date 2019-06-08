@@ -79,17 +79,17 @@ func _process(delta):
 		elif Input.is_action_just_pressed('player_one_b') && Players.player_one.active:
 			Players._deactivate_player(Players.player_one, '1')
 		
-		if Input.is_action_just_pressed('player_two_start') && !Players.player_one.active:
+		if Input.is_action_just_pressed('player_two_start') && !Players.player_two.active:
 			Players._activate_player(Players.player_two, '2')
-		elif Input.is_action_just_pressed('player_two_b') && Players.player_one.active:
+		elif Input.is_action_just_pressed('player_two_b') && Players.player_two.active:
 			Players._deactivate_player(Players.player_two, '2')
 		
-		if Input.is_action_just_pressed('player_three_start') && !Players.player_one.active:
+		if Input.is_action_just_pressed('player_three_start') && !Players.player_three.active:
 			Players._activate_player(Players.player_three, '3')
-		elif Input.is_action_just_pressed('player_three_b') && Players.player_one.active:
+		elif Input.is_action_just_pressed('player_three_b') && Players.player_three.active:
 			Players._deactivate_player(Players.player_three, '3')
 		
-		if Input.is_action_just_pressed('player_four_start') && !Players.player_one.active:
+		if Input.is_action_just_pressed('player_four_start') && !Players.player_four.active:
 			Players._activate_player(Players.player_four, '4')
-		elif Input.is_action_just_pressed('player_four_b') && Players.player_one.active:
+		elif Input.is_action_just_pressed('player_four_b') && Players.player_four.active:
 			Players._deactivate_player(Players.player_four, '4')
