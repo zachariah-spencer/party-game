@@ -10,7 +10,6 @@ func _process(delta):
 	for player in Players._get_alive_players():
 		center += player.child.global_position
 		alive += 1
-	print(alive)
 	if alive > 0 : center = center/alive
 
 	var dist = 0

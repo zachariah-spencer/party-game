@@ -103,7 +103,11 @@ text = "0"
 align = 1
 valign = 1
 
-[node name="P1Ready" type="Label" parent="Scorecards"]
+[node name="Statuses" type="Control" parent="Scorecards"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="P1Ready" type="Label" parent="Scorecards/Statuses"]
 visible = false
 margin_left = 300.0
 margin_top = 150.0
@@ -115,7 +119,7 @@ text = "Not Ready"
 align = 1
 valign = 1
 
-[node name="P2Ready" type="Label" parent="Scorecards"]
+[node name="P2Ready" type="Label" parent="Scorecards/Statuses"]
 visible = false
 anchor_left = 1.0
 anchor_right = 1.0
@@ -129,13 +133,13 @@ text = "Not Ready"
 align = 1
 valign = 1
 
-[node name="P4Ready" type="Label" parent="Scorecards"]
+[node name="P4Ready" type="Label" parent="Scorecards/Statuses"]
 visible = false
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = 1095.0
 margin_top = 690.0
-margin_right = 1146.0
+margin_right = 1194.0
 margin_bottom = 741.0
 custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0, 0.815686, 0.0313726, 1 )
@@ -143,7 +147,7 @@ text = "Not Ready"
 align = 1
 valign = 1
 
-[node name="P3Ready" type="Label" parent="Scorecards"]
+[node name="P3Ready" type="Label" parent="Scorecards/Statuses"]
 visible = false
 anchor_left = 1.0
 anchor_right = 1.0

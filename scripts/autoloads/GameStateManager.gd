@@ -48,7 +48,6 @@ func _start_new_minigame(new_minigame : PackedScene):
 		current_minigame = new_minigame.instance()
 		world_node.add_child(current_minigame)
 		transition.fade_out()
-		print(current_game_name)
 	else :
 		current_minigame = new_minigame.instance()
 		world_node.add_child(current_minigame)

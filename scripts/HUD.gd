@@ -15,24 +15,31 @@ func _ready():
 func _validate_active_players():
 	if Players.player_one.active:
 		$Scorecards/P1Score.visible = true
-		$Scorecards/P1Ready.visible = true
+		$Scorecards/Statuses/P1Ready.visible = true
 		$Scorecards/P1Score.text = String(Players.player_one.score)
-
 	if Players.player_two.active:
 		$Scorecards/P2Score.visible = true
-		$Scorecards/P2Ready.visible = true
+		$Scorecards/Statuses/P2Ready.visible = true
 		$Scorecards/P2Score.text = String(Players.player_two.score)
 	if Players.player_three.active:
 		$Scorecards/P3Score.visible = true
-		$Scorecards/P3Ready.visible = true
+		$Scorecards/Statuses/P3Ready.visible = true
 		$Scorecards/P3Score.text = String(Players.player_three.score)
 	if Players.player_four.active:
 		$Scorecards/P4Score.visible = true
-		$Scorecards/P4Ready.visible = true
+		$Scorecards/Statuses/P4Ready.visible = true
 		$Scorecards/P4Score.text = String(Players.player_four.score)
+	
+	
+	if Manager.current_game_name != 'lobby':
+		for status in $Scorecards/Statuses.get_children():
+			status.visible = false
 
 func _update_hud():
 	yield(get_tree().create_timer(.1),'timeout')
+	
+	#still needs work so that when players return to the lobby their statuses re-appear
+
 
 	if !get_parent().get_parent().game_over:
 		$TimeLeft/Instructions.text = Manager.current_game_reference.game_instructions

@@ -2,8 +2,7 @@
 
 [ext_resource path="res://scripts/player_scripts/PlayerFour.gd" type="Script" id=1]
 
-[node name="PlayerFour" type="Node2D" groups=[
-"players",
-]]
+[node name="PlayerFour" type="Node2D"]
 modulate = Color( 0.152941, 0.698039, 0, 1 )
 script = ExtResource( 1 )
+
