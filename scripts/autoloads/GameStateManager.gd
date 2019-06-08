@@ -71,3 +71,25 @@ func _select_random_minigame():
 
 func _randomize_spawn_positions():
 	player_spawns.shuffle()
+
+func _process(delta):
+	if current_game_name != 'lobby':
+		if Input.is_action_just_pressed('player_one_start') && !Players.player_one.active:
+			Players._activate_player(Players.player_one, '1')
+		elif Input.is_action_just_pressed('player_one_b') && Players.player_one.active:
+			Players._deactivate_player(Players.player_one, '1')
+		
+		if Input.is_action_just_pressed('player_two_start') && !Players.player_one.active:
+			Players._activate_player(Players.player_two, '2')
+		elif Input.is_action_just_pressed('player_two_b') && Players.player_one.active:
+			Players._deactivate_player(Players.player_two, '2')
+		
+		if Input.is_action_just_pressed('player_three_start') && !Players.player_one.active:
+			Players._activate_player(Players.player_three, '3')
+		elif Input.is_action_just_pressed('player_three_b') && Players.player_one.active:
+			Players._deactivate_player(Players.player_three, '3')
+		
+		if Input.is_action_just_pressed('player_four_start') && !Players.player_one.active:
+			Players._activate_player(Players.player_four, '4')
+		elif Input.is_action_just_pressed('player_four_b') && Players.player_one.active:
+			Players._deactivate_player(Players.player_four, '4')
