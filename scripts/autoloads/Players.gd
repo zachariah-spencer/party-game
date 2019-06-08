@@ -84,6 +84,7 @@ func _deactivate_player(player_manager : Node, player_num : String):
 	player_tmp.active = false
 	player_tmp.die()
 	_update_active_players()
+	Globals.HUD._update_hud()
 
 func _update_active_players():
 	active_players = []

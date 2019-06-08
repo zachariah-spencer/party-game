@@ -19,12 +19,12 @@ func _ready():
 	has_timer = false
 	game_instructions = "Press '1'\nto Start!"
 	$Cam.current = true
-	
+
 	Globals.HUD.get_node('Scorecards/Statuses/P1Ready').text = 'Not Ready'
 	Globals.HUD.get_node('Scorecards/Statuses/P2Ready').text = 'Not Ready'
 	Globals.HUD.get_node('Scorecards/Statuses/P3Ready').text = 'Not Ready'
 	Globals.HUD.get_node('Scorecards/Statuses/P4Ready').text = 'Not Ready'
-	
+
 	call_deferred('_insert_players')
 
 

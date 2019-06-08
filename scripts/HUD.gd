@@ -29,15 +29,15 @@ func _validate_active_players():
 		$Scorecards/P4Score.visible = true
 		$Scorecards/Statuses/P4Ready.visible = true
 		$Scorecards/P4Score.text = String(Players.player_four.score)
-	
-	
+
+
 	if Manager.current_game_name != 'lobby':
 		for status in $Scorecards/Statuses.get_children():
 			status.visible = false
 
 func _update_hud():
 	yield(get_tree().create_timer(.1),'timeout')
-	
+
 	#still needs work so that when players return to the lobby their statuses re-appear
 
 

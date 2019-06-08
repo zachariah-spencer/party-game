@@ -11,11 +11,16 @@ var dead := true
 var active := false
 
 func _ready():
+	Manager.connect('minigame_change', self, "_minigame_change")
 	respawn_timer.wait_time = 3
 	respawn_timer.process_mode = Timer.TIMER_PROCESS_PHYSICS
 	respawn_timer.one_shot = true
 	add_child(respawn_timer)
 	respawn_timer.connect('timeout', self, '_on_respawn_timeout')
+
+func _minigame_change():
+	if is_instance_valid(ragdoll) :
+		ragdoll.queue_free()
 
 func register_player_inputs():
 	pass
@@ -44,8 +49,9 @@ func _ragdoll():
 	add_child(add_rag)
 
 func die(respawn := false):
+	if dead :
+		return
 	dead = true
-	set_physics_process(false)
 	_ragdoll()
 	child.set_physics_process(false)
 	child.state_machine.set_physics_process(false)

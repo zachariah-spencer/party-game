@@ -30,6 +30,8 @@ var current_game_spawns : Node
 #make this minigame
 var current_minigame : Node
 
+signal minigame_change
+
 var player_spawns : Array = [0,1,2,3]
 
 func _ready():
@@ -46,6 +48,7 @@ func _start_new_minigame(new_minigame : PackedScene):
 		current_minigame.queue_free()
 		yield(current_minigame, "tree_exited")
 		current_minigame = new_minigame.instance()
+		emit_signal("minigame_change")
 		world_node.add_child(current_minigame)
 		transition.fade_out()
 	else :
@@ -78,17 +81,17 @@ func _process(delta):
 			Players._activate_player(Players.player_one, '1')
 		elif Input.is_action_just_pressed('player_one_b') && Players.player_one.active:
 			Players._deactivate_player(Players.player_one, '1')
-		
+
 		if Input.is_action_just_pressed('player_two_start') && !Players.player_two.active:
 			Players._activate_player(Players.player_two, '2')
 		elif Input.is_action_just_pressed('player_two_b') && Players.player_two.active:
 			Players._deactivate_player(Players.player_two, '2')
-		
+
 		if Input.is_action_just_pressed('player_three_start') && !Players.player_three.active:
 			Players._activate_player(Players.player_three, '3')
 		elif Input.is_action_just_pressed('player_three_b') && Players.player_three.active:
 			Players._deactivate_player(Players.player_three, '3')
-		
+
 		if Input.is_action_just_pressed('player_four_start') && !Players.player_four.active:
 			Players._activate_player(Players.player_four, '4')
 		elif Input.is_action_just_pressed('player_four_b') && Players.player_four.active:
