@@ -17,18 +17,26 @@ func _validate_active_players():
 		$Scorecards/P1Score.visible = true
 		$Scorecards/Statuses/P1Ready.visible = true
 		$Scorecards/P1Score.text = String(Players.player_one.score)
+	else:
+		$Scorecards/P1Score.visible = false
 	if Players.player_two.active:
 		$Scorecards/P2Score.visible = true
 		$Scorecards/Statuses/P2Ready.visible = true
 		$Scorecards/P2Score.text = String(Players.player_two.score)
+	else:
+		$Scorecards/P2Score.visible = false
 	if Players.player_three.active:
 		$Scorecards/P3Score.visible = true
 		$Scorecards/Statuses/P3Ready.visible = true
 		$Scorecards/P3Score.text = String(Players.player_three.score)
+	else:
+		$Scorecards/P3Score.visible = false
 	if Players.player_four.active:
 		$Scorecards/P4Score.visible = true
 		$Scorecards/Statuses/P4Ready.visible = true
 		$Scorecards/P4Score.text = String(Players.player_four.score)
+	else:
+		$Scorecards/P4Score.visible = false
 
 
 	if Manager.current_game_name != 'lobby':

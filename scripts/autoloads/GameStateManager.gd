@@ -81,18 +81,29 @@ func _process(delta):
 			Players._activate_player(Players.player_one, '1')
 		elif Input.is_action_just_pressed('player_one_b') && Players.player_one.active:
 			Players._deactivate_player(Players.player_one, '1')
+			_force_back_to_lobby()
 
 		if Input.is_action_just_pressed('player_two_start') && !Players.player_two.active:
 			Players._activate_player(Players.player_two, '2')
 		elif Input.is_action_just_pressed('player_two_b') && Players.player_two.active:
 			Players._deactivate_player(Players.player_two, '2')
+			_force_back_to_lobby()
 
 		if Input.is_action_just_pressed('player_three_start') && !Players.player_three.active:
 			Players._activate_player(Players.player_three, '3')
 		elif Input.is_action_just_pressed('player_three_b') && Players.player_three.active:
 			Players._deactivate_player(Players.player_three, '3')
+			_force_back_to_lobby()
 
 		if Input.is_action_just_pressed('player_four_start') && !Players.player_four.active:
 			Players._activate_player(Players.player_four, '4')
 		elif Input.is_action_just_pressed('player_four_b') && Players.player_four.active:
 			Players._deactivate_player(Players.player_four, '4')
+			_force_back_to_lobby()
+		
+		
+
+func _force_back_to_lobby():
+	Players._update_active_players()
+	if Players.active_players.size() < 2:
+		_start_new_minigame(GAMES['lobby'])
