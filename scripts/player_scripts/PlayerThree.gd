@@ -5,6 +5,9 @@ func _ready():
 	Players.player_three = self
 	Players._players.append(self)
 	display_name = 'Player Three'
+	start_button = 'player_three_start'
+	b_button = 'player_three_b'
+	player_number = '3'
 
 func register_player_inputs():
 	child.move_left = 'player_three_move_left'

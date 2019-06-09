@@ -184,7 +184,6 @@ script = ExtResource( 4 )
 [node name="Sprites" type="Node2D" parent="StateMachine"]
 
 [node name="Right Foot" type="Node2D" parent="StateMachine/Sprites"]
-editor/display_folded = true
 position = Vector2( 0, 1 )
 rotation = -0.0311069
 
@@ -198,21 +197,21 @@ offset = Vector2( 0, -95 )
 position = Vector2( 7.87, -26.57 )
 node_a = NodePath("../Left Hand")
 node_b = NodePath("../Body/Arms")
-bias = 0.4
+bias = 0.6
 softness = 2.0
 
 [node name="Right Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
 position = Vector2( -7.6, -26.3 )
 node_a = NodePath("../Right Hand")
 node_b = NodePath("../Body/Arms")
-bias = 0.4
+bias = 0.6
 softness = 2.0
 
 [node name="Left Hand" type="RigidBody2D" parent="StateMachine/Sprites"]
 position = Vector2( 10.49, -16.12 )
 collision_layer = 2
 mass = 1.96
-gravity_scale = 10.0
+gravity_scale = 12.0
 linear_damp = 5.0
 
 [node name="Trail" type="CPUParticles2D" parent="StateMachine/Sprites/Left Hand"]
@@ -252,7 +251,6 @@ position = Vector2( -0.0100002, 0 )
 shape = SubResource( 4 )
 
 [node name="Body" type="RigidBody2D" parent="StateMachine/Sprites"]
-editor/display_folded = true
 modulate = Color( 1, 1, 1, 0.893617 )
 position = Vector2( 0, -16.06 )
 rotation = 0.00837352
@@ -283,7 +281,6 @@ position = Vector2( 0, 0.398 )
 shape = SubResource( 6 )
 
 [node name="Left Foot" type="Node2D" parent="StateMachine/Sprites"]
-editor/display_folded = true
 position = Vector2( 0, 1 )
 rotation = -0.0406802
 
@@ -317,6 +314,7 @@ position = Vector2( 0, -29.75 )
 z_as_relative = false
 node_a = NodePath("../Head")
 node_b = NodePath("../Body/Arms")
+bias = 0.9
 
 [node name="Feet" type="KinematicBody2D" parent="StateMachine/Sprites"]
 editor/display_folded = true
@@ -335,7 +333,7 @@ shape = SubResource( 8 )
 position = Vector2( 0.17, -7.36 )
 node_a = NodePath("../Body")
 node_b = NodePath("../Feet")
-bias = 0.5
+bias = 0.603
 
 [node name="Right Hand" type="RigidBody2D" parent="StateMachine/Sprites"]
 position = Vector2( -10.49, -16.12 )
@@ -470,12 +468,12 @@ enabled = true
 cast_to = Vector2( 1, 0 )
 
 [node name="FallingThroughPlatformArea" type="Area2D" parent="."]
-editor/display_folded = true
 position = Vector2( 0, -35 )
 collision_layer = 0
 collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FallingThroughPlatformArea"]
+position = Vector2( 0, -0.142395 )
 shape = SubResource( 33 )
 
 [node name="WallSlideCooldown" type="Timer" parent="."]

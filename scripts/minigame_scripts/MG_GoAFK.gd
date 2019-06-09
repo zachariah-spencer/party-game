@@ -17,7 +17,7 @@ func _ready():
 	$Cam.current = true
 	call_deferred('_insert_players')
 
-	yield(get_tree().create_timer(1),"timeout")
+	yield(get_tree().create_timer(.5),"timeout")
 
 	game_active = true
 
@@ -41,17 +41,15 @@ func _game_won(no_winner = false):
 	game_over = true
 	game_active = false
 	if !no_winner:
-		Manager.current_game_time = 0
 		for player in Players._get_alive_players():
 			player.score += 1
-		$CanvasLayer/HUD._update_hud()
+		$CanvasLayer/HUD._update_scores()
 		$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Winners:\n'
 		for player in Players._get_alive_players():
 			$CanvasLayer/HUD/TimeLeft/Instructions.text = $CanvasLayer/HUD/TimeLeft/Instructions.text +  player.display_name + '\n'
 		
 
 	else:
-		Manager.current_game_time = 0
 		$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Nobody Won!'
 
 

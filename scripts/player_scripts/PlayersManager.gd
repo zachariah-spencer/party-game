@@ -9,8 +9,13 @@ var display_name : String
 var score : int = 0
 var dead := true
 var active := false
+var b_button : String
+var start_button : String
+var player_number : String
+var ready = false
 
 func _ready():
+	set_process_input(true)
 	Manager.connect('minigame_change', self, "_minigame_change")
 	respawn_timer.wait_time = 3
 	respawn_timer.process_mode = Timer.TIMER_PROCESS_PHYSICS
@@ -19,6 +24,7 @@ func _ready():
 	respawn_timer.connect('timeout', self, '_on_respawn_timeout')
 
 func _minigame_change():
+	respawn_timer.stop()
 	if is_instance_valid(ragdoll) :
 		ragdoll.queue_free()
 
@@ -37,7 +43,6 @@ func _respawn(respawn_delay : float = 3):
 func _on_respawn_timeout():
 	if is_instance_valid(ragdoll) :
 		ragdoll.queue_free()
-	dead = false
 	Players.spawn(self)
 
 func _ragdoll():
@@ -45,6 +50,14 @@ func _ragdoll():
 		ragdoll.queue_free()
 	var add_rag = RAGDOLL.instance()
 	add_rag.position = child.position
+	var parts = ["Left Hand",
+				 "Body",
+				 "Head",
+				 "Right Hand",
+				 "Right Foot",
+				 "Left Foot"]
+	for p in parts: 
+		add_rag.get_node(p).linear_velocity = child.velocity*2
 	ragdoll = add_rag
 	add_child(add_rag)
 
@@ -58,3 +71,33 @@ func die(respawn := false):
 	child.queue_free()
 	if respawn :
 		_respawn()
+
+func _activate_player(player_manager : PlayersManager, instant := false ):
+	player_manager.active = true
+	if instant :
+		Players.spawn(player_manager)
+	else :
+		player_manager.dead = true
+	Players._update_active_players()
+	Globals.HUD._update_hud()
+
+func _deactivate_player(player_manager : PlayersManager):
+	player_manager.active = false
+	player_manager.die()
+	Players._update_active_players()
+	Globals.HUD._update_hud()
+
+
+func _input(event):
+	if event.is_action_pressed(start_button):
+		if !active :
+			_activate_player(self, Manager.current_game_instant_player_inserting)
+		elif !ready :
+			ready = true
+	if event.is_action_pressed(b_button):
+		if ready && Manager.current_game_readyable :
+			ready = false
+		elif active :
+			_deactivate_player(self)
+		Globals.HUD._update_hud()
+

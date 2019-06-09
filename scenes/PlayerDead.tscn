@@ -32,8 +32,9 @@ editor/display_folded = true
 position = Vector2( 10.49, -16.12 )
 collision_layer = 1024
 collision_mask = 1025
-gravity_scale = 20.0
-linear_damp = 5.0
+gravity_scale = 5.0
+linear_damp = 3.0
+angular_damp = 1.0
 
 [node name="Sprite" type="Sprite" parent="Left Hand"]
 scale = Vector2( 0.1, 0.1 )
@@ -51,8 +52,8 @@ collision_layer = 1024
 collision_mask = 1025
 mass = 1.75
 physics_material_override = SubResource( 2 )
-gravity_scale = 120.0
-linear_damp = 30.0
+gravity_scale = 30.0
+linear_damp = 3.0
 angular_damp = 1.0
 
 [node name="Sprite" type="Sprite" parent="Body"]
@@ -72,8 +73,8 @@ collision_layer = 1024
 collision_mask = 1025
 mass = 2.25
 physics_material_override = SubResource( 2 )
-gravity_scale = 100.0
-linear_damp = 30.0
+gravity_scale = 25.0
+linear_damp = 3.0
 angular_damp = 1.0
 
 [node name="Sprite" type="Sprite" parent="Head"]
@@ -93,8 +94,9 @@ editor/display_folded = true
 position = Vector2( -10.49, -16.12 )
 collision_layer = 1024
 collision_mask = 1025
-gravity_scale = 20.0
-linear_damp = 4.0
+gravity_scale = 5.0
+linear_damp = 3.0
+angular_damp = 1.0
 
 [node name="Sprite" type="Sprite" parent="Right Hand"]
 scale = Vector2( 0.1, 0.1 )
@@ -109,7 +111,9 @@ editor/display_folded = true
 position = Vector2( 6, 0 )
 collision_layer = 1024
 collision_mask = 1025
-gravity_scale = 20.0
+gravity_scale = 5.0
+linear_damp = 3.0
+angular_damp = 1.0
 
 [node name="Sprite" type="Sprite" parent="Right Foot"]
 scale = Vector2( 0.1, 0.1 )
@@ -127,7 +131,9 @@ editor/display_folded = true
 position = Vector2( -6, 0 )
 collision_layer = 1024
 collision_mask = 1025
-gravity_scale = 20.0
+gravity_scale = 5.0
+linear_damp = 3.0
+angular_damp = 1.0
 
 [node name="Sprite" type="Sprite" parent="Left Foot"]
 scale = Vector2( 0.1, 0.1 )
@@ -144,36 +150,23 @@ shape = SubResource( 5 )
 position = Vector2( 0, -32.33 )
 node_a = NodePath("../Head")
 node_b = NodePath("../Body")
-disable_collision = false
 
 [node name="Left Pin" type="PinJoint2D" parent="."]
 position = Vector2( 12.47, -26.57 )
 node_a = NodePath("../Left Hand")
 node_b = NodePath("../Body")
-bias = 0.2
-disable_collision = false
-softness = 2.0
 
 [node name="Left Foot Pin" type="PinJoint2D" parent="."]
 position = Vector2( 4.32, -0.59 )
 node_a = NodePath("../Left Foot")
 node_b = NodePath("../Body")
-bias = 0.2
-disable_collision = false
-softness = 2.0
 
 [node name="Right Pin" type="PinJoint2D" parent="."]
 position = Vector2( -12.47, -26.3 )
 node_a = NodePath("../Right Hand")
 node_b = NodePath("../Body")
-bias = 0.2
-disable_collision = false
-softness = 2.0
 
 [node name="Right Foot Pin" type="PinJoint2D" parent="."]
 position = Vector2( -4.32, -0.59 )
 node_a = NodePath("../Right Foot")
 node_b = NodePath("../Body")
-bias = 0.2
-disable_collision = false
-softness = 2.0

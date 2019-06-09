@@ -28,12 +28,10 @@ func _game_won(no_winner = false):
 	game_over = true
 	game_active = false
 	if !no_winner:
-		Manager.current_game_time = 0
 		Players._get_alive_players()[0].score += 1
-		$CanvasLayer/HUD._update_hud()
+		$CanvasLayer/HUD._update_scores()
 		$CanvasLayer/HUD/TimeLeft/Instructions.text = Players._get_alive_players()[0].display_name + ' Won!'
 	elif no_winner:
-		Manager.current_game_time = 0
 		$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Nobody Won!'
 	
 	
@@ -44,7 +42,7 @@ func _on_VictoryArea_body_entered(player):
 func _check_game_win_conditions():
 	if is_instance_valid(winning_player):
 		_game_won()
-	elif Manager.current_game_time == 0 || Players._get_alive_players().size() == 0:
+	elif Manager.current_game_time == -1 || Players._get_alive_players().size() == 0:
 		_game_won(true)
 
 
