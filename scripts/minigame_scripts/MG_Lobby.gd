@@ -16,6 +16,7 @@ func _ready():
 	Manager.current_game_time = GAME_TIME
 	Manager.current_game_attack_mode = 'nonlethal'
 	Manager.current_game_allow_respawns = false
+	Manager.current_game_instant_player_inserting = true
 	has_timer = false
 	game_instructions = "Press '1'\nto Start!"
 	$Cam.current = true
@@ -32,10 +33,23 @@ func _process(delta):
 	_check_ready_ups()
 
 func _check_ready_ups():
+	Players._update_active_players()
 	var num_of_players = Players.active_players.size()
 	
-	_check_activates()
-	_check_deactivates()
+	if Input.is_action_just_pressed('player_one_start') && Players.player_one.active && !player_one_ready:
+		player_one_ready = true
+		Globals.HUD.get_node('Scorecards/Statuses/P1Ready').text = 'Ready'
+		num_of_ready_ups += 1
+	elif Input.is_action_just_pressed('player_one_b') && Players.player_one.active && player_one_ready:
+		#something needs to happen here still to stop the player managers from deactivating upon hitting this.
+		player_one_ready = false
+		Globals.HUD.get_node('Scorecards/Statuses/P1Ready').text = 'Not Ready'
+		num_of_ready_ups -= 1
+	#PRETEND THIS WAS HERE FOR PLAYERS 2, 3, & 4
+	
+#	_check_activates()
+#	_check_deactivates()
+#^^^ THESE ARE BOTH THE OLD FUNCTIONS FOR HANDLING THE READY SYSTEM ALL INSIDE OF MGLOBBY.gd
 	
 	if num_of_players >= 2 && num_of_ready_ups == num_of_players:
 		if !is_starting:

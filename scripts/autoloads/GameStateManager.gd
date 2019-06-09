@@ -26,6 +26,8 @@ var current_game_attack_mode : String
 var current_game_allow_respawns : bool
 #warning-ignore:unused_class_variable
 var current_game_spawns : Node
+#warning-ignore:unused_class_variable
+var current_game_instant_player_inserting : bool = false
 
 #make this minigame
 var current_minigame : Node
