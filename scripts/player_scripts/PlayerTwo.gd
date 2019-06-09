@@ -7,6 +7,7 @@ func _ready():
 	display_name = 'Player Two'
 	start_button = 'player_two_start'
 	b_button = 'player_two_b'
+	player_number = '2'
 
 func register_player_inputs():
 	child.move_left = 'player_two_move_left'
@@ -29,15 +30,3 @@ func register_collisions():
 	child.set_collision_mask_bit(6, true)
 	child.set_collision_mask_bit(8, true)
 	child.set_collision_mask_bit(9, true)
-
-func _check_actdeact():
-	if Manager.current_game_instant_player_inserting:
-		if Input.is_action_just_pressed(start_button) && !active:
-			_activate_player(self, '2', true)
-		elif Input.is_action_just_pressed(b_button) && active:
-			_deactivate_player(self, '2')
-	if !Manager.current_game_instant_player_inserting:
-		if Input.is_action_just_pressed(start_button) && !active:
-			_activate_player(self, '2')
-		elif Input.is_action_just_pressed(b_button) && active:
-			_deactivate_player(self, '2')

@@ -11,8 +11,11 @@ var dead := true
 var active := false
 var b_button : String
 var start_button : String
+var player_number : String
+var ready = false
 
 func _ready():
+	set_process_input(true)
 	Manager.connect('minigame_change', self, "_minigame_change")
 	respawn_timer.wait_time = 3
 	respawn_timer.process_mode = Timer.TIMER_PROCESS_PHYSICS
@@ -61,10 +64,7 @@ func die(respawn := false):
 	if respawn :
 		_respawn()
 
-func _process(delta):
-	_check_actdeact()
-
-func _activate_player(player_manager : PlayersManager, player_num : String, instant := false ):
+func _activate_player(player_manager : PlayersManager, instant := false ):
 	player_manager.active = true
 	if instant :
 		Players.spawn(player_manager)
@@ -73,11 +73,23 @@ func _activate_player(player_manager : PlayersManager, player_num : String, inst
 	Players._update_active_players()
 	Globals.HUD._update_hud()
 
-func _deactivate_player(player_manager : PlayersManager, player_num : String):
+func _deactivate_player(player_manager : PlayersManager):
 	player_manager.active = false
 	player_manager.die()
 	Players._update_active_players()
 	Globals.HUD._update_hud()
 
-func _check_actdeact():
-	pass
+
+func _input(event):
+	if event.is_action_pressed(start_button):
+		if !active :
+			_activate_player(self, Manager.current_game_instant_player_inserting)
+		elif !ready :
+			ready = true
+	if event.is_action_pressed(b_button):
+		if ready && Manager.current_game_readyable :
+			ready = false
+		elif active :
+			_deactivate_player(self)
+		Globals.HUD._update_hud()
+
