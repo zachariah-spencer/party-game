@@ -50,42 +50,6 @@ func select_spawn_point():
 	Manager._randomize_spawn_positions()
 	return spawn_points.get_children()[Manager.player_spawns[0]].position
 
-func _activate_player(player_manager : Node, player_num : String, instant := false ):
-
-	var player_tmp
-	match player_num:
-		'1':
-			player_tmp = player_one
-		'2':
-			player_tmp = player_two
-		'3':
-			player_tmp = player_three
-		'4':
-			player_tmp = player_four
-	player_tmp.active = true
-	if instant :
-		spawn(player_tmp)
-	else :
-		player_tmp.dead = true
-	_update_active_players()
-	Globals.HUD._update_hud()
-
-func _deactivate_player(player_manager : Node, player_num : String):
-	var player_tmp
-	match player_num:
-		'1':
-			player_tmp = player_one
-		'2':
-			player_tmp = player_two
-		'3':
-			player_tmp = player_three
-		'4':
-			player_tmp = player_four
-	player_tmp.active = false
-	player_tmp.die()
-	_update_active_players()
-	Globals.HUD._update_hud()
-
 func _update_active_players():
 	active_players = []
 	for player in _players :

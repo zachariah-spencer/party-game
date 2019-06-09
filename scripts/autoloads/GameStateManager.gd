@@ -26,6 +26,11 @@ var current_game_attack_mode : String
 var current_game_allow_respawns : bool
 #warning-ignore:unused_class_variable
 var current_game_spawns : Node
+#warning-ignore:unused_class_variable
+var current_game_instant_player_inserting : bool = false
+#warning-ignore:unused_class_variable
+var current_game_readyable : bool = false
+
 
 #make this minigame
 var current_minigame : Node
@@ -35,6 +40,7 @@ signal minigame_change
 var player_spawns : Array = [0,1,2,3]
 
 func _ready():
+	
 	world_node = get_parent().get_node('World')
 	randomize()
 	_start_new_minigame(GAMES['lobby'])
@@ -75,31 +81,31 @@ func _select_random_minigame():
 func _randomize_spawn_positions():
 	player_spawns.shuffle()
 
-func _process(delta):
-	if current_game_name != 'lobby':
-		if Input.is_action_just_pressed('player_one_start') && !Players.player_one.active:
-			Players._activate_player(Players.player_one, '1')
-		elif Input.is_action_just_pressed('player_one_b') && Players.player_one.active:
-			Players._deactivate_player(Players.player_one, '1')
-			_force_back_to_lobby()
-
-		if Input.is_action_just_pressed('player_two_start') && !Players.player_two.active:
-			Players._activate_player(Players.player_two, '2')
-		elif Input.is_action_just_pressed('player_two_b') && Players.player_two.active:
-			Players._deactivate_player(Players.player_two, '2')
-			_force_back_to_lobby()
-
-		if Input.is_action_just_pressed('player_three_start') && !Players.player_three.active:
-			Players._activate_player(Players.player_three, '3')
-		elif Input.is_action_just_pressed('player_three_b') && Players.player_three.active:
-			Players._deactivate_player(Players.player_three, '3')
-			_force_back_to_lobby()
-
-		if Input.is_action_just_pressed('player_four_start') && !Players.player_four.active:
-			Players._activate_player(Players.player_four, '4')
-		elif Input.is_action_just_pressed('player_four_b') && Players.player_four.active:
-			Players._deactivate_player(Players.player_four, '4')
-			_force_back_to_lobby()
+#func _process(delta):
+#	if current_game_name != 'lobby':
+##		if Input.is_action_just_pressed('player_one_start') && !Players.player_one.active:
+##			Players._activate_player(Players.player_one, '1')
+##		elif Input.is_action_just_pressed('player_one_b') && Players.player_one.active:
+##			Players._deactivate_player(Players.player_one, '1')
+##			_force_back_to_lobby()
+#
+#		if Input.is_action_just_pressed('player_two_start') && !Players.player_two.active:
+#			Players._activate_player(Players.player_two, '2')
+#		elif Input.is_action_just_pressed('player_two_b') && Players.player_two.active:
+#			Players._deactivate_player(Players.player_two, '2')
+#			_force_back_to_lobby()
+#
+#		if Input.is_action_just_pressed('player_three_start') && !Players.player_three.active:
+#			Players._activate_player(Players.player_three, '3')
+#		elif Input.is_action_just_pressed('player_three_b') && Players.player_three.active:
+#			Players._deactivate_player(Players.player_three, '3')
+#			_force_back_to_lobby()
+#
+#		if Input.is_action_just_pressed('player_four_start') && !Players.player_four.active:
+#			Players._activate_player(Players.player_four, '4')
+#		elif Input.is_action_just_pressed('player_four_b') && Players.player_four.active:
+#			Players._deactivate_player(Players.player_four, '4')
+#			_force_back_to_lobby()
 		
 		
 
@@ -107,3 +113,4 @@ func _force_back_to_lobby():
 	Players._update_active_players()
 	if Players.active_players.size() < 2:
 		_start_new_minigame(GAMES['lobby'])
+
