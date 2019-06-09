@@ -107,3 +107,7 @@ func _force_back_to_lobby():
 	Players._update_active_players()
 	if Players.active_players.size() < 2:
 		_start_new_minigame(GAMES['lobby'])
+
+func _handle_minigame_time():
+	#a wip for moving time handling out of the HUD and into the GSM.
+	pass

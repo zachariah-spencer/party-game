@@ -30,7 +30,7 @@ func _game_won(no_winner = false):
 	if !no_winner:
 		Manager.current_game_time = 0
 		Players._get_alive_players()[0].score += 1
-		$CanvasLayer/HUD._update_hud()
+		$CanvasLayer/HUD._update_scores()
 		$CanvasLayer/HUD/TimeLeft/Instructions.text = Players._get_alive_players()[0].display_name + ' Won!'
 	elif no_winner:
 		Manager.current_game_time = 0
