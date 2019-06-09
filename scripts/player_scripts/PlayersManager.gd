@@ -9,6 +9,8 @@ var display_name : String
 var score : int = 0
 var dead := true
 var active := false
+var b_button : String
+var start_button : String
 
 func _ready():
 	Manager.connect('minigame_change', self, "_minigame_change")
@@ -19,6 +21,7 @@ func _ready():
 	respawn_timer.connect('timeout', self, '_on_respawn_timeout')
 
 func _minigame_change():
+	respawn_timer.stop()
 	if is_instance_valid(ragdoll) :
 		ragdoll.queue_free()
 
@@ -37,7 +40,6 @@ func _respawn(respawn_delay : float = 3):
 func _on_respawn_timeout():
 	if is_instance_valid(ragdoll) :
 		ragdoll.queue_free()
-	dead = false
 	Players.spawn(self)
 
 func _ragdoll():
@@ -58,3 +60,24 @@ func die(respawn := false):
 	child.queue_free()
 	if respawn :
 		_respawn()
+
+func _process(delta):
+	_check_actdeact()
+
+func _activate_player(player_manager : PlayersManager, player_num : String, instant := false ):
+	player_manager.active = true
+	if instant :
+		Players.spawn(player_manager)
+	else :
+		player_manager.dead = true
+	Players._update_active_players()
+	Globals.HUD._update_hud()
+
+func _deactivate_player(player_manager : PlayersManager, player_num : String):
+	player_manager.active = false
+	player_manager.die()
+	Players._update_active_players()
+	Globals.HUD._update_hud()
+
+func _check_actdeact():
+	pass

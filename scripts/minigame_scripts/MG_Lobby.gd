@@ -33,76 +33,81 @@ func _process(delta):
 
 func _check_ready_ups():
 	var num_of_players = Players.active_players.size()
+	
+	_check_activates()
+	_check_deactivates()
+	
+	if num_of_players >= 2 && num_of_ready_ups == num_of_players:
+		if !is_starting:
+			_game_won(true)
+			is_starting = true
 
+func _check_activates():
 	if Input.is_action_just_pressed('player_one_start'):
 		if Players.player_one.active && !player_one_ready:
 			player_one_ready = true
 			Globals.HUD.get_node('Scorecards/Statuses/P1Ready').text = 'Ready'
 			num_of_ready_ups += 1
 		elif !Players.player_one.active:
-			Players._activate_player(Players.player_one, '1', true)
-	if Input.is_action_just_pressed('player_two_start') && !player_two_ready:
-		if Players.player_two.active:
+			Players.player_one._activate_player(Players.player_one, '1', true)
+	
+	if Input.is_action_just_pressed('player_two_start'):
+		if Players.player_two.active && !player_two_ready:
 			player_two_ready = true
 			Globals.HUD.get_node('Scorecards/Statuses/P2Ready').text = 'Ready'
 			num_of_ready_ups += 1
-		else:
-			Players._activate_player(Players.player_two, '2', true)
-	if Input.is_action_just_pressed('player_three_start') && !player_three_ready:
-		if Players.player_three.active:
+		elif !Players.player_two.active:
+			Players.player_two._activate_player(Players.player_two, '2', true)
+	
+	if Input.is_action_just_pressed('player_three_start'):
+		if Players.player_three.active && !player_three_ready:
 			player_three_ready = true
 			Globals.HUD.get_node('Scorecards/Statuses/P3Ready').text = 'Ready'
 			num_of_ready_ups += 1
-		else:
-			Players._activate_player(Players.player_three, '3', true)
-	if Input.is_action_just_pressed('player_four_start') && !player_four_ready:
-		if Players.player_four.active:
+		elif !Players.player_three.active:
+			Players.player_three._activate_player(Players.player_three, '3', true)
+	
+	if Input.is_action_just_pressed('player_four_start'):
+		if Players.player_four.active && !player_four_ready:
 			player_four_ready = true
 			Globals.HUD.get_node('Scorecards/Statuses/P4Ready').text = 'Ready'
 			num_of_ready_ups += 1
-		else:
-			Players._activate_player(Players.player_four, '4', true)
+		elif !Players.player_four.active:
+			Players.player_four._activate_player(Players.player_four, '4', true)
 
-
-
+func _check_deactivates():
 	if Input.is_action_just_pressed('player_one_b'):
-		if Players.player_one.active&& player_one_ready:
+		if Players.player_one.active && player_one_ready:
 			player_one_ready = false
 			Globals.HUD.get_node('Scorecards/Statuses/P1Ready').text = 'Not Ready'
 			num_of_ready_ups -= 1
-		elif Players.player_two.active && !player_one_ready:
-			Players._deactivate_player(Players.player_one, '1')
-
+		elif Players.player_one.active && !player_one_ready:
+			Players.player_one._deactivate_player(Players.player_one, '1')
+	
 	if Input.is_action_just_pressed('player_two_b'):
 		if Players.player_two.active && player_two_ready:
 			player_two_ready = false
 			Globals.HUD.get_node('Scorecards/Statuses/P2Ready').text = 'Not Ready'
 			num_of_ready_ups -= 1
-		elif Players.player_two.active  && !player_two_ready:
-			Players._deactivate_player(Players.player_two, '2')
-
+		elif Players.player_two.active && !player_two_ready:
+			Players.player_two._deactivate_player(Players.player_two, '2')
+	
 	if Input.is_action_just_pressed('player_three_b'):
 		if Players.player_three.active && player_three_ready:
 			player_three_ready = false
 			Globals.HUD.get_node('Scorecards/Statuses/P3Ready').text = 'Not Ready'
 			num_of_ready_ups -= 1
-		elif Players.player_three.active  && !player_three_ready:
-			Players._deactivate_player(Players.player_three, '3')
-
+		elif Players.player_three.active && !player_three_ready:
+			Players.player_three._deactivate_player(Players.player_three, '3')
+	
 	if Input.is_action_just_pressed('player_four_b'):
 		if Players.player_four.active && player_four_ready:
 			player_four_ready = false
 			Globals.HUD.get_node('Scorecards/Statuses/P4Ready').text = 'Not Ready'
 			num_of_ready_ups -= 1
-		elif Players.player_four.active  && !player_four_ready:
-			Players._deactivate_player(Players.player_four, '4')
+		elif Players.player_four.active && !player_four_ready:
+			Players.player_four._deactivate_player(Players.player_four, '3')
 
-
-
-	if num_of_players >= 2 && num_of_ready_ups == num_of_players:
-		if !is_starting:
-			_game_won(true)
-			is_starting = true
 
 func _game_won(no_winner : bool = false):
 	Globals.HUD._update_hud()

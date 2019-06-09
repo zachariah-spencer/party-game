@@ -5,6 +5,8 @@ func _ready():
 	Players.player_four = self
 	Players._players.append(self)
 	display_name = 'Player Four'
+	start_button = 'player_four_start'
+	b_button = 'player_four_b'
 
 func register_player_inputs():
 	child.move_left = 'player_four_move_left'
@@ -27,3 +29,10 @@ func register_collisions():
 	child.set_collision_mask_bit(6, true)
 	child.set_collision_mask_bit(7, true)
 	child.set_collision_mask_bit(8, true)
+
+func _check_actdeact():
+	if Manager.current_game_name != 'lobby':
+		if Input.is_action_just_pressed(start_button) && !active:
+			_activate_player(self, '4')
+		elif Input.is_action_just_pressed(b_button) && active:
+			_deactivate_player(self, '4')
