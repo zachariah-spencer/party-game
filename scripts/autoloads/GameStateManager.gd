@@ -35,6 +35,7 @@ signal minigame_change
 var player_spawns : Array = [0,1,2,3]
 
 func _ready():
+	
 	world_node = get_parent().get_node('World')
 	randomize()
 	_start_new_minigame(GAMES['lobby'])
@@ -108,6 +109,3 @@ func _force_back_to_lobby():
 	if Players.active_players.size() < 2:
 		_start_new_minigame(GAMES['lobby'])
 
-func _handle_minigame_time():
-	#a wip for moving time handling out of the HUD and into the GSM.
-	pass

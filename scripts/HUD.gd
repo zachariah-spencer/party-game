@@ -1,7 +1,7 @@
 extends Control
 
 #tells GameStateManager singleton when to transition to a new minigame
-signal game_times_up
+#DELETE: signal game_times_up
 
 #reference to time counter display
 onready var time_display : Label = $TimeLeft
@@ -12,7 +12,7 @@ func _ready():
 	
 	#connect the game_times_up signal upon readying in the tree
 	#warning-ignore:return_value_discarded
-	connect('game_times_up', Manager, '_on_game_times_up')
+	#DELETE: connect('game_times_up', Manager, '_on_game_times_up')
 	
 	#update the hud with new information
 	call_deferred('_update_hud')
@@ -69,11 +69,18 @@ func _check_game_over():
 	#once the games win conditions are reached, stop updating the instructions to allow,
 	#that label to be reused as a way to tell the players who won.
 	if get_parent().get_parent().game_over:
-		#do this stuff if the current games win conditions HAVE NOT been reached
-		pass
-	else:
 		#do this stuff if the current games win conditions HAVE been reached
+		if Manager.current_game_time != 0:
+			#in the event of a game win
+			time_display.text = String(Manager.current_game_time+1)
+		elif Manager.current_game_time == 0:
+			#in the event of a game timing out
+			time_display.text = '0'
+	else:
+		#do this stuff if the current games win conditions HAVE NOT been reached
+		time_display.text = String(Manager.current_game_time)
 		$TimeLeft/Instructions.text = Manager.current_game_reference.game_instructions
+
 
 func _update_game_timer():
 	#set the timer ui to the current game time
@@ -102,11 +109,13 @@ func _on_Timer_timeout():
 	#this checks if the current game has a timer, if it does it handles the time every second
 	#else it overwrites the timer UI with a blank String
 	if Manager.current_game_reference.has_timer:
-		_every_second()
+		_check_game_over()
+		_update_game_timer()
 	else:
 		$TimeLeft.text = ''
 
 func _every_second():
+	print('in every second')
 	#this is what keeps track of the minigame time
 	if Manager.current_game_reference.game_active:
 		#if game is active then count time down
