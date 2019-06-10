@@ -31,13 +31,19 @@ var face_textures = [['normal',preload("res://assets/player/face_v.png")],
 					 ['ecstasy',preload("res://assets/player/face_ecstasy.png")],
 					 ['dead',preload("res://assets/player/face_dead.png")]]
 
-
 var move_left : String
 var move_right : String
 var move_down : String
 var move_jump : String
 var attack_input : String
 
+var state = null setget set_state
+var previous_state = null
+var states : Dictionary = {}
+var wall_action : String
+
+onready var state_label : Label = $StateMachine/StateLabel
+onready var anim_tree : AnimationTree = $StateMachine/AnimationTree
 onready var state_machine := $StateMachine
 onready var parent : Node = get_parent()
 onready var hit_points_label : Node = $StateMachine/HitPoints
@@ -234,28 +240,15 @@ func _update_player_stats():
 			parent.die(Manager.current_game_allow_respawns)
 
 func _on_TopOfHeadArea_body_entered(affected_player):
-	var affected_player_states = affected_player.get_node('StateMachine')
 	var affected_player_feet = affected_player.get_node('StateMachine/Sprites/Feet/CollisionShape2D')
-	if affected_player_states.state != affected_player_states.states.jump:
-		affected_player_states.set_state(affected_player_states.states.jump)
+	if affected_player.state != affected_player.states.jump:
+		affected_player.set_state(affected_player.states.jump)
 		affected_player.velocity.y = -30 * Globals.CELL_SIZE
-		$StateMachine.set_state($StateMachine.states.fall)
+		set_state(states.fall)
 		velocity.y = 25 * Globals.CELL_SIZE
 
 
-
-
-
-#statemachine.gd begins here
-onready var state_label : Label = $StateMachine/StateLabel
-onready var anim_tree : AnimationTree = $StateMachine/AnimationTree
-var state = null setget set_state
-var previous_state = null
-var states : Dictionary = {}
-
-#warning-ignore:unused_class_variable
-var wall_action : String
-
+#statemachine code begins here
 func _state_machine_ready():
 	add_state('idle')
 	add_state('run')
@@ -265,7 +258,6 @@ func _state_machine_ready():
 	add_state('attack')
 	anim_tree.active = true
 	call_deferred('set_state', states.idle)
-
 
 func _physics_process(delta):
 	if state != null:
