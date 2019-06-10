@@ -77,6 +77,12 @@ func _update_game_timer():
 			$TimeLeft.text = String(Manager.current_game_time)
 	else:
 		$TimeLeft.text = ''
+	
+	if Manager.current_game_name == 'lobby':
+		if !minigame.game_over:
+			$TimeLeft/Instructions.text = Manager.current_game_reference.game_instructions
+		else:
+			$TimeLeft/Instructions.text = 'Starting...'
 
 func _update_hud():
 	#DEV NOTE: still needs work so that when players return to the lobby their statuses re-appear

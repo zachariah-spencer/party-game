@@ -14,11 +14,10 @@ func _ready():
 
 func spawn(player : PlayersManager, spawn_position : Vector2 = select_spawn_point()):
 #	if there is a player, ensures it's freed before a new instance is created
-	if is_instance_valid(player.child) :
-		player.child.queue_free()
-		yield(player.child, "tree_exited")
-	if is_instance_valid(player.ragdoll) :
-		player.ragdoll.queue_free()
+	for child in player.get_children() :
+		if child.is_in_group("player") :
+			child.queue_free()
+
 	if !player.active :
 		return
 
