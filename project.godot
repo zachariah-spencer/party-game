@@ -205,6 +205,7 @@ player_four_b={
 
 [physics]
 
+common/physics_fps=200
 2d/default_gravity=200
 
 [rendering]
