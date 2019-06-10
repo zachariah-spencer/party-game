@@ -8,6 +8,7 @@ var is_game_won : bool = false
 var game_active : bool = false
 var game_instructions : String
 var has_timer : bool = true
+var has_countdown : bool = true
 var game_over : bool = false
 var minigame_timer : Timer
 onready var hud : Node = $CanvasLayer/HUD
@@ -20,6 +21,7 @@ func _run_minigame_loop():
 func _insert_players():
 	Manager._randomize_spawn_positions()
 	Manager._randomize_spawn_positions()
+	Players._update_active_players()
 	var i := 0
 	var spawn_points : Array = get_tree().get_nodes_in_group('spawnpoints')[0].get_children()
 	for player in Players.active_players :
@@ -34,7 +36,7 @@ func _insert_players():
 func _check_game_win_conditions():
 	if Players._get_alive_players().size() == 1:
 		_game_won()
-	elif Players._get_alive_players().size() == 0 || Manager.current_game_time == -1:
+	elif Players._get_alive_players().size() == 0 || Manager.current_game_time == 0:
 		_game_won(true)
 
 func _game_won(no_winner = false):
@@ -57,7 +59,7 @@ func _handle_minigame_time():
 	#a wip for moving time handling out of the HUD and into the GSM.
 	if game_active:
 	#if game is active then count time down
-		if Manager.current_game_time != -1:
+		if Manager.current_game_time > 0:
 			Manager.current_game_time -= 1
 	elif !game_active && game_over:
 		#if game_won is then call the end game function

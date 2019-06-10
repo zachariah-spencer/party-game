@@ -2,6 +2,7 @@ extends PlayersManager
 
 func _ready():
 	add_to_group('players')
+	active = true
 	Players.player_two = self
 	Players._players.append(self)
 	display_name = 'Player Two'

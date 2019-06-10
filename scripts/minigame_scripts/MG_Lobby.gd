@@ -19,6 +19,8 @@ func _ready():
 	Manager.current_game_attack_mode = 'nonlethal'
 	Manager.current_game_allow_respawns = false
 	Manager.current_game_instant_player_inserting = true
+	has_countdown = false
+	game_active = true
 	has_timer = false
 	game_instructions = "Press '1'\nto Start!"
 	$Cam.current = true

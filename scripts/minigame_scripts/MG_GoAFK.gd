@@ -13,12 +13,13 @@ func _ready():
 	Manager.current_game_time = GAME_TIME
 	Manager.current_game_attack_mode = 'lethal'
 	Manager.current_game_allow_respawns = false
+	has_countdown = false
 	game_instructions = "DON'T MOVE!!!"
 	$Cam.current = true
 	call_deferred('_insert_players')
-
-	yield(get_tree().create_timer(.5),"timeout")
-
+	
+	yield(get_tree().create_timer(1),"timeout")
+	
 	game_active = true
 
 func _physics_process(delta):
