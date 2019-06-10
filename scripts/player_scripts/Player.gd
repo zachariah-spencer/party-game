@@ -31,7 +31,6 @@ var face_textures = [['normal',preload("res://assets/player/face_v.png")],
 					 ['ecstasy',preload("res://assets/player/face_ecstasy.png")],
 					 ['dead',preload("res://assets/player/face_dead.png")]]
 
-
 var move_left : String
 var move_right : String
 var move_down : String
@@ -221,10 +220,13 @@ func bump_player(affected_player):
 	var bump_velocity : Vector2 = Vector2(0,-500)
 	bump_velocity.x = (25 * Globals.CELL_SIZE) * facing_direction
 	affected_player.velocity = bump_velocity
+	affected_player.get_node("Shockwave").set_emitting(true) # some vfx
 
 func hurt_player(affected_player):
 	affected_player.get_node('StateMachine/AnimationPlayer').play('hurt')
 	affected_player.hit_points -= 20
+	var sounds = affected_player.get_node("Sounds/Hit").get_children()
+	sounds[randi() % 2].play()
 
 func _update_player_stats():
 	hit_points_label.text = String(hit_points)
