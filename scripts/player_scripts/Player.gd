@@ -169,11 +169,12 @@ func _get_h_weight():
 			return 0.1
 
 func _check_is_grounded():
-	for raycast in raycasts.get_children():
-		if raycast.is_colliding():
-			return true
-	# If loop completes then raycast was not detected so return false
-	return false
+	if is_instance_valid(raycasts):
+		for raycast in raycasts.get_children():
+			if raycast.is_colliding():
+				return true
+		# If loop completes then raycast was not detected so return false
+		return false
 
 func _update_wall_direction():
 	var is_near_wall_left : bool = _check_is_valid_wall(left_wall_raycasts)
@@ -234,7 +235,7 @@ func hurt_player(affected_player):
 	affected_player.hit_points -= 20
 
 func _update_player_stats():
-	hit_points_label.text = String(hit_points)
+	#hit_points_label.text = String(hit_points)
 	if hit_points == 0:
 		if !parent.is_dead():
 			parent.die(Manager.current_game_allow_respawns)
@@ -275,6 +276,8 @@ func _state_logic(delta : float):
 		_update_player_stats()
 		if state != states.disabled:
 			_update_move_direction()
+		else:
+			_stop_movement()
 		_update_wall_direction()
 		_update_wall_action()
 		_apply_gravity(delta)
@@ -434,3 +437,6 @@ func _input(event : InputEvent):
 		#VARIABLE JUMP
 		if event.is_action_released(move_jump) && velocity.y < min_jump_velocity:
 			velocity.y = min_jump_velocity
+
+func _stop_movement():
+	velocity.x = 0
