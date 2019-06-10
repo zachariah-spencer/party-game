@@ -182,6 +182,7 @@ area_mask = 0
 script = ExtResource( 4 )
 
 [node name="Sprites" type="Node2D" parent="StateMachine"]
+editor/display_folded = true
 
 [node name="Right Foot" type="Node2D" parent="StateMachine/Sprites"]
 position = Vector2( 0, 1 )
@@ -501,8 +502,9 @@ collision_mask = 960
 [node name="Shape" type="CollisionShape2D" parent="TopOfHeadArea"]
 shape = SubResource( 34 )
 one_way_collision = true
+
 [connection signal="body_exited" from="FallingThroughPlatformArea" to="." method="_on_FallingThroughPlatformArea_body_exited"]
-[connection signal="timeout" from="WallSlideStickyTimer" to="StateMachine" method="_on_WallSlideStickyTimer_timeout"]
+[connection signal="timeout" from="WallSlideStickyTimer" to="." method="_on_WallSlideStickyTimer_timeout"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_AttackCooldown_timeout"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
 [connection signal="body_entered" from="TopOfHeadArea" to="." method="_on_TopOfHeadArea_body_entered"]
