@@ -6,9 +6,6 @@
 [ext_resource path="res://scripts/DeathBoundary.gd" type="Script" id=4]
 [ext_resource path="res://scenes/HUD.tscn" type="PackedScene" id=5]
 
-
-
-
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 448, 192 )
 
@@ -52,7 +49,6 @@ position = Vector2( 672, 352 )
 [node name="SpawnPoints" type="Node2D" parent="." groups=[
 "spawnpoints",
 ]]
-editor/display_folded = true
 
 [node name="PlayerOneSpawnF" type="Position2D" parent="SpawnPoints"]
 position = Vector2( 256, 120 )
@@ -78,6 +74,7 @@ position = Vector2( 448, 192 )
 shape = SubResource( 1 )
 
 [node name="DeathBoundary" type="Area2D" parent="."]
+editor/display_folded = true
 position = Vector2( 448, 1200 )
 script = ExtResource( 4 )
 __meta__ = {
