@@ -32,7 +32,7 @@ func _run_minigame_loop():
 func _test_if_players_move():
 	for player in Players._get_alive_players():
 		if !player.is_dead():
-			var player_state_ref = player.child.get_node('StateMachine')
+			var player_state_ref = player.child
 			if player_state_ref.state == player_state_ref.states.run || player_state_ref.state == player_state_ref.states.jump:
 				player.child.hit_points = 0
 
@@ -47,7 +47,7 @@ func _game_won(no_winner = false):
 		$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Winners:\n'
 		for player in Players._get_alive_players():
 			$CanvasLayer/HUD/TimeLeft/Instructions.text = $CanvasLayer/HUD/TimeLeft/Instructions.text +  player.display_name + '\n'
-		
+
 
 	else:
 		$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Nobody Won!'
