@@ -257,6 +257,9 @@ func _state_machine_ready():
 	add_state('wall_slide')
 	add_state('attack')
 	anim_tree.active = true
+	anim_tree['parameters/playback'].start("Airborne")
+	anim_tree['parameters/playback'].start("Grounded")
+	anim_tree['parameters/Grounded/playback'].start("Idle")
 	call_deferred('set_state', states.idle)
 
 func _physics_process(delta):
@@ -327,25 +330,45 @@ func _get_transition(delta : float):
 	return null
 
 func _enter_state(new_state, old_state):
+
+	var state_name = null
+	var _state = null
+	var anim = null
+
 	match new_state:
 		states.idle:
-			anim_tree['parameters/playback'].travel('Grounded')
-			anim_tree['parameters/Grounded/playback'].travel('Idle')
+			state_name = "Grounded"
+			anim = "Idle"
+			_state = anim_tree['parameters/Grounded/playback']
 			state_label.text = 'idle'
 		states.run:
-			anim_tree['parameters/playback'].travel('Grounded')
-			anim_tree['parameters/Grounded/playback'].travel('Run')
+			state_name = "Grounded"
+			anim = "Run"
+			_state = anim_tree['parameters/Grounded/playback']
 			state_label.text = 'run'
 		states.jump:
-			anim_tree['parameters/playback'].travel('Airborne')
+			state_name = "Airborne"
 			state_label.text = 'jump'
 		states.fall:
-			anim_tree['parameters/playback'].travel('Airborne')
+			state_name = "Airborne"
 			state_label.text = 'fall'
 		states.wall_slide:
-			state_label.text = 'wall_slide'#flip here
-			#parent.anim_player.play('wall_slide')
-#			parent.body.scale.x = -parent.wall_direction
+			state_label.text = 'wall_slide'
+
+	if state_name :
+		var playback = anim_tree['parameters/playback']
+		if !playback.is_playing() :
+			playback.start(state_name)
+		else :
+			playback.travel(state_name)
+		if _state :
+			if !_state.is_playing() :
+				_state.start(anim)
+			else :
+				_state.travel(anim)
+
+
+
 	pass
 
 func _exit_state(old_state, new_state):
