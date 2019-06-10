@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/white.png" type="Texture" id=2]
 [ext_resource path="res://assets/heart.png" type="Texture" id=3]
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=1]
 resource_name = "fade_in"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Screen/TextureRect:modulate")
@@ -31,8 +31,7 @@ tracks/1/keys = {
 "values": [ Vector2( -800, 0 ), Vector2( 0, 0 ), Vector2( 800, 0 ) ]
 }
 
-[sub_resource type="Animation" id=1]
-resource_name = "fade_out"
+[sub_resource type="Animation" id=2]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Screen/TextureRect:modulate")
 tracks/0/interp = 1
@@ -91,5 +90,6 @@ expand = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 1.5
-anims/fade_in = SubResource( 2 )
-anims/fade_out = SubResource( 1 )
+anims/fade_in = SubResource( 1 )
+anims/fade_out = SubResource( 2 )
+

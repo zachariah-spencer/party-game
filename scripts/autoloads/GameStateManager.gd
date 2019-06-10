@@ -64,10 +64,12 @@ func _start_new_minigame(new_minigame : PackedScene):
 func _on_game_times_up():
 	var next_minigame
 	next_minigame = _select_random_minigame()
+	
 	#some stub commands to test missing node issue
-#	print(next_minigame.instance().name)
-#	for mg_child in next_minigame.instance().get_children():
-#		print(mg_child.name)
+	print(next_minigame.instance().name)
+	for mg_child in next_minigame.instance().get_children():
+		print(mg_child.name)
+		
 	_start_new_minigame(next_minigame)
 
 

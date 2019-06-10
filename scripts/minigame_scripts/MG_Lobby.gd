@@ -22,7 +22,7 @@ func _ready():
 	has_countdown = false
 	game_active = true
 	has_timer = false
-	game_instructions = "Press '1'\nto Start!"
+	game_instructions = "Press '1'\nto ready up!"
 	$Cam.current = true
 
 	Globals.HUD.get_node('Scorecards/Statuses/P1Ready').text = 'Not Ready'
@@ -57,5 +57,6 @@ func _check_ready_ups():
 			is_starting = true
 
 func _game_won(no_winner : bool = false):
+	game_over = true
 	Globals.HUD._update_hud()
 	Manager._on_game_times_up()
