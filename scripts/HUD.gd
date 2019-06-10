@@ -96,6 +96,9 @@ func _process(delta):
 			if $Countdown/CountdownTimer.is_stopped():
 				$Countdown/CountdownTimer.start()
 				$Countdown.visible = true
+				Players._update_active_players()
+				for player in Players.active_players:
+					player.child.set_state(player.child.states.disabled)
 	else:
 		$TimeLeft.text = ''
 
@@ -110,6 +113,9 @@ func _on_CountdownTimer_timeout():
 		'1':
 			$Countdown.text = 'Begin!'
 			$Countdown.modulate = Color(1,1,1,1)
+			Players._update_active_players()
+			for player in Players.active_players:
+				player.child.set_state(player.child.states.idle)
 			emit_signal('begin_game')
 		'Begin!':
 			$Countdown.visible = false

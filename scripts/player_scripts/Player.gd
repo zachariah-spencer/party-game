@@ -256,6 +256,7 @@ func _state_machine_ready():
 	add_state('fall')
 	add_state('wall_slide')
 	add_state('attack')
+	add_state('disabled')
 	anim_tree.active = true
 	anim_tree['parameters/playback'].start("Airborne")
 	anim_tree['parameters/playback'].start("Grounded")
@@ -270,18 +271,22 @@ func _physics_process(delta):
 			set_state(transition)
 
 func _state_logic(delta : float):
-	_update_player_stats()
-	_update_move_direction()
-	_update_wall_direction()
-	_update_wall_action()
-	if state != states.wall_slide:
-		_handle_move_input()
-	_apply_gravity(delta)
-	if state == states.wall_slide:
-		_cap_gravity_wall_slide()
-		_handle_wall_slide_sticking()
-	_apply_movement()
-	anim_tree['parameters/Airborne/blend_position'] = velocity.y / 300
+	
+		_update_player_stats()
+		if state != states.disabled:
+			_update_move_direction()
+		_update_wall_direction()
+		_update_wall_action()
+		_apply_gravity(delta)
+		if state != states.wall_slide:
+			if state != states.disabled:
+				_handle_move_input()
+		if state == states.wall_slide:
+			_cap_gravity_wall_slide()
+			_handle_wall_slide_sticking()
+		_apply_movement()
+		
+		anim_tree['parameters/Airborne/blend_position'] = velocity.y / 300
 
 func _get_transition(delta : float):
 	match state:
