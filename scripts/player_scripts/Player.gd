@@ -359,6 +359,11 @@ func _enter_state(new_state, old_state):
 			state_label.text = 'fall'
 		states.wall_slide:
 			state_label.text = 'wall_slide'
+		states.disabled:
+			state_name = "Grounded"
+			anim = "Idle"
+			_state = anim_tree['parameters/Grounded/playback']
+			state_label.text = 'disabled'
 
 	if state_name :
 		var playback = anim_tree['parameters/playback']
