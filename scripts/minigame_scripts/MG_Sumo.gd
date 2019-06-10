@@ -14,7 +14,7 @@ func _ready():
 	$Cam.current = true
 	call_deferred('_insert_players')
 
-	yield(get_tree().create_timer(.5),"timeout")
+	yield(Globals.HUD,"begin_game")
 
 	game_active = true
 

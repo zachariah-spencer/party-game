@@ -5,6 +5,8 @@ extends Control
 
 #reference to time counter display
 onready var time_display : Label = $TimeLeft
+onready var minigame : Node = get_parent().get_parent()
+signal begin_game
 
 func _ready():
 	#register to singleton
@@ -64,34 +66,17 @@ func _update_scores():
 	if Players.player_four.active:
 		$Scorecards/P4Score.text = String(Players.player_four.score)
 
-func _check_game_over():
-	#only overwrite the instructions box with the game instructions if the game is active,
-	#once the games win conditions are reached, stop updating the instructions to allow,
-	#that label to be reused as a way to tell the players who won.
-	if get_parent().get_parent().game_over:
-		#do this stuff if the current games win conditions HAVE been reached
-		if Manager.current_game_time != 0:
-			#in the event of a game win
-			time_display.text = String(Manager.current_game_time+1)
-		elif Manager.current_game_time == 0:
-			#in the event of a game timing out
-			time_display.text = '0'
-	else:
-		#do this stuff if the current games win conditions HAVE NOT been reached
-		time_display.text = String(Manager.current_game_time)
-		$TimeLeft/Instructions.text = Manager.current_game_reference.game_instructions
-
 
 func _update_game_timer():
-	#set the timer ui to the current game time
-	if !Manager.current_game_reference.has_timer:
-		#if the current minigame DOES NOT display a timer
-		#then overwrite the timer space with a blank string
+	if minigame.has_timer:
+		if !minigame.game_over:
+			#do this stuff if the current games win conditions HAVE NOT been reached
+			$TimeLeft.text = String(Manager.current_game_time)
+			$TimeLeft/Instructions.text = Manager.current_game_reference.game_instructions
+		else:
+			$TimeLeft.text = String(Manager.current_game_time)
+	else:
 		$TimeLeft.text = ''
-	elif Manager.current_game_reference.has_timer:
-		#if the current minigame DOES display a timer
-		#then set the timers text to the current game time as a String
-		$TimeLeft.text = String(Manager.current_game_time)
 
 func _update_hud():
 	#DEV NOTE: still needs work so that when players return to the lobby their statuses re-appear
@@ -99,37 +84,39 @@ func _update_hud():
 	#^^^this yield is more of a safeguard against pre-emptive memory grabassing
 	yield(get_tree().create_timer(.01),'timeout')
 	#call all the previously notated functions
-	_check_game_over()
 	_update_active_players()
 	_update_scores()
 	_update_game_timer()
 
-func _on_Timer_timeout():
-	#function that is tied to a one second looping 'timeout' signal.
-	#this checks if the current game has a timer, if it does it handles the time every second
-	#else it overwrites the timer UI with a blank String
+func _process(delta):
 	if Manager.current_game_reference.has_timer:
-		_check_game_over()
-		_update_game_timer()
+		if minigame.game_active:
+			_update_game_timer()
+		elif !minigame.game_active && !minigame.game_over && minigame.has_countdown:
+			if $Countdown/CountdownTimer.is_stopped():
+				$Countdown/CountdownTimer.start()
+				$Countdown.visible = true
+				Players._update_active_players()
+				for player in Players.active_players:
+					player.child.set_state(player.child.states.disabled)
 	else:
 		$TimeLeft.text = ''
 
-func _every_second():
-	print('in every second')
-	#this is what keeps track of the minigame time
-	if Manager.current_game_reference.game_active:
-		#if game is active then count time down
-		if Manager.current_game_time != 0:
-			Manager.current_game_time -= 1
-			time_display.text = String(Manager.current_game_time)
-		elif Manager.current_game_time == 0:
-			#the 3 second buffer state between one minigame ending 
-			#and the transition to the next one if the game times out to 0
-			time_display.text = '0'
-			yield(get_tree().create_timer(3), 'timeout')
-			emit_signal('game_times_up')
-	else:
-		#the 3 second buffer state between one minigame ending 
-		#and the transition to the next one if the game is won
-		yield(get_tree().create_timer(3), 'timeout')
-		emit_signal('game_times_up')
+func _on_CountdownTimer_timeout():
+	match $Countdown.text:
+		'3':
+			$Countdown.text = '2'
+			$Countdown.modulate = Color(1,1,0,1)
+		'2':
+			$Countdown.text = '1'
+			$Countdown.modulate = Color(0,1,0,1)
+		'1':
+			$Countdown.text = 'Begin!'
+			$Countdown.modulate = Color(1,1,1,1)
+			Players._update_active_players()
+			for player in Players.active_players:
+				player.child.set_state(player.child.states.idle)
+			emit_signal('begin_game')
+		'Begin!':
+			$Countdown.visible = false
+			$Countdown/CountdownTimer.stop()

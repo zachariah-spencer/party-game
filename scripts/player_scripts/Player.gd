@@ -31,13 +31,19 @@ var face_textures = [['normal',preload("res://assets/player/face_v.png")],
 					 ['ecstasy',preload("res://assets/player/face_ecstasy.png")],
 					 ['dead',preload("res://assets/player/face_dead.png")]]
 
-
 var move_left : String
 var move_right : String
 var move_down : String
 var move_jump : String
 var attack_input : String
 
+var state = null setget set_state
+var previous_state = null
+var states : Dictionary = {}
+var wall_action : String
+
+onready var state_label : Label = $StateMachine/StateLabel
+onready var anim_tree : AnimationTree = $StateMachine/AnimationTree
 onready var state_machine := $StateMachine
 onready var parent : Node = get_parent()
 onready var hit_points_label : Node = $StateMachine/HitPoints
@@ -54,6 +60,7 @@ onready var left_hand := $'StateMachine/Sprites/Left Hand'
 
 
 func _ready():
+	_state_machine_ready()
 	right_hand.get_node('Hitbox').connect("body_entered", self, "_on_AttackArea_body_entered")
 	left_hand.get_node('Hitbox').connect("body_entered", self, "_on_AttackArea_body_entered")
 	hit_points_label.text = String(hit_points)
@@ -233,10 +240,197 @@ func _update_player_stats():
 			parent.die(Manager.current_game_allow_respawns)
 
 func _on_TopOfHeadArea_body_entered(affected_player):
-	var affected_player_states = affected_player.get_node('StateMachine')
 	var affected_player_feet = affected_player.get_node('StateMachine/Sprites/Feet/CollisionShape2D')
-	if affected_player_states.state != affected_player_states.states.jump:
-		affected_player_states.set_state(affected_player_states.states.jump)
+	if affected_player.state != affected_player.states.jump:
+		affected_player.set_state(affected_player.states.jump)
 		affected_player.velocity.y = -30 * Globals.CELL_SIZE
-		$StateMachine.set_state($StateMachine.states.fall)
+		set_state(states.fall)
 		velocity.y = 25 * Globals.CELL_SIZE
+
+
+#statemachine code begins here
+func _state_machine_ready():
+	add_state('idle')
+	add_state('run')
+	add_state('jump')
+	add_state('fall')
+	add_state('wall_slide')
+	add_state('attack')
+	add_state('disabled')
+	anim_tree.active = true
+	anim_tree['parameters/playback'].start("Airborne")
+	anim_tree['parameters/playback'].start("Grounded")
+	anim_tree['parameters/Grounded/playback'].start("Idle")
+	call_deferred('set_state', states.idle)
+
+func _physics_process(delta):
+	if state != null:
+		_state_logic(delta)
+		var transition = _get_transition(delta)
+		if transition != null:
+			set_state(transition)
+
+func _state_logic(delta : float):
+	
+		_update_player_stats()
+		if state != states.disabled:
+			_update_move_direction()
+		_update_wall_direction()
+		_update_wall_action()
+		_apply_gravity(delta)
+		if state != states.wall_slide:
+			if state != states.disabled:
+				_handle_move_input()
+		if state == states.wall_slide:
+			_cap_gravity_wall_slide()
+			_handle_wall_slide_sticking()
+		_apply_movement()
+		
+		anim_tree['parameters/Airborne/blend_position'] = velocity.y / 300
+
+func _get_transition(delta : float):
+	match state:
+		states.idle:
+			if !is_on_floor():
+				if velocity.y < 0:
+					return states.jump
+				elif velocity.y >= 0:
+					return states.fall
+			elif abs(move_direction) != 0:
+				return states.run
+		states.run:
+			if !is_on_floor():
+				if velocity.y < 0:
+					return states.jump
+				elif velocity.y >= 0:
+					return states.fall
+			elif abs(move_direction) == 0:
+				return states.idle
+		states.jump:
+			if wall_direction != 0  && wall_slide_cooldown.is_stopped() && Input.is_action_pressed(wall_action):
+				return states.wall_slide
+			elif is_on_floor():
+				return states.idle
+			elif velocity.y >= 0:
+				return states.fall
+		states.fall:
+			if wall_direction != 0 && wall_slide_cooldown.is_stopped() && Input.is_action_pressed(wall_action):
+				return states.wall_slide
+			elif is_on_floor():
+				return states.idle
+			elif velocity.y < 0:
+				return states.jump
+		states.wall_slide:
+			if is_on_floor():
+				return states.idle
+			elif wall_direction == 0:
+				return states.fall
+			elif !Input.is_action_pressed(wall_action):
+				return states.fall
+		states.attack:
+			if attack_timer.is_stopped():
+				return states.idle
+
+	#Error in transitions if this is returned
+	return null
+
+func _enter_state(new_state, old_state):
+
+	var state_name = null
+	var _state = null
+	var anim = null
+
+	match new_state:
+		states.idle:
+			state_name = "Grounded"
+			anim = "Idle"
+			_state = anim_tree['parameters/Grounded/playback']
+			state_label.text = 'idle'
+		states.run:
+			state_name = "Grounded"
+			anim = "Run"
+			_state = anim_tree['parameters/Grounded/playback']
+			state_label.text = 'run'
+		states.jump:
+			state_name = "Airborne"
+			state_label.text = 'jump'
+		states.fall:
+			state_name = "Airborne"
+			state_label.text = 'fall'
+		states.wall_slide:
+			state_label.text = 'wall_slide'
+		states.disabled:
+			state_name = "Grounded"
+			anim = "Idle"
+			_state = anim_tree['parameters/Grounded/playback']
+			state_label.text = 'disabled'
+
+	if state_name :
+		var playback = anim_tree['parameters/playback']
+		if !playback.is_playing() :
+			playback.start(state_name)
+		else :
+			playback.travel(state_name)
+		if _state :
+			if !_state.is_playing() :
+				_state.start(anim)
+			else :
+				_state.travel(anim)
+
+
+
+	pass
+
+func _exit_state(old_state, new_state):
+	match old_state:
+		states.wall_slide:
+			wall_slide_cooldown.start()
+
+func set_state(new_state):
+	previous_state = state
+	state = new_state
+
+	if previous_state != null:
+		_exit_state(previous_state, new_state)
+	if new_state != null:
+		_enter_state(new_state, previous_state)
+
+func add_state(state_name):
+	states[state_name] = states.size()
+
+func _update_wall_action():
+	match wall_direction:
+		-1:
+			wall_action = move_left
+		1:
+			wall_action = move_right
+	return wall_action
+
+func _on_WallSlideStickyTimer_timeout():
+	if state == states.wall_slide:
+		set_state(states.fall)
+
+func _input(event : InputEvent):
+
+	if event.is_action_pressed(attack_input) && attack_timer.is_stopped() && state != states.wall_slide && can_attack:
+		set_state(states.attack)
+		attack()
+
+	if [states.idle, states.run].has(state) && state != states.wall_slide:
+		#JUMP
+		if event.is_action_pressed(move_jump):
+			if Input.is_action_pressed(move_down):
+				set_collision_mask_bit(DROP_THRU_BIT, false)
+			else:
+				jump()
+	elif state == states.wall_slide:
+
+		if event.is_action_pressed(move_jump) && Input.is_action_pressed(wall_action):
+
+			set_state(states.jump)
+			wall_jump()
+
+	elif state == states.jump:
+		#VARIABLE JUMP
+		if event.is_action_released(move_jump) && velocity.y < min_jump_velocity:
+			velocity.y = min_jump_velocity
