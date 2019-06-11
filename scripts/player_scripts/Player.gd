@@ -217,10 +217,9 @@ func _on_AttackCooldown_timeout():
 
 func _on_AttackArea_body_entered(body):
 	#determine attack type from gamemode and handle attack interaction accordingly
-	match Manager.current_game_attack_mode:
+	match Manager.current_minigame.attack_mode:
 		'nonlethal':
 			bump_player(body)
-			hurt_player(body)
 		'lethal':
 			bump_player(body)
 			hurt_player(body)
@@ -238,7 +237,7 @@ func _update_player_stats():
 	#hit_points_label.text = String(hit_points)
 	if hit_points == 0:
 		if !parent.is_dead():
-			parent.die(Manager.current_game_allow_respawns)
+			parent.die(Manager.current_minigame.allow_respawns)
 
 func _on_TopOfHeadArea_body_entered(affected_player):
 	var affected_player_feet = affected_player.get_node('StateMachine/Sprites/Feet/CollisionShape2D')

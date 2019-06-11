@@ -1,25 +1,18 @@
 extends Minigame
 
-const GAME_NAME : String = 'goafk'
-const GAME_TIME : int = 5
-
 
 
 
 func _ready():
 	add_to_group('minigames')
-	Manager.current_game_name = GAME_NAME
-	Manager.current_game_reference = self
-	Manager.current_game_time = GAME_TIME
-	Manager.current_game_attack_mode = 'lethal'
-	Manager.current_game_allow_respawns = false
-	has_countdown = false
+	Manager.minigame_name = 'goafk'
 	game_instructions = "DON'T MOVE!!!"
+	game_time = 5
+	has_countdown = false
 	$Cam.current = true
 	call_deferred('_insert_players')
 	
 	yield(get_tree().create_timer(.2),'timeout')
-	
 	
 	game_active = true
 
@@ -58,8 +51,8 @@ func _game_won(no_winner = false):
 func _check_game_win_conditions():
 	if Players._get_alive_players().size() == 1:
 		_game_won()
-	elif Players._get_alive_players().size() >= 1 && Manager.current_game_time == 0:
+	elif Players._get_alive_players().size() >= 1 && game_time == 0:
 		_game_won()
-	elif Players._get_alive_players().size() == 0 || Manager.current_game_time == 0:
+	elif Players._get_alive_players().size() == 0 || game_time == 0:
 		_game_won(true)
 
