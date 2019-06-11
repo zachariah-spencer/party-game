@@ -45,9 +45,9 @@ func _get_alive_players():
 
 func select_spawn_point():
 	var spawn_points = get_tree().get_nodes_in_group('spawnpoints')[0]
-	Manager._randomize_spawn_positions()
-	Manager._randomize_spawn_positions()
-	return spawn_points.get_children()[Manager.player_spawns[0]].position
+	var spawn_indices : Array = [0,1,2,3]
+	spawn_indices.shuffle()
+	return spawn_points.get_children()[spawn_indices[0]].position
 
 func _update_active_players():
 	active_players = []

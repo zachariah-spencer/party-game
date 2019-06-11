@@ -89,11 +89,11 @@ func _deactivate_player(player_manager : PlayersManager):
 func _input(event):
 	if event.is_action_pressed(start_button):
 		if !active :
-			_activate_player(self, Manager.current_game_instant_player_inserting)
+			_activate_player(self, Manager.current_minigame.instant_player_insertion)
 		elif !ready :
 			ready = true
 	if event.is_action_pressed(b_button):
-		if ready && Manager.current_game_readyable :
+		if ready && Manager.current_minigame.readyable :
 			ready = false
 		elif active :
 			_deactivate_player(self)

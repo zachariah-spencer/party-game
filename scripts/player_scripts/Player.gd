@@ -217,11 +217,10 @@ func _on_AttackCooldown_timeout():
 
 func _on_AttackArea_body_entered(body):
 	#determine attack type from gamemode and handle attack interaction accordingly
-	match Manager.current_game_attack_mode:
-		'nonlethal':
+	match Manager.current_minigame.attack_mode:
+		Manager.current_minigame.attack_modes.non_lethal:
 			bump_player(body)
-			hurt_player(body)
-		'lethal':
+		Manager.current_minigame.attack_modes.lethal:
 			bump_player(body)
 			hurt_player(body)
 
@@ -238,7 +237,7 @@ func _update_player_stats():
 	#hit_points_label.text = String(hit_points)
 	if hit_points == 0:
 		if !parent.is_dead():
-			parent.die(Manager.current_game_allow_respawns)
+			parent.die(Manager.current_minigame.allow_respawns)
 
 func _on_TopOfHeadArea_body_entered(affected_player):
 	var affected_player_feet = affected_player.get_node('StateMachine/Sprites/Feet/CollisionShape2D')
@@ -262,7 +261,8 @@ func _state_machine_ready():
 	anim_tree['parameters/playback'].start("Airborne")
 	anim_tree['parameters/playback'].start("Grounded")
 	anim_tree['parameters/Grounded/playback'].start("Idle")
-	call_deferred('set_state', states.idle)
+#	call_deferred('set_state', states.idle)
+	set_state(states.idle)
 
 func _physics_process(delta):
 	if state != null:

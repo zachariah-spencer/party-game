@@ -1,7 +1,5 @@
 extends Minigame
 
-const GAME_NAME : String = 'lobby'
-const GAME_TIME : int = 99999999999999999999
 var player_one_ready : bool = false
 var player_two_ready : bool = false
 var player_three_ready : bool = false
@@ -12,25 +10,21 @@ var num_of_ready_ups = 0
 
 func _ready():
 	add_to_group('minigames')
-	Manager.current_game_name = GAME_NAME
-	Manager.current_game_reference = self
-	Manager.current_game_readyable = is_readyable
-	Manager.current_game_time = GAME_TIME
-	Manager.current_game_attack_mode = 'nonlethal'
-	Manager.current_game_allow_respawns = false
-	Manager.current_game_instant_player_inserting = true
-	has_countdown = false
-	game_active = true
-	has_timer = false
+	Manager.minigame_name = 'lobby'
 	game_instructions = "Press '1'\nto ready up!"
+	game_time = 999999999999999999999
+	has_countdown = false
+	has_timer = false
+	readyable = true
+	instant_player_insertion = true
 	$Cam.current = true
-
+	
 	Globals.HUD.get_node('Scorecards/Statuses/P1Ready').text = 'Not Ready'
 	Globals.HUD.get_node('Scorecards/Statuses/P2Ready').text = 'Not Ready'
 	Globals.HUD.get_node('Scorecards/Statuses/P3Ready').text = 'Not Ready'
 	Globals.HUD.get_node('Scorecards/Statuses/P4Ready').text = 'Not Ready'
 
-	call_deferred('_insert_players')
+	
 
 
 func _process(delta):
