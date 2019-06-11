@@ -8,7 +8,7 @@ const PUNCH_DISTANCE := 600
 
 var velocity : Vector2
 var target_velocity : float
-var move_direction : int
+var move_direction := Vector2.ZERO
 var facing_direction : int = 1
 var wall_direction : int = 1
 var move_speed : float = 14 * Globals.CELL_SIZE
@@ -35,6 +35,7 @@ var move_left : String
 var move_right : String
 var move_down : String
 var move_jump : String
+var move_up : String
 var attack_input : String
 
 var state = null setget set_state
@@ -105,6 +106,8 @@ func attack():
 		var scale = $StateMachine/Sprites/Head/Sprite.scale.x
 		if scale > 0: dir = 1
 		else: dir = -1
+		#actually use move_direction
+
 		# change hands for each punch
 		if punch_arm == 'right':
 			punch_arm = 'left'
@@ -115,8 +118,11 @@ func attack():
 
 		# set hitbox
 		attack_area = hand.get_node('Hitbox')
-		# launch hand
-		vel = Vector2(hand.get_gravity_scale()*PUNCH_DISTANCE*dir,0)
+		# launch hand at an angle if there's a decent move_input, or just use facing
+		if move_direction.normalized().length() > .2 :
+			vel = hand.get_gravity_scale()*PUNCH_DISTANCE*move_direction.normalized()
+		else :
+			vel = Vector2(hand.get_gravity_scale()*PUNCH_DISTANCE*dir,0)
 		hand.apply_central_impulse(vel)
 		# launch body
 		body_part.apply_torque_impulse(3000*dir)
@@ -127,8 +133,11 @@ func attack():
 		attack_timer.start()
 
 func _update_move_direction():
-	move_direction = -int(Input.is_action_pressed(move_left)) + int(Input.is_action_pressed(move_right))
-	if move_direction != 0:
+
+
+	move_direction.y = -Input.get_action_strength(move_up) + Input.get_action_strength(move_down)
+	move_direction.x = -Input.get_action_strength(move_left) + Input.get_action_strength(move_right)
+	if move_direction.x != 0:
 		# all nodes in here will be mirrored when changing directions
 		# these range from simple sprites to feet that require mirroring the parent node, not the sprites themselves
 		var mirror_group = [get_node("StateMachine/Sprites/Right Foot"),
@@ -138,20 +147,19 @@ func _update_move_direction():
 				get_node("StateMachine/Sprites/Head/Face"),
 				get_node("StateMachine/Sprites/Right Hand/Sprite"),
 				get_node("StateMachine/Sprites/Left Hand/Sprite")]
+		#could implement face rotation here
 		for i in mirror_group:
-			var scale = i.get_scale()
-			match move_direction:
-				1: if scale.x < 0: scale.x *= -1
-				-1: if scale.x > 0: scale.x *= -1
-			i.set_scale(Vector2(scale.x,scale.y))
-		facing_direction = move_direction
+			var s = i.get_scale()
+			if (s.x > 0 and move_direction.x < 0) or (s.x < 0 and move_direction.x > 0) : s.x *= -1
+			i.set_scale(Vector2(s.x,s.y))
+		facing_direction = move_direction.x
 
 func _handle_move_input():
-	target_velocity = move_speed * move_direction
+	target_velocity = move_speed * move_direction.x
 	velocity.x = lerp(velocity.x, target_velocity, _get_h_weight())
 
 func _handle_wall_slide_sticking():
-	if move_direction != 0 && move_direction != wall_direction:
+	if move_direction.x != 0 && move_direction.x != wall_direction:
 		if wall_slide_sticky_timer.is_stopped():
 			wall_slide_sticky_timer.start()
 	else:
@@ -161,9 +169,9 @@ func _get_h_weight():
 	if is_on_floor():
 		return 0.2
 	else:
-		if move_direction == 0:
+		if move_direction.x == 0:
 			return 0.02
-		elif move_direction == sign(velocity.x) && abs(velocity.x) > move_speed:
+		elif move_direction.x == sign(velocity.x) && abs(velocity.x) > move_speed:
 			return 0.0
 		else:
 			return 0.1
@@ -181,7 +189,7 @@ func _update_wall_direction():
 	var is_near_wall_right : bool = _check_is_valid_wall(right_wall_raycasts)
 
 	if is_near_wall_left && is_near_wall_right:
-		wall_direction = move_direction
+		wall_direction = move_direction.x
 	else:
 		wall_direction = -int(is_near_wall_left) + int(is_near_wall_right)
 
@@ -272,7 +280,7 @@ func _physics_process(delta):
 			set_state(transition)
 
 func _state_logic(delta : float):
-	
+
 		_update_player_stats()
 		if state != states.disabled:
 			_update_move_direction()
@@ -288,7 +296,7 @@ func _state_logic(delta : float):
 			_cap_gravity_wall_slide()
 			_handle_wall_slide_sticking()
 		_apply_movement()
-		
+
 		anim_tree['parameters/Airborne/blend_position'] = velocity.y / 300
 
 func _get_transition(delta : float):
@@ -299,7 +307,7 @@ func _get_transition(delta : float):
 					return states.jump
 				elif velocity.y >= 0:
 					return states.fall
-			elif abs(move_direction) != 0:
+			elif abs(move_direction.x) != 0:
 				return states.run
 		states.run:
 			if !is_on_floor():
@@ -307,7 +315,7 @@ func _get_transition(delta : float):
 					return states.jump
 				elif velocity.y >= 0:
 					return states.fall
-			elif abs(move_direction) == 0:
+			elif abs(move_direction.x) == 0:
 				return states.idle
 		states.jump:
 			if wall_direction != 0  && wall_slide_cooldown.is_stopped() && Input.is_action_pressed(wall_action):
