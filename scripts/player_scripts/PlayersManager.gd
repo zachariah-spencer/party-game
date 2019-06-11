@@ -24,9 +24,13 @@ func _ready():
 	respawn_timer.connect('timeout', self, '_on_respawn_timeout')
 
 func _minigame_change():
+	_clear_children()
+
+func _clear_children():
 	respawn_timer.stop()
-	if is_instance_valid(ragdoll) :
-		ragdoll.queue_free()
+	for child in get_children() :
+		if child.is_in_group('player') :
+			child.queue_free()
 
 func register_player_inputs():
 	pass
@@ -41,13 +45,9 @@ func _respawn(respawn_delay : float = 3):
 	respawn_timer.start(respawn_delay)
 
 func _on_respawn_timeout():
-	if is_instance_valid(ragdoll) :
-		ragdoll.queue_free()
 	Players.spawn(self)
 
 func _ragdoll():
-	if is_instance_valid(ragdoll) :
-		ragdoll.queue_free()
 	var add_rag = RAGDOLL.instance()
 	add_rag.position = child.position
 	var parts = ["Left Hand",
@@ -56,7 +56,7 @@ func _ragdoll():
 				 "Right Hand",
 				 "Right Foot",
 				 "Left Foot"]
-	for p in parts: 
+	for p in parts:
 		add_rag.get_node(p).linear_velocity = child.velocity*2
 	ragdoll = add_rag
 	add_child(add_rag)
@@ -65,10 +65,8 @@ func die(respawn := false):
 	if dead :
 		return
 	dead = true
+	_clear_children()
 	_ragdoll()
-	child.set_physics_process(false)
-	child.state_machine.set_physics_process(false)
-	child.queue_free()
 	if respawn :
 		_respawn()
 
@@ -91,11 +89,11 @@ func _deactivate_player(player_manager : PlayersManager):
 func _input(event):
 	if event.is_action_pressed(start_button):
 		if !active :
-			_activate_player(self, Manager.current_game_instant_player_inserting)
+			_activate_player(self, Manager.current_minigame.instant_player_insertion)
 		elif !ready :
 			ready = true
 	if event.is_action_pressed(b_button):
-		if ready && Manager.current_game_readyable :
+		if ready && Manager.current_minigame.readyable :
 			ready = false
 		elif active :
 			_deactivate_player(self)

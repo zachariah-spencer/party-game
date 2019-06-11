@@ -1,21 +1,14 @@
 extends Minigame
 
-const GAME_NAME : String = 'race_tower'
-const GAME_TIME : int = 60
 var winning_player : PlayersManager
 
 func _ready():
 	add_to_group('minigames')
-	Manager.current_game_name = GAME_NAME
-	Manager.current_game_reference = self
-	Manager.current_game_time = GAME_TIME
-	Manager.current_game_attack_mode = 'nonlethal'
-	Manager.current_game_allow_respawns = false
+	Manager.minigame_name = 'race_tower'
 	game_instructions = "Race to\nEscape the Lava!"
+	game_time = 60
 	$Cam.current = true
-	call_deferred('_insert_players')
-	yield(Globals.HUD,"begin_game")
-	game_active = true
+	
 
 func _physics_process(delta):
 	_run_minigame_loop()
@@ -42,7 +35,7 @@ func _on_VictoryArea_body_entered(player):
 func _check_game_win_conditions():
 	if is_instance_valid(winning_player):
 		_game_won()
-	elif Manager.current_game_time == -1 || Players._get_alive_players().size() == 0:
+	elif game_time == 0 || Players._get_alive_players().size() == 0:
 		_game_won(true)
 
 
