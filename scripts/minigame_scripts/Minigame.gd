@@ -15,7 +15,7 @@ export var has_countdown : bool = true
 var game_active : bool = false
 var game_over : bool = false
 var minigame_timer : Timer
-
+var spawn_points : Array
 
 onready var hud : Node = $CanvasLayer/HUD
 
@@ -23,26 +23,23 @@ signal game_times_up
 
 func _ready():
 	Manager.current_minigame = self
-	
+	spawn_points = $SpawnPoints.get_children()
+	#randomize initial spawns
+	spawn_points.shuffle()
 	minigame_timer = Timer.new()
 	minigame_timer.connect('timeout', self, '_handle_minigame_time')
 	add_child(minigame_timer)
 	minigame_timer.set_autostart(true)
 	minigame_timer.set_one_shot(false)
 	minigame_timer.start(1)
-	
+
 	connect('game_times_up', Manager, '_on_game_times_up')
 
 func _insert_players():
-	var spawn_indices : Array = [0,1,2,3]
-	spawn_indices.shuffle()
-	
+
 	Players._update_active_players()
-	var i := 0
-	var spawn_points : Array = $SpawnPoints.get_children()
 	for player in Players.active_players :
-		Players.spawn(player, spawn_points[spawn_indices[i]].position)
-		i += 1
+		Players.spawn(player, spawn_points[int(player.player_number)-1].position)
 
 func _pregame_timer():
 	pass
@@ -64,9 +61,9 @@ func _end_game():
 	minigame_timer.stop()
 	#wait 3 seconds
 	yield(get_tree().create_timer(3), 'timeout')
-	
+
 	#PUT STUFF TO DO DURING THE WAITING PERIOD AT THE END OF A MINIGAME HERE
-	
+
 	#Tell GSM to transition minigames
 	emit_signal('game_times_up')
 
