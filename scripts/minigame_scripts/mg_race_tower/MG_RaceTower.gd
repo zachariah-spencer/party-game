@@ -8,10 +8,7 @@ func _ready():
 	game_instructions = "Race to\nEscape the Lava!"
 	game_time = 60
 	$Cam.current = true
-	call_deferred('_insert_players')
 	
-	yield(Globals.HUD,"begin_game")
-	game_active = true
 
 func _physics_process(delta):
 	_run_minigame_loop()

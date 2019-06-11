@@ -10,11 +10,6 @@ func _ready():
 	game_time = 5
 	has_countdown = false
 	$Cam.current = true
-	call_deferred('_insert_players')
-	
-	yield(get_tree().create_timer(.2),'timeout')
-	
-	game_active = true
 
 func _physics_process(delta):
 	_run_minigame_loop()

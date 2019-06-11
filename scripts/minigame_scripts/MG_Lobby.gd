@@ -17,16 +17,15 @@ func _ready():
 	has_timer = false
 	readyable = true
 	instant_player_insertion = true
-	$Cam.current = true
-	
 	game_active = true
+	$Cam.current = true
 	
 	Globals.HUD.get_node('Scorecards/Statuses/P1Ready').text = 'Not Ready'
 	Globals.HUD.get_node('Scorecards/Statuses/P2Ready').text = 'Not Ready'
 	Globals.HUD.get_node('Scorecards/Statuses/P3Ready').text = 'Not Ready'
 	Globals.HUD.get_node('Scorecards/Statuses/P4Ready').text = 'Not Ready'
 
-	call_deferred('_insert_players')
+	
 
 
 func _process(delta):

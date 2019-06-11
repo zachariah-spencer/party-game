@@ -79,7 +79,6 @@ func _update_game_timer():
 		$TimeLeft.text = ''
 		
 	if Manager.minigame_name == 'lobby':
-		print('in here')
 		if !minigame.game_over:
 			$TimeLeft/Instructions.text = minigame.game_instructions
 		else:
@@ -103,25 +102,31 @@ func _process(delta):
 			if $Countdown/CountdownTimer.is_stopped():
 				$Countdown/CountdownTimer.start()
 				$Countdown.visible = true
-				Players._update_active_players()
-				for player in Players.active_players:
-					player.child.set_state(player.child.states.disabled)
+		elif !minigame.game_active && !minigame.game_over && !minigame.has_countdown:
+			if $Countdown/CountdownTimer.is_stopped():
+				$Countdown.text = 'Begin!'
+				$Countdown.modulate = Color(1,1,1,1)
+				$Countdown/CountdownTimer.start()
+				$Countdown.visible = true
 
 func _on_CountdownTimer_timeout():
-	match $Countdown.text:
-		'3':
-			$Countdown.text = '2'
-			$Countdown.modulate = Color(1,1,0,1)
-		'2':
-			$Countdown.text = '1'
-			$Countdown.modulate = Color(0,1,0,1)
-		'1':
-			$Countdown.text = 'Begin!'
-			$Countdown.modulate = Color(1,1,1,1)
-			Players._update_active_players()
-			for player in Players.active_players:
-				player.child.set_state(player.child.states.idle)
-			emit_signal('begin_game')
-		'Begin!':
+	if minigame.has_countdown:
+		match $Countdown.text:
+			'3':
+				$Countdown.text = '2'
+				$Countdown.modulate = Color(1,1,0,1)
+			'2':
+				$Countdown.text = '1'
+				$Countdown.modulate = Color(0,1,0,1)
+			'1':
+				$Countdown.text = 'Begin!'
+				$Countdown.modulate = Color(1,1,1,1)
+				emit_signal('begin_game')
+			'Begin!':
+				$Countdown.visible = false
+				$Countdown/CountdownTimer.stop()
+	else:
+		emit_signal('begin_game')
+		if $Countdown.text == 'Begin!':
 			$Countdown.visible = false
 			$Countdown/CountdownTimer.stop()

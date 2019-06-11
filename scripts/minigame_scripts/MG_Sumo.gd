@@ -6,10 +6,7 @@ func _ready():
 	game_instructions = "Punch The Other\nPlayers Off!"
 	game_time = 15
 	$Cam.current = true
-	call_deferred('_insert_players')
 	
-	yield(Globals.HUD,"begin_game")
-	game_active = true
 
 func _physics_process(delta):
 	_run_minigame_loop()
