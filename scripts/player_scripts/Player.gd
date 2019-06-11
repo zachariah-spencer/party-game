@@ -261,7 +261,8 @@ func _state_machine_ready():
 	anim_tree['parameters/playback'].start("Airborne")
 	anim_tree['parameters/playback'].start("Grounded")
 	anim_tree['parameters/Grounded/playback'].start("Idle")
-	call_deferred('set_state', states.idle)
+#	call_deferred('set_state', states.idle)
+	set_state(states.idle)
 
 func _physics_process(delta):
 	if state != null:

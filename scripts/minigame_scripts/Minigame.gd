@@ -46,22 +46,24 @@ func _insert_players():
 
 func _pregame(has_countdown : bool = true):
 	#if game has a countdown
-	if has_countdown:
-		Players._update_active_players()
-		for player in Players.active_players:
-			player.child.set_state(player.child.states.disabled)
-		
-		yield(Globals.HUD,'begin_game')
-		
-		
-		Players._update_active_players()
-		for player in Players.active_players:
-			player.child.set_state(player.child.states.idle)
-		
-		game_active = true
+	if Manager.minigame_name != 'lobby':
+		if has_countdown:
+			Players._update_active_players()
+			for player in Players.active_players:
+				player.child.set_state(player.child.states.disabled)
+			
+			yield(Globals.HUD,'begin_game')
+			
+			Players._update_active_players()
+			for player in Players.active_players:
+				player.child.set_state(player.child.states.idle)
+			
+			game_active = true
+		else:
+		#if game has no countdown then don't disable players (WIP)
+			yield(Globals.HUD,'begin_game')
+			game_active = true
 	else:
-	#if game has no countdown then don't disable players (WIP)
-		yield(Globals.HUD,'begin_game')
 		game_active = true
 
 func _run_minigame_loop():
