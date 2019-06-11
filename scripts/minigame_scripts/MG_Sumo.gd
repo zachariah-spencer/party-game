@@ -1,22 +1,12 @@
 extends Minigame
 
-const GAME_NAME : String = 'sumo'
-const GAME_TIME : int = 15
-
 func _ready():
 	add_to_group('minigames')
-	Manager.current_game_name = GAME_NAME
-	Manager.current_game_reference = self
-	Manager.current_game_time = GAME_TIME
-	Manager.current_game_attack_mode = 'nonlethal'
-	Manager.current_game_allow_respawns = false
+	Manager.minigame_name = 'sumo'
 	game_instructions = "Punch The Other\nPlayers Off!"
+	game_time = 15
 	$Cam.current = true
-	call_deferred('_insert_players')
-
-	yield(Globals.HUD,"begin_game")
-
-	game_active = true
+	
 
 func _physics_process(delta):
 	_run_minigame_loop()
