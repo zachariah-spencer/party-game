@@ -23,17 +23,17 @@ signal game_times_up
 
 func _ready():
 	Manager.current_minigame = self
-	
+
 	spawn_points = $SpawnPoints.get_children()
 	spawn_points.shuffle()
-	
+
 	minigame_timer = Timer.new()
 	minigame_timer.connect('timeout', self, '_handle_minigame_time')
 	add_child(minigame_timer)
 	minigame_timer.set_autostart(true)
 	minigame_timer.set_one_shot(false)
 	minigame_timer.start(1)
-	
+
 	call_deferred('_insert_players')
 	call_deferred('_pregame')
 
@@ -42,7 +42,7 @@ func _ready():
 func _insert_players():
 	Players._update_active_players()
 	for player in Players.active_players :
-		Players.spawn(player, spawn_points[int(player.player_number)-1].position)
+		player.spawn(spawn_points[int(player.player_number)-1].position)
 
 func _pregame(has_countdown : bool = true):
 	#if game has a countdown
@@ -51,13 +51,13 @@ func _pregame(has_countdown : bool = true):
 			Players._update_active_players()
 			for player in Players.active_players:
 				player.child.set_state(player.child.states.disabled)
-			
+
 			yield(Globals.HUD,'begin_game')
-			
+
 			Players._update_active_players()
 			for player in Players.active_players:
 				player.child.set_state(player.child.states.idle)
-			
+
 			game_active = true
 		else:
 		#if game has no countdown then don't disable players (WIP)
