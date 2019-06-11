@@ -8,6 +8,8 @@ func _ready():
 	game_instructions = "Race to\nEscape the Lava!"
 	game_time = 60
 	$Cam.current = true
+	$Lava.connect('body_entered',self,'_on_Lava_body_entered')
+	$VictoryArea.connect('body_entered',self,'_on_VictoryArea_body_entered')
 	
 
 func _physics_process(delta):
@@ -15,6 +17,7 @@ func _physics_process(delta):
 
 func _run_minigame_loop():
 	if game_active:
+		$Lava.position.y -= 2
 		_check_game_win_conditions()
 
 func _game_won(no_winner = false):
