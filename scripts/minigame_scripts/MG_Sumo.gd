@@ -7,6 +7,7 @@ func _ready():
 	game_time = 15
 	$Cam.current = true
 	
+	$DeathBoundary.connect("body_entered", self, 'on_out_of_bounds')
 
 func _physics_process(delta):
 	_run_minigame_loop()
