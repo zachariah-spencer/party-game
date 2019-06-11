@@ -66,9 +66,6 @@ func _select_random_minigame():
 
 	return selected_game
 
-func _randomize_spawn_positions():
-	player_spawns.shuffle()
-
 func _force_back_to_lobby():
 	Players._update_active_players()
 	if Players.active_players.size() < 2:

@@ -2,9 +2,11 @@ extends Node
 
 class_name Minigame
 
+enum attack_modes {non_lethal, lethal}
+
 export var game_time : int
 export var game_instructions : String
-export var attack_mode : String = 'nonlethal'
+export(attack_modes) var attack_mode = attack_modes.non_lethal
 export var allow_respawns : bool = false
 export var instant_player_insertion : bool = false
 export var readyable : bool = false
@@ -13,6 +15,7 @@ export var has_countdown : bool = true
 var game_active : bool = false
 var game_over : bool = false
 var minigame_timer : Timer
+
 
 onready var hud : Node = $CanvasLayer/HUD
 
@@ -31,13 +34,14 @@ func _ready():
 	connect('game_times_up', Manager, '_on_game_times_up')
 
 func _insert_players():
-	Manager._randomize_spawn_positions()
-	Manager._randomize_spawn_positions()
+	var spawn_indices : Array = [0,1,2,3]
+	spawn_indices.shuffle()
+	
 	Players._update_active_players()
 	var i := 0
-	var spawn_points : Array = get_tree().get_nodes_in_group('spawnpoints')[0].get_children()
+	var spawn_points : Array = $SpawnPoints.get_children()
 	for player in Players.active_players :
-		Players.spawn(player, spawn_points[Manager.player_spawns[i]].position)
+		Players.spawn(player, spawn_points[spawn_indices[i]].position)
 		i += 1
 
 func _pregame_timer():

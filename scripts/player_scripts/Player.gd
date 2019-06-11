@@ -218,9 +218,9 @@ func _on_AttackCooldown_timeout():
 func _on_AttackArea_body_entered(body):
 	#determine attack type from gamemode and handle attack interaction accordingly
 	match Manager.current_minigame.attack_mode:
-		'nonlethal':
+		Manager.current_minigame.attack_modes.non_lethal:
 			bump_player(body)
-		'lethal':
+		Manager.current_minigame.attack_modes.lethal:
 			bump_player(body)
 			hurt_player(body)
 
