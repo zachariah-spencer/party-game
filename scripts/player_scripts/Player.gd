@@ -17,7 +17,7 @@ var wall_direction : int = 1
 var move_speed : float = 14 * Globals.CELL_SIZE
 var gravity : float
 var hit_points : int = 100
-var held_item : Item
+var held_item
 var holding_item := false
 
 var is_grounded : bool
@@ -110,11 +110,11 @@ func throw():
 			dir = facing_direction*Vector2.RIGHT
 			pos += facing_direction*Vector2.RIGHT * 20
 
-		held_item.throw(dir*1000, pos)
+		held_item.throw(dir*1000, pos, self)
 func drop():
 	if holding_item :
 		holding_item = false
-		held_item.throw(velocity, global_position+Vector2.DOWN*10)
+		held_item.throw(velocity, global_position+Vector2.DOWN*10 ,self)
 
 func attack():
 	if can_attack:
@@ -451,7 +451,7 @@ func _pickup_item():
 	for temp in items : if temp.is_in_group("item") : item = temp.get_parent()
 	if item :
 		holding_item = true
-		item.grab()
+		item.grab(self)
 		held_item = item
 		item.get_parent().remove_child(item)
 		item.position = Vector2.ZERO

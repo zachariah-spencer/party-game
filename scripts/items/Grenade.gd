@@ -21,7 +21,7 @@ func _on_throw():
 	pass
 
 func _fuse_timeout() :
-	$Sprite.visible = false
+	$Obj/Sprite.visible = false
 	mode = RigidBody2D.MODE_STATIC
 	var victims = $ExplosionArea.get_overlapping_bodies()
 	for body in victims :
