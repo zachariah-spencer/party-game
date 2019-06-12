@@ -3,7 +3,7 @@ extends Node2D
 onready var parent : Minigame = get_parent()
 var entered := false
 var memory_counter := 0
-var size := 4096
+export var size := 4096
 
 func _ready():
 	#why?
@@ -19,6 +19,7 @@ func chunk_entered(body):
 
 func on_chunk_updates():
 	pass
+# I don't think we need to free past chunks
 #	memory_counter += 1
 #	if memory_counter > 1:
 #		queue_free()
