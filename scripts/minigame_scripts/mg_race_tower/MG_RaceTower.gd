@@ -9,7 +9,7 @@ const CHUNKS  = [
 
 var update_timer : int
 export var lava_speed := 2.0
-export var max_lava_speed := 5.4
+export var max_lava_speed := 5.0
 export var lava_speed_increment := 0.1
 export var lava_speed_incrementing_time := 1
 
@@ -91,6 +91,6 @@ func update_chunk(old_chunk : Node2D):
 	call_deferred('add_child', new_chunk)
 
 func _handle_lava_speed():
-	if update_timer == game_time && lava_speed < max_lava_speed:
+	if update_timer == game_time && lava_speed < (max_lava_speed-0.1):
 		update_timer = game_time - lava_speed_incrementing_time
 		lava_speed += lava_speed_increment
