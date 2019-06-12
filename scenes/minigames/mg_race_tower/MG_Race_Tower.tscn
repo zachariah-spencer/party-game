@@ -19,11 +19,8 @@ extents = Vector2( 960, 32 )
 [node name="MG_Race_Tower" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
-[node name="SpawnPoints" parent="." index="1"]
-editor/display_folded = true
-
 [node name="PlayerOneSpawnF" parent="SpawnPoints" index="0"]
-position = Vector2( 256, -256 )
+position = Vector2( 160, -256 )
 
 [node name="PlayerTwoSpawnF" parent="SpawnPoints" index="1"]
 position = Vector2( 352, -256 )

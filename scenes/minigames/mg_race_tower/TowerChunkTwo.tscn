@@ -1,575 +1,547 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scenes/minigames/mg_race_tower/TowerChunk.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scenes/Terrain.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scripts/minigame_scripts/mg_race_tower/TowerChunkTwo.gd" type="Script" id=2]
+[ext_resource path="res://scenes/Terrain.tscn" type="PackedScene" id=3]
 
 [node name="TowerChunkTwo" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
 
 [node name="Terrain" type="Node2D" parent="." index="1"]
 editor/display_folded = true
 position = Vector2( 448, -896 )
 
-[node name="Terrain" parent="Terrain" index="0" instance=ExtResource( 2 )]
+[node name="Terrain" parent="Terrain" index="0" instance=ExtResource( 3 )]
 position = Vector2( -416, 864 )
 
-[node name="Terrain19" parent="Terrain" index="1" instance=ExtResource( 2 )]
+[node name="Terrain19" parent="Terrain" index="1" instance=ExtResource( 3 )]
 position = Vector2( -416, 864 )
 
-[node name="Terrain7" parent="Terrain" index="2" instance=ExtResource( 2 )]
+[node name="Terrain7" parent="Terrain" index="2" instance=ExtResource( 3 )]
 position = Vector2( -160, 864 )
 
-[node name="Terrain23" parent="Terrain" index="3" instance=ExtResource( 2 )]
+[node name="Terrain23" parent="Terrain" index="3" instance=ExtResource( 3 )]
 position = Vector2( -160, 864 )
 
-[node name="Terrain11" parent="Terrain" index="4" instance=ExtResource( 2 )]
+[node name="Terrain11" parent="Terrain" index="4" instance=ExtResource( 3 )]
 position = Vector2( 96, 864 )
 
-[node name="Terrain26" parent="Terrain" index="5" instance=ExtResource( 2 )]
+[node name="Terrain26" parent="Terrain" index="5" instance=ExtResource( 3 )]
 position = Vector2( 96, 864 )
 
-[node name="Terrain14" parent="Terrain" index="6" instance=ExtResource( 2 )]
+[node name="Terrain14" parent="Terrain" index="6" instance=ExtResource( 3 )]
 position = Vector2( 352, 864 )
 
-[node name="Terrain27" parent="Terrain" index="7" instance=ExtResource( 2 )]
+[node name="Terrain27" parent="Terrain" index="7" instance=ExtResource( 3 )]
 position = Vector2( 352, 864 )
 
-[node name="Terrain13" parent="Terrain" index="8" instance=ExtResource( 2 )]
+[node name="Terrain13" parent="Terrain" index="8" instance=ExtResource( 3 )]
 position = Vector2( 416, 864 )
 
-[node name="Terrain32" parent="Terrain" index="9" instance=ExtResource( 2 )]
+[node name="Terrain32" parent="Terrain" index="9" instance=ExtResource( 3 )]
 position = Vector2( 416, 608 )
 
-[node name="Terrain65" parent="Terrain" index="10" instance=ExtResource( 2 )]
+[node name="Terrain65" parent="Terrain" index="10" instance=ExtResource( 3 )]
 position = Vector2( -416, 608 )
 
-[node name="Terrain37" parent="Terrain" index="11" instance=ExtResource( 2 )]
+[node name="Terrain37" parent="Terrain" index="11" instance=ExtResource( 3 )]
 position = Vector2( 416, 352 )
 
-[node name="Terrain70" parent="Terrain" index="12" instance=ExtResource( 2 )]
+[node name="Terrain70" parent="Terrain" index="12" instance=ExtResource( 3 )]
 position = Vector2( -416, 352 )
 
-[node name="Terrain42" parent="Terrain" index="13" instance=ExtResource( 2 )]
+[node name="Terrain42" parent="Terrain" index="13" instance=ExtResource( 3 )]
 position = Vector2( 416, 96 )
 
-[node name="Terrain72" parent="Terrain" index="14" instance=ExtResource( 2 )]
+[node name="Terrain72" parent="Terrain" index="14" instance=ExtResource( 3 )]
 position = Vector2( -416, 96 )
 
-[node name="Terrain47" parent="Terrain" index="15" instance=ExtResource( 2 )]
+[node name="Terrain47" parent="Terrain" index="15" instance=ExtResource( 3 )]
 position = Vector2( 416, -160 )
 
-[node name="Terrain105" parent="Terrain" index="16" instance=ExtResource( 2 )]
+[node name="Terrain105" parent="Terrain" index="16" instance=ExtResource( 3 )]
 position = Vector2( 416, -992 )
 
-[node name="Terrain145" parent="Terrain" index="17" instance=ExtResource( 2 )]
+[node name="Terrain145" parent="Terrain" index="17" instance=ExtResource( 3 )]
 position = Vector2( 416, -1824 )
 
-[node name="Terrain79" parent="Terrain" index="18" instance=ExtResource( 2 )]
+[node name="Terrain79" parent="Terrain" index="18" instance=ExtResource( 3 )]
 position = Vector2( -416, -160 )
 
-[node name="Terrain107" parent="Terrain" index="19" instance=ExtResource( 2 )]
+[node name="Terrain107" parent="Terrain" index="19" instance=ExtResource( 3 )]
 position = Vector2( -416, -992 )
 
-[node name="Terrain161" parent="Terrain" index="20" instance=ExtResource( 2 )]
+[node name="Terrain161" parent="Terrain" index="20" instance=ExtResource( 3 )]
 position = Vector2( -416, -1824 )
 
-[node name="Terrain52" parent="Terrain" index="21" instance=ExtResource( 2 )]
+[node name="Terrain52" parent="Terrain" index="21" instance=ExtResource( 3 )]
 position = Vector2( 416, -416 )
 
-[node name="Terrain108" parent="Terrain" index="22" instance=ExtResource( 2 )]
+[node name="Terrain108" parent="Terrain" index="22" instance=ExtResource( 3 )]
 position = Vector2( 416, -1248 )
 
-[node name="Terrain162" parent="Terrain" index="23" instance=ExtResource( 2 )]
+[node name="Terrain162" parent="Terrain" index="23" instance=ExtResource( 3 )]
 position = Vector2( 416, -2080 )
 
-[node name="Terrain178" parent="Terrain" index="24" instance=ExtResource( 2 )]
+[node name="Terrain178" parent="Terrain" index="24" instance=ExtResource( 3 )]
 position = Vector2( 416, -2592 )
 
-[node name="Terrain81" parent="Terrain" index="25" instance=ExtResource( 2 )]
+[node name="Terrain81" parent="Terrain" index="25" instance=ExtResource( 3 )]
 position = Vector2( -416, -416 )
 
-[node name="Terrain106" parent="Terrain" index="26" instance=ExtResource( 2 )]
+[node name="Terrain106" parent="Terrain" index="26" instance=ExtResource( 3 )]
 position = Vector2( -416, -1248 )
 
-[node name="Terrain139" parent="Terrain" index="27" instance=ExtResource( 2 )]
+[node name="Terrain139" parent="Terrain" index="27" instance=ExtResource( 3 )]
 position = Vector2( -416, -2080 )
 
-[node name="Terrain184" parent="Terrain" index="28" instance=ExtResource( 2 )]
+[node name="Terrain184" parent="Terrain" index="28" instance=ExtResource( 3 )]
 position = Vector2( -416, -2592 )
 
-[node name="Terrain57" parent="Terrain" index="29" instance=ExtResource( 2 )]
+[node name="Terrain57" parent="Terrain" index="29" instance=ExtResource( 3 )]
 position = Vector2( 416, -672 )
 
-[node name="Terrain109" parent="Terrain" index="30" instance=ExtResource( 2 )]
+[node name="Terrain109" parent="Terrain" index="30" instance=ExtResource( 3 )]
 position = Vector2( 416, -1504 )
 
-[node name="Terrain146" parent="Terrain" index="31" instance=ExtResource( 2 )]
+[node name="Terrain146" parent="Terrain" index="31" instance=ExtResource( 3 )]
 position = Vector2( 416, -2336 )
 
-[node name="Terrain175" parent="Terrain" index="32" instance=ExtResource( 2 )]
+[node name="Terrain175" parent="Terrain" index="32" instance=ExtResource( 3 )]
 position = Vector2( 416, -2848 )
 
-[node name="Terrain82" parent="Terrain" index="33" instance=ExtResource( 2 )]
+[node name="Terrain82" parent="Terrain" index="33" instance=ExtResource( 3 )]
 position = Vector2( -416, -672 )
 
-[node name="Terrain110" parent="Terrain" index="34" instance=ExtResource( 2 )]
+[node name="Terrain110" parent="Terrain" index="34" instance=ExtResource( 3 )]
 position = Vector2( -416, -1504 )
 
-[node name="Terrain140" parent="Terrain" index="35" instance=ExtResource( 2 )]
+[node name="Terrain140" parent="Terrain" index="35" instance=ExtResource( 3 )]
 position = Vector2( -416, -2336 )
 
-[node name="Terrain169" parent="Terrain" index="36" instance=ExtResource( 2 )]
+[node name="Terrain169" parent="Terrain" index="36" instance=ExtResource( 3 )]
 position = Vector2( -416, -2848 )
 
-[node name="Terrain28" parent="Terrain" index="37" instance=ExtResource( 2 )]
+[node name="Terrain28" parent="Terrain" index="37" instance=ExtResource( 3 )]
 position = Vector2( 416, 864 )
 
-[node name="Terrain33" parent="Terrain" index="38" instance=ExtResource( 2 )]
+[node name="Terrain33" parent="Terrain" index="38" instance=ExtResource( 3 )]
 position = Vector2( 416, 608 )
 
-[node name="Terrain66" parent="Terrain" index="39" instance=ExtResource( 2 )]
+[node name="Terrain66" parent="Terrain" index="39" instance=ExtResource( 3 )]
 position = Vector2( -416, 608 )
 
-[node name="Terrain38" parent="Terrain" index="40" instance=ExtResource( 2 )]
+[node name="Terrain38" parent="Terrain" index="40" instance=ExtResource( 3 )]
 position = Vector2( 416, 352 )
 
-[node name="Terrain71" parent="Terrain" index="41" instance=ExtResource( 2 )]
+[node name="Terrain71" parent="Terrain" index="41" instance=ExtResource( 3 )]
 position = Vector2( -416, 352 )
 
-[node name="Terrain43" parent="Terrain" index="42" instance=ExtResource( 2 )]
+[node name="Terrain43" parent="Terrain" index="42" instance=ExtResource( 3 )]
 position = Vector2( 416, 96 )
 
-[node name="Terrain77" parent="Terrain" index="43" instance=ExtResource( 2 )]
+[node name="Terrain77" parent="Terrain" index="43" instance=ExtResource( 3 )]
 position = Vector2( -416, 96 )
 
-[node name="Terrain50" parent="Terrain" index="44" instance=ExtResource( 2 )]
+[node name="Terrain50" parent="Terrain" index="44" instance=ExtResource( 3 )]
 position = Vector2( 416, -160 )
 
-[node name="Terrain111" parent="Terrain" index="45" instance=ExtResource( 2 )]
+[node name="Terrain111" parent="Terrain" index="45" instance=ExtResource( 3 )]
 position = Vector2( 416, -992 )
 
-[node name="Terrain150" parent="Terrain" index="46" instance=ExtResource( 2 )]
+[node name="Terrain150" parent="Terrain" index="46" instance=ExtResource( 3 )]
 position = Vector2( 416, -1824 )
 
-[node name="Terrain94" parent="Terrain" index="47" instance=ExtResource( 2 )]
+[node name="Terrain94" parent="Terrain" index="47" instance=ExtResource( 3 )]
 position = Vector2( -416, -160 )
 
-[node name="Terrain116" parent="Terrain" index="48" instance=ExtResource( 2 )]
+[node name="Terrain116" parent="Terrain" index="48" instance=ExtResource( 3 )]
 position = Vector2( -416, -992 )
 
-[node name="Terrain142" parent="Terrain" index="49" instance=ExtResource( 2 )]
+[node name="Terrain142" parent="Terrain" index="49" instance=ExtResource( 3 )]
 position = Vector2( -416, -1824 )
 
-[node name="Terrain56" parent="Terrain" index="50" instance=ExtResource( 2 )]
+[node name="Terrain56" parent="Terrain" index="50" instance=ExtResource( 3 )]
 position = Vector2( 416, -416 )
 
-[node name="Terrain119" parent="Terrain" index="51" instance=ExtResource( 2 )]
+[node name="Terrain119" parent="Terrain" index="51" instance=ExtResource( 3 )]
 position = Vector2( 416, -1248 )
 
-[node name="Terrain155" parent="Terrain" index="52" instance=ExtResource( 2 )]
+[node name="Terrain155" parent="Terrain" index="52" instance=ExtResource( 3 )]
 position = Vector2( 416, -2080 )
 
-[node name="Terrain176" parent="Terrain" index="53" instance=ExtResource( 2 )]
+[node name="Terrain176" parent="Terrain" index="53" instance=ExtResource( 3 )]
 position = Vector2( 416, -2592 )
 
-[node name="Terrain88" parent="Terrain" index="54" instance=ExtResource( 2 )]
+[node name="Terrain88" parent="Terrain" index="54" instance=ExtResource( 3 )]
 position = Vector2( -416, -416 )
 
-[node name="Terrain117" parent="Terrain" index="55" instance=ExtResource( 2 )]
+[node name="Terrain117" parent="Terrain" index="55" instance=ExtResource( 3 )]
 position = Vector2( -416, -1248 )
 
-[node name="Terrain157" parent="Terrain" index="56" instance=ExtResource( 2 )]
+[node name="Terrain157" parent="Terrain" index="56" instance=ExtResource( 3 )]
 position = Vector2( -416, -2080 )
 
-[node name="Terrain180" parent="Terrain" index="57" instance=ExtResource( 2 )]
+[node name="Terrain180" parent="Terrain" index="57" instance=ExtResource( 3 )]
 position = Vector2( -416, -2592 )
 
-[node name="Terrain60" parent="Terrain" index="58" instance=ExtResource( 2 )]
+[node name="Terrain60" parent="Terrain" index="58" instance=ExtResource( 3 )]
 position = Vector2( 416, -672 )
 
-[node name="Terrain123" parent="Terrain" index="59" instance=ExtResource( 2 )]
+[node name="Terrain123" parent="Terrain" index="59" instance=ExtResource( 3 )]
 position = Vector2( 416, -1504 )
 
-[node name="Terrain148" parent="Terrain" index="60" instance=ExtResource( 2 )]
+[node name="Terrain148" parent="Terrain" index="60" instance=ExtResource( 3 )]
 position = Vector2( 416, -2336 )
 
-[node name="Terrain171" parent="Terrain" index="61" instance=ExtResource( 2 )]
+[node name="Terrain171" parent="Terrain" index="61" instance=ExtResource( 3 )]
 position = Vector2( 416, -2848 )
 
-[node name="Terrain92" parent="Terrain" index="62" instance=ExtResource( 2 )]
+[node name="Terrain92" parent="Terrain" index="62" instance=ExtResource( 3 )]
 position = Vector2( -416, -672 )
 
-[node name="Terrain115" parent="Terrain" index="63" instance=ExtResource( 2 )]
+[node name="Terrain115" parent="Terrain" index="63" instance=ExtResource( 3 )]
 position = Vector2( -416, -1504 )
 
-[node name="Terrain147" parent="Terrain" index="64" instance=ExtResource( 2 )]
+[node name="Terrain147" parent="Terrain" index="64" instance=ExtResource( 3 )]
 position = Vector2( -416, -2336 )
 
-[node name="Terrain172" parent="Terrain" index="65" instance=ExtResource( 2 )]
+[node name="Terrain172" parent="Terrain" index="65" instance=ExtResource( 3 )]
 position = Vector2( -416, -2848 )
 
-[node name="Terrain29" parent="Terrain" index="66" instance=ExtResource( 2 )]
+[node name="Terrain29" parent="Terrain" index="66" instance=ExtResource( 3 )]
 position = Vector2( 416, 800 )
 
-[node name="Terrain62" parent="Terrain" index="67" instance=ExtResource( 2 )]
+[node name="Terrain62" parent="Terrain" index="67" instance=ExtResource( 3 )]
 position = Vector2( -416, 800 )
 
-[node name="Terrain34" parent="Terrain" index="68" instance=ExtResource( 2 )]
+[node name="Terrain34" parent="Terrain" index="68" instance=ExtResource( 3 )]
 position = Vector2( 416, 544 )
 
-[node name="Terrain67" parent="Terrain" index="69" instance=ExtResource( 2 )]
+[node name="Terrain67" parent="Terrain" index="69" instance=ExtResource( 3 )]
 position = Vector2( -416, 544 )
 
-[node name="Terrain39" parent="Terrain" index="70" instance=ExtResource( 2 )]
+[node name="Terrain39" parent="Terrain" index="70" instance=ExtResource( 3 )]
 position = Vector2( 416, 288 )
 
-[node name="Terrain75" parent="Terrain" index="71" instance=ExtResource( 2 )]
+[node name="Terrain75" parent="Terrain" index="71" instance=ExtResource( 3 )]
 position = Vector2( -416, 288 )
 
-[node name="Terrain44" parent="Terrain" index="72" instance=ExtResource( 2 )]
+[node name="Terrain44" parent="Terrain" index="72" instance=ExtResource( 3 )]
 position = Vector2( 416, 32 )
 
-[node name="Terrain73" parent="Terrain" index="73" instance=ExtResource( 2 )]
+[node name="Terrain73" parent="Terrain" index="73" instance=ExtResource( 3 )]
 position = Vector2( -416, 32 )
 
-[node name="Terrain48" parent="Terrain" index="74" instance=ExtResource( 2 )]
+[node name="Terrain48" parent="Terrain" index="74" instance=ExtResource( 3 )]
 position = Vector2( 416, -224 )
 
-[node name="Terrain118" parent="Terrain" index="75" instance=ExtResource( 2 )]
+[node name="Terrain118" parent="Terrain" index="75" instance=ExtResource( 3 )]
 position = Vector2( 416, -1056 )
 
-[node name="Terrain143" parent="Terrain" index="76" instance=ExtResource( 2 )]
+[node name="Terrain143" parent="Terrain" index="76" instance=ExtResource( 3 )]
 position = Vector2( 416, -1888 )
 
-[node name="Terrain90" parent="Terrain" index="77" instance=ExtResource( 2 )]
+[node name="Terrain90" parent="Terrain" index="77" instance=ExtResource( 3 )]
 position = Vector2( -416, -224 )
 
-[node name="Terrain121" parent="Terrain" index="78" instance=ExtResource( 2 )]
+[node name="Terrain121" parent="Terrain" index="78" instance=ExtResource( 3 )]
 position = Vector2( -416, -1056 )
 
-[node name="Terrain144" parent="Terrain" index="79" instance=ExtResource( 2 )]
+[node name="Terrain144" parent="Terrain" index="79" instance=ExtResource( 3 )]
 position = Vector2( -416, -1888 )
 
-[node name="Terrain55" parent="Terrain" index="80" instance=ExtResource( 2 )]
+[node name="Terrain55" parent="Terrain" index="80" instance=ExtResource( 3 )]
 position = Vector2( 416, -480 )
 
-[node name="Terrain120" parent="Terrain" index="81" instance=ExtResource( 2 )]
+[node name="Terrain120" parent="Terrain" index="81" instance=ExtResource( 3 )]
 position = Vector2( 416, -1312 )
 
-[node name="Terrain163" parent="Terrain" index="82" instance=ExtResource( 2 )]
+[node name="Terrain163" parent="Terrain" index="82" instance=ExtResource( 3 )]
 position = Vector2( 416, -2144 )
 
-[node name="Terrain179" parent="Terrain" index="83" instance=ExtResource( 2 )]
+[node name="Terrain179" parent="Terrain" index="83" instance=ExtResource( 3 )]
 position = Vector2( 416, -2656 )
 
-[node name="Terrain85" parent="Terrain" index="84" instance=ExtResource( 2 )]
+[node name="Terrain85" parent="Terrain" index="84" instance=ExtResource( 3 )]
 position = Vector2( -416, -480 )
 
-[node name="Terrain127" parent="Terrain" index="85" instance=ExtResource( 2 )]
+[node name="Terrain127" parent="Terrain" index="85" instance=ExtResource( 3 )]
 position = Vector2( -416, -1312 )
 
-[node name="Terrain151" parent="Terrain" index="86" instance=ExtResource( 2 )]
+[node name="Terrain151" parent="Terrain" index="86" instance=ExtResource( 3 )]
 position = Vector2( -416, -2144 )
 
-[node name="Terrain173" parent="Terrain" index="87" instance=ExtResource( 2 )]
+[node name="Terrain173" parent="Terrain" index="87" instance=ExtResource( 3 )]
 position = Vector2( -416, -2656 )
 
-[node name="Terrain58" parent="Terrain" index="88" instance=ExtResource( 2 )]
+[node name="Terrain58" parent="Terrain" index="88" instance=ExtResource( 3 )]
 position = Vector2( 416, -736 )
 
-[node name="Terrain113" parent="Terrain" index="89" instance=ExtResource( 2 )]
+[node name="Terrain113" parent="Terrain" index="89" instance=ExtResource( 3 )]
 position = Vector2( 416, -1568 )
 
-[node name="Terrain141" parent="Terrain" index="90" instance=ExtResource( 2 )]
+[node name="Terrain141" parent="Terrain" index="90" instance=ExtResource( 3 )]
 position = Vector2( 416, -2400 )
 
-[node name="Terrain174" parent="Terrain" index="91" instance=ExtResource( 2 )]
+[node name="Terrain174" parent="Terrain" index="91" instance=ExtResource( 3 )]
 position = Vector2( 416, -2912 )
 
-[node name="Terrain83" parent="Terrain" index="92" instance=ExtResource( 2 )]
+[node name="Terrain83" parent="Terrain" index="92" instance=ExtResource( 3 )]
 position = Vector2( -416, -736 )
 
-[node name="Terrain114" parent="Terrain" index="93" instance=ExtResource( 2 )]
+[node name="Terrain114" parent="Terrain" index="93" instance=ExtResource( 3 )]
 position = Vector2( -416, -1568 )
 
-[node name="Terrain160" parent="Terrain" index="94" instance=ExtResource( 2 )]
+[node name="Terrain160" parent="Terrain" index="94" instance=ExtResource( 3 )]
 position = Vector2( -416, -2400 )
 
-[node name="Terrain177" parent="Terrain" index="95" instance=ExtResource( 2 )]
+[node name="Terrain177" parent="Terrain" index="95" instance=ExtResource( 3 )]
 position = Vector2( -416, -2912 )
 
-[node name="Terrain30" parent="Terrain" index="96" instance=ExtResource( 2 )]
+[node name="Terrain30" parent="Terrain" index="96" instance=ExtResource( 3 )]
 position = Vector2( 416, 736 )
 
-[node name="Terrain63" parent="Terrain" index="97" instance=ExtResource( 2 )]
+[node name="Terrain63" parent="Terrain" index="97" instance=ExtResource( 3 )]
 position = Vector2( -416, 736 )
 
-[node name="Terrain35" parent="Terrain" index="98" instance=ExtResource( 2 )]
+[node name="Terrain35" parent="Terrain" index="98" instance=ExtResource( 3 )]
 position = Vector2( 416, 480 )
 
-[node name="Terrain68" parent="Terrain" index="99" instance=ExtResource( 2 )]
+[node name="Terrain68" parent="Terrain" index="99" instance=ExtResource( 3 )]
 position = Vector2( -416, 480 )
 
-[node name="Terrain40" parent="Terrain" index="100" instance=ExtResource( 2 )]
+[node name="Terrain40" parent="Terrain" index="100" instance=ExtResource( 3 )]
 position = Vector2( 416, 224 )
 
-[node name="Terrain76" parent="Terrain" index="101" instance=ExtResource( 2 )]
+[node name="Terrain76" parent="Terrain" index="101" instance=ExtResource( 3 )]
 position = Vector2( -416, 224 )
 
-[node name="Terrain45" parent="Terrain" index="102" instance=ExtResource( 2 )]
+[node name="Terrain45" parent="Terrain" index="102" instance=ExtResource( 3 )]
 position = Vector2( 416, -32 )
 
-[node name="Terrain74" parent="Terrain" index="103" instance=ExtResource( 2 )]
+[node name="Terrain74" parent="Terrain" index="103" instance=ExtResource( 3 )]
 position = Vector2( -416, -32 )
 
-[node name="Terrain49" parent="Terrain" index="104" instance=ExtResource( 2 )]
+[node name="Terrain49" parent="Terrain" index="104" instance=ExtResource( 3 )]
 position = Vector2( 416, -288 )
 
-[node name="Terrain112" parent="Terrain" index="105" instance=ExtResource( 2 )]
+[node name="Terrain112" parent="Terrain" index="105" instance=ExtResource( 3 )]
 position = Vector2( 416, -1120 )
 
-[node name="Terrain152" parent="Terrain" index="106" instance=ExtResource( 2 )]
+[node name="Terrain152" parent="Terrain" index="106" instance=ExtResource( 3 )]
 position = Vector2( 416, -1952 )
 
-[node name="Terrain80" parent="Terrain" index="107" instance=ExtResource( 2 )]
+[node name="Terrain80" parent="Terrain" index="107" instance=ExtResource( 3 )]
 position = Vector2( -416, -288 )
 
-[node name="Terrain122" parent="Terrain" index="108" instance=ExtResource( 2 )]
+[node name="Terrain122" parent="Terrain" index="108" instance=ExtResource( 3 )]
 position = Vector2( -416, -1120 )
 
-[node name="Terrain165" parent="Terrain" index="109" instance=ExtResource( 2 )]
+[node name="Terrain165" parent="Terrain" index="109" instance=ExtResource( 3 )]
 position = Vector2( -416, -1952 )
 
-[node name="Terrain53" parent="Terrain" index="110" instance=ExtResource( 2 )]
+[node name="Terrain53" parent="Terrain" index="110" instance=ExtResource( 3 )]
 position = Vector2( 416, -544 )
 
-[node name="Terrain124" parent="Terrain" index="111" instance=ExtResource( 2 )]
+[node name="Terrain124" parent="Terrain" index="111" instance=ExtResource( 3 )]
 position = Vector2( 416, -1376 )
 
-[node name="Terrain158" parent="Terrain" index="112" instance=ExtResource( 2 )]
+[node name="Terrain158" parent="Terrain" index="112" instance=ExtResource( 3 )]
 position = Vector2( 416, -2208 )
 
-[node name="Terrain186" parent="Terrain" index="113" instance=ExtResource( 2 )]
+[node name="Terrain186" parent="Terrain" index="113" instance=ExtResource( 3 )]
 position = Vector2( 416, -2720 )
 
-[node name="Terrain93" parent="Terrain" index="114" instance=ExtResource( 2 )]
+[node name="Terrain93" parent="Terrain" index="114" instance=ExtResource( 3 )]
 position = Vector2( -416, -544 )
 
-[node name="Terrain125" parent="Terrain" index="115" instance=ExtResource( 2 )]
+[node name="Terrain125" parent="Terrain" index="115" instance=ExtResource( 3 )]
 position = Vector2( -416, -1376 )
 
-[node name="Terrain149" parent="Terrain" index="116" instance=ExtResource( 2 )]
+[node name="Terrain149" parent="Terrain" index="116" instance=ExtResource( 3 )]
 position = Vector2( -416, -2208 )
 
-[node name="Terrain185" parent="Terrain" index="117" instance=ExtResource( 2 )]
+[node name="Terrain185" parent="Terrain" index="117" instance=ExtResource( 3 )]
 position = Vector2( -416, -2720 )
 
-[node name="Terrain61" parent="Terrain" index="118" instance=ExtResource( 2 )]
+[node name="Terrain61" parent="Terrain" index="118" instance=ExtResource( 3 )]
 position = Vector2( 416, -800 )
 
-[node name="Terrain126" parent="Terrain" index="119" instance=ExtResource( 2 )]
+[node name="Terrain126" parent="Terrain" index="119" instance=ExtResource( 3 )]
 position = Vector2( 416, -1632 )
 
-[node name="Terrain164" parent="Terrain" index="120" instance=ExtResource( 2 )]
+[node name="Terrain164" parent="Terrain" index="120" instance=ExtResource( 3 )]
 position = Vector2( 416, -2464 )
 
-[node name="Terrain183" parent="Terrain" index="121" instance=ExtResource( 2 )]
+[node name="Terrain183" parent="Terrain" index="121" instance=ExtResource( 3 )]
 position = Vector2( 416, -2976 )
 
-[node name="Terrain189" parent="Terrain" index="122" instance=ExtResource( 2 )]
+[node name="Terrain189" parent="Terrain" index="122" instance=ExtResource( 3 )]
 position = Vector2( 416, -3104 )
 
-[node name="Terrain86" parent="Terrain" index="123" instance=ExtResource( 2 )]
+[node name="Terrain86" parent="Terrain" index="123" instance=ExtResource( 3 )]
 position = Vector2( -416, -800 )
 
-[node name="Terrain135" parent="Terrain" index="124" instance=ExtResource( 2 )]
+[node name="Terrain135" parent="Terrain" index="124" instance=ExtResource( 3 )]
 position = Vector2( -416, -1632 )
 
-[node name="Terrain137" parent="Terrain" index="125" instance=ExtResource( 2 )]
+[node name="Terrain137" parent="Terrain" index="125" instance=ExtResource( 3 )]
 position = Vector2( -416, -2464 )
 
-[node name="Terrain187" parent="Terrain" index="126" instance=ExtResource( 2 )]
+[node name="Terrain187" parent="Terrain" index="126" instance=ExtResource( 3 )]
 position = Vector2( -416, -2976 )
 
-[node name="Terrain190" parent="Terrain" index="127" instance=ExtResource( 2 )]
+[node name="Terrain190" parent="Terrain" index="127" instance=ExtResource( 3 )]
 position = Vector2( -416, -3104 )
 
-[node name="Terrain31" parent="Terrain" index="128" instance=ExtResource( 2 )]
+[node name="Terrain31" parent="Terrain" index="128" instance=ExtResource( 3 )]
 position = Vector2( 416, 672 )
 
-[node name="Terrain64" parent="Terrain" index="129" instance=ExtResource( 2 )]
+[node name="Terrain64" parent="Terrain" index="129" instance=ExtResource( 3 )]
 position = Vector2( -416, 672 )
 
-[node name="Terrain36" parent="Terrain" index="130" instance=ExtResource( 2 )]
+[node name="Terrain36" parent="Terrain" index="130" instance=ExtResource( 3 )]
 position = Vector2( 416, 416 )
 
-[node name="Terrain69" parent="Terrain" index="131" instance=ExtResource( 2 )]
+[node name="Terrain69" parent="Terrain" index="131" instance=ExtResource( 3 )]
 position = Vector2( -416, 416 )
 
-[node name="Terrain41" parent="Terrain" index="132" instance=ExtResource( 2 )]
+[node name="Terrain41" parent="Terrain" index="132" instance=ExtResource( 3 )]
 position = Vector2( 416, 160 )
 
-[node name="Terrain78" parent="Terrain" index="133" instance=ExtResource( 2 )]
+[node name="Terrain78" parent="Terrain" index="133" instance=ExtResource( 3 )]
 position = Vector2( -416, 160 )
 
-[node name="Terrain46" parent="Terrain" index="134" instance=ExtResource( 2 )]
+[node name="Terrain46" parent="Terrain" index="134" instance=ExtResource( 3 )]
 position = Vector2( 416, -96 )
 
-[node name="Terrain132" parent="Terrain" index="135" instance=ExtResource( 2 )]
+[node name="Terrain132" parent="Terrain" index="135" instance=ExtResource( 3 )]
 position = Vector2( 416, -928 )
 
-[node name="Terrain154" parent="Terrain" index="136" instance=ExtResource( 2 )]
+[node name="Terrain154" parent="Terrain" index="136" instance=ExtResource( 3 )]
 position = Vector2( 416, -1760 )
 
-[node name="Terrain91" parent="Terrain" index="137" instance=ExtResource( 2 )]
+[node name="Terrain91" parent="Terrain" index="137" instance=ExtResource( 3 )]
 position = Vector2( -416, -96 )
 
-[node name="Terrain131" parent="Terrain" index="138" instance=ExtResource( 2 )]
+[node name="Terrain131" parent="Terrain" index="138" instance=ExtResource( 3 )]
 position = Vector2( -416, -928 )
 
-[node name="Terrain166" parent="Terrain" index="139" instance=ExtResource( 2 )]
+[node name="Terrain166" parent="Terrain" index="139" instance=ExtResource( 3 )]
 position = Vector2( -416, -1760 )
 
-[node name="Terrain51" parent="Terrain" index="140" instance=ExtResource( 2 )]
+[node name="Terrain51" parent="Terrain" index="140" instance=ExtResource( 3 )]
 position = Vector2( 416, -352 )
 
-[node name="Terrain128" parent="Terrain" index="141" instance=ExtResource( 2 )]
+[node name="Terrain128" parent="Terrain" index="141" instance=ExtResource( 3 )]
 position = Vector2( 416, -1184 )
 
-[node name="Terrain156" parent="Terrain" index="142" instance=ExtResource( 2 )]
+[node name="Terrain156" parent="Terrain" index="142" instance=ExtResource( 3 )]
 position = Vector2( 416, -2016 )
 
-[node name="Terrain84" parent="Terrain" index="143" instance=ExtResource( 2 )]
+[node name="Terrain84" parent="Terrain" index="143" instance=ExtResource( 3 )]
 position = Vector2( -416, -352 )
 
-[node name="Terrain133" parent="Terrain" index="144" instance=ExtResource( 2 )]
+[node name="Terrain133" parent="Terrain" index="144" instance=ExtResource( 3 )]
 position = Vector2( -416, -1184 )
 
-[node name="Terrain167" parent="Terrain" index="145" instance=ExtResource( 2 )]
+[node name="Terrain167" parent="Terrain" index="145" instance=ExtResource( 3 )]
 position = Vector2( -416, -2016 )
 
-[node name="Terrain54" parent="Terrain" index="146" instance=ExtResource( 2 )]
+[node name="Terrain54" parent="Terrain" index="146" instance=ExtResource( 3 )]
 position = Vector2( 416, -608 )
 
-[node name="Terrain130" parent="Terrain" index="147" instance=ExtResource( 2 )]
+[node name="Terrain130" parent="Terrain" index="147" instance=ExtResource( 3 )]
 position = Vector2( 416, -1440 )
 
-[node name="Terrain153" parent="Terrain" index="148" instance=ExtResource( 2 )]
+[node name="Terrain153" parent="Terrain" index="148" instance=ExtResource( 3 )]
 position = Vector2( 416, -2272 )
 
-[node name="Terrain181" parent="Terrain" index="149" instance=ExtResource( 2 )]
+[node name="Terrain181" parent="Terrain" index="149" instance=ExtResource( 3 )]
 position = Vector2( 416, -2784 )
 
-[node name="Terrain87" parent="Terrain" index="150" instance=ExtResource( 2 )]
+[node name="Terrain87" parent="Terrain" index="150" instance=ExtResource( 3 )]
 position = Vector2( -416, -608 )
 
-[node name="Terrain136" parent="Terrain" index="151" instance=ExtResource( 2 )]
+[node name="Terrain136" parent="Terrain" index="151" instance=ExtResource( 3 )]
 position = Vector2( -416, -1440 )
 
-[node name="Terrain138" parent="Terrain" index="152" instance=ExtResource( 2 )]
+[node name="Terrain138" parent="Terrain" index="152" instance=ExtResource( 3 )]
 position = Vector2( -416, -2272 )
 
-[node name="Terrain188" parent="Terrain" index="153" instance=ExtResource( 2 )]
+[node name="Terrain188" parent="Terrain" index="153" instance=ExtResource( 3 )]
 position = Vector2( -416, -2784 )
 
-[node name="Terrain59" parent="Terrain" index="154" instance=ExtResource( 2 )]
+[node name="Terrain59" parent="Terrain" index="154" instance=ExtResource( 3 )]
 position = Vector2( 416, -864 )
 
-[node name="Terrain129" parent="Terrain" index="155" instance=ExtResource( 2 )]
+[node name="Terrain129" parent="Terrain" index="155" instance=ExtResource( 3 )]
 position = Vector2( 416, -1696 )
 
-[node name="Terrain159" parent="Terrain" index="156" instance=ExtResource( 2 )]
+[node name="Terrain159" parent="Terrain" index="156" instance=ExtResource( 3 )]
 position = Vector2( 416, -2528 )
 
-[node name="Terrain182" parent="Terrain" index="157" instance=ExtResource( 2 )]
+[node name="Terrain182" parent="Terrain" index="157" instance=ExtResource( 3 )]
 position = Vector2( 416, -3040 )
 
-[node name="Terrain192" parent="Terrain" index="158" instance=ExtResource( 2 )]
+[node name="Terrain192" parent="Terrain" index="158" instance=ExtResource( 3 )]
 position = Vector2( 416, -3168 )
 
-[node name="Terrain95" parent="Terrain" index="159" instance=ExtResource( 2 )]
-position = Vector2( 352, -3168 )
-
-[node name="Terrain96" parent="Terrain" index="160" instance=ExtResource( 2 )]
-position = Vector2( 288, -3168 )
-
-[node name="Terrain97" parent="Terrain" index="161" instance=ExtResource( 2 )]
-position = Vector2( 224, -3168 )
-
-[node name="Terrain98" parent="Terrain" index="162" instance=ExtResource( 2 )]
-position = Vector2( 160, -3168 )
-
-[node name="Terrain99" parent="Terrain" index="163" instance=ExtResource( 2 )]
-position = Vector2( 96, -3168 )
-
-[node name="Terrain100" parent="Terrain" index="164" instance=ExtResource( 2 )]
-position = Vector2( 32, -3168 )
-
-[node name="Terrain101" parent="Terrain" index="165" instance=ExtResource( 2 )]
-position = Vector2( -32, -3168 )
-
-[node name="Terrain102" parent="Terrain" index="166" instance=ExtResource( 2 )]
-position = Vector2( -96, -3168 )
-
-[node name="Terrain103" parent="Terrain" index="167" instance=ExtResource( 2 )]
-position = Vector2( -160, -3168 )
-
-[node name="Terrain104" parent="Terrain" index="168" instance=ExtResource( 2 )]
-position = Vector2( -224, -3168 )
-
-[node name="Terrain89" parent="Terrain" index="169" instance=ExtResource( 2 )]
+[node name="Terrain89" parent="Terrain" index="159" instance=ExtResource( 3 )]
 position = Vector2( -416, -864 )
 
-[node name="Terrain134" parent="Terrain" index="170" instance=ExtResource( 2 )]
+[node name="Terrain134" parent="Terrain" index="160" instance=ExtResource( 3 )]
 position = Vector2( -416, -1696 )
 
-[node name="Terrain168" parent="Terrain" index="171" instance=ExtResource( 2 )]
+[node name="Terrain168" parent="Terrain" index="161" instance=ExtResource( 3 )]
 position = Vector2( -416, -2528 )
 
-[node name="Terrain170" parent="Terrain" index="172" instance=ExtResource( 2 )]
+[node name="Terrain170" parent="Terrain" index="162" instance=ExtResource( 3 )]
 position = Vector2( -416, -3040 )
 
-[node name="Terrain191" parent="Terrain" index="173" instance=ExtResource( 2 )]
+[node name="Terrain191" parent="Terrain" index="163" instance=ExtResource( 3 )]
 position = Vector2( -416, -3168 )
 
-[node name="Terrain5" parent="Terrain" index="174" instance=ExtResource( 2 )]
+[node name="Terrain5" parent="Terrain" index="164" instance=ExtResource( 3 )]
 position = Vector2( -96, 864 )
 
-[node name="Terrain21" parent="Terrain" index="175" instance=ExtResource( 2 )]
+[node name="Terrain21" parent="Terrain" index="165" instance=ExtResource( 3 )]
 position = Vector2( -96, 864 )
 
-[node name="Terrain9" parent="Terrain" index="176" instance=ExtResource( 2 )]
+[node name="Terrain9" parent="Terrain" index="166" instance=ExtResource( 3 )]
 position = Vector2( 160, 864 )
 
-[node name="Terrain25" parent="Terrain" index="177" instance=ExtResource( 2 )]
+[node name="Terrain25" parent="Terrain" index="167" instance=ExtResource( 3 )]
 position = Vector2( 160, 864 )
 
-[node name="Terrain6" parent="Terrain" index="178" instance=ExtResource( 2 )]
+[node name="Terrain6" parent="Terrain" index="168" instance=ExtResource( 3 )]
 position = Vector2( -32, 864 )
 
-[node name="Terrain22" parent="Terrain" index="179" instance=ExtResource( 2 )]
+[node name="Terrain22" parent="Terrain" index="169" instance=ExtResource( 3 )]
 position = Vector2( -32, 864 )
 
-[node name="Terrain10" parent="Terrain" index="180" instance=ExtResource( 2 )]
+[node name="Terrain10" parent="Terrain" index="170" instance=ExtResource( 3 )]
 position = Vector2( 224, 864 )
 
-[node name="Terrain16" parent="Terrain" index="181" instance=ExtResource( 2 )]
+[node name="Terrain16" parent="Terrain" index="171" instance=ExtResource( 3 )]
 position = Vector2( 224, 864 )
 
-[node name="Terrain4" parent="Terrain" index="182" instance=ExtResource( 2 )]
+[node name="Terrain4" parent="Terrain" index="172" instance=ExtResource( 3 )]
 position = Vector2( -224, 864 )
 
-[node name="Terrain20" parent="Terrain" index="183" instance=ExtResource( 2 )]
+[node name="Terrain20" parent="Terrain" index="173" instance=ExtResource( 3 )]
 position = Vector2( -224, 864 )
 
-[node name="Terrain8" parent="Terrain" index="184" instance=ExtResource( 2 )]
+[node name="Terrain8" parent="Terrain" index="174" instance=ExtResource( 3 )]
 position = Vector2( 32, 864 )
 
-[node name="Terrain24" parent="Terrain" index="185" instance=ExtResource( 2 )]
+[node name="Terrain24" parent="Terrain" index="175" instance=ExtResource( 3 )]
 position = Vector2( 32, 864 )
 
-[node name="Terrain12" parent="Terrain" index="186" instance=ExtResource( 2 )]
+[node name="Terrain12" parent="Terrain" index="176" instance=ExtResource( 3 )]
 position = Vector2( 288, 864 )
 
-[node name="Terrain17" parent="Terrain" index="187" instance=ExtResource( 2 )]
+[node name="Terrain17" parent="Terrain" index="177" instance=ExtResource( 3 )]
 position = Vector2( 288, 864 )
 

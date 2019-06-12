@@ -1,4 +1,5 @@
 extends Node2D
+class_name TowerChunk
 
 onready var parent : Minigame = get_parent()
 var entered := false
@@ -6,8 +7,6 @@ var memory_counter := 0
 export var size := 4096
 
 func _ready():
-	#why?
-#	yield(get_tree().create_timer(1),'timeout')
 	$Area.connect('body_entered', self, 'chunk_entered')
 	parent.connect('updated_chunks', self ,'on_chunk_updates')
 

@@ -22,7 +22,7 @@ var punch_arm := 'left'
 
 var max_jump_velocity : float
 var min_jump_velocity : float
-var max_jump_height : float = 7.25 * Globals.CELL_SIZE
+var max_jump_height : float = 8.25 * Globals.CELL_SIZE
 var min_jump_height : float = 0.8 * Globals.CELL_SIZE
 var jump_duration : float = 0.4
 
