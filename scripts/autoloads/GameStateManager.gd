@@ -6,7 +6,7 @@ const GAMES : Dictionary = {
 	'lobby' : preload('res://scenes/minigames/MG_Lobby.tscn'),
 	'sumo' : preload('res://scenes/minigames/MG_Sumo.tscn'),
 	'goafk' : preload('res://scenes/minigames/MG_GoAFK.tscn'),
-	'race_tower' : preload('res://scenes/minigames/MG_Race_Tower.tscn')
+	'race_tower' : preload('res://scenes/minigames/mg_race_tower/MG_Race_Tower.tscn')
 
 }
 #the world node under the root
@@ -29,7 +29,7 @@ func _ready():
 	
 	world_node = get_parent().get_node('World')
 	randomize()
-	_start_new_minigame(GAMES['race_tower'])
+	_start_new_minigame(GAMES['lobby'])
 	print(minigame_name)
 
 #warning-ignore:unused_argument

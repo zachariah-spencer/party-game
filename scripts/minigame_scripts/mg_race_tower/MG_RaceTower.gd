@@ -1,13 +1,11 @@
 extends Minigame
 
-#ACTIVE_PLAY_AREA_SIZE: 3584 OR 56 Blocks(56*64)
-#INDIVIDUAL_CHUNK_SIZE: 1792
-
-var current_chunk_num := 1
-onready var chunk_one_area = $ActiveChunkOne/ActiveChunkOneArea
-onready var chunk_two_area = $ActiveChunkTwo/ActiveChunkTwoArea
-onready var chunk_one = $ActiveChunkOne
-onready var chunk_two = $ActiveChunkTwo
+#When a new map chunk scene to be randomly generated is created, adding it to this list
+#should insert it into the procedural rotation
+const CHUNKS : Dictionary = {
+	'chunk_one' : preload('res://scenes/minigames/mg_race_tower/TowerChunkOne.tscn'),
+	'chunk_two' : preload('res://scenes/minigames/mg_race_tower/TowerChunkTwo.tscn'),
+}
 
 func _ready():
 	add_to_group('minigames')
@@ -16,14 +14,10 @@ func _ready():
 	game_time = 60
 	$Cam.current = true
 	$Lava.connect('body_entered',self,'_on_Lava_body_entered')
-	
-	yield(get_tree().create_timer(3),'timeout')
-	chunk_one_area.connect('body_entered',self,'chunk_one_entered')
-	chunk_two_area.connect('body_entered',self,'chunk_two_entered')
-	
 
 func _physics_process(delta):
 	_run_minigame_loop()
+	
 
 func _run_minigame_loop():
 	if game_active:
@@ -55,8 +49,12 @@ func _check_game_win_conditions():
 func _on_Lava_body_entered(player):
 	player.hit_points = 0
 
-func chunk_one_entered(player):
-	chunk_two_area.position.y -= 3896
-
-func chunk_two_entered(player):
-	chunk_one_area.position.y -= 3896
+func update_chunk(chunk_pos):
+	#This instancing is causing extreme lag
+	#Unsure if this is a code problem or merely 
+	#a node-count issue as we are using individual 
+	#nodes for each 64x64 block of terrain
+	var new_chunk = CHUNKS[CHUNKS.keys()[int(rand_range(0,CHUNKS.size()))]].instance()
+	new_chunk.position = chunk_pos
+	new_chunk.position.y -= 4096
+	add_child(new_chunk)
