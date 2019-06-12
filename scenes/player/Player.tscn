@@ -157,7 +157,7 @@ height = 33.2348
 "player",
 ]]
 position = Vector2( 0, -8.11656 )
-collision_layer = 0
+collision_layer = 8
 collision_mask = 25
 script = ExtResource( 1 )
 

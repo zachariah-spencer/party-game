@@ -1,4 +1,7 @@
 extends KinematicBody2D
+
+class_name Player
+
 #warning-ignore-all:unused_class_variable
 const UP : Vector2 = Vector2.UP
 const SLOPE_STOP : int = 64
@@ -245,6 +248,7 @@ func _on_AttackCooldown_timeout():
 
 func _on_AttackArea_body_entered(body):
 	#determine attack type from gamemode and handle attack interaction accordingly
+	#This needs to check if it's interacting with a player
 	match Manager.current_minigame.attack_mode:
 		Manager.current_minigame.attack_modes.non_lethal:
 			bump_player(body)
