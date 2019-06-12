@@ -18,13 +18,13 @@ func _ready():
 	readyable = true
 	instant_player_insertion = true
 	$Cam.current = true
-	
+
 	Globals.HUD.get_node('Scorecards/Statuses/P1Ready').text = 'Not Ready'
 	Globals.HUD.get_node('Scorecards/Statuses/P2Ready').text = 'Not Ready'
 	Globals.HUD.get_node('Scorecards/Statuses/P3Ready').text = 'Not Ready'
 	Globals.HUD.get_node('Scorecards/Statuses/P4Ready').text = 'Not Ready'
 
-	
+
 
 
 func _process(delta):
@@ -32,10 +32,10 @@ func _process(delta):
 
 func _check_ready_ups():
 	Players._update_active_players()
-	
+
 	var active = 0
 	var ready = 0
-	
+
 	for player in Players.active_players :
 		var readying = Globals.HUD.get_node("Scorecards/Statuses/P" + player.player_number + "Ready")
 		active += 1
@@ -44,7 +44,7 @@ func _check_ready_ups():
 			readying.text = "Ready "
 		else :
 			readying.text = "Not Ready"
-	
+
 	if active >= 2 && active == ready:
 		if !is_starting:
 			_game_won(true)

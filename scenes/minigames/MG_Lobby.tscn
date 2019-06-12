@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scenes/minigames/MG.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/minigame_scripts/MG_Lobby.gd" type="Script" id=2]
 [ext_resource path="res://scenes/Terrain.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/items/Item.tscn" type="PackedScene" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 768, 448 )
@@ -266,3 +267,5 @@ editor/display_folded = true
 position = Vector2( 768, 448 )
 shape = SubResource( 1 )
 
+[node name="Item" parent="." index="5" instance=ExtResource( 4 )]
+position = Vector2( 681.072, 664.272 )

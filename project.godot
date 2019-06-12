@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "RigidBody2D",
+"class": "Item",
+"language": "GDScript",
+"path": "res://scripts/items/Item.gd"
+}, {
 "base": "Node",
 "class": "Minigame",
 "language": "GDScript",
@@ -25,6 +30,7 @@ _global_script_classes=[ {
 "path": "res://scripts/StateMachine.gd"
 } ]
 _global_script_class_icons={
+"Item": "",
 "Minigame": "",
 "PlayersManager": "",
 "StateMachine": ""
@@ -224,6 +230,7 @@ player_four_move_up={
 2d_physics/layer_9="player_three"
 2d_physics/layer_10="player_four"
 2d_physics/layer_11="corpse"
+2d_physics/layer_15="items"
 
 [physics]
 
