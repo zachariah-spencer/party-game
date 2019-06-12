@@ -5,7 +5,11 @@ extends Minigame
 const CHUNKS : Dictionary = {
 	'chunk_one' : preload('res://scenes/minigames/mg_race_tower/TowerChunkOne.tscn'),
 	'chunk_two' : preload('res://scenes/minigames/mg_race_tower/TowerChunkTwo.tscn'),
+	'chunk_three' : preload('res://scenes/minigames/mg_race_tower/TowerChunkThree.tscn'),
 }
+
+var loaded_chunks : Array = []
+signal updated_chunks
 
 func _ready():
 	add_to_group('minigames')
@@ -49,12 +53,26 @@ func _check_game_win_conditions():
 func _on_Lava_body_entered(player):
 	player.hit_points = 0
 
-func update_chunk(chunk_pos):
+func update_chunk(chunk_pos : Vector2, old_chunk : Node2D):
 	#This instancing is causing extreme lag
 	#Unsure if this is a code problem or merely 
 	#a node-count issue as we are using individual 
 	#nodes for each 64x64 block of terrain
-	var new_chunk = CHUNKS[CHUNKS.keys()[int(rand_range(0,CHUNKS.size()))]].instance()
+	
+	#let all active chunks know that more are being loaded
+	emit_signal('updated_chunks')
+	var new_chunk
+	
+	#do-while to randomize the pieces of map that are loading and ensure you never get the same piece twice
+	#also an edge case that stops the 'bottom tower' map chunk from being randomly selected
+	new_chunk = CHUNKS[CHUNKS.keys()[int(rand_range(1,CHUNKS.size()))]]
+	while new_chunk == old_chunk:
+		new_chunk = CHUNKS[CHUNKS.keys()[int(rand_range(1,CHUNKS.size()))]]
+	
+	#instance and set new chunk above players on the top of the tower
+	new_chunk = new_chunk.instance()
 	new_chunk.position = chunk_pos
 	new_chunk.position.y -= 4096
-	add_child(new_chunk)
+	
+	#add to tree
+	call_deferred('add_child', new_chunk)
