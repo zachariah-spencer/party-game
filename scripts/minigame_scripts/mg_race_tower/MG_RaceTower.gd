@@ -8,8 +8,8 @@ const CHUNKS  = [
 ]
 
 var update_timer : int
-export var lava_speed := 2.0
-export var max_lava_speed := 5.0
+export var lava_speed := 3.0
+export var max_lava_speed := 5.5
 export var lava_speed_increment := 0.1
 export var lava_speed_incrementing_time := 1
 
