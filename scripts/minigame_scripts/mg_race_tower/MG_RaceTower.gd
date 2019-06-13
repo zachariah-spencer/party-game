@@ -31,6 +31,8 @@ func _physics_process(delta):
 
 func _run_minigame_loop():
 	if game_active:
+		#potential trig. implementation (needs difficulty tweaking)
+#		$Lava.position.y -= lava_speed*(sin(game_time) + lava_speed * .1)
 		$Lava.position.y -= lava_speed
 		_check_game_win_conditions()
 
