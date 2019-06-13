@@ -6,9 +6,11 @@ class_name Player
 const UP : Vector2 = Vector2.UP
 const SLOPE_STOP : int = 64
 const DROP_THRU_BIT : int = 4
-const WALL_JUMP_VELOCITY : Vector2 = Vector2(900, -1200)
+const WALL_JUMP_INWARD_VELOCITY : Vector2 = Vector2(1000, -1400)
+const WALL_JUMP_OUTWARD_VELOCITY : Vector2 = Vector2(600, -1200)
 const PUNCH_DISTANCE := 600
 
+var can_jump := true
 var velocity : Vector2
 var target_velocity : float
 var move_direction := Vector2.ZERO
@@ -68,7 +70,7 @@ onready var attack_timer : Node = $AttackTimer
 onready var attack_cooldown_timer : Node = $AttackCooldown
 onready var right_hand := $'StateMachine/Sprites/Right Hand'
 onready var left_hand := $'StateMachine/Sprites/Left Hand'
-
+onready var jump_cooldown := $JumpCooldownTimer
 
 func _ready():
 	_state_machine_ready()
@@ -90,15 +92,25 @@ func _cap_gravity_wall_slide():
 func _apply_movement():
 	if is_jumping && velocity.y >= 0:
 		is_jumping = false
+		if jump_cooldown.is_stopped():
+			jump_cooldown.start()
+		
 	velocity = move_and_slide(velocity, UP, SLOPE_STOP)
 	is_grounded = !is_jumping && _check_is_grounded()
 
 func jump():
 	velocity.y = max_jump_velocity
+	can_jump = false
 	is_jumping = true
 
 func wall_jump():
-	var wall_jump_velocity : Vector2 = WALL_JUMP_VELOCITY
+	is_jumping = true
+	can_jump = false
+	var wall_jump_velocity : Vector2 
+	if facing_direction == wall_direction:
+		wall_jump_velocity = WALL_JUMP_INWARD_VELOCITY
+	elif facing_direction == -wall_direction:
+		wall_jump_velocity = WALL_JUMP_OUTWARD_VELOCITY
 	wall_jump_velocity.x *= -wall_direction
 	velocity.y = 0
 	velocity += wall_jump_velocity
@@ -189,8 +201,9 @@ func _handle_move_input():
 	velocity.x = lerp(velocity.x, target_velocity, _get_h_weight())
 
 func _handle_wall_slide_sticking():
-	if move_direction.x != 0 && move_direction.x != wall_direction:
-		if wall_slide_sticky_timer.is_stopped():
+	if !Input.is_action_pressed(wall_action):
+#	if move_direction.x != 0 && move_direction.x != wall_direction:
+		if wall_slide_sticky_timer.is_stopped() && !Input.is_action_pressed(move_jump):
 			wall_slide_sticky_timer.start()
 	else:
 		wall_slide_sticky_timer.stop()
@@ -265,7 +278,7 @@ func _on_AttackArea_body_entered(body):
 
 func bump_player(affected_player):
 	var bump_velocity : Vector2 = Vector2(0,-500)
-	bump_velocity.x = (25 * Globals.CELL_SIZE) * facing_direction
+	bump_velocity.x = (40 * Globals.CELL_SIZE) * facing_direction
 	affected_player.velocity = bump_velocity
 
 func hurt_player(affected_player):
@@ -366,8 +379,8 @@ func _get_transition(delta : float):
 				return states.idle
 			elif wall_direction == 0:
 				return states.fall
-			elif !Input.is_action_pressed(wall_action):
-				return states.fall
+#			elif !Input.is_action_pressed(wall_action) && wall_slide_sticky_timer.is_stopped():
+#				return states.fall
 
 	#Error in transitions if this is returned
 	return null
@@ -488,11 +501,14 @@ func _handle_jumping():
 		if Input.is_action_pressed(move_jump):
 			if Input.is_action_pressed(move_down):
 				set_collision_mask_bit(DROP_THRU_BIT, false)
-			else:
+			elif can_jump:
 				jump()
 	elif state == states.wall_slide:
 	
-		if Input.is_action_pressed(move_jump) && Input.is_action_pressed(wall_action):
+		if Input.is_action_pressed(move_jump) && can_jump:
 			
 			set_state(states.jump)
 			wall_jump()
+
+func _on_JumpCooldownTimer_timeout():
+	can_jump = true
