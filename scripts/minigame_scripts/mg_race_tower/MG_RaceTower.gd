@@ -8,8 +8,8 @@ const CHUNKS  = [
 ]
 
 var update_timer : int
-export var lava_speed := 3.0
-export var max_lava_speed := 5.5
+export var lava_speed := 2.0
+export var max_lava_speed := 5.0
 export var lava_speed_increment := 0.1
 export var lava_speed_incrementing_time := 1
 
@@ -19,7 +19,7 @@ func _ready():
 	add_to_group('minigames')
 	Manager.minigame_name = 'race_tower'
 	game_instructions = "Race to\nEscape the Lava!"
-	game_time = 60
+	game_time = 30
 	update_timer = game_time - lava_speed_incrementing_time
 	$Cam.current = true
 	$Lava.connect('body_entered',self,'_on_Lava_body_entered')
@@ -50,7 +50,7 @@ func _game_won(no_winner = false):
 
 
 func _check_game_win_conditions():
-	if game_time == 0 || Players._get_alive_players().size() == 0:
+	if game_time == 0 || Players._get_alive_players().size() == 1:
 		_game_won()
 	elif Players._get_alive_players().size() == 0:
 		_game_won(true)
