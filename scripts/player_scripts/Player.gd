@@ -454,9 +454,12 @@ func _pickup_item():
 		right_hand.add_child(item)
 	return holding_item
 
+#for handling constantly polled events
+func _process(delta):
+	_handle_jumping()
 
+#for handling individual press events
 func _input(event : InputEvent):
-
 	if event.is_action_pressed(attack_input) && attack_timer.is_stopped() && state != states.wall_slide && can_attack:
 		if state == states.disabled :
 			pass
@@ -464,21 +467,6 @@ func _input(event : InputEvent):
 			throw()
 		elif !_pickup_item() :
 			attack()
-
-	if [states.idle, states.run].has(state) && state != states.wall_slide:
-		#JUMP
-		if event.is_action_pressed(move_jump):
-			if Input.is_action_pressed(move_down):
-				set_collision_mask_bit(DROP_THRU_BIT, false)
-			else:
-				jump()
-	elif state == states.wall_slide:
-
-		if event.is_action_pressed(move_jump) && Input.is_action_pressed(wall_action):
-
-			set_state(states.jump)
-			wall_jump()
-
 	elif state == states.jump:
 		#VARIABLE JUMP
 		if event.is_action_released(move_jump) && velocity.y < min_jump_velocity:
@@ -486,3 +474,18 @@ func _input(event : InputEvent):
 
 func _stop_movement():
 	velocity.x = 0
+
+func _handle_jumping():
+	if [states.idle, states.run].has(state) && state != states.wall_slide:
+		#JUMP
+		if Input.is_action_pressed(move_jump):
+			if Input.is_action_pressed(move_down):
+				set_collision_mask_bit(DROP_THRU_BIT, false)
+			else:
+				jump()
+	elif state == states.wall_slide:
+	
+		if Input.is_action_pressed(move_jump) && Input.is_action_pressed(wall_action):
+			
+			set_state(states.jump)
+			wall_jump()
