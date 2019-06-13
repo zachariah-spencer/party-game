@@ -58,7 +58,7 @@ func _game_won(no_winner = false):
 
 
 func _check_game_win_conditions():
-	if game_time == 0 || Players._get_alive_players().size() == 0:
+	if game_time == 0 || Players._get_alive_players().size() == 1:
 		_game_won()
 	elif Players._get_alive_players().size() == 0:
 		_game_won(true)

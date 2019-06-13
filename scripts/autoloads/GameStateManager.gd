@@ -29,7 +29,7 @@ func _ready():
 
 	world_node = get_parent().get_node('World')
 	randomize()
-	_start_new_minigame(GAMES['race_tower'])
+	_start_new_minigame(GAMES['lobby'])
 	print(minigame_name)
 
 #warning-ignore:unused_argument
