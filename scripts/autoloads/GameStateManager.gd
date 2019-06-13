@@ -4,8 +4,8 @@ extends Node
 const GAMES : Dictionary = {
 
 	'lobby' : preload('res://scenes/minigames/MG_Lobby.tscn'),
-#	'sumo' : preload('res://scenes/minigames/MG_Sumo.tscn'),
-#	'goafk' : preload('res://scenes/minigames/MG_GoAFK.tscn'),
+	'sumo' : preload('res://scenes/minigames/MG_Sumo.tscn'),
+	'goafk' : preload('res://scenes/minigames/MG_GoAFK.tscn'),
 	'race_tower' : preload('res://scenes/minigames/mg_race_tower/MG_Race_Tower.tscn')
 
 }
@@ -26,7 +26,7 @@ signal minigame_change
 var player_spawns : Array = [0,1,2,3]
 
 func _ready():
-	
+
 	world_node = get_parent().get_node('World')
 	randomize()
 	_start_new_minigame(GAMES['lobby'])
@@ -51,7 +51,7 @@ func _start_new_minigame(new_minigame : PackedScene):
 func _on_game_times_up():
 	var next_minigame
 	next_minigame = _select_random_minigame()
-	
+
 	_start_new_minigame(next_minigame)
 
 
