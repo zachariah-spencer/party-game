@@ -4,7 +4,13 @@ extends Minigame
 #should insert it into the procedural rotation
 const CHUNKS  = [
 	preload('res://scenes/minigames/mg_race_tower/TowerChunkTwo.tscn'),
-	preload('res://scenes/minigames/mg_race_tower/TowerChunkThree.tscn')
+	preload('res://scenes/minigames/mg_race_tower/TowerChunkThree.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/TowerChunkFour.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/TowerChunkFive.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/TowerChunkSix.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/TowerChunkSeven.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/TowerChunkEight.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/TowerChunkNine.tscn'),
 ]
 
 var update_timer : int
@@ -52,7 +58,7 @@ func _game_won(no_winner = false):
 
 
 func _check_game_win_conditions():
-	if game_time == 0 || Players._get_alive_players().size() == 1:
+	if game_time == 0 || Players._get_alive_players().size() == 0:
 		_game_won()
 	elif Players._get_alive_players().size() == 0:
 		_game_won(true)
@@ -88,6 +94,7 @@ func update_chunk(old_chunk : Node2D):
 	#instance and set new chunk above players on the top of the tower
 	new_chunk.position = old_chunk.position
 	new_chunk.position.y -= old_chunk.size
+	print(new_chunk.name)
 
 	#add to tree
 	call_deferred('add_child', new_chunk)
