@@ -215,6 +215,8 @@ func _on_AttackArea_body_entered(body):
 		'lethal':
 			bump_player(body)
 			hurt_player(body)
+	# stop tracking punches
+	_on_AttackTimer_timeout()
 
 func bump_player(affected_player):
 	var bump_velocity : Vector2 = Vector2(0,-500)

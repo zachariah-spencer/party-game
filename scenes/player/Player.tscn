@@ -203,7 +203,6 @@ bus = "Sounds"
 area_mask = 0
 
 [node name="StateMachine" type="Node2D" parent="."]
-editor/display_folded = true
 script = ExtResource( 6 )
 
 [node name="Sprites" type="Node2D" parent="StateMachine"]
@@ -222,27 +221,27 @@ offset = Vector2( 0, -95 )
 position = Vector2( 7.87, -26.57 )
 node_a = NodePath("../Left Hand")
 node_b = NodePath("../Body/Arms")
-bias = 0.6
-softness = 2.0
+bias = 0.8
+softness = 16.0
 
 [node name="Right Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
 position = Vector2( -7.6, -26.3 )
 node_a = NodePath("../Right Hand")
 node_b = NodePath("../Body/Arms")
-bias = 0.6
-softness = 2.0
+bias = 0.8
+softness = 16.0
 
 [node name="Left Hand" type="RigidBody2D" parent="StateMachine/Sprites"]
 position = Vector2( 10.49, -16.12 )
 collision_layer = 2
 mass = 1.96
 gravity_scale = 12.0
-linear_damp = 5.0
+linear_damp = 6.0
 
 [node name="Trail" type="CPUParticles2D" parent="StateMachine/Sprites/Left Hand"]
 emitting = false
-amount = 24
-lifetime = 0.2
+amount = 48
+lifetime = 0.1
 one_shot = true
 randomness = 0.1
 local_coords = false
@@ -340,6 +339,7 @@ z_as_relative = false
 node_a = NodePath("../Head")
 node_b = NodePath("../Body/Arms")
 bias = 0.9
+softness = 1.0
 
 [node name="Feet" type="KinematicBody2D" parent="StateMachine/Sprites"]
 editor/display_folded = true
@@ -358,19 +358,20 @@ shape = SubResource( 8 )
 position = Vector2( 0.17, -7.36 )
 node_a = NodePath("../Body")
 node_b = NodePath("../Feet")
-bias = 0.603
+bias = 0.6
+softness = 1.0
 
 [node name="Right Hand" type="RigidBody2D" parent="StateMachine/Sprites"]
 position = Vector2( -10.49, -16.12 )
 collision_layer = 4
 mass = 1.96
-gravity_scale = 7.5
-linear_damp = 5.0
+gravity_scale = 12.0
+linear_damp = 6.0
 
 [node name="Trail" type="CPUParticles2D" parent="StateMachine/Sprites/Right Hand"]
 emitting = false
-amount = 24
-lifetime = 0.2
+amount = 48
+lifetime = 0.1
 one_shot = true
 randomness = 0.1
 local_coords = false
@@ -529,6 +530,7 @@ one_shot = true
 
 [node name="AttackCooldown" type="Timer" parent="."]
 process_mode = 0
+wait_time = 0.2
 
 [node name="AttackTimer" type="Timer" parent="."]
 process_mode = 0
