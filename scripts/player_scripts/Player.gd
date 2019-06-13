@@ -27,7 +27,7 @@ var punch_arm := 'left'
 
 var max_jump_velocity : float
 var min_jump_velocity : float
-var max_jump_height : float = 7.25 * Globals.CELL_SIZE
+var max_jump_height : float = 8.25 * Globals.CELL_SIZE
 var min_jump_height : float = 0.8 * Globals.CELL_SIZE
 var jump_duration : float = 0.4
 
@@ -287,7 +287,6 @@ func _state_machine_ready():
 	add_state('jump')
 	add_state('fall')
 	add_state('wall_slide')
-	add_state('attack')
 	add_state('disabled')
 	anim_tree.active = true
 	anim_tree['parameters/playback'].start("Airborne")
@@ -362,9 +361,6 @@ func _get_transition(delta : float):
 				return states.fall
 			elif !Input.is_action_pressed(wall_action):
 				return states.fall
-		states.attack:
-			if attack_timer.is_stopped():
-				return states.idle
 
 	#Error in transitions if this is returned
 	return null
@@ -465,7 +461,7 @@ func _input(event : InputEvent):
 		if holding_item :
 			throw()
 		elif !_pickup_item() :
-			set_state(states.attack)
+			if state != states.disabled:
 			attack()
 
 	if [states.idle, states.run].has(state) && state != states.wall_slide:

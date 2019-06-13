@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://scenes/minigames/MG.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/minigame_scripts/mg_race_tower/MG_RaceTower.gd" type="Script" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=3]
+[ext_resource path="res://scenes/minigames/mg_race_tower/TowerChunkOne.tscn" type="PackedScene" id=4]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "flow",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 960, 32 )
+
+[node name="MG_Race_Tower" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="PlayerOneSpawnF" parent="SpawnPoints" index="0"]
+position = Vector2( 160, -256 )
+
+[node name="PlayerTwoSpawnF" parent="SpawnPoints" index="1"]
+position = Vector2( 352, -256 )
+
+[node name="PlayerThreeSpawnF" parent="SpawnPoints" index="2"]
+position = Vector2( 544, -256 )
+
+[node name="PlayerFourSpawnF" parent="SpawnPoints" index="3"]
+position = Vector2( 736, -256 )
+
+[node name="Lava" type="Area2D" parent="." index="3"]
+editor/display_folded = true
+position = Vector2( 448, 200 )
+collision_layer = 0
+collision_mask = 960
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Lava" index="0"]
+modulate = Color( 0.933333, 0.545098, 0, 1 )
+scale = Vector2( 30, 1 )
+frames = SubResource( 1 )
+animation = "flow"
+
+[node name="Shape" type="CollisionShape2D" parent="Lava" index="1"]
+shape = SubResource( 2 )
+
+[node name="TowerChunkOne" parent="." index="4" instance=ExtResource( 4 )]
+
