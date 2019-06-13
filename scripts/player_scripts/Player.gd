@@ -12,6 +12,7 @@ const PUNCH_DISTANCE := 600
 var velocity : Vector2
 var target_velocity : float
 var move_direction := Vector2.ZERO
+var aim_direction := Vector2.ZERO
 var facing_direction : int = 1
 var wall_direction : int = 1
 var move_speed : float = 14 * Globals.CELL_SIZE
@@ -42,6 +43,10 @@ var move_down : String
 var move_jump : String
 var move_up : String
 var attack_input : String
+var rs_left : String
+var rs_right : String
+var rs_down : String
+var rs_up : String
 
 var state = null setget set_state
 var previous_state = null
@@ -103,9 +108,9 @@ func throw():
 		holding_item = false
 		var dir
 		var pos = global_position + Vector2.UP * 20
-		if move_direction.length() > .2 :
-			dir = move_direction
-			pos += move_direction* 50
+		if aim_direction.length() > .2 :
+			dir = aim_direction
+			pos += aim_direction * 50
 		else :
 			dir = facing_direction*Vector2.RIGHT
 			pos += facing_direction*Vector2.RIGHT * 20
@@ -142,8 +147,8 @@ func attack():
 		# set hitbox
 		attack_area = hand.get_node('Hitbox')
 		# launch hand at an angle if there's a decent move_input, or just use facing
-		if move_direction.normalized().length() > .2 :
-			vel = hand.get_gravity_scale()*PUNCH_DISTANCE*move_direction.normalized()
+		if aim_direction.normalized().length() > .2 :
+			vel = hand.get_gravity_scale()*PUNCH_DISTANCE*aim_direction.normalized()
 		else :
 			vel = Vector2(hand.get_gravity_scale()*PUNCH_DISTANCE*dir,0)
 		hand.apply_central_impulse(vel)
@@ -160,6 +165,8 @@ func _update_move_direction():
 
 	move_direction.y = -Input.get_action_strength(move_up) + Input.get_action_strength(move_down)
 	move_direction.x = -Input.get_action_strength(move_left) + Input.get_action_strength(move_right)
+	aim_direction.y = -Input.get_action_strength(rs_up) + Input.get_action_strength(rs_down)
+	aim_direction.x = -Input.get_action_strength(rs_left) + Input.get_action_strength(rs_right)
 	if move_direction.x != 0:
 		# all nodes in here will be mirrored when changing directions
 		# these range from simple sprites to feet that require mirroring the parent node, not the sprites themselves
