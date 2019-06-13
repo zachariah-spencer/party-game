@@ -1,4 +1,7 @@
 extends KinematicBody2D
+
+class_name Player
+
 #warning-ignore-all:unused_class_variable
 const UP : Vector2 = Vector2.UP
 const SLOPE_STOP : int = 64
@@ -14,6 +17,8 @@ var wall_direction : int = 1
 var move_speed : float = 14 * Globals.CELL_SIZE
 var gravity : float
 var hit_points : int = 100
+var held_item
+var holding_item := false
 
 var is_grounded : bool
 var is_jumping : bool = false
@@ -92,6 +97,24 @@ func wall_jump():
 	wall_jump_velocity.x *= -wall_direction
 	velocity.y = 0
 	velocity += wall_jump_velocity
+
+func throw():
+	if holding_item :
+		holding_item = false
+		var dir
+		var pos = global_position + Vector2.UP * 20
+		if move_direction.length() > .2 :
+			dir = move_direction
+			pos += move_direction* 50
+		else :
+			dir = facing_direction*Vector2.RIGHT
+			pos += facing_direction*Vector2.RIGHT * 20
+
+		held_item.throw(dir*1000, pos, self)
+func drop():
+	if holding_item :
+		holding_item = false
+		held_item.throw(velocity, global_position+Vector2.DOWN*10 ,self)
 
 func attack():
 	if can_attack:
@@ -225,6 +248,7 @@ func _on_AttackCooldown_timeout():
 
 func _on_AttackArea_body_entered(body):
 	#determine attack type from gamemode and handle attack interaction accordingly
+	#This needs to check if it's interacting with a player
 	match Manager.current_minigame.attack_mode:
 		Manager.current_minigame.attack_modes.non_lethal:
 			bump_player(body)
@@ -417,10 +441,28 @@ func _on_WallSlideStickyTimer_timeout():
 	if state == states.wall_slide:
 		set_state(states.fall)
 
+func _pickup_item():
+	var items = $PickupRange.get_overlapping_areas()
+	var item = null
+	for temp in items : if temp.is_in_group("item") : item = temp.get_parent()
+	if item :
+		holding_item = true
+		item.grab(self)
+		held_item = item
+		item.get_parent().remove_child(item)
+		item.position = Vector2.ZERO
+		right_hand.add_child(item)
+	return holding_item
+
+
 func _input(event : InputEvent):
 
 	if event.is_action_pressed(attack_input) && attack_timer.is_stopped() && state != states.wall_slide && can_attack:
-		if state != states.disabled:
+		if state == states.disabled :
+			pass
+		elif holding_item :
+			throw()
+		elif !_pickup_item() :
 			attack()
 
 	if [states.idle, states.run].has(state) && state != states.wall_slide:

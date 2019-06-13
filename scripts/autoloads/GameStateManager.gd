@@ -6,7 +6,8 @@ const GAMES : Dictionary = {
 	'lobby' : preload('res://scenes/minigames/MG_Lobby.tscn'),
 	'sumo' : preload('res://scenes/minigames/MG_Sumo.tscn'),
 	'goafk' : preload('res://scenes/minigames/MG_GoAFK.tscn'),
-	'race_tower' : preload('res://scenes/minigames/mg_race_tower/MG_Race_Tower.tscn')
+	'race_tower' : preload('res://scenes/minigames/mg_race_tower/MG_Race_Tower.tscn'),
+	#not ready'dodgeball' : preload('res://scenes/minigames/MG_Dodgeball.tscn')
 
 }
 #the world node under the root

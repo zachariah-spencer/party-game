@@ -9,10 +9,20 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "RigidBody2D",
+"class": "Item",
+"language": "GDScript",
+"path": "res://scripts/items/Item.gd"
+}, {
 "base": "Node",
 "class": "Minigame",
 "language": "GDScript",
 "path": "res://scripts/minigame_scripts/Minigame.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "Player",
+"language": "GDScript",
+"path": "res://scripts/player_scripts/Player.gd"
 }, {
 "base": "Node2D",
 "class": "PlayersManager",
@@ -30,7 +40,9 @@ _global_script_classes=[ {
 "path": "res://scripts/minigame_scripts/mg_race_tower/TowerChunk.gd"
 } ]
 _global_script_class_icons={
+"Item": "",
 "Minigame": "",
+"Player": "",
 "PlayersManager": "",
 "StateMachine": "",
 "TowerChunk": ""
@@ -232,6 +244,7 @@ player_four_move_up={
 2d_physics/layer_9="player_three"
 2d_physics/layer_10="player_four"
 2d_physics/layer_11="corpse"
+2d_physics/layer_15="items"
 
 [physics]
 
