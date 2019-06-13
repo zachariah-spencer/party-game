@@ -4,6 +4,21 @@
 [ext_resource path="res://scripts/minigame_scripts/MG_Lobby.gd" type="Script" id=2]
 [ext_resource path="res://DevTileset.tres" type="TileSet" id=3]
 
+[node name="MG_Lobby" index="0" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="PlayerOneSpawnF" parent="SpawnPoints" index="0"]
+position = Vector2( 192, 672 )
+
+[node name="PlayerTwoSpawnF" parent="SpawnPoints" index="1"]
+position = Vector2( 576, 672 )
+
+[node name="PlayerThreeSpawnF" parent="SpawnPoints" index="2"]
+position = Vector2( 960, 672 )
+
+[node name="PlayerFourSpawnF" parent="SpawnPoints" index="3"]
+position = Vector2( 1344, 672 )
+
 [node name="TileMapTerrain" type="TileMap" parent="." index="3"]
 tile_set = ExtResource( 3 )
 collision_mask = 0
@@ -17,5 +32,3 @@ collision_mask = 0
 format = 1
 tile_data = PoolIntArray( 196613, 1, 0, 196614, 1, 0, 196619, 1, 0, 196620, 1, 0, 196625, 1, 0, 196626, 1, 0, 393218, 1, 0, 393219, 1, 0, 393224, 1, 0, 393225, 1, 0, 393230, 1, 0, 393231, 1, 0, 393236, 1, 0, 393237, 1, 0, 589829, 1, 0, 589830, 1, 0, 589835, 1, 0, 589836, 1, 0, 589841, 1, 0, 589842, 1, 0, 786433, 2, 0, 786434, 1, 0, 786435, 1, 0, 786436, 2, 0, 786439, 2, 0, 786440, 1, 0, 786441, 1, 0, 786442, 2, 0, 786445, 2, 0, 786446, 1, 0, 786447, 1, 0, 786448, 2, 0, 786451, 2, 0, 786452, 1, 0, 786453, 1, 0, 786454, 2, 0 )
 
-[node name="Dodgeball" parent="." index="5" instance=ExtResource( 4 )]
-position = Vector2( 904.39, 434.577 )

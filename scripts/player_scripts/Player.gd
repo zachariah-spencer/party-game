@@ -458,10 +458,11 @@ func _pickup_item():
 func _input(event : InputEvent):
 
 	if event.is_action_pressed(attack_input) && attack_timer.is_stopped() && state != states.wall_slide && can_attack:
-		if holding_item :
+		if state == states.disabled :
+			pass
+		elif holding_item :
 			throw()
 		elif !_pickup_item() :
-			if state != states.disabled:
 			attack()
 
 	if [states.idle, states.run].has(state) && state != states.wall_slide:
