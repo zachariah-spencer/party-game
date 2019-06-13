@@ -6,10 +6,8 @@
 [ext_resource path="res://scenes/player/PlayerFour.tscn" type="PackedScene" id=4]
 
 [node name="World" type="Node"]
-editor/display_folded = true
 
 [node name="Players" type="Node" parent="."]
-editor/display_folded = true
 
 [node name="PlayerOne" parent="Players" instance=ExtResource( 1 )]
 
@@ -18,4 +16,3 @@ editor/display_folded = true
 [node name="PlayerThree" parent="Players" instance=ExtResource( 3 )]
 
 [node name="PlayerFour" parent="Players" instance=ExtResource( 4 )]
-

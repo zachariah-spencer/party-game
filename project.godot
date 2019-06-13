@@ -205,7 +205,8 @@ player_four_b={
 
 [physics]
 
-common/physics_fps=200
+common/physics_fps=120
+common/physics_jitter_fix=1.0
 2d/default_gravity=200
 
 [rendering]
