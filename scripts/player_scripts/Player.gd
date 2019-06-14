@@ -6,10 +6,11 @@ class_name Player
 const UP : Vector2 = Vector2.UP
 const SLOPE_STOP : int = 64
 const DROP_THRU_BIT : int = 4
-const WALL_JUMP_INWARD_VELOCITY : Vector2 = Vector2(1000, -1400)
-const WALL_JUMP_OUTWARD_VELOCITY : Vector2 = Vector2(600, -1200)
+const WALL_JUMP_INWARD_VELOCITY : Vector2 = Vector2(1000, -1200)
+const WALL_JUMP_OUTWARD_VELOCITY : Vector2 = Vector2(600, -1000)
 const PUNCH_DISTANCE := 600
 
+var can_wall_jump := true
 var can_jump := true
 var velocity : Vector2
 var target_velocity : float
@@ -55,6 +56,7 @@ var previous_state = null
 var states : Dictionary = {}
 var wall_action : String
 
+
 onready var state_label : Label = $StateMachine/StateLabel
 onready var anim_tree : AnimationTree = $StateMachine/AnimationTree
 onready var state_machine := $StateMachine
@@ -93,11 +95,13 @@ func _cap_gravity_wall_slide():
 func _apply_movement():
 	if is_jumping && velocity.y >= 0:
 		is_jumping = false
-		if jump_cooldown.is_stopped():
-			jump_cooldown.start()
 		
 	velocity = move_and_slide(velocity, UP, SLOPE_STOP)
 	is_grounded = !is_jumping && _check_is_grounded()
+	
+	if !can_jump && is_on_floor() || !can_jump && state == states.wall_slide:
+		if jump_cooldown.is_stopped():
+			jump_cooldown.start()
 
 func jump():
 	velocity.y = max_jump_velocity
@@ -362,9 +366,9 @@ func _get_transition(delta : float):
 			elif abs(move_direction.x) == 0:
 				return states.idle
 		states.jump:
-			if wall_direction != 0  && wall_slide_cooldown.is_stopped() && Input.is_action_pressed(wall_action):
-				return states.wall_slide
-			elif is_on_floor():
+#			if wall_direction != 0  && wall_slide_cooldown.is_stopped() && Input.is_action_pressed(wall_action):
+#				return states.wall_slide
+			if is_on_floor():
 				return states.idle
 			elif velocity.y >= 0:
 				return states.fall
@@ -498,10 +502,8 @@ func _stop_movement():
 
 func _handle_jumping():
 	if Input.is_action_pressed(move_down) && fall_through_timer.is_stopped() && [states.idle, states.run].has(state):
-		print('start_time')
 		fall_through_timer.start()
 	elif Input.is_action_just_released(move_down):
-		print('timer stopped')
 		fall_through_timer.stop()
 	
 	if [states.idle, states.run].has(state) && state != states.wall_slide:
@@ -523,5 +525,4 @@ func _on_JumpCooldownTimer_timeout():
 
 
 func _on_FallThroughTimer_timeout():
-	print('is here')
 	set_collision_mask_bit(DROP_THRU_BIT, false)
