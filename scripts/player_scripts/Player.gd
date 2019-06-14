@@ -95,10 +95,10 @@ func _cap_gravity_wall_slide():
 func _apply_movement():
 	if is_jumping && velocity.y >= 0:
 		is_jumping = false
-		
+
 	velocity = move_and_slide(velocity, UP, SLOPE_STOP)
 	is_grounded = !is_jumping && _check_is_grounded()
-	
+
 	if !can_jump && is_on_floor() || !can_jump && state == states.wall_slide:
 		if jump_cooldown.is_stopped():
 			jump_cooldown.start()
@@ -111,7 +111,7 @@ func jump():
 func wall_jump():
 	is_jumping = true
 	can_jump = false
-	var wall_jump_velocity : Vector2 
+	var wall_jump_velocity : Vector2
 	if facing_direction == wall_direction:
 		wall_jump_velocity = WALL_JUMP_INWARD_VELOCITY
 	elif facing_direction == -wall_direction:
@@ -131,7 +131,9 @@ func throw():
 		else :
 			dir = facing_direction*Vector2.RIGHT
 			pos += facing_direction*Vector2.RIGHT * 20
-
+		self.velocity = Vector2.ZERO
+		self.velocity -= dir.normalized()*held_item._weight*100
+		print(dir)
 		held_item.throw(dir*1000, pos, self)
 func drop():
 	if holding_item :
@@ -184,6 +186,11 @@ func _update_move_direction():
 	move_direction.x = -Input.get_action_strength(move_left) + Input.get_action_strength(move_right)
 	aim_direction.y = -Input.get_action_strength(rs_up) + Input.get_action_strength(rs_down)
 	aim_direction.x = -Input.get_action_strength(rs_left) + Input.get_action_strength(rs_right)
+
+	#if no right stick input, use left stick
+	if aim_direction == Vector2.ZERO :
+		aim_direction = move_direction
+
 	if move_direction.x != 0:
 		# all nodes in here will be mirrored when changing directions
 		# these range from simple sprites to feet that require mirroring the parent node, not the sprites themselves
@@ -219,7 +226,7 @@ func _get_h_weight():
 	else:
 		if move_direction.x == 0:
 			return 0.02
-		elif move_direction.x == sign(velocity.x) && abs(velocity.x) > move_speed:
+		elif sign(move_direction.x) == sign(velocity.x) && abs(velocity.x) > move_speed:
 			return 0.0
 		else:
 			return 0.1
@@ -505,7 +512,7 @@ func _handle_jumping():
 		fall_through_timer.start()
 	elif Input.is_action_just_released(move_down):
 		fall_through_timer.stop()
-	
+
 	if [states.idle, states.run].has(state) && state != states.wall_slide:
 		#JUMP
 		if Input.is_action_pressed(move_jump):
@@ -514,9 +521,9 @@ func _handle_jumping():
 			elif can_jump:
 				jump()
 	elif state == states.wall_slide:
-	
+
 		if Input.is_action_pressed(move_jump) && can_jump:
-			
+
 			set_state(states.jump)
 			wall_jump()
 
