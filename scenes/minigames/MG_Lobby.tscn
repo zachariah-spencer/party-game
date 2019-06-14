@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/minigames/MG.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/minigame_scripts/MG_Lobby.gd" type="Script" id=2]
 [ext_resource path="res://DevTileset.tres" type="TileSet" id=3]
+[ext_resource path="res://scenes/items/Dodgeball.tscn" type="PackedScene" id=4]
 
 [node name="MG_Lobby" index="0" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
@@ -30,5 +31,13 @@ tile_set = ExtResource( 3 )
 collision_layer = 16
 collision_mask = 0
 format = 1
-tile_data = PoolIntArray( 196613, 1, 0, 196614, 1, 0, 196619, 1, 0, 196620, 1, 0, 196625, 1, 0, 196626, 1, 0, 393218, 1, 0, 393219, 1, 0, 393224, 1, 0, 393225, 1, 0, 393230, 1, 0, 393231, 1, 0, 393236, 1, 0, 393237, 1, 0, 589829, 1, 0, 589830, 1, 0, 589835, 1, 0, 589836, 1, 0, 589841, 1, 0, 589842, 1, 0, 786433, 2, 0, 786434, 1, 0, 786435, 1, 0, 786436, 2, 0, 786439, 2, 0, 786440, 1, 0, 786441, 1, 0, 786442, 2, 0, 786445, 2, 0, 786446, 1, 0, 786447, 1, 0, 786448, 2, 0, 786451, 2, 0, 786452, 1, 0, 786453, 1, 0, 786454, 2, 0 )
+tile_data = PoolIntArray( 196613, 1, 0, 196614, 1, 0, 196619, 1, 0, 196620, 1, 0, 196625, 1, 0, 196626, 1, 0, 393218, 1, 0, 393219, 1, 0, 393224, 1, 0, 393225, 1, 0, 393230, 1, 0, 393231, 1, 0, 393236, 1, 0, 393237, 1, 0, 589829, 1, 0, 589830, 1, 0, 589835, 1, 0, 589836, 1, 0, 589841, 1, 0, 589842, 1, 0, 786433, 2, 0, 786434, 1, 0, 786435, 1, 0, 786436, 2, 0, 786439, 2, 0, 786440, 1, 0, 786441, 1, 0, 786442, 2, 0, 786445, 2, 0, 786446, 1, 0, 786447, 1, 0, 786448, 2, 0 )
 
+[node name="Dodgeball" parent="." index="5" instance=ExtResource( 4 )]
+position = Vector2( 936.69, 581.394 )
+
+[node name="Dodgeball2" parent="." index="6" instance=ExtResource( 4 )]
+position = Vector2( 554.967, 540.285 )
+
+[node name="Dodgeball3" parent="." index="7" instance=ExtResource( 4 )]
+position = Vector2( 1042.4, 469.813 )
