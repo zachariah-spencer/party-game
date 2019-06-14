@@ -71,6 +71,7 @@ onready var attack_cooldown_timer : Node = $AttackCooldown
 onready var right_hand := $'StateMachine/Sprites/Right Hand'
 onready var left_hand := $'StateMachine/Sprites/Left Hand'
 onready var jump_cooldown := $JumpCooldownTimer
+onready var fall_through_timer := $FallThroughTimer
 
 func _ready():
 	_state_machine_ready()
@@ -496,6 +497,13 @@ func _stop_movement():
 	velocity.x = 0
 
 func _handle_jumping():
+	if Input.is_action_pressed(move_down) && fall_through_timer.is_stopped() && [states.idle, states.run].has(state):
+		print('start_time')
+		fall_through_timer.start()
+	elif Input.is_action_just_released(move_down):
+		print('timer stopped')
+		fall_through_timer.stop()
+	
 	if [states.idle, states.run].has(state) && state != states.wall_slide:
 		#JUMP
 		if Input.is_action_pressed(move_jump):
@@ -512,3 +520,8 @@ func _handle_jumping():
 
 func _on_JumpCooldownTimer_timeout():
 	can_jump = true
+
+
+func _on_FallThroughTimer_timeout():
+	print('is here')
+	set_collision_mask_bit(DROP_THRU_BIT, false)
