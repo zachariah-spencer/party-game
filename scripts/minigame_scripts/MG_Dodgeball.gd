@@ -7,21 +7,23 @@ func _ready():
 	game_time = 30
 	$Cam.current = true
 
+func _physics_process(delta):
+	_run_minigame_loop()
+
+func _run_minigame_loop():
+
+	if game_active:
+		_check_game_win_conditions()
+
 func _game_won(no_winner = false):
-	game_over = true
 	game_active = false
+	game_over = true
 	if !no_winner:
-		for player in Players._get_alive_players():
-			player.score += 1
+		Players._get_alive_players()[0].score += 1
 		$CanvasLayer/HUD._update_scores()
-		$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Winners:\n'
-		for player in Players._get_alive_players():
-			$CanvasLayer/HUD/TimeLeft/Instructions.text = $CanvasLayer/HUD/TimeLeft/Instructions.text +  player.display_name + '\n'
-
-
+		$CanvasLayer/HUD/TimeLeft/Instructions.text = Players._get_alive_players()[0].display_name + ' Won!'
 	else:
 		$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Nobody Won!'
-
 
 func _check_game_win_conditions():
 	if Players._get_alive_players().size() == 1:
