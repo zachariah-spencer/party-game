@@ -11,45 +11,21 @@ signal begin_game
 func _ready():
 	#register to singleton
 	Globals.HUD = self
-	
+
 	#connect the game_times_up signal upon readying in the tree
 	#warning-ignore:return_value_discarded
 	#DELETE: connect('game_times_up', Manager, '_on_game_times_up')
-	
+
 	#update the hud with new information
 	call_deferred('_update_hud')
 
 func _update_active_players():
 	#check which players are activated and make their hud elements visible,
 	#else make them not visible
-	if Players.player_one.active:
-		$Scorecards/P1Score.visible = true
-		$Scorecards/Statuses/P1Ready.visible = true
-	else:
-		$Scorecards/P1Score.visible = false
-		$Scorecards/Statuses/P1Ready.visible = false
-	
-	if Players.player_two.active:
-		$Scorecards/P2Score.visible = true
-		$Scorecards/Statuses/P2Ready.visible = true
-	else:
-		$Scorecards/P2Score.visible = false
-		$Scorecards/Statuses/P2Ready.visible = false
-	
-	if Players.player_three.active:
-		$Scorecards/P3Score.visible = true
-		$Scorecards/Statuses/P3Ready.visible = true
-	else:
-		$Scorecards/P3Score.visible = false
-		$Scorecards/Statuses/P3Ready.visible = false
-	
-	if Players.player_four.active:
-		$Scorecards/P4Score.visible = true
-		$Scorecards/Statuses/P4Ready.visible = true
-	else:
-		$Scorecards/P4Score.visible = false
-		$Scorecards/Statuses/P4Ready.visible = false
-	
+	for player in Players._players :
+		get_node("Scorecards/P"+ player.player_number +"Score").visible  = player.active
+		get_node("Scorecards/Statuses/P"+ player.player_number +"Ready").visible  = player.active
+
 	#remove the 'Ready/Not Ready' system from the hud UI unless players are in the lobby
 	if Manager.minigame_name != 'lobby':
 		for status in $Scorecards/Statuses.get_children():
@@ -77,7 +53,7 @@ func _update_game_timer():
 			$TimeLeft.text = String(minigame.game_time)
 	else:
 		$TimeLeft.text = ''
-		
+
 	if Manager.minigame_name == 'lobby':
 		if !minigame.game_over:
 			$TimeLeft/Instructions.text = minigame.game_instructions
