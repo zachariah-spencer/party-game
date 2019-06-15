@@ -138,7 +138,7 @@ func throw():
 			self.velocity = Vector2.ZERO
 			self.velocity -= dir.normalized()*held_item._weight*100
 
-		held_item.throw(dir*1000, pos, self)
+		held_item.throw(dir*1600, pos, self)
 
 func drop():
 	if holding_item :
