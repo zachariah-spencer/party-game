@@ -3,10 +3,11 @@ extends Minigame
 func _ready():
 	add_to_group('minigames')
 	Manager.minigame_name = 'goafk'
+	visible_name = "Go AFK"
 	game_instructions = "DON'T MOVE!!!"
 	game_time = 5
 	has_countdown = false
-	$Cam.current = true
+#	$Cam.current = true
 
 func _physics_process(delta):
 	_run_minigame_loop()

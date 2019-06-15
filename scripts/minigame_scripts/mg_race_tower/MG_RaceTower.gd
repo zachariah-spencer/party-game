@@ -24,10 +24,11 @@ signal updated_chunks
 func _ready():
 	add_to_group('minigames')
 	Manager.minigame_name = 'race_tower'
+	visible_name = "Tower Race"
 	game_instructions = "Race to\nEscape the Lava!"
 	game_time = 30
 	update_timer = game_time - lava_speed_incrementing_time
-	$Cam.current = true
+#	$Cam.current = true
 	$Lava.connect('body_entered',self,'_on_Lava_body_entered')
 
 func _physics_process(delta):
