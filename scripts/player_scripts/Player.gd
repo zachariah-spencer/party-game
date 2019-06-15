@@ -74,6 +74,7 @@ onready var right_hand := $'StateMachine/Sprites/Right Hand'
 onready var left_hand := $'StateMachine/Sprites/Left Hand'
 onready var jump_cooldown := $JumpCooldownTimer
 onready var fall_through_timer := $FallThroughTimer
+onready var fall_through_area := $FallingThroughPlatformArea
 
 func _ready():
 	_state_machine_ready()
@@ -419,6 +420,7 @@ func _enter_state(new_state, old_state):
 			_state = anim_tree['parameters/Grounded/playback']
 			state_label.text = 'run'
 		states.jump:
+			set_collision_mask_bit(DROP_THRU_BIT, false)
 			state_name = "Airborne"
 			state_label.text = 'jump'
 		states.fall:
@@ -452,6 +454,13 @@ func _exit_state(old_state, new_state):
 	match old_state:
 		states.wall_slide:
 			wall_slide_cooldown.start()
+		states.jump:
+			var is_in_platform := false
+			for body in fall_through_area.get_overlapping_bodies():
+				if ( body.get_collision_layer_bit(DROP_THRU_BIT) == true ):
+					is_in_platform = true
+			if !is_in_platform:
+				set_collision_mask_bit(DROP_THRU_BIT, true)
 
 func set_state(new_state):
 	previous_state = state
