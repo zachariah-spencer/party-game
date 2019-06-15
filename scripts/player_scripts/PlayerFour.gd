@@ -9,19 +9,6 @@ func _ready():
 	b_button = 'player_four_b'
 	player_number = '4'
 
-func register_player_inputs():
-	child.move_left = 'player_four_move_left'
-	child.move_right = 'player_four_move_right'
-	child.move_up = 'player_four_move_up'
-	child.move_jump = 'player_four_move_jump'
-	child.move_down = 'player_four_move_down'
-	child.attack_input = 'player_four_attack'
-	
-	child.rs_left = 'player_four_rs_left'
-	child.rs_right = 'player_four_rs_right'
-	child.rs_up = 'player_four_rs_up'
-	child.rs_down = 'player_four_rs_down'
-
 func register_collisions():
 
 	#register player into his player-specific collision layer

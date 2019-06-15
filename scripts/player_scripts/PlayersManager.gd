@@ -33,9 +33,6 @@ func _clear_children():
 		if child.is_in_group('player') :
 			child.queue_free()
 
-func register_player_inputs():
-	pass
-
 func register_collisions():
 	pass
 
@@ -120,3 +117,30 @@ func spawn(spawn_position : Vector2 = Players.select_spawn_point()):
 
 	register_player_inputs()
 	register_collisions()
+	
+func register_player_inputs():
+	
+	var player_string : String
+	
+	match player_number:
+		'1':
+			player_string = 'one'
+		'2':
+			player_string = 'two'
+		'3':
+			player_string = 'three'
+		'4':
+			player_string = 'four'
+	
+	
+	child.move_left = 'player_' + player_string + '_move_left'
+	child.move_right = 'player_' + player_string + '_move_right'
+	child.move_jump = 'player_' + player_string + '_move_jump'
+	child.move_up = 'player_' + player_string + '_move_up'
+	child.move_down = 'player_' + player_string + '_move_down'
+	child.attack_input = 'player_' + player_string + '_attack'
+
+	child.rs_left = 'player_' + player_string + '_rs_left'
+	child.rs_right = 'player_' + player_string + '_rs_right'
+	child.rs_up = 'player_' + player_string + '_rs_up'
+	child.rs_down = 'player_' + player_string + '_rs_down'
