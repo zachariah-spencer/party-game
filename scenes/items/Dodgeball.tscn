@@ -7,8 +7,9 @@
 radius = 33.0
 
 [node name="Dodgeball" instance=ExtResource( 1 )]
+editor/display_folded = true
+collision_mask = 16385
 mass = 1.5
-gravity_scale = 3.0
 continuous_cd = 2
 script = ExtResource( 2 )
 
@@ -30,3 +31,4 @@ collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
 shape = SubResource( 1 )
+

@@ -16,6 +16,7 @@ func _ready():
 	has_countdown = false
 	has_timer = false
 	readyable = true
+	win_condition = win_conditions.lobby_readied
 	instant_player_insertion = true
 	$Cam.current = true
 
@@ -49,8 +50,3 @@ func _check_ready_ups():
 		if !is_starting:
 			_game_won(true)
 			is_starting = true
-
-func _game_won(no_winner : bool = false):
-	game_over = true
-	Globals.HUD._update_hud()
-	Manager._on_game_times_up()

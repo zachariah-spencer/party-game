@@ -53,3 +53,4 @@ func _update_active_players():
 	active_players = []
 	for player in _players :
 		if player.active : active_players.append(player)
+	return active_players

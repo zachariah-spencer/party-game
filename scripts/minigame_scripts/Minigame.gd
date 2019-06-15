@@ -3,10 +3,12 @@ extends Node
 class_name Minigame
 
 enum attack_modes {non_lethal, lethal}
+enum win_conditions {timeout, last_alive_allow_no_winners, lobby_readied}
 
 export var game_time : int
 export var game_instructions : String
 export(attack_modes) var attack_mode = attack_modes.non_lethal
+export(win_conditions) var win_condition = win_conditions.timeout
 export var allow_respawns : bool = false
 export var instant_player_insertion : bool = false
 export var readyable : bool = false
@@ -69,14 +71,68 @@ func _pregame(has_countdown : bool = true):
 func _run_minigame_loop():
 	pass
 
-func _check_game_win_conditions():
-	if Players._get_alive_players().size() == 1:
-		_game_won()
-	elif Players._get_alive_players().size() == 0 || game_time == 0:
-		_game_won(true)
+#func _check_game_win_conditions():
+#	if Players._get_alive_players().size() == 1:
+#		_game_won()
+#	elif Players._get_alive_players().size() == 0 || game_time == 0:
+#		_game_won(true)
 
-func _game_won(no_winner = false):
-	pass
+func _check_game_win_conditions():
+	match win_condition:
+		win_conditions.timeout:
+			if game_time == 0 || Players._get_alive_players().size() == 1:
+				if Players._get_alive_players().size() > 1:
+					_game_won(false,true)
+				else:
+					_game_won()
+			elif Players._get_alive_players().size() == 0:
+				_game_won(true)
+			
+			
+		win_conditions.last_alive_allow_no_winners:
+			if Players._get_alive_players().size() == 1:
+				_game_won()
+			elif Players._get_alive_players().size() == 0 || game_time == 0:
+				_game_won(true)
+			
+			
+
+func _game_won(no_winner = false, multi_winner = false):
+	match win_condition:
+		win_conditions.timeout:
+			game_over = true
+			game_active = false
+			if Players._get_alive_players() == Players._update_active_players():
+				for player in Players._get_alive_players():
+					player.score += 1
+				$CanvasLayer/HUD._update_scores()
+				$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Everybody won!'
+			elif !no_winner && multi_winner:
+				for player in Players._get_alive_players():
+					player.score += 1
+				$CanvasLayer/HUD._update_scores()
+				$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Winners:\n'
+				for player in Players._get_alive_players():
+					$CanvasLayer/HUD/TimeLeft/Instructions.text = $CanvasLayer/HUD/TimeLeft/Instructions.text +  player.display_name + '\n'
+			elif !no_winner && !multi_winner:
+				Players._get_alive_players()[0].score += 1
+				$CanvasLayer/HUD._update_scores()
+				$CanvasLayer/HUD/TimeLeft/Instructions.text = Players._get_alive_players()[0].display_name + ' Won!'
+			else:
+				$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Nobody won!'
+		win_conditions.last_alive_allow_no_winners:
+			game_over = true
+			game_active = false
+			if !no_winner:
+				Players._get_alive_players()[0].score += 1
+				$CanvasLayer/HUD._update_scores()
+				$CanvasLayer/HUD/TimeLeft/Instructions.text = Players._get_alive_players()[0].display_name + ' Won!'
+			else:
+				$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Nobody Won!'
+		win_conditions.lobby_readied:
+			game_over = true
+			Globals.HUD._update_hud()
+			Manager._on_game_times_up()
 
 func _end_game():
 	#stop the minigame timer
