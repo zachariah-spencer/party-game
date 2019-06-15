@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/minigames/MG.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/minigame_scripts/MG_Dodgeball.gd" type="Script" id=2]
+[ext_resource path="res://scenes/Terrain.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/items/Dodgeball.tscn" type="PackedScene" id=4]
+
+[node name="Dodgeball" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="PlayerOneSpawnF" parent="SpawnPoints" index="0"]
+position = Vector2( 713.445, 458.959 )
+
+[node name="PlayerTwoSpawnF" parent="SpawnPoints" index="1"]
+position = Vector2( 833.865, 458.959 )
+
+[node name="PlayerThreeSpawnF" parent="SpawnPoints" index="2"]
+position = Vector2( 170.406, 458.959 )
+
+[node name="PlayerFourSpawnF" parent="SpawnPoints" index="3"]
+position = Vector2( 404.429, 454.415 )
+
+[node name="CanvasLayer" parent="." index="2"]
+editor/display_folded = false
+
+[node name="HUD" parent="CanvasLayer" index="0"]
+visible = false
+
+[node name="Terrain" parent="." index="3" instance=ExtResource( 3 )]
+position = Vector2( 484.948, 578.789 )
+scale = Vector2( 15, 1 )
+
+[node name="Terrain2" parent="." index="4" instance=ExtResource( 3 )]
+position = Vector2( 484.948, 33.4913 )
+scale = Vector2( 15, 1 )
+
+[node name="Terrain3" parent="." index="5" instance=ExtResource( 3 )]
+position = Vector2( 19.173, 247.066 )
+scale = Vector2( 1, 15 )
+
+[node name="Terrain4" parent="." index="6" instance=ExtResource( 3 )]
+position = Vector2( 964.356, 251.61 )
+scale = Vector2( 1, 15 )
+
+[node name="Dodgeball" parent="." index="7" instance=ExtResource( 4 )]
+position = Vector2( 543.342, 312.341 )
+collision_layer = 16401
+

@@ -12,9 +12,15 @@ func _ready():
 func register_player_inputs():
 	child.move_left = 'player_three_move_left'
 	child.move_right = 'player_three_move_right'
+	child.move_up = 'player_three_move_up'
 	child.move_jump = 'player_three_move_jump'
 	child.move_down = 'player_three_move_down'
 	child.attack_input = 'player_three_attack'
+	
+	child.rs_left = 'player_three_rs_left'
+	child.rs_right = 'player_three_rs_right'
+	child.rs_up = 'player_three_rs_up'
+	child.rs_down = 'player_three_rs_down'
 
 func register_collisions():
 
