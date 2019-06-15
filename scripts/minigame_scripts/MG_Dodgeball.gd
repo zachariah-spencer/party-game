@@ -1,5 +1,12 @@
 extends Minigame
 
+func _ready():
+	add_to_group('minigames')
+	Manager.minigame_name = 'dodgeball'
+	game_instructions = "Hit the other players!"
+	game_time = 30
+	$Cam.current = true
+
 func _game_won(no_winner = false):
 	game_over = true
 	game_active = false

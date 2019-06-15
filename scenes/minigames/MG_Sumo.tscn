@@ -4,7 +4,7 @@
 [ext_resource path="res://scripts/minigame_scripts/MG_Sumo.gd" type="Script" id=2]
 [ext_resource path="res://DevTileset.tres" type="TileSet" id=3]
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 1200, 80 )
 
 [node name="MG_Sumo" instance=ExtResource( 1 )]
@@ -22,6 +22,9 @@ position = Vector2( 512, 180 )
 [node name="PlayerFourSpawnF" parent="SpawnPoints" index="3"]
 position = Vector2( 640, 180 )
 
+[node name="CanvasLayer" parent="." index="2"]
+editor/display_folded = false
+
 [node name="DeathBoundary" type="Area2D" parent="." index="3"]
 editor/display_folded = true
 position = Vector2( 448, 1200 )
@@ -30,7 +33,7 @@ __meta__ = {
 }
 
 [node name="Shape" type="CollisionShape2D" parent="DeathBoundary" index="0"]
-shape = SubResource( 2 )
+shape = SubResource( 1 )
 
 [node name="TileMapTerrain" type="TileMap" parent="." index="4"]
 tile_set = ExtResource( 3 )
