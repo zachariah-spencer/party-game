@@ -16,6 +16,11 @@ func register_player_inputs():
 	child.move_jump = 'player_two_move_jump'
 	child.move_down = 'player_two_move_down'
 	child.attack_input = 'player_two_attack'
+	
+	child.rs_left = 'player_two_rs_left'
+	child.rs_right = 'player_two_rs_right'
+	child.rs_up = 'player_two_rs_up'
+	child.rs_down = 'player_two_rs_down'
 
 func register_collisions():
 

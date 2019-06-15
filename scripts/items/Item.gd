@@ -4,6 +4,7 @@ class_name Item
 var _held
 var _owner : Player
 onready var sprite = $Obj/Sprite
+var _weight := 0
 
 signal grabbed
 signal thrown

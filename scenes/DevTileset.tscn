@@ -37,7 +37,6 @@ __meta__ = {
 
 [node name="Collision" type="CollisionShape2D" parent="PlatformUpper/Body"]
 shape = SubResource( 2 )
-one_way_collision = true
 
 [node name="PlatformLower" type="Sprite" parent="."]
 position = Vector2( 288, 16 )
@@ -48,7 +47,6 @@ __meta__ = {
 }
 
 [node name="Body" type="StaticBody2D" parent="PlatformLower"]
-editor/display_folded = true
 collision_layer = 16
 collision_mask = 0
 __meta__ = {
@@ -58,5 +56,4 @@ __meta__ = {
 [node name="Collision" type="CollisionShape2D" parent="PlatformLower/Body"]
 position = Vector2( 0, 32 )
 shape = SubResource( 2 )
-one_way_collision = true
 

@@ -3,7 +3,7 @@ class_name PlayersManager
 
 onready var RAGDOLL = preload("res://scenes/PlayerDead.tscn")
 onready var player_scene : PackedScene = preload('res://scenes/player/Player.tscn')
-var child
+var child : Player
 var ragdoll
 onready var respawn_timer : Node = Timer.new()
 var display_name : String
@@ -63,6 +63,7 @@ func _ragdoll():
 	add_child(add_rag)
 
 func die(respawn := false):
+	child.drop()
 	if dead :
 		return
 	dead = true

@@ -6,12 +6,16 @@ class_name Player
 const UP : Vector2 = Vector2.UP
 const SLOPE_STOP : int = 64
 const DROP_THRU_BIT : int = 4
-const WALL_JUMP_VELOCITY : Vector2 = Vector2(900, -1200)
+const WALL_JUMP_INWARD_VELOCITY : Vector2 = Vector2(1000, -1200)
+const WALL_JUMP_OUTWARD_VELOCITY : Vector2 = Vector2(600, -1000)
 const PUNCH_DISTANCE := 600
 
+var can_wall_jump := true
+var can_jump := true
 var velocity : Vector2
 var target_velocity : float
 var move_direction := Vector2.ZERO
+var aim_direction := Vector2.ZERO
 var facing_direction : int = 1
 var wall_direction : int = 1
 var move_speed : float = 14 * Globals.CELL_SIZE
@@ -42,11 +46,16 @@ var move_down : String
 var move_jump : String
 var move_up : String
 var attack_input : String
+var rs_left : String
+var rs_right : String
+var rs_down : String
+var rs_up : String
 
 var state = null setget set_state
 var previous_state = null
 var states : Dictionary = {}
 var wall_action : String
+
 
 onready var state_label : Label = $StateMachine/StateLabel
 onready var anim_tree : AnimationTree = $StateMachine/AnimationTree
@@ -63,7 +72,9 @@ onready var attack_timer : Node = $AttackTimer
 onready var attack_cooldown_timer : Node = $AttackCooldown
 onready var right_hand := $'StateMachine/Sprites/Right Hand'
 onready var left_hand := $'StateMachine/Sprites/Left Hand'
-
+onready var jump_cooldown := $JumpCooldownTimer
+onready var fall_through_timer := $FallThroughTimer
+onready var fall_through_area := $FallingThroughPlatformArea
 
 func _ready():
 	_state_machine_ready()
@@ -85,15 +96,27 @@ func _cap_gravity_wall_slide():
 func _apply_movement():
 	if is_jumping && velocity.y >= 0:
 		is_jumping = false
+
 	velocity = move_and_slide(velocity, UP, SLOPE_STOP)
 	is_grounded = !is_jumping && _check_is_grounded()
 
+	if !can_jump && is_on_floor() || !can_jump && state == states.wall_slide:
+		if jump_cooldown.is_stopped():
+			jump_cooldown.start()
+
 func jump():
 	velocity.y = max_jump_velocity
+	can_jump = false
 	is_jumping = true
 
 func wall_jump():
-	var wall_jump_velocity : Vector2 = WALL_JUMP_VELOCITY
+	is_jumping = true
+	can_jump = false
+	var wall_jump_velocity : Vector2
+	if facing_direction == wall_direction:
+		wall_jump_velocity = WALL_JUMP_INWARD_VELOCITY
+	elif facing_direction == -wall_direction:
+		wall_jump_velocity = WALL_JUMP_OUTWARD_VELOCITY
 	wall_jump_velocity.x *= -wall_direction
 	velocity.y = 0
 	velocity += wall_jump_velocity
@@ -103,14 +126,20 @@ func throw():
 		holding_item = false
 		var dir
 		var pos = global_position + Vector2.UP * 20
-		if move_direction.length() > .2 :
-			dir = move_direction
-			pos += move_direction* 50
+		if aim_direction.length() > .2 :
+			dir = aim_direction
+			pos += aim_direction * 50
 		else :
 			dir = facing_direction*Vector2.RIGHT
 			pos += facing_direction*Vector2.RIGHT * 20
 
+		# throwing and item slightly changes velocity if it has weight
+		if held_item._weight > 0 :
+			self.velocity = Vector2.ZERO
+			self.velocity -= dir.normalized()*held_item._weight*100
+
 		held_item.throw(dir*1000, pos, self)
+
 func drop():
 	if holding_item :
 		holding_item = false
@@ -142,8 +171,8 @@ func attack():
 		# set hitbox
 		attack_area = hand.get_node('Hitbox')
 		# launch hand at an angle if there's a decent move_input, or just use facing
-		if move_direction.normalized().length() > .2 :
-			vel = hand.get_gravity_scale()*PUNCH_DISTANCE*move_direction.normalized()
+		if aim_direction.normalized().length() > .2 :
+			vel = hand.get_gravity_scale()*PUNCH_DISTANCE*aim_direction.normalized()
 		else :
 			vel = Vector2(hand.get_gravity_scale()*PUNCH_DISTANCE*dir,0)
 		hand.apply_central_impulse(vel)
@@ -160,6 +189,13 @@ func _update_move_direction():
 
 	move_direction.y = -Input.get_action_strength(move_up) + Input.get_action_strength(move_down)
 	move_direction.x = -Input.get_action_strength(move_left) + Input.get_action_strength(move_right)
+	aim_direction.y = -Input.get_action_strength(rs_up) + Input.get_action_strength(rs_down)
+	aim_direction.x = -Input.get_action_strength(rs_left) + Input.get_action_strength(rs_right)
+
+	#if no right stick input, use left stick
+	if aim_direction == Vector2.ZERO :
+		aim_direction = move_direction
+
 	if move_direction.x != 0:
 		# all nodes in here will be mirrored when changing directions
 		# these range from simple sprites to feet that require mirroring the parent node, not the sprites themselves
@@ -182,8 +218,9 @@ func _handle_move_input():
 	velocity.x = lerp(velocity.x, target_velocity, _get_h_weight())
 
 func _handle_wall_slide_sticking():
-	if move_direction.x != 0 && move_direction.x != wall_direction:
-		if wall_slide_sticky_timer.is_stopped():
+	if !Input.is_action_pressed(wall_action):
+#	if move_direction.x != 0 && move_direction.x != wall_direction:
+		if wall_slide_sticky_timer.is_stopped() && !Input.is_action_pressed(move_jump):
 			wall_slide_sticky_timer.start()
 	else:
 		wall_slide_sticky_timer.stop()
@@ -194,7 +231,7 @@ func _get_h_weight():
 	else:
 		if move_direction.x == 0:
 			return 0.02
-		elif move_direction.x == sign(velocity.x) && abs(velocity.x) > move_speed:
+		elif sign(move_direction.x) == sign(velocity.x) && abs(velocity.x) > move_speed:
 			return 0.0
 		else:
 			return 0.1
@@ -258,7 +295,7 @@ func _on_AttackArea_body_entered(body):
 
 func bump_player(affected_player):
 	var bump_velocity : Vector2 = Vector2(0,-500)
-	bump_velocity.x = (25 * Globals.CELL_SIZE) * facing_direction
+	bump_velocity.x = (40 * Globals.CELL_SIZE) * facing_direction
 	affected_player.velocity = bump_velocity
 
 func hurt_player(affected_player):
@@ -341,9 +378,9 @@ func _get_transition(delta : float):
 			elif abs(move_direction.x) == 0:
 				return states.idle
 		states.jump:
-			if wall_direction != 0  && wall_slide_cooldown.is_stopped() && Input.is_action_pressed(wall_action):
-				return states.wall_slide
-			elif is_on_floor():
+#			if wall_direction != 0  && wall_slide_cooldown.is_stopped() && Input.is_action_pressed(wall_action):
+#				return states.wall_slide
+			if is_on_floor():
 				return states.idle
 			elif velocity.y >= 0:
 				return states.fall
@@ -359,8 +396,8 @@ func _get_transition(delta : float):
 				return states.idle
 			elif wall_direction == 0:
 				return states.fall
-			elif !Input.is_action_pressed(wall_action):
-				return states.fall
+#			elif !Input.is_action_pressed(wall_action) && wall_slide_sticky_timer.is_stopped():
+#				return states.fall
 
 	#Error in transitions if this is returned
 	return null
@@ -383,6 +420,7 @@ func _enter_state(new_state, old_state):
 			_state = anim_tree['parameters/Grounded/playback']
 			state_label.text = 'run'
 		states.jump:
+			set_collision_mask_bit(DROP_THRU_BIT, false)
 			state_name = "Airborne"
 			state_label.text = 'jump'
 		states.fall:
@@ -416,6 +454,13 @@ func _exit_state(old_state, new_state):
 	match old_state:
 		states.wall_slide:
 			wall_slide_cooldown.start()
+		states.jump:
+			var is_in_platform := false
+			for body in fall_through_area.get_overlapping_bodies():
+				if ( body.get_collision_layer_bit(DROP_THRU_BIT) == true ):
+					is_in_platform = true
+			if !is_in_platform:
+				set_collision_mask_bit(DROP_THRU_BIT, true)
 
 func set_state(new_state):
 	previous_state = state
@@ -454,9 +499,12 @@ func _pickup_item():
 		right_hand.add_child(item)
 	return holding_item
 
+#for handling constantly polled events
+func _process(delta):
+	_handle_jumping()
 
+#for handling individual press events
 func _input(event : InputEvent):
-
 	if event.is_action_pressed(attack_input) && attack_timer.is_stopped() && state != states.wall_slide && can_attack:
 		if state == states.disabled :
 			pass
@@ -464,21 +512,6 @@ func _input(event : InputEvent):
 			throw()
 		elif !_pickup_item() :
 			attack()
-
-	if [states.idle, states.run].has(state) && state != states.wall_slide:
-		#JUMP
-		if event.is_action_pressed(move_jump):
-			if Input.is_action_pressed(move_down):
-				set_collision_mask_bit(DROP_THRU_BIT, false)
-			else:
-				jump()
-	elif state == states.wall_slide:
-
-		if event.is_action_pressed(move_jump) && Input.is_action_pressed(wall_action):
-
-			set_state(states.jump)
-			wall_jump()
-
 	elif state == states.jump:
 		#VARIABLE JUMP
 		if event.is_action_released(move_jump) && velocity.y < min_jump_velocity:
@@ -486,3 +519,30 @@ func _input(event : InputEvent):
 
 func _stop_movement():
 	velocity.x = 0
+
+func _handle_jumping():
+	if Input.is_action_pressed(move_down) && fall_through_timer.is_stopped() && [states.idle, states.run].has(state):
+		fall_through_timer.start()
+	elif Input.is_action_just_released(move_down):
+		fall_through_timer.stop()
+
+	if [states.idle, states.run].has(state) && state != states.wall_slide:
+		#JUMP
+		if Input.is_action_pressed(move_jump):
+			if Input.is_action_pressed(move_down):
+				set_collision_mask_bit(DROP_THRU_BIT, false)
+			elif can_jump:
+				jump()
+	elif state == states.wall_slide:
+
+		if Input.is_action_pressed(move_jump) && can_jump:
+
+			set_state(states.jump)
+			wall_jump()
+
+func _on_JumpCooldownTimer_timeout():
+	can_jump = true
+
+
+func _on_FallThroughTimer_timeout():
+	set_collision_mask_bit(DROP_THRU_BIT, false)

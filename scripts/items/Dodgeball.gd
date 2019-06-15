@@ -4,6 +4,7 @@ func _ready():
 	$Hurtbox.connect("body_entered", self, "_hurtbox_entered")
 	connect("thrown", self, "_on_throw")
 	$Hurtbox.collision_mask = 0
+	_weight = 4
 
 func _on_throw():
 	$Hurtbox.collision_mask = _owner.collision_mask

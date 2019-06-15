@@ -45,3 +45,4 @@ scale = Vector2( 1, 15 )
 [node name="Dodgeball" parent="." index="7" instance=ExtResource( 4 )]
 position = Vector2( 543.342, 312.341 )
 collision_layer = 16401
+
