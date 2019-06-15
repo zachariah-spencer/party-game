@@ -131,10 +131,14 @@ func throw():
 		else :
 			dir = facing_direction*Vector2.RIGHT
 			pos += facing_direction*Vector2.RIGHT * 20
-		self.velocity = Vector2.ZERO
-		self.velocity -= dir.normalized()*held_item._weight*100
-		print(dir)
+
+		# throwing and item slightly changes velocity if it has weight
+		if held_item._weight > 0 :
+			self.velocity = Vector2.ZERO
+			self.velocity -= dir.normalized()*held_item._weight*100
+
 		held_item.throw(dir*1000, pos, self)
+
 func drop():
 	if holding_item :
 		holding_item = false
