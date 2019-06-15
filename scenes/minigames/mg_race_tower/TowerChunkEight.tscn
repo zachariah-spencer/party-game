@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/minigames/mg_race_tower/TowerChunk.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/minigame_scripts/mg_race_tower/TowerChunkEight.gd" type="Script" id=2]
+[ext_resource path="res://DevTileset.tres" type="TileSet" id=3]
+
+[node name="TowerChunkEight" index="0" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+size = 1280
+
+[node name="Area" parent="." index="0"]
+position = Vector2( 448, -640 )
+
+[node name="TileMapTerrain" type="TileMap" parent="." index="1"]
+position = Vector2( 0, 2176 )
+tile_set = ExtResource( 3 )
+collision_mask = 0
+format = 1
+tile_data = PoolIntArray( -3538944, 0, 0, -3538931, 0, 0, -3473408, 0, 0, -3473395, 0, 0, -3407872, 0, 0, -3407871, 0, 0, -3407867, 0, 0, -3407866, 0, 0, -3407865, 0, 0, -3407864, 0, 0, -3407863, 0, 0, -3407862, 0, 0, -3407860, 0, 0, -3407859, 0, 0, -3342336, 0, 0, -3342323, 0, 0, -3276800, 0, 0, -3276787, 0, 0, -3211264, 0, 0, -3211251, 0, 0, -3145728, 0, 0, -3145715, 0, 0, -3080192, 0, 0, -3080187, 0, 0, -3080179, 0, 0, -3014656, 0, 0, -3014650, 0, 0, -3014644, 0, 0, -3014643, 0, 0, -2949120, 0, 0, -2949117, 0, 0, -2949116, 0, 0, -2949107, 0, 0, -2883584, 0, 0, -2883571, 0, 0, -2818048, 0, 0, -2818035, 0, 0, -2752512, 0, 0, -2752499, 0, 0, -2686976, 0, 0, -2686963, 0, 0, -2621440, 0, 0, -2621439, 0, 0, -2621438, 0, 0, -2621428, 0, 0, -2621427, 0, 0, -2555904, 0, 0, -2555891, 0, 0, -2490368, 0, 0, -2490362, 0, 0, -2490361, 0, 0, -2490355, 0, 0, -2424832, 0, 0, -2424819, 0, 0, -2359296, 0, 0, -2359283, 0, 0, -2293760, 0, 0, -2293759, 0, 0, -2293758, 0, 0, -2293757, 0, 0, -2293750, 0, 0, -2293749, 0, 0, -2293748, 0, 0, -2293747, 0, 0 )
+
+[node name="TileMapPlatforms" type="TileMap" parent="." index="2"]
+position = Vector2( 0, 2176 )
+tile_set = ExtResource( 3 )
+collision_layer = 16
+collision_mask = 0
+format = 1
+tile_data = PoolIntArray( -3407870, 1, 0, -3407869, 1, 0, -3407868, 1, 0, -3407861, 1, 0, -3211262, 1, 0, -3211261, 1, 0, -3211253, 1, 0, -2818037, 1, 0, -2293756, 1, 0, -2293755, 1, 0, -2293754, 1, 0, -2293753, 1, 0, -2293752, 1, 0, -2293751, 1, 0 )
+

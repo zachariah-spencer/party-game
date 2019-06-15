@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=2]
+[gd_scene load_steps=55 format=2]
 
 [ext_resource path="res://scripts/player_scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/audio/foot.wav" type="AudioStream" id=2]
@@ -144,16 +144,22 @@ radius = 12.0
 height = 61.0
 
 [sub_resource type="RectangleShape2D" id=33]
-extents = Vector2( 25, 43 )
+extents = Vector2( 25, 42 )
 
 [sub_resource type="CapsuleShape2D" id=34]
 height = 60.0
+
+[sub_resource type="CapsuleShape2D" id=35]
+radius = 41.9551
+height = 33.2348
+
+[sub_resource type="RectangleShape2D" id=36]
 
 [node name="Player" type="KinematicBody2D" groups=[
 "player",
 ]]
 position = Vector2( 0, -8.11656 )
-collision_layer = 0
+collision_layer = 8
 collision_mask = 25
 script = ExtResource( 1 )
 
@@ -181,13 +187,12 @@ bus = "Sounds"
 area_mask = 0
 
 [node name="StateMachine" type="Node2D" parent="."]
-editor/display_folded = true
 script = ExtResource( 4 )
 
 [node name="Sprites" type="Node2D" parent="StateMachine"]
-editor/display_folded = true
 
 [node name="Right Foot" type="Node2D" parent="StateMachine/Sprites"]
+editor/display_folded = true
 position = Vector2( 0, 1 )
 rotation = -0.0311069
 
@@ -202,18 +207,20 @@ position = Vector2( 7.87, -26.57 )
 node_a = NodePath("../Left Hand")
 node_b = NodePath("../Body/Arms")
 bias = 0.6
-softness = 2.0
+softness = 12.0
 
 [node name="Right Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
 position = Vector2( -7.6, -26.3 )
 node_a = NodePath("../Right Hand")
 node_b = NodePath("../Body/Arms")
 bias = 0.6
-softness = 2.0
+softness = 12.0
 
 [node name="Left Hand" type="RigidBody2D" parent="StateMachine/Sprites"]
+editor/display_folded = true
 position = Vector2( 10.49, -16.12 )
 collision_layer = 2
+collision_mask = 0
 mass = 1.96
 gravity_scale = 12.0
 linear_damp = 5.0
@@ -319,6 +326,7 @@ z_as_relative = false
 node_a = NodePath("../Head")
 node_b = NodePath("../Body/Arms")
 bias = 0.9
+softness = 1.0
 
 [node name="Feet" type="KinematicBody2D" parent="StateMachine/Sprites"]
 editor/display_folded = true
@@ -338,10 +346,12 @@ position = Vector2( 0.17, -7.36 )
 node_a = NodePath("../Body")
 node_b = NodePath("../Feet")
 bias = 0.603
+softness = 1.0
 
 [node name="Right Hand" type="RigidBody2D" parent="StateMachine/Sprites"]
 position = Vector2( -10.49, -16.12 )
 collision_layer = 4
+collision_mask = 0
 mass = 1.96
 gravity_scale = 7.5
 linear_damp = 5.0
@@ -452,28 +462,28 @@ editor/display_folded = true
 [node name="LeftWallRaycastTop" type="RayCast2D" parent="WallRaycasts/LeftWallRaycasts"]
 position = Vector2( -12, -56 )
 enabled = true
-cast_to = Vector2( -1, 0 )
+cast_to = Vector2( -12, 0 )
 
 [node name="LeftWallRaycastBottom" type="RayCast2D" parent="WallRaycasts/LeftWallRaycasts"]
 position = Vector2( -12, -16 )
 enabled = true
-cast_to = Vector2( -1, 0 )
+cast_to = Vector2( -12, 0 )
 
 [node name="RightWallRaycasts" type="Node2D" parent="WallRaycasts"]
 
 [node name="RightWallRaycastTop" type="RayCast2D" parent="WallRaycasts/RightWallRaycasts"]
 position = Vector2( 12, -56 )
 enabled = true
-cast_to = Vector2( 1, 0 )
+cast_to = Vector2( 12, 0 )
 
 [node name="RightWallRaycastBottom" type="RayCast2D" parent="WallRaycasts/RightWallRaycasts"]
 position = Vector2( 12, -16 )
 enabled = true
-cast_to = Vector2( 1, 0 )
+cast_to = Vector2( 12, 0 )
 
 [node name="FallingThroughPlatformArea" type="Area2D" parent="."]
 editor/display_folded = true
-position = Vector2( 0, -35 )
+position = Vector2( 0, -36 )
 collision_layer = 0
 collision_mask = 16
 
@@ -487,7 +497,7 @@ wait_time = 0.2
 one_shot = true
 
 [node name="WallSlideStickyTimer" type="Timer" parent="."]
-wait_time = 0.02
+wait_time = 0.1
 one_shot = true
 
 [node name="AttackCooldown" type="Timer" parent="."]
@@ -498,7 +508,13 @@ process_mode = 0
 wait_time = 0.4
 one_shot = true
 
+[node name="JumpCooldownTimer" type="Timer" parent="."]
+wait_time = 0.02
+one_shot = true
+
 [node name="TopOfHeadArea" type="Area2D" parent="."]
+editor/display_folded = true
+visible = false
 position = Vector2( 0, -84 )
 collision_layer = 2048
 collision_mask = 960
@@ -506,8 +522,33 @@ collision_mask = 960
 [node name="Shape" type="CollisionShape2D" parent="TopOfHeadArea"]
 shape = SubResource( 34 )
 one_way_collision = true
+
+[node name="PickupRange" type="Area2D" parent="."]
+editor/display_folded = true
+visible = false
+collision_layer = 16384
+collision_mask = 16384
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupRange"]
+position = Vector2( -0.315559, -32.6603 )
+shape = SubResource( 35 )
+
+[node name="FallThroughTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="JumpingUpThroughPlatformArea" type="Area2D" parent="."]
+position = Vector2( 0, -80 )
+collision_layer = 0
+collision_mask = 16
+
+[node name="Shape" type="CollisionShape2D" parent="JumpingUpThroughPlatformArea"]
+shape = SubResource( 36 )
+
 [connection signal="body_exited" from="FallingThroughPlatformArea" to="." method="_on_FallingThroughPlatformArea_body_exited"]
 [connection signal="timeout" from="WallSlideStickyTimer" to="." method="_on_WallSlideStickyTimer_timeout"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_AttackCooldown_timeout"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
+[connection signal="timeout" from="JumpCooldownTimer" to="." method="_on_JumpCooldownTimer_timeout"]
 [connection signal="body_entered" from="TopOfHeadArea" to="." method="_on_TopOfHeadArea_body_entered"]
+[connection signal="timeout" from="FallThroughTimer" to="." method="_on_FallThroughTimer_timeout"]
