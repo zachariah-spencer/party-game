@@ -160,7 +160,7 @@ func _game_won(no_winner = false, multi_winner = false):
 						winning_players.append(player)
 			if highest_score != 0:
 				if winning_players.size() > 1:
-					$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Winners:\n'
+					$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Its a tie!\nWinners:\n'
 					for player in winning_players:
 						player.score += 1
 						$CanvasLayer/HUD/TimeLeft/Instructions.text = $CanvasLayer/HUD/TimeLeft/Instructions.text +  player.display_name + '\n'

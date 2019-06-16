@@ -4,7 +4,7 @@
 [ext_resource path="res://scripts/items/Punchball.gd" type="Script" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 30.0
+radius = 60.0
 
 [node name="Punchball" index="0" instance=ExtResource( 1 )]
 collision_mask = 17351
@@ -21,10 +21,11 @@ grabbable = false
 
 [node name="Obj" parent="." index="0"]
 editor/display_folded = true
-scale = Vector2( 2, 2 )
+scale = Vector2( 5, 5 )
 
 [node name="Pickup_area" parent="." index="1"]
 editor/display_folded = true
+visible = false
 scale = Vector2( 3, 3 )
 
 [node name="CollisionShape2D" parent="Pickup_area" index="0"]
@@ -34,6 +35,7 @@ position = Vector2( 0, -0.214638 )
 wait_time = 1.5
 
 [node name="PunchedArea" type="Area2D" parent="." index="3"]
+editor/display_folded = true
 collision_layer = 0
 collision_mask = 6
 
@@ -42,6 +44,29 @@ shape = SubResource( 1 )
 
 [node name="HitCooldownTimer" type="Timer" parent="." index="4"]
 one_shot = true
+
+[node name="Raycasts" type="Node2D" parent="." index="5"]
+editor/display_folded = true
+
+[node name="BottomCast" type="RayCast2D" parent="Raycasts" index="0"]
+enabled = true
+cast_to = Vector2( 0, 200 )
+collision_mask = 960
+
+[node name="TopCast" type="RayCast2D" parent="Raycasts" index="1"]
+enabled = true
+cast_to = Vector2( 0, -200 )
+collision_mask = 960
+
+[node name="RightCast" type="RayCast2D" parent="Raycasts" index="2"]
+enabled = true
+cast_to = Vector2( 200, 0 )
+collision_mask = 960
+
+[node name="LeftCast" type="RayCast2D" parent="Raycasts" index="3"]
+enabled = true
+cast_to = Vector2( -200, 0 )
+collision_mask = 960
 
 [connection signal="body_entered" from="." to="." method="_on_Punchball_body_entered"]
 [connection signal="timeout" from="ImpulseTimer" to="." method="_on_ImpulseTimer_timeout"]

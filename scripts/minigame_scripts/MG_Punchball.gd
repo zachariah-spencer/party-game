@@ -5,7 +5,7 @@ func _ready():
 	Manager.minigame_name = 'punchball'
 	visible_name = "Punchball"
 	game_instructions = "Hit the ball!"
-	game_time = 5
+	game_time = 30
 	win_condition = win_conditions.highest_local_score
 	has_local_score = true
 	
