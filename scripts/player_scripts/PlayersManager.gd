@@ -117,11 +117,11 @@ func spawn(spawn_position : Vector2 = Players.select_spawn_point()):
 
 	register_player_inputs()
 	register_collisions()
-	
+
 func register_player_inputs():
-	
+
 	var player_string : String
-	
+
 	match player_number:
 		'1':
 			player_string = 'one'
@@ -131,8 +131,8 @@ func register_player_inputs():
 			player_string = 'three'
 		'4':
 			player_string = 'four'
-	
-	
+
+
 	child.move_left = 'player_' + player_string + '_move_left'
 	child.move_right = 'player_' + player_string + '_move_right'
 	child.move_jump = 'player_' + player_string + '_move_jump'

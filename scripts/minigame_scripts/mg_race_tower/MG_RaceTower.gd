@@ -24,10 +24,11 @@ signal updated_chunks
 func _ready():
 	add_to_group('minigames')
 	Manager.minigame_name = 'race_tower'
+	visible_name = "Tower Race"
 	game_instructions = "Race to\nEscape the Lava!"
 	game_time = 30
 	update_timer = game_time - lava_speed_incrementing_time
-	$Cam.current = true
+#	$Cam.current = true
 	$Lava.connect('body_entered',self,'_on_Lava_body_entered')
 
 func _physics_process(delta):
@@ -41,28 +42,6 @@ func _run_minigame_loop():
 #		$Lava.position.y -= lava_speed*(sin(game_time) + lava_speed * .1)
 		$Lava.position.y -= lava_speed
 		_check_game_win_conditions()
-
-func _game_won(no_winner = false):
-	game_over = true
-	game_active = false
-	if !no_winner:
-		for player in Players._get_alive_players():
-			player.score += 1
-		$CanvasLayer/HUD._update_scores()
-		$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Winners:\n'
-		for player in Players._get_alive_players():
-			$CanvasLayer/HUD/TimeLeft/Instructions.text = $CanvasLayer/HUD/TimeLeft/Instructions.text +  player.display_name + '\n'
-	elif no_winner:
-		$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Nobody Won!'
-
-
-
-func _check_game_win_conditions():
-	if game_time == 0 || Players._get_alive_players().size() == 1:
-		_game_won()
-	elif Players._get_alive_players().size() == 0:
-		_game_won(true)
-
 
 func _on_Lava_body_entered(player):
 	player.hit_points = 0

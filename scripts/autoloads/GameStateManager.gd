@@ -1,15 +1,17 @@
 extends Node
 
 #a list of all the minigames that can be played
-const GAMES : Dictionary = {
+onready var GAMES = [
 
-	'lobby' : preload('res://scenes/minigames/MG_Lobby.tscn'),
-	'sumo' : preload('res://scenes/minigames/MG_Sumo.tscn'),
-	'goafk' : preload('res://scenes/minigames/MG_GoAFK.tscn'),
-	'race_tower' : preload('res://scenes/minigames/mg_race_tower/MG_Race_Tower.tscn'),
-	#not ready 'dodgeball' : preload('res://scenes/minigames/MG_Dodgeball.tscn')
+	preload('res://scenes/minigames/MG_Lobby.tscn'),
+	preload('res://scenes/minigames/MG_Sumo.tscn'),
+	preload('res://scenes/minigames/MG_GoAFK.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/MG_Race_Tower.tscn'),
+	preload('res://scenes/minigames/MG_Dodgeball.tscn')
 
-}
+]
+
+onready var rotation := []
 #the world node under the root
 var world_node : Node
 #the canvaslayer instance that will move in front of the playarea while the minigames switch
@@ -19,6 +21,11 @@ var transition_scene : PackedScene = preload('res://scenes/Transition.tscn')
 #this differs from the node name
 var minigame_name : String
 
+#rotation will loop if set to true
+var repeats := true
+
+var shuffle := false
+
 #the current minigame at any given playtime
 var current_minigame : Minigame
 
@@ -27,11 +34,17 @@ signal minigame_change
 var player_spawns : Array = [0,1,2,3]
 
 func _ready():
-
+	set_rotation()
 	world_node = get_parent().get_node('World')
 	randomize()
-	_start_new_minigame(GAMES['lobby'])
+	_start_new_minigame(GAMES[0])
 	print(minigame_name)
+
+func set_rotation(exclude := [GAMES[0] ]) :
+	for game in GAMES:
+		if not exclude.has(game) :
+			rotation.append(game)
+
 
 #warning-ignore:unused_argument
 func _start_new_minigame(new_minigame : PackedScene):
@@ -58,14 +71,23 @@ func _on_game_times_up():
 
 func _select_random_minigame():
 	#DO
-	var selected_num : int = int(rand_range(0, GAMES.size()))
-	#WHILE
-	while GAMES.keys()[selected_num] == minigame_name || GAMES.keys()[selected_num] == 'lobby':
-		selected_num = int(rand_range(0, GAMES.size()))
+#	var selected_num : int = int(rand_range(0, GAMES.size()))
+#	#WHILE
+#	while GAMES.keys()[selected_num] == minigame_name || GAMES.keys()[selected_num] == 'lobby':
+#		selected_num = int(rand_range(0, GAMES.size()))
+#
+#	var selected_game : PackedScene = GAMES.values()[selected_num]
+	if rotation.empty() :
+		return GAMES['lobby']
+	#mixes up the order, this means a possiblity of the same game back to back with repeats
+	if shuffle : rotation.shuffle()
 
-	var selected_game : PackedScene = GAMES.values()[selected_num]
-
-	return selected_game
+	if repeats :
+		#cycles through for if not shuffling
+		rotation.push_back(rotation.pop_front())
+		return rotation.front()
+	else :
+		return rotation.pop_front()
 
 func _force_back_to_lobby():
 	Players._update_active_players()

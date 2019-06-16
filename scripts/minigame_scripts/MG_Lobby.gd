@@ -11,13 +11,15 @@ var num_of_ready_ups = 0
 func _ready():
 	add_to_group('minigames')
 	Manager.minigame_name = 'lobby'
+	visible_name = "Lobby"
 	game_instructions = "Press '1'\nto ready up!"
 	game_time = 999999999999999999999
 	has_countdown = false
 	has_timer = false
 	readyable = true
+	win_condition = win_conditions.lobby_readied
 	instant_player_insertion = true
-	$Cam.current = true
+#	$Cam.current = true
 
 	Globals.HUD.get_node('Scorecards/Statuses/P1Ready').text = 'Not Ready'
 	Globals.HUD.get_node('Scorecards/Statuses/P2Ready').text = 'Not Ready'
@@ -49,8 +51,3 @@ func _check_ready_ups():
 		if !is_starting:
 			_game_won(true)
 			is_starting = true
-
-func _game_won(no_winner : bool = false):
-	game_over = true
-	Globals.HUD._update_hud()
-	Manager._on_game_times_up()

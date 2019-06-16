@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/ui/Debug menu.gd" type="Script" id=1]
+
+[node name="Debug menu" type="PopupMenu"]
+pause_mode = 2
+margin_left = 232.0
+margin_top = 84.0
+margin_right = 773.0
+margin_bottom = 506.0
+script = ExtResource( 1 )
+[connection signal="id_pressed" from="." to="." method="_on_Debug_menu_id_pressed"]
