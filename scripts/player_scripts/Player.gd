@@ -27,6 +27,7 @@ var holding_item := false
 var is_grounded : bool
 var is_jumping : bool = false
 var can_attack := true
+var is_attacking := false
 var punch_arm := 'left'
 
 var max_jump_velocity : float
@@ -56,7 +57,7 @@ var previous_state = null
 var states : Dictionary = {}
 var wall_action : String
 
-
+onready var local_score := $LocalScore
 onready var state_label : Label = $StateMachine/StateLabel
 onready var anim_tree : AnimationTree = $StateMachine/AnimationTree
 onready var state_machine := $StateMachine
@@ -182,7 +183,9 @@ func attack():
 		$StateMachine/AnimationPlayer.play('attack_'+punch_arm)
 
 		attack_area.monitoring = true
+		is_attacking = true
 		attack_timer.start()
+		attack_cooldown_timer.start()
 
 func _update_move_direction():
 
@@ -278,7 +281,7 @@ func _set_face():
 
 func _on_AttackTimer_timeout():
 	attack_area.monitoring = false
-	attack_cooldown_timer.start()
+	is_attacking = false
 
 func _on_AttackCooldown_timeout():
 	can_attack = true
@@ -286,6 +289,8 @@ func _on_AttackCooldown_timeout():
 func _on_AttackArea_body_entered(body):
 	#determine attack type from gamemode and handle attack interaction accordingly
 	#This needs to check if it's interacting with a player
+	#var item = body as Item
+
 	match Manager.current_minigame.attack_mode:
 		Manager.current_minigame.attack_modes.non_lethal:
 			bump_player(body)
@@ -506,7 +511,7 @@ func _process(delta):
 
 #for handling individual press events
 func _input(event : InputEvent):
-	if event.is_action_pressed(attack_input) && attack_timer.is_stopped() && state != states.wall_slide && can_attack:
+	if event.is_action_pressed(attack_input) && attack_cooldown_timer.is_stopped() && state != states.wall_slide && can_attack:
 		if state == states.disabled :
 			pass
 		elif holding_item :

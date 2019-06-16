@@ -3,7 +3,7 @@ extends Node
 class_name Minigame
 
 enum attack_modes {non_lethal, lethal}
-enum win_conditions {timeout, last_alive_allow_no_winners, lobby_readied}
+enum win_conditions {timeout, last_alive_allow_no_winners, lobby_readied, highest_local_score}
 
 export var game_time : int
 export var game_instructions : String
@@ -15,6 +15,7 @@ export var readyable : bool = false
 export var has_timer : bool = true
 export var has_countdown : bool = true
 export var visible_name := ''
+export var has_local_score := false
 onready var camera = get_node("Cam")
 var game_active : bool = false
 var game_over : bool = false
@@ -36,11 +37,14 @@ func _ready():
 	minigame_timer.set_autostart(true)
 	minigame_timer.set_one_shot(false)
 	minigame_timer.start(1)
-
+	
 	call_deferred('_insert_players')
 	call_deferred('_pregame')
 
 	connect('game_times_up', Manager, '_on_game_times_up')
+
+func _physics_process(delta):
+	_handle_local_scoring()
 
 func _insert_players():
 	Players._update_active_players()
@@ -95,6 +99,10 @@ func _check_game_win_conditions():
 				_game_won()
 			elif Players._get_alive_players().size() == 0 || game_time == 0:
 				_game_won(true)
+		
+		win_conditions.highest_local_score:
+			if game_time == 0 || Players._get_alive_players().size() == 0:
+				_game_won()
 
 
 
@@ -134,6 +142,36 @@ func _game_won(no_winner = false, multi_winner = false):
 			game_over = true
 			Globals.HUD._update_hud()
 			Manager._on_game_times_up()
+		win_conditions.highest_local_score:
+			game_over = true
+			game_active = false
+			
+			var winning_player : PlayersManager = null
+			var winning_players : Array = []
+			var highest_score := 0
+			for player in Players._update_active_players():
+				if player.local_score > highest_score:
+					highest_score = player.local_score
+					winning_player = player
+				elif player.local_score == highest_score:
+					if !winning_players.has(winning_player):
+						winning_players.append(winning_player)
+					if !winning_players.has(player):
+						winning_players.append(player)
+			if highest_score != 0:
+				if winning_players.size() > 1:
+					$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Winners:\n'
+					for player in winning_players:
+						player.score += 1
+						$CanvasLayer/HUD/TimeLeft/Instructions.text = $CanvasLayer/HUD/TimeLeft/Instructions.text +  player.display_name + '\n'
+						$CanvasLayer/HUD._update_scores()
+						
+				else:
+					winning_player.score += 1
+					$CanvasLayer/HUD._update_scores()
+					$CanvasLayer/HUD/TimeLeft/Instructions.text = winning_player.display_name + ' Won!'
+			else:
+				$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Nobody Won!'
 
 func _end_game():
 	#stop the minigame timer
@@ -155,3 +193,13 @@ func _handle_minigame_time():
 	elif !game_active && game_over:
 		#if game_won is then call the end game function
 		_end_game()
+
+func _handle_local_scoring():
+	for player in Players._update_active_players():
+		player.child.local_score.visible = true if has_local_score else false
+		player.child.local_score.text = String(player.local_score)
+		if !game_active && !game_over:
+			player.local_score = 0
+
+func _increase_local_score(player : PlayersManager, amount := 0):
+	player.local_score += amount
