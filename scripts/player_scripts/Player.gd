@@ -171,7 +171,7 @@ func attack():
 		# set hitbox
 		attack_area = hand.get_node('Hitbox')
 		# launch hand at an angle if there's a decent move_input, or just use facing
-		if aim_direction.normalized().length() > .2 :
+		if aim_direction != Vector2.ZERO:
 			vel = hand.get_gravity_scale()*PUNCH_DISTANCE*aim_direction.normalized()
 		else :
 			vel = Vector2(hand.get_gravity_scale()*PUNCH_DISTANCE*dir,0)
@@ -490,7 +490,8 @@ func _pickup_item():
 	var items = $PickupRange.get_overlapping_areas()
 	var item = null
 	for temp in items : if temp.is_in_group("item") : item = temp.get_parent()
-	if item :
+	
+	if item && item.grabbable:
 		holding_item = true
 		item.grab(self)
 		held_item = item

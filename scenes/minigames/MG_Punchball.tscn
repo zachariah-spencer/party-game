@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/minigames/MG.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/minigame_scripts/MG_Punchball.gd" type="Script" id=2]
+[ext_resource path="res://scenes/items/Punchball.tscn" type="PackedScene" id=3]
+
+[node name="MG_Punchball" index="0" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+win_condition = 1
+allow_respawns = true
+visible_name = "Punchball"
+
+[node name="PlayerOneSpawnF" parent="SpawnPoints" index="0"]
+position = Vector2( 713.445, 458.959 )
+
+[node name="PlayerTwoSpawnF" parent="SpawnPoints" index="1"]
+position = Vector2( 930, 458.959 )
+
+[node name="PlayerThreeSpawnF" parent="SpawnPoints" index="2"]
+position = Vector2( 170.406, 458.959 )
+
+[node name="PlayerFourSpawnF" parent="SpawnPoints" index="3"]
+position = Vector2( 404.429, 454.415 )
+
+[node name="TerrainTilemap" parent="." index="3"]
+tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 10, 0, 0, 11, 0, 0, 12, 0, 0, 13, 0, 0, 14, 0, 0, 15, 0, 0, 16, 0, 0, 65536, 0, 0, 65552, 0, 0, 131072, 0, 0, 131088, 0, 0, 196608, 0, 0, 196624, 0, 0, 262144, 0, 0, 262160, 0, 0, 327680, 0, 0, 327696, 0, 0, 393216, 0, 0, 393232, 0, 0, 458752, 0, 0, 458768, 0, 0, 524288, 0, 0, 524304, 0, 0, 589824, 0, 0, 589825, 0, 0, 589826, 0, 0, 589827, 0, 0, 589828, 0, 0, 589829, 0, 0, 589830, 0, 0, 589831, 0, 0, 589832, 0, 0, 589833, 0, 0, 589834, 0, 0, 589835, 0, 0, 589836, 0, 0, 589837, 0, 0, 589838, 0, 0, 589839, 0, 0, 589840, 0, 0 )
+
+[node name="PlatformTilemap" parent="." index="4"]
+tile_data = PoolIntArray( 327683, 1, 0, 327684, 1, 0, 327687, 1, 0, 327689, 1, 0, 327692, 1, 0, 327693, 1, 0, 458757, 1, 0, 458758, 1, 0, 458762, 1, 0, 458763, 1, 0 )
+
+[node name="Punchball" parent="." index="6" instance=ExtResource( 3 )]
+position = Vector2( 512, 200 )
+
