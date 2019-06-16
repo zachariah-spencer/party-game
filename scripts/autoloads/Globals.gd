@@ -1,6 +1,8 @@
 extends Node
 #warning-ignore-all:unused_class_variable
 
+const DEBUG := preload("res://scenes/ui/Debug_menu.tscn")
+
 const GRAVITY : int = 2400
 const UP : Vector2 = Vector2.UP
 const CELL_SIZE : int = 32

@@ -5,8 +5,9 @@
 [ext_resource path="res://DevTileset.tres" type="TileSet" id=3]
 [ext_resource path="res://scenes/items/Dodgeball.tscn" type="PackedScene" id=4]
 
-[node name="MG_Lobby" instance=ExtResource( 1 )]
+[node name="MG_Lobby" index="0" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+visible_name = "Lobby"
 
 [node name="PlayerOneSpawnF" parent="SpawnPoints" index="0"]
 position = Vector2( 192, 672 )
@@ -41,4 +42,3 @@ position = Vector2( 554.967, 540.285 )
 
 [node name="Dodgeball3" parent="." index="7" instance=ExtResource( 4 )]
 position = Vector2( 1042.4, 469.813 )
-

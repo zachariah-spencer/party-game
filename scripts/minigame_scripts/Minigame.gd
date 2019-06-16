@@ -14,6 +14,8 @@ export var instant_player_insertion : bool = false
 export var readyable : bool = false
 export var has_timer : bool = true
 export var has_countdown : bool = true
+export var visible_name := ''
+onready var camera = get_node("Cam")
 var game_active : bool = false
 var game_over : bool = false
 var minigame_timer : Timer
@@ -25,10 +27,9 @@ signal game_times_up
 
 func _ready():
 	Manager.current_minigame = self
-
 	spawn_points = $SpawnPoints.get_children()
 	spawn_points.shuffle()
-
+	camera.current = true
 	minigame_timer = Timer.new()
 	minigame_timer.connect('timeout', self, '_handle_minigame_time')
 	add_child(minigame_timer)
@@ -87,15 +88,15 @@ func _check_game_win_conditions():
 					_game_won()
 			elif Players._get_alive_players().size() == 0:
 				_game_won(true)
-			
-			
+
+
 		win_conditions.last_alive_allow_no_winners:
 			if Players._get_alive_players().size() == 1:
 				_game_won()
 			elif Players._get_alive_players().size() == 0 || game_time == 0:
 				_game_won(true)
-			
-			
+
+
 
 func _game_won(no_winner = false, multi_winner = false):
 	match win_condition:
