@@ -101,7 +101,7 @@ func _check_game_win_conditions():
 				_game_won(true)
 		
 		win_conditions.highest_local_score:
-			if game_time == 0 || Players._get_alive_players().size() == 0:
+			if game_time == 0:
 				_game_won()
 
 
@@ -196,8 +196,9 @@ func _handle_minigame_time():
 
 func _handle_local_scoring():
 	for player in Players._update_active_players():
-		player.child.local_score.visible = true if has_local_score else false
-		player.child.local_score.text = String(player.local_score)
+		if !player.dead:
+			player.child.local_score.visible = true if has_local_score else false
+			player.child.local_score.text = String(player.local_score)
 		if !game_active && !game_over:
 			player.local_score = 0
 

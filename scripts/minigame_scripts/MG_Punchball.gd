@@ -8,6 +8,10 @@ func _ready():
 	game_time = 5
 	win_condition = win_conditions.highest_local_score
 	has_local_score = true
+	
+	yield(Globals.HUD, 'begin_game')
+	
+	$Punchball/ImpulseTimer.start()
 
 func _physics_process(delta):
 	_run_minigame_loop()

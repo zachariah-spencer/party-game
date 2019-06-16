@@ -39,7 +39,7 @@ func _on_PunchedArea_body_entered(body):
 		modulate.a = .5
 		apply_central_impulse(impulse_vector * 25)
 		
-		if player_fist:
+		if player_fist && !get_parent().game_over:
 			emit_signal('player_got_a_punch', attacking_player, 1)
 
 
