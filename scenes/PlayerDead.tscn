@@ -48,7 +48,9 @@ radius = 24.9598
 radius = 74.5766
 height = 77.3426
 
-[node name="Player Dead" type="Node2D"]
+[node name="Player Dead" type="Node2D" groups=[
+"player",
+]]
 position = Vector2( 0, -8.11656 )
 script = ExtResource( 1 )
 

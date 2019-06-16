@@ -1,62 +1,108 @@
 extends Control
 
-signal game_times_up
+#tells GameStateManager singleton when to transition to a new minigame
+#DELETE: signal game_times_up
 
-onready var time_display = $TimeLeft
+#reference to time counter display
+onready var time_display : Label = $TimeLeft
+onready var minigame : Minigame = Manager.current_minigame
+signal begin_game
 
 func _ready():
-	Globals.current_HUD = self
+	#register to singleton
+	Globals.HUD = self
 
+	#connect the game_times_up signal upon readying in the tree
 	#warning-ignore:return_value_discarded
-	connect('game_times_up', Manager, '_on_game_times_up')
+	#DELETE: connect('game_times_up', Manager, '_on_game_times_up')
 
+	#update the hud with new information
 	call_deferred('_update_hud')
 
-func _validate_active_players():
-	if is_instance_valid(Globals.player_one):
-		$Scores/P1Score.visible = true
-		$Scores/P1Score.text = String(Globals.player_one.score)
-	if is_instance_valid(Globals.player_two):
-		$Scores/P2Score.visible = true
-		$Scores/P2Score.text = String(Globals.player_two.score)
-	if is_instance_valid(Globals.player_three):
-		$Scores/P3Score.visible = true
-		$Scores/P3Score.text = String(Globals.player_three.score)
-	if is_instance_valid(Globals.player_four):
-		$Scores/P4Score.visible = true
-		$Scores/P4Score.text = String(Globals.player_four.score)
+func _update_active_players():
+	#check which players are activated and make their hud elements visible,
+	#else make them not visible
+	for player in Players._players :
+		get_node("Scorecards/P"+ player.player_number +"Score").visible  = player.active
+		get_node("Scorecards/Statuses/P"+ player.player_number +"Ready").visible  = player.active
+
+	#remove the 'Ready/Not Ready' system from the hud UI unless players are in the lobby
+	if Manager.minigame_name != 'lobby':
+		for status in $Scorecards/Statuses.get_children():
+			status.visible = false
+
+func _update_scores():
+	#get current playerscores for each player and set the UI to reflect that
+	if Players.player_one.active:
+		$Scorecards/P1Score.text = String(Players.player_one.score)
+	if Players.player_two.active:
+		$Scorecards/P2Score.text = String(Players.player_two.score)
+	if Players.player_three.active:
+		$Scorecards/P3Score.text = String(Players.player_three.score)
+	if Players.player_four.active:
+		$Scorecards/P4Score.text = String(Players.player_four.score)
+
+
+func _update_game_timer():
+	if minigame.has_timer:
+		if !minigame.game_over:
+			#do this stuff if the current games win conditions HAVE NOT been reached
+			$TimeLeft.text = String(minigame.game_time)
+			$TimeLeft/Instructions.text = minigame.game_instructions
+		else:
+			$TimeLeft.text = String(minigame.game_time)
+	else:
+		$TimeLeft.text = ''
+
+	if Manager.minigame_name == 'lobby':
+		if !minigame.game_over:
+			$TimeLeft/Instructions.text = minigame.game_instructions
+		else:
+			$TimeLeft/Instructions.text = 'Starting...'
 
 func _update_hud():
-	yield(get_tree().create_timer(.1),'timeout')
+	#DEV NOTE: still needs work so that when players return to the lobby their statuses re-appear
+	#buffer for a split second to allow other variables to update before the call to update hud
+	#^^^this yield is more of a safeguard against pre-emptive memory grabassing
+	yield(get_tree().create_timer(.01),'timeout')
+	#call all the previously notated functions
+	_update_active_players()
+	_update_scores()
+	_update_game_timer()
 
-	if !get_parent().get_parent().game_over:
-		$TimeLeft/Instructions.text = Manager.current_game_reference.game_instructions
+func _process(delta):
+	if minigame.has_timer:
+		if minigame.game_active:
+			_update_game_timer()
+		elif !minigame.game_active && !minigame.game_over && minigame.has_countdown:
+			if $Countdown/CountdownTimer.is_stopped():
+				$Countdown/CountdownTimer.start()
+				$Countdown.visible = true
+		elif !minigame.game_active && !minigame.game_over && !minigame.has_countdown:
+			if $Countdown/CountdownTimer.is_stopped():
+				$Countdown.text = 'Begin!'
+				$Countdown.modulate = Color(1,1,1,1)
+				$Countdown/CountdownTimer.start()
+				$Countdown.visible = true
 
-	_validate_active_players()
-
-	if !Manager.current_game_reference.has_timer:
-		$TimeLeft.text = ''
-	elif Manager.current_game_reference.has_timer:
-		$TimeLeft.text = String(Manager.current_game_time)
-
-func _physics_process(delta):
-	pass
-	#set so that the hud centers on the Y position of the camera's center
-
-func _on_Timer_timeout():
-	if Manager.current_game_reference.has_timer:
-		_every_second()
+func _on_CountdownTimer_timeout():
+	if minigame.has_countdown:
+		match $Countdown.text:
+			'3':
+				$Countdown.text = '2'
+				$Countdown.modulate = Color(1,1,0,1)
+			'2':
+				$Countdown.text = '1'
+				$Countdown.modulate = Color(0,1,0,1)
+			'1':
+				$Countdown.text = 'Begin!'
+				$Countdown.modulate = Color(1,1,1,1)
+				emit_signal('begin_game')
+			'Begin!':
+				$Countdown.visible = false
+				$Countdown/CountdownTimer.stop()
 	else:
-		$TimeLeft.text = ''
-
-func _every_second():
-	if Manager.current_game_reference.game_active:
-		if Manager.current_game_time != 0:
-			Manager.current_game_time -= 1
-			time_display.text = String(Manager.current_game_time)
-		elif Manager.current_game_time == 0:
-			emit_signal('game_times_up')
-	else:
-		time_display.text = '0'
-		yield(get_tree().create_timer(3), 'timeout')
-		emit_signal('game_times_up')
+		emit_signal('begin_game')
+		if $Countdown.text == 'Begin!':
+			$Countdown.visible = false
+			$Countdown/CountdownTimer.stop()
