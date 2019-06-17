@@ -135,8 +135,8 @@ func throw():
 
 		# throwing and item slightly changes velocity if it has weight
 		if held_item._weight > 0 :
-			self.velocity = Vector2.ZERO
-			self.velocity -= dir.normalized()*held_item._weight*100
+			velocity = Vector2.ZERO
+			velocity -= dir.normalized()*held_item._weight*100
 
 		held_item.throw(dir*1600, pos, self)
 
@@ -254,8 +254,6 @@ func _update_wall_direction():
 		wall_direction = -int(is_near_wall_left) + int(is_near_wall_right)
 
 func _check_is_valid_wall(wall_raycasts : Node):
-	if !is_instance_valid(wall_raycasts) :
-		return false
 	for raycast in wall_raycasts.get_children():
 		if raycast.is_colliding():
 			var dot : float = acos(Vector2.UP.dot(raycast.get_collision_normal()))
@@ -312,7 +310,7 @@ func hurt_player(affected_player):
 #	sounds[randi() % 2].play()
 
 func _update_player_stats():
-	#hit_points_label.text = String(hit_points)
+	hit_points_label.text = String(hit_points)
 	if hit_points == 0:
 		if !parent.is_dead():
 			parent.die(Manager.current_minigame.allow_respawns)
@@ -349,24 +347,25 @@ func _physics_process(delta):
 			set_state(transition)
 
 func _state_logic(delta : float):
-		_update_player_stats()
+	_handle_jumping()
+	_update_player_stats()
+	if state != states.disabled:
+		_update_move_direction()
+	else:
+		_stop_movement()
+	_update_wall_direction()
+	_update_wall_action()
+	_apply_gravity(delta)
+	if state != states.wall_slide:
 		if state != states.disabled:
-			_update_move_direction()
-		else:
-			_stop_movement()
-		_update_wall_direction()
-		_update_wall_action()
-		_apply_gravity(delta)
-		if state != states.wall_slide:
-			if state != states.disabled:
-				_handle_move_input()
-		if state == states.wall_slide:
-			_cap_gravity_wall_slide()
-			_handle_wall_slide_sticking()
+			_handle_move_input()
+	if state == states.wall_slide:
+		_cap_gravity_wall_slide()
+		_handle_wall_slide_sticking()
 
-		_apply_movement()
+	_apply_movement()
 
-		anim_tree['parameters/Airborne/blend_position'] = velocity.y / 300
+	anim_tree['parameters/Airborne/blend_position'] = velocity.y / 300
 
 func _get_transition(delta : float):
 	match state:
@@ -394,6 +393,10 @@ func _get_transition(delta : float):
 			elif velocity.y >= 0:
 				return states.fall
 		states.fall:
+			if Input.is_action_pressed(move_down) :
+				set_collision_mask_bit(DROP_THRU_BIT, false)
+			elif !is_in_platform() :
+				set_collision_mask_bit(DROP_THRU_BIT, true)
 			if wall_direction != 0 && wall_slide_cooldown.is_stopped() && Input.is_action_pressed(wall_action):
 				return states.wall_slide
 			elif is_on_floor():
@@ -455,14 +458,11 @@ func _enter_state(new_state, old_state):
 			else :
 				_state.travel(anim)
 
-
-
-	pass
-
 func _exit_state(old_state, new_state):
 	match old_state:
 		states.wall_slide:
 			wall_slide_cooldown.start()
+
 func set_state(new_state):
 	previous_state = state
 	state = new_state
@@ -499,10 +499,6 @@ func _pickup_item():
 		item.position = Vector2.ZERO
 		right_hand.add_child(item)
 	return holding_item
-
-#for handling constantly polled events
-func _process(delta):
-	_handle_jumping()
 
 #for handling individual press events
 func _input(event : InputEvent):
@@ -544,13 +540,8 @@ func _handle_jumping():
 func _on_JumpCooldownTimer_timeout():
 	can_jump = true
 
-
 func _on_FallThroughTimer_timeout():
 	set_collision_mask_bit(DROP_THRU_BIT, false)
-
-func _handle_platform_collisions():
-	if !is_in_platform():
-		set_collision_mask_bit(DROP_THRU_BIT, true)
 
 func is_in_platform():
 	var is_in_platform := false
