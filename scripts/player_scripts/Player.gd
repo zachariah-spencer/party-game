@@ -277,37 +277,35 @@ func _set_face():
 	face.set_texture(face_textures[0][1])
 
 func _on_AttackTimer_timeout():
+	hit_exceptions = []
 	attack_area.monitoring = false
 	attack_cooldown_timer.start()
 
 func _on_AttackCooldown_timeout():
 	can_attack = true
 
-func _on_AttackArea_body_entered(body):
-	#determine attack type from gamemode and handle attack interaction accordingly
-	#This needs to check if it's interacting with a player
+func hit(by : Node, damage : int, knockback :Vector2) :
+
+	velocity = knockback
+	$Shockwave.set_emitting(true)
+
 	match Manager.current_minigame.attack_mode:
 		Manager.current_minigame.attack_modes.non_lethal:
-			bump_player(body)
+			pass
 		Manager.current_minigame.attack_modes.lethal:
-			bump_player(body)
-			hurt_player(body)
-	# stop tracking punches
-	_on_AttackTimer_timeout()
+			hit_points -= damage
+			$StateMachine/AnimationPlayer.play('hurt')
+			parent.play_random("Hit")
 
-func bump_player(affected_player):
-	var bump_velocity : Vector2 = Vector2(0,-500)
-	bump_velocity.x = (40 * Globals.CELL_SIZE) * facing_direction
-	affected_player.velocity = bump_velocity
-	affected_player.get_node("Shockwave").set_emitting(true) # some vfx
+var hit_exceptions = []
 
-func hurt_player(affected_player):
-	affected_player.get_node('StateMachine/AnimationPlayer').play('hurt')
-	affected_player.hit_points -= 20
-	#this is exactly why this needs to be handled differently
-	affected_player.parent.play_random("Hit")
-#	var sounds = affected_player.get_node("Sounds/Hit").get_children()
-#	sounds[randi() % 2].play()
+func _on_AttackArea_body_entered(body):
+
+	if body.has_method("hit") and not hit_exceptions.has(body):
+		var x = 40* Globals.CELL_SIZE
+		var y = 500
+		body.hit(self, 20, Vector2.UP * y + x * sign(body.global_position.x - global_position.x) *Vector2.RIGHT )
+		hit_exceptions.append(body)
 
 func _update_player_stats():
 	hit_points_label.text = String(hit_points)
