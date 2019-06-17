@@ -136,8 +136,8 @@ func throw():
 
 		# throwing and item slightly changes velocity if it has weight
 		if held_item._weight > 0 :
-			self.velocity = Vector2.ZERO
-			self.velocity -= dir.normalized()*held_item._weight*100
+			velocity = Vector2.ZERO
+			velocity -= dir.normalized()*held_item._weight*100
 
 		held_item.throw(dir*1600, pos, self)
 
@@ -152,7 +152,7 @@ func attack():
 		var vel = Vector2(0,0)
 		var body_part = $StateMachine/Sprites/Body
 		var head = $StateMachine/Sprites/Head
-		$Sounds/Punch.play()
+		parent.play_sound("Punch")
 
 		# dictate punch direction based on the head direction
 		var dir = 1
@@ -257,8 +257,6 @@ func _update_wall_direction():
 		wall_direction = -int(is_near_wall_left) + int(is_near_wall_right)
 
 func _check_is_valid_wall(wall_raycasts : Node):
-	if !is_instance_valid(wall_raycasts) :
-		return false
 	for raycast in wall_raycasts.get_children():
 		if raycast.is_colliding():
 			var dot : float = acos(Vector2.UP.dot(raycast.get_collision_normal()))
@@ -268,7 +266,9 @@ func _check_is_valid_wall(wall_raycasts : Node):
 
 
 func _on_FallingThroughPlatformArea_body_exited(body):
-	set_collision_mask_bit(DROP_THRU_BIT, true)
+	var platform = body as TileMap
+	if platform:
+		set_collision_mask_bit(DROP_THRU_BIT, true)
 
 func _set_face():
 	# this function will get called every time we need a new face
@@ -280,35 +280,38 @@ func _set_face():
 	face.set_texture(face_textures[0][1])
 
 func _on_AttackTimer_timeout():
+	hit_exceptions = []
 	attack_area.monitoring = false
 	is_attacking = false
 
 func _on_AttackCooldown_timeout():
 	can_attack = true
 
-func _on_AttackArea_body_entered(body):
-	#determine attack type from gamemode and handle attack interaction accordingly
-	#This needs to check if it's interacting with a player
-	#var item = body as Item
+func hit(by : Node, damage : int, knockback :Vector2) :
+
+	velocity = knockback
+	$Shockwave.set_emitting(true)
 
 	match Manager.current_minigame.attack_mode:
 		Manager.current_minigame.attack_modes.non_lethal:
-			bump_player(body)
+			pass
 		Manager.current_minigame.attack_modes.lethal:
-			bump_player(body)
-			hurt_player(body)
+			hit_points -= damage
+			$StateMachine/AnimationPlayer.play('hurt')
+			parent.play_random("Hit")
 
-func bump_player(affected_player):
-	var bump_velocity : Vector2 = Vector2(0,-500)
-	bump_velocity.x = (40 * Globals.CELL_SIZE) * facing_direction
-	affected_player.velocity = bump_velocity
+var hit_exceptions = []
 
-func hurt_player(affected_player):
-	affected_player.get_node('StateMachine/AnimationPlayer').play('hurt')
-	affected_player.hit_points -= 20
+func _on_AttackArea_body_entered(body):
+
+	if body.has_method("hit") and not hit_exceptions.has(body):
+		var x = 40* Globals.CELL_SIZE
+		var y = 500
+		body.hit(self, 20, Vector2.UP * y + x * sign(body.global_position.x - global_position.x) *Vector2.RIGHT )
+		hit_exceptions.append(body)
 
 func _update_player_stats():
-	#hit_points_label.text = String(hit_points)
+	hit_points_label.text = String(hit_points)
 	if hit_points == 0:
 		if !parent.is_dead():
 			parent.die(Manager.current_minigame.allow_respawns)
@@ -345,24 +348,25 @@ func _physics_process(delta):
 			set_state(transition)
 
 func _state_logic(delta : float):
-
-		_update_player_stats()
+	_handle_jumping()
+	_update_player_stats()
+	if state != states.disabled:
+		_update_move_direction()
+	else:
+		_stop_movement()
+	_update_wall_direction()
+	_update_wall_action()
+	_apply_gravity(delta)
+	if state != states.wall_slide:
 		if state != states.disabled:
-			_update_move_direction()
-		else:
-			_stop_movement()
-		_update_wall_direction()
-		_update_wall_action()
-		_apply_gravity(delta)
-		if state != states.wall_slide:
-			if state != states.disabled:
-				_handle_move_input()
-		if state == states.wall_slide:
-			_cap_gravity_wall_slide()
-			_handle_wall_slide_sticking()
-		_apply_movement()
+			_handle_move_input()
+	if state == states.wall_slide:
+		_cap_gravity_wall_slide()
+		_handle_wall_slide_sticking()
 
-		anim_tree['parameters/Airborne/blend_position'] = velocity.y / 300
+	_apply_movement()
+
+	anim_tree['parameters/Airborne/blend_position'] = velocity.y / 300
 
 func _get_transition(delta : float):
 	match state:
@@ -390,6 +394,10 @@ func _get_transition(delta : float):
 			elif velocity.y >= 0:
 				return states.fall
 		states.fall:
+			if Input.is_action_pressed(move_down) :
+				set_collision_mask_bit(DROP_THRU_BIT, false)
+			elif !is_in_platform() :
+				set_collision_mask_bit(DROP_THRU_BIT, true)
 			if wall_direction != 0 && wall_slide_cooldown.is_stopped() && Input.is_action_pressed(wall_action):
 				return states.wall_slide
 			elif is_on_floor():
@@ -451,21 +459,10 @@ func _enter_state(new_state, old_state):
 			else :
 				_state.travel(anim)
 
-
-
-	pass
-
 func _exit_state(old_state, new_state):
 	match old_state:
 		states.wall_slide:
 			wall_slide_cooldown.start()
-		states.jump:
-			var is_in_platform := false
-			for body in fall_through_area.get_overlapping_bodies():
-				if ( body.get_collision_layer_bit(DROP_THRU_BIT) == true ):
-					is_in_platform = true
-			if !is_in_platform:
-				set_collision_mask_bit(DROP_THRU_BIT, true)
 
 func set_state(new_state):
 	previous_state = state
@@ -504,10 +501,6 @@ func _pickup_item():
 		item.position = Vector2.ZERO
 		right_hand.add_child(item)
 	return holding_item
-
-#for handling constantly polled events
-func _process(delta):
-	_handle_jumping()
 
 #for handling individual press events
 func _input(event : InputEvent):
@@ -549,6 +542,13 @@ func _handle_jumping():
 func _on_JumpCooldownTimer_timeout():
 	can_jump = true
 
-
 func _on_FallThroughTimer_timeout():
 	set_collision_mask_bit(DROP_THRU_BIT, false)
+
+func is_in_platform():
+	var is_in_platform := false
+	for body in fall_through_area.get_overlapping_bodies():
+		if ( body.get_collision_layer_bit(DROP_THRU_BIT) == true ):
+			return true
+
+	return false
