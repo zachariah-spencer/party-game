@@ -151,7 +151,7 @@ func attack():
 		var vel = Vector2(0,0)
 		var body_part = $StateMachine/Sprites/Body
 		var head = $StateMachine/Sprites/Head
-		$Sounds/Punch.play()
+		parent.play_sound("Punch")
 
 		# dictate punch direction based on the head direction
 		var dir = 1
@@ -306,8 +306,10 @@ func bump_player(affected_player):
 func hurt_player(affected_player):
 	affected_player.get_node('StateMachine/AnimationPlayer').play('hurt')
 	affected_player.hit_points -= 20
-	var sounds = affected_player.get_node("Sounds/Hit").get_children()
-	sounds[randi() % 2].play()
+	#this is exactly why this needs to be handled differently
+	affected_player.parent.play_random("Hit")
+#	var sounds = affected_player.get_node("Sounds/Hit").get_children()
+#	sounds[randi() % 2].play()
 
 func _update_player_stats():
 	#hit_points_label.text = String(hit_points)
@@ -361,7 +363,7 @@ func _state_logic(delta : float):
 		if state == states.wall_slide:
 			_cap_gravity_wall_slide()
 			_handle_wall_slide_sticking()
-	
+
 		_apply_movement()
 
 		anim_tree['parameters/Airborne/blend_position'] = velocity.y / 300
@@ -555,5 +557,5 @@ func is_in_platform():
 	for body in fall_through_area.get_overlapping_bodies():
 		if ( body.get_collision_layer_bit(DROP_THRU_BIT) == true ):
 			return true
-	
+
 	return false

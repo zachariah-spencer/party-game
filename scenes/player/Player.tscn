@@ -1,27 +1,25 @@
-[gd_scene load_steps=60 format=2]
+[gd_scene load_steps=58 format=2]
 
 [ext_resource path="res://scripts/player_scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/audio/foot.wav" type="AudioStream" id=2]
 [ext_resource path="res://assets/audio/punch_whiff.wav" type="AudioStream" id=3]
-[ext_resource path="res://assets/audio/punch/punch_hit1.wav" type="AudioStream" id=4]
-[ext_resource path="res://assets/audio/punch/punch_hit2.wav" type="AudioStream" id=5]
-[ext_resource path="res://scripts/player_scripts/PlayerStateMachine.gd" type="Script" id=6]
-[ext_resource path="res://assets/player/foot_placeholder.png" type="Texture" id=7]
-[ext_resource path="res://assets/vfx/punch_trail.png" type="Texture" id=8]
-[ext_resource path="res://assets/player/hand_placeholder.png" type="Texture" id=9]
-[ext_resource path="res://assets/player/body_placeholder.png" type="Texture" id=10]
-[ext_resource path="res://assets/player/head_placeholder.png" type="Texture" id=11]
-[ext_resource path="res://assets/player/face_punch.png" type="Texture" id=12]
-[ext_resource path="res://monogram.ttf" type="DynamicFontData" id=13]
-[ext_resource path="res://misc/player_anim/attack_left.anim" type="Animation" id=14]
-[ext_resource path="res://misc/player_anim/attack_right.anim" type="Animation" id=15]
-[ext_resource path="res://misc/player_anim/fall.anim" type="Animation" id=16]
-[ext_resource path="res://misc/player_anim/idle.anim" type="Animation" id=17]
-[ext_resource path="res://misc/player_anim/jump.anim" type="Animation" id=18]
-[ext_resource path="res://misc/player_anim/run.anim" type="Animation" id=19]
-[ext_resource path="res://misc/player_anim/wall_slide.anim" type="Animation" id=20]
-[ext_resource path="res://shaders/magnify.tres" type="Shader" id=21]
-[ext_resource path="res://assets/sphere_soft.png" type="Texture" id=22]
+[ext_resource path="res://scripts/player_scripts/PlayerStateMachine.gd" type="Script" id=4]
+[ext_resource path="res://assets/player/foot_placeholder.png" type="Texture" id=5]
+[ext_resource path="res://assets/vfx/punch_trail.png" type="Texture" id=6]
+[ext_resource path="res://assets/player/hand_placeholder.png" type="Texture" id=7]
+[ext_resource path="res://assets/player/body_placeholder.png" type="Texture" id=8]
+[ext_resource path="res://assets/player/head_placeholder.png" type="Texture" id=9]
+[ext_resource path="res://assets/player/face_punch.png" type="Texture" id=10]
+[ext_resource path="res://monogram.ttf" type="DynamicFontData" id=11]
+[ext_resource path="res://misc/player_anim/attack_left.anim" type="Animation" id=12]
+[ext_resource path="res://misc/player_anim/attack_right.anim" type="Animation" id=13]
+[ext_resource path="res://misc/player_anim/fall.anim" type="Animation" id=14]
+[ext_resource path="res://misc/player_anim/idle.anim" type="Animation" id=15]
+[ext_resource path="res://misc/player_anim/jump.anim" type="Animation" id=16]
+[ext_resource path="res://misc/player_anim/run.anim" type="Animation" id=17]
+[ext_resource path="res://misc/player_anim/wall_slide.anim" type="Animation" id=18]
+[ext_resource path="res://shaders/magnify.tres" type="Shader" id=19]
+[ext_resource path="res://assets/sphere_soft.png" type="Texture" id=20]
 
 [sub_resource type="AudioStreamRandomPitch" id=1]
 audio_stream = ExtResource( 2 )
@@ -61,7 +59,7 @@ font_data = SubResource( 9 )
 
 [sub_resource type="DynamicFont" id=11]
 size = 40
-font_data = ExtResource( 13 )
+font_data = ExtResource( 11 )
 
 [sub_resource type="AnimationNodeAnimation" id=12]
 animation = "fall"
@@ -144,7 +142,7 @@ graph_offset = Vector2( 210.555, 80 )
 [sub_resource type="AnimationNodeStateMachinePlayback" id=31]
 
 [sub_resource type="ShaderMaterial" id=32]
-shader = ExtResource( 21 )
+shader = ExtResource( 19 )
 
 [sub_resource type="Curve" id=33]
 _data = [ Vector2( 0, 0 ), 0.0, 2.94974, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
@@ -192,21 +190,9 @@ volume_db = -15.0
 bus = "Sounds"
 area_mask = 0
 
-[node name="Hit" type="Node2D" parent="Sounds"]
-
-[node name="1" type="AudioStreamPlayer2D" parent="Sounds/Hit"]
-stream = ExtResource( 4 )
-bus = "Sounds"
-area_mask = 0
-
-[node name="2" type="AudioStreamPlayer2D" parent="Sounds/Hit"]
-stream = ExtResource( 5 )
-bus = "Sounds"
-area_mask = 0
-
 [node name="StateMachine" type="Node2D" parent="."]
 editor/display_folded = true
-script = ExtResource( 6 )
+script = ExtResource( 4 )
 
 [node name="Sprites" type="Node2D" parent="StateMachine"]
 
@@ -218,7 +204,7 @@ rotation = -0.0311069
 [node name="Right Foot Sprite" type="Sprite" parent="StateMachine/Sprites/Right Foot"]
 position = Vector2( 6, 0 )
 scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 7 )
+texture = ExtResource( 5 )
 offset = Vector2( 0, -95 )
 
 [node name="Left Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
@@ -251,7 +237,7 @@ lifetime = 0.1
 one_shot = true
 randomness = 0.1
 local_coords = false
-texture = ExtResource( 8 )
+texture = ExtResource( 6 )
 spread = 180.0
 gravity = Vector2( 0, 96 )
 initial_velocity = 50.0
@@ -263,7 +249,7 @@ scale_amount_curve = SubResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="StateMachine/Sprites/Left Hand"]
 scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 9 )
+texture = ExtResource( 7 )
 offset = Vector2( -32, 0 )
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="StateMachine/Sprites/Left Hand"]
@@ -304,7 +290,7 @@ shape = SubResource( 5 )
 [node name="Body" type="Sprite" parent="StateMachine/Sprites/Body"]
 rotation = 0.00317418
 scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 10 )
+texture = ExtResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Body"]
 position = Vector2( 0, 0.398 )
@@ -318,7 +304,7 @@ rotation = -0.0406802
 [node name="Left Foot Sprite" type="Sprite" parent="StateMachine/Sprites/Left Foot"]
 position = Vector2( -6, 0 )
 scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 7 )
+texture = ExtResource( 5 )
 offset = Vector2( 0, -95 )
 
 [node name="Head" type="RigidBody2D" parent="StateMachine/Sprites"]
@@ -331,12 +317,12 @@ linear_damp = 20.0
 
 [node name="Sprite" type="Sprite" parent="StateMachine/Sprites/Head"]
 scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 11 )
+texture = ExtResource( 9 )
 offset = Vector2( 0, -128 )
 
 [node name="Face" type="Sprite" parent="StateMachine/Sprites/Head"]
 scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 12 )
+texture = ExtResource( 10 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Head"]
 shape = SubResource( 7 )
@@ -384,7 +370,7 @@ lifetime = 0.1
 one_shot = true
 randomness = 0.1
 local_coords = false
-texture = ExtResource( 8 )
+texture = ExtResource( 6 )
 spread = 180.0
 gravity = Vector2( 0, 96 )
 initial_velocity = 50.0
@@ -396,7 +382,7 @@ scale_amount_curve = SubResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="StateMachine/Sprites/Right Hand"]
 scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 9 )
+texture = ExtResource( 7 )
 offset = Vector2( -32, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Right Hand"]
@@ -442,13 +428,13 @@ parameters/Grounded/playback = SubResource( 31 )
 parameters/Grounded/Run/speed/scale = 1.5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="StateMachine"]
-anims/attack_left = ExtResource( 14 )
-anims/attack_right = ExtResource( 15 )
-anims/fall = ExtResource( 16 )
-anims/idle = ExtResource( 17 )
-anims/jump = ExtResource( 18 )
-anims/run = ExtResource( 19 )
-anims/wall_slide = ExtResource( 20 )
+anims/attack_left = ExtResource( 12 )
+anims/attack_right = ExtResource( 13 )
+anims/fall = ExtResource( 14 )
+anims/idle = ExtResource( 15 )
+anims/jump = ExtResource( 16 )
+anims/run = ExtResource( 17 )
+anims/wall_slide = ExtResource( 18 )
 
 [node name="Shockwave" type="CPUParticles2D" parent="."]
 material = SubResource( 32 )
@@ -458,7 +444,7 @@ amount = 1
 lifetime = 0.2
 one_shot = true
 local_coords = false
-texture = ExtResource( 22 )
+texture = ExtResource( 20 )
 spread = 0.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 0.0
@@ -583,7 +569,6 @@ collision_mask = 16
 
 [node name="Shape" type="CollisionShape2D" parent="JumpingUpThroughPlatformArea"]
 shape = SubResource( 36 )
-
 [connection signal="body_exited" from="FallingThroughPlatformArea" to="." method="_on_FallingThroughPlatformArea_body_exited"]
 [connection signal="timeout" from="WallSlideStickyTimer" to="." method="_on_WallSlideStickyTimer_timeout"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_AttackCooldown_timeout"]
