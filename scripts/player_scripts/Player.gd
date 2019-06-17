@@ -265,7 +265,9 @@ func _check_is_valid_wall(wall_raycasts : Node):
 
 
 func _on_FallingThroughPlatformArea_body_exited(body):
-	set_collision_mask_bit(DROP_THRU_BIT, true)
+	var platform = body as TileMap
+	if platform:
+		set_collision_mask_bit(DROP_THRU_BIT, true)
 
 func _set_face():
 	# this function will get called every time we need a new face
@@ -345,7 +347,6 @@ func _physics_process(delta):
 			set_state(transition)
 
 func _state_logic(delta : float):
-
 		_update_player_stats()
 		if state != states.disabled:
 			_update_move_direction()
@@ -360,6 +361,7 @@ func _state_logic(delta : float):
 		if state == states.wall_slide:
 			_cap_gravity_wall_slide()
 			_handle_wall_slide_sticking()
+	
 		_apply_movement()
 
 		anim_tree['parameters/Airborne/blend_position'] = velocity.y / 300
@@ -459,14 +461,6 @@ func _exit_state(old_state, new_state):
 	match old_state:
 		states.wall_slide:
 			wall_slide_cooldown.start()
-		states.jump:
-			var is_in_platform := false
-			for body in fall_through_area.get_overlapping_bodies():
-				if ( body.get_collision_layer_bit(DROP_THRU_BIT) == true ):
-					is_in_platform = true
-			if !is_in_platform:
-				set_collision_mask_bit(DROP_THRU_BIT, true)
-
 func set_state(new_state):
 	previous_state = state
 	state = new_state
@@ -551,3 +545,15 @@ func _on_JumpCooldownTimer_timeout():
 
 func _on_FallThroughTimer_timeout():
 	set_collision_mask_bit(DROP_THRU_BIT, false)
+
+func _handle_platform_collisions():
+	if !is_in_platform():
+		set_collision_mask_bit(DROP_THRU_BIT, true)
+
+func is_in_platform():
+	var is_in_platform := false
+	for body in fall_through_area.get_overlapping_bodies():
+		if ( body.get_collision_layer_bit(DROP_THRU_BIT) == true ):
+			return true
+	
+	return false
