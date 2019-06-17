@@ -24,6 +24,24 @@ func _ready():
 	add_child(respawn_timer)
 	respawn_timer.connect('timeout', self, '_on_respawn_timeout')
 
+func _process(delta):
+	if !dead :
+		$Sounds.position = child.position
+	elif ragdoll :
+		$Sounds.position = ragdoll.position
+
+#plays a node via it's path from Sounds
+func play_sound(sound : String) :
+	var play_node = $Sounds.get_node(sound)
+	if play_node :
+		play_node.play()
+
+#plays a random subnode of the specified node
+func play_random(node : String) :
+	var play_node = $Sounds.get_node(node)
+	if play_node :
+		play_node.get_child( rand_range(0, play_node.get_child_count())).play()
+
 func _minigame_change():
 	_clear_children()
 
@@ -60,9 +78,11 @@ func _ragdoll():
 	add_child(add_rag)
 
 func die(respawn := false):
-	child.drop()
 	if dead :
 		return
+	#plays a random child of the "death" node
+	play_random("Death")
+	child.drop()
 	dead = true
 	_clear_children()
 	_ragdoll()

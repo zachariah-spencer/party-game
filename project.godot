@@ -204,7 +204,6 @@ player_one_b={
 player_two_b={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":54,"unicode":0,"echo":false,"script":null)
-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":1,"button_index":1,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
 player_three_b={
@@ -303,7 +302,8 @@ player_four_rs_up={
 }
 player_four_rs_down={
 "deadzone": 0.5,
-"events": [  ]
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":53,"unicode":0,"echo":false,"script":null)
+ ]
 }
 debug={
 "deadzone": 0.5,
@@ -329,7 +329,7 @@ debug={
 
 [physics]
 
-common/physics_fps=120
+common/physics_fps=200
 common/physics_jitter_fix=1.0
 2d/default_gravity=200
 
