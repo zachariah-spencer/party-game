@@ -282,8 +282,9 @@ func _on_AttackCooldown_timeout():
 	can_attack = true
 
 func hit(by : Node, damage : int, knockback :Vector2) :
-
-	velocity = knockback
+	var x = 40* Globals.CELL_SIZE
+	var y = 500
+	velocity = (Vector2.UP * y + x * sign(knockback.x)*Vector2.RIGHT )
 	$Shockwave.set_emitting(true)
 
 	match Manager.current_minigame.attack_mode:
@@ -297,11 +298,8 @@ func hit(by : Node, damage : int, knockback :Vector2) :
 var hit_exceptions = []
 
 func _on_AttackArea_body_entered(body):
-
 	if body.has_method("hit") and not hit_exceptions.has(body):
-		var x = 40* Globals.CELL_SIZE
-		var y = 500
-		body.hit(self, 20, Vector2.UP * y + x * sign(body.global_position.x - global_position.x) *Vector2.RIGHT )
+		body.hit(self, 20, (body.global_position - global_position).normalized())
 		hit_exceptions.append(body)
 
 func _update_player_stats():
