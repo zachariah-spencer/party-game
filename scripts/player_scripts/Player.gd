@@ -195,9 +195,25 @@ func _update_move_direction():
 	aim_direction.y = -Input.get_action_strength(rs_up) + Input.get_action_strength(rs_down)
 	aim_direction.x = -Input.get_action_strength(rs_left) + Input.get_action_strength(rs_right)
 	#if no right stick input, use left stick
+
+	#deadzones
+	var deadzone = .25
+	if aim_direction.length() < deadzone :
+		aim_direction = Vector2.ZERO
+	else :
+		aim_direction = aim_direction.normalized() * (aim_direction.length() - deadzone) / (1-deadzone)
+
+	if move_direction.length() < deadzone :
+		move_direction = Vector2.ZERO
+	else :
+		move_direction = move_direction.normalized() * (move_direction.length() - deadzone) / (1-deadzone)
+
+	move_direction.x *= .9
+	move_direction.y *= .9
+
 	if aim_direction == Vector2.ZERO :
 		aim_direction = move_direction
-	$RayCast2D.cast_to = aim_direction * 300
+	$RayCast2D.cast_to = aim_direction.normalized() * 300
 
 	if move_direction.x != 0:
 		# all nodes in here will be mirrored when changing directions
