@@ -1,10 +1,37 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scenes/items/Item.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/items/Punchball.gd" type="Script" id=2]
+[ext_resource path="res://assets/sphere.png" type="Texture" id=3]
+
+[sub_resource type="Gradient" id=4]
+colors = PoolColorArray( 1, 1, 1, 0.521569, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=5]
+gradient = SubResource( 4 )
+
+[sub_resource type="Curve" id=6]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=7]
+curve = SubResource( 6 )
+
+[sub_resource type="ParticlesMaterial" id=3]
+trail_size_modifier = SubResource( 7 )
+flag_disable_z = true
+spread = 0.0
+gravity = Vector3( 0, 0, 0 )
+angular_velocity = 4.20047e-005
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 0.15
+color_ramp = SubResource( 5 )
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 60.0
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 200.0
 
 [node name="Punchball" index="0" instance=ExtResource( 1 )]
 collision_mask = 17351
@@ -13,17 +40,23 @@ gravity_scale = 0.0
 continuous_cd = 2
 contacts_reported = 6
 contact_monitor = true
-linear_damp = 2.0
+linear_damp = 0.5
 angular_damp = 128.0
 script = ExtResource( 2 )
 throwable = false
 grabbable = false
 
-[node name="Obj" parent="." index="0"]
+[node name="Trail" type="Particles2D" parent="." index="0"]
+speed_scale = 2.0
+local_coords = false
+process_material = SubResource( 3 )
+texture = ExtResource( 3 )
+
+[node name="Obj" parent="." index="1"]
 editor/display_folded = true
 scale = Vector2( 5, 5 )
 
-[node name="Pickup_area" parent="." index="1"]
+[node name="Pickup_area" parent="." index="2"]
 editor/display_folded = true
 visible = false
 scale = Vector2( 3, 3 )
@@ -31,10 +64,10 @@ scale = Vector2( 3, 3 )
 [node name="CollisionShape2D" parent="Pickup_area" index="0"]
 position = Vector2( 0, -0.214638 )
 
-[node name="ImpulseTimer" type="Timer" parent="." index="2"]
-wait_time = 1.5
+[node name="ImpulseTimer" type="Timer" parent="." index="3"]
+wait_time = 1.8
 
-[node name="PunchedArea" type="Area2D" parent="." index="3"]
+[node name="PunchedArea" type="Area2D" parent="." index="4"]
 editor/display_folded = true
 collision_layer = 0
 collision_mask = 6
@@ -42,10 +75,10 @@ collision_mask = 6
 [node name="Shape" type="CollisionShape2D" parent="PunchedArea" index="0"]
 shape = SubResource( 1 )
 
-[node name="HitCooldownTimer" type="Timer" parent="." index="4"]
+[node name="HitCooldownTimer" type="Timer" parent="." index="5"]
 one_shot = true
 
-[node name="Raycasts" type="Node2D" parent="." index="5"]
+[node name="Raycasts" type="Node2D" parent="." index="6"]
 editor/display_folded = true
 
 [node name="BottomCast" type="RayCast2D" parent="Raycasts" index="0"]
@@ -68,7 +101,16 @@ enabled = true
 cast_to = Vector2( -200, 0 )
 collision_mask = 960
 
+[node name="RunawayArea" type="Area2D" parent="." index="7"]
+collision_layer = 0
+collision_mask = 960
+
+[node name="Shape" type="CollisionShape2D" parent="RunawayArea" index="0"]
+shape = SubResource( 2 )
+
 [connection signal="body_entered" from="." to="." method="_on_Punchball_body_entered"]
 [connection signal="timeout" from="ImpulseTimer" to="." method="_on_ImpulseTimer_timeout"]
 [connection signal="body_entered" from="PunchedArea" to="." method="_on_PunchedArea_body_entered"]
 [connection signal="timeout" from="HitCooldownTimer" to="." method="_on_HitCooldownTimer_timeout"]
+[connection signal="body_entered" from="RunawayArea" to="." method="_on_RunawayArea_body_entered"]
+[connection signal="body_exited" from="RunawayArea" to="." method="_on_RunawayArea_body_exited"]
