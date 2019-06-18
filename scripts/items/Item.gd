@@ -37,7 +37,6 @@ func throw(direction : Vector2, pos : Vector2 , by : Player):
 	if throwable:
 		_owner = by
 		sprite.modulate = _owner.get_parent().modulate
-		emit_signal("thrown")
 		mode = MODE_RIGID
 		get_parent().remove_child(self)
 		global_position = pos
@@ -45,6 +44,7 @@ func throw(direction : Vector2, pos : Vector2 , by : Player):
 		$Pickup_area.monitorable = true
 		collision_layer = get_hit_mask(hit_types.opponents) + get_hit_mask(hit_types.terrain)
 		apply_central_impulse(direction)
+		emit_signal("thrown")
 
 func get_hit_mask(hit := hits):
 	var mask = 0

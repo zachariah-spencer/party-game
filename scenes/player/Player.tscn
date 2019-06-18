@@ -470,6 +470,7 @@ shape = SubResource( 35 )
 
 [node name="GroundRaycasts" type="Node2D" parent="."]
 editor/display_folded = true
+visible = false
 
 [node name="CenterGroundRaycast" type="RayCast2D" parent="GroundRaycasts"]
 position = Vector2( 0, 10 )
@@ -491,6 +492,7 @@ collision_mask = 17
 
 [node name="WallRaycasts" type="Node2D" parent="."]
 editor/display_folded = true
+visible = false
 
 [node name="LeftWallRaycasts" type="Node2D" parent="WallRaycasts"]
 
@@ -518,6 +520,7 @@ cast_to = Vector2( 12, 0 )
 
 [node name="FallingThroughPlatformArea" type="Area2D" parent="."]
 editor/display_folded = true
+visible = false
 position = Vector2( 0, -36 )
 collision_layer = 0
 collision_mask = 16
@@ -593,6 +596,8 @@ margin_bottom = -86.0
 custom_fonts/font = SubResource( 11 )
 text = "0"
 align = 1
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
 [connection signal="timeout" from="WallSlideStickyTimer" to="." method="_on_WallSlideStickyTimer_timeout"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_AttackCooldown_timeout"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
