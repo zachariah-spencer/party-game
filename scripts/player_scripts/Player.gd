@@ -8,7 +8,7 @@ const SLOPE_STOP : int = 64
 const DROP_THRU_BIT : int = 4
 const WALL_JUMP_INWARD_VELOCITY : Vector2 = Vector2(1000, -1200)
 const WALL_JUMP_OUTWARD_VELOCITY : Vector2 = Vector2(600, -1000)
-const PUNCH_DISTANCE := 600
+const PUNCH_DISTANCE := 800
 
 var can_wall_jump := true
 var can_jump := true
@@ -194,10 +194,10 @@ func _update_move_direction():
 	move_direction.x = -Input.get_action_strength(move_left) + Input.get_action_strength(move_right)
 	aim_direction.y = -Input.get_action_strength(rs_up) + Input.get_action_strength(rs_down)
 	aim_direction.x = -Input.get_action_strength(rs_left) + Input.get_action_strength(rs_right)
-
 	#if no right stick input, use left stick
 	if aim_direction == Vector2.ZERO :
 		aim_direction = move_direction
+	$RayCast2D.cast_to = aim_direction * 300
 
 	if move_direction.x != 0:
 		# all nodes in here will be mirrored when changing directions
