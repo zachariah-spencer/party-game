@@ -27,6 +27,7 @@ var holding_item := false
 var is_grounded : bool
 var is_jumping : bool = false
 var can_attack := true
+var is_attacking := false
 var punch_arm := 'left'
 
 var max_jump_velocity : float
@@ -56,7 +57,7 @@ var previous_state = null
 var states : Dictionary = {}
 var wall_action : String
 
-
+onready var local_score := $LocalScore
 onready var state_label : Label = $StateMachine/StateLabel
 onready var anim_tree : AnimationTree = $StateMachine/AnimationTree
 onready var state_machine := $StateMachine
@@ -171,7 +172,7 @@ func attack():
 		# set hitbox
 		attack_area = hand.get_node('Hitbox')
 		# launch hand at an angle if there's a decent move_input, or just use facing
-		if aim_direction.normalized().length() > .2 :
+		if aim_direction != Vector2.ZERO:
 			vel = hand.get_gravity_scale()*PUNCH_DISTANCE*aim_direction.normalized()
 		else :
 			vel = Vector2(hand.get_gravity_scale()*PUNCH_DISTANCE*dir,0)
@@ -182,7 +183,9 @@ func attack():
 		$StateMachine/AnimationPlayer.play('attack_'+punch_arm)
 
 		attack_area.monitoring = true
+		is_attacking = true
 		attack_timer.start()
+		attack_cooldown_timer.start()
 
 func _update_move_direction():
 
@@ -273,7 +276,7 @@ func _set_face():
 func _on_AttackTimer_timeout():
 	hit_exceptions = []
 	attack_area.monitoring = false
-	attack_cooldown_timer.start()
+	is_attacking = false
 
 func _on_AttackCooldown_timeout():
 	can_attack = true
@@ -309,7 +312,7 @@ func _update_player_stats():
 
 func _on_TopOfHeadArea_body_entered(affected_player):
 	var affected_player_feet = affected_player.get_node('StateMachine/Sprites/Feet/CollisionShape2D')
-	if affected_player.state != affected_player.states.jump:
+	if affected_player.state == affected_player.states.fall:
 		affected_player.set_state(affected_player.states.jump)
 		affected_player.velocity.y = -30 * Globals.CELL_SIZE
 		set_state(states.fall)
@@ -483,7 +486,8 @@ func _pickup_item():
 	var items = $PickupRange.get_overlapping_areas()
 	var item = null
 	for temp in items : if temp.is_in_group("item") : item = temp.get_parent()
-	if item :
+	
+	if item && item.grabbable:
 		holding_item = true
 		item.grab(self)
 		held_item = item
@@ -494,7 +498,7 @@ func _pickup_item():
 
 #for handling individual press events
 func _input(event : InputEvent):
-	if event.is_action_pressed(attack_input) && attack_timer.is_stopped() && state != states.wall_slide && can_attack:
+	if event.is_action_pressed(attack_input) && attack_cooldown_timer.is_stopped() && state != states.wall_slide && can_attack:
 		if state == states.disabled :
 			pass
 		elif holding_item :

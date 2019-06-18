@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/Camera.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/HUD.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/ui/Debug_menu.tscn" type="PackedScene" id=3]
+[ext_resource path="res://DevTileset.tres" type="TileSet" id=4]
 
 [node name="MG" type="Node2D" groups=[
 "minigames",
@@ -35,3 +36,21 @@ margin_right = 768.0
 margin_bottom = 448.0
 
 [node name="Debug menu" parent="CanvasLayer" instance=ExtResource( 3 )]
+
+[node name="TerrainTilemap" type="TileMap" parent="."]
+tile_set = ExtResource( 4 )
+collision_mask = 0
+format = 1
+
+[node name="PlatformTilemap" type="TileMap" parent="."]
+tile_set = ExtResource( 4 )
+collision_layer = 16
+collision_mask = 0
+format = 1
+
+[node name="PlayerBlockerTilemap" type="TileMap" parent="."]
+tile_set = ExtResource( 4 )
+collision_layer = 2048
+collision_mask = 0
+format = 1
+
