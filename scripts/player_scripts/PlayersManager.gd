@@ -50,6 +50,8 @@ func _clear_children():
 	for child in get_children() :
 		if child.is_in_group('player') :
 			child.queue_free()
+			ragdoll = null 
+			child = null
 
 func register_collisions():
 	pass

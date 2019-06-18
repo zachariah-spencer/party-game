@@ -261,12 +261,6 @@ func _check_is_valid_wall(wall_raycasts : Node):
 				return true
 	return false
 
-
-func _on_FallingThroughPlatformArea_body_exited(body):
-	var platform = body as TileMap
-	if platform:
-		set_collision_mask_bit(DROP_THRU_BIT, true)
-
 func _set_face():
 	# this function will get called every time we need a new face
 	# used for punching, but can also be used for more personality during the game
