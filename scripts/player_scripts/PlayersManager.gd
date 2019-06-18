@@ -8,6 +8,7 @@ var ragdoll
 onready var respawn_timer : Node = Timer.new()
 var display_name : String
 var score : int = 0
+var local_score := 0
 var dead := true
 var active := false
 var b_button : String
