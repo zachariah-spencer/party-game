@@ -282,8 +282,9 @@ func _on_AttackCooldown_timeout():
 	can_attack = true
 
 func hit(by : Node, damage : int, knockback :Vector2) :
-
-	velocity = knockback
+	var x = 40* Globals.CELL_SIZE
+	var y = 500
+	velocity = (Vector2.UP * y + x * sign(knockback.x)*Vector2.RIGHT )
 	$Shockwave.set_emitting(true)
 
 	match Manager.current_minigame.attack_mode:
@@ -297,11 +298,8 @@ func hit(by : Node, damage : int, knockback :Vector2) :
 var hit_exceptions = []
 
 func _on_AttackArea_body_entered(body):
-
 	if body.has_method("hit") and not hit_exceptions.has(body):
-		var x = 40* Globals.CELL_SIZE
-		var y = 500
-		body.hit(self, 20, Vector2.UP * y + x * sign(body.global_position.x - global_position.x) *Vector2.RIGHT )
+		body.hit(self, 20, (body.global_position - global_position).normalized())
 		hit_exceptions.append(body)
 
 func _update_player_stats():
@@ -311,6 +309,8 @@ func _update_player_stats():
 			parent.die(Manager.current_minigame.allow_respawns)
 
 func _on_TopOfHeadArea_body_entered(affected_player):
+	if not affected_player.is_in_group("player") :
+		return
 	var affected_player_feet = affected_player.get_node('StateMachine/Sprites/Feet/CollisionShape2D')
 	if affected_player.state == affected_player.states.fall:
 		affected_player.set_state(affected_player.states.jump)
@@ -486,7 +486,7 @@ func _pickup_item():
 	var items = $PickupRange.get_overlapping_areas()
 	var item = null
 	for temp in items : if temp.is_in_group("item") : item = temp.get_parent()
-	
+
 	if item && item.grabbable:
 		holding_item = true
 		item.grab(self)

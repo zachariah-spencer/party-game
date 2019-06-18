@@ -8,6 +8,7 @@ var player_three : PlayersManager
 var player_four : PlayersManager
 var _players = []
 var active_players : Array
+const player_bits = 960
 
 func _ready():
 	pass
