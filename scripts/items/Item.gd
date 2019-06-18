@@ -8,6 +8,10 @@ var _weight := 0
 export var throwable := true
 export var grabbable := true
 
+enum hit_types { opponents, everybody, terrain, terrain_no_platforms }
+
+var hits = hit_types.opponents
+
 signal grabbed
 signal thrown
 
@@ -26,8 +30,7 @@ func grab(by : Player):
 		sprite.modulate = _owner.modulate
 		emit_signal("grabbed")
 		mode = MODE_STATIC
-		set_collision_layer_bit(0, false)
-		set_collision_layer_bit(4, false)
+		collision_layer = 0
 		$Pickup_area.monitorable = false
 
 func throw(direction : Vector2, pos : Vector2 , by : Player):
@@ -40,13 +43,27 @@ func throw(direction : Vector2, pos : Vector2 , by : Player):
 		global_position = pos
 		Manager.current_minigame.add_child(self)
 		$Pickup_area.monitorable = true
-		set_collision_layer_bit(0, true)
-		set_collision_layer_bit(4, true)
+		collision_layer = get_hit_mask(hit_types.opponents) + get_hit_mask(hit_types.terrain)
 		apply_central_impulse(direction)
+
+func get_hit_mask(hit := hits):
+	var mask = 0
+	match hit :
+		hit_types.opponents :
+			if _owner :
+				return Players.player_bits - _owner.parent.bit
+			else : return Player.player_bits
+		hit_types.everybody :
+			return Players.player_bits
+		hit_types.terrain :
+			return 17
+		hit_types.terrain_no_platforms :
+			return 1
+
 
 func _deown():
 	sprite.modulate = Color.white
 	_owner = null
 
-func hit(damage : int):
+func hit(by : Node, damage : int, knockback :Vector2) :
 	pass

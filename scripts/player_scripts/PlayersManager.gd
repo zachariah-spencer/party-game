@@ -15,6 +15,7 @@ var b_button : String
 var start_button : String
 var player_number : String
 var ready = false
+var bit := 0
 
 func _ready():
 	set_process_input(true)
@@ -51,7 +52,7 @@ func _clear_children():
 	for child in get_children() :
 		if child.is_in_group('player') :
 			child.queue_free()
-			ragdoll = null 
+			ragdoll = null
 			child = null
 
 func register_collisions():
@@ -69,14 +70,17 @@ func _on_respawn_timeout():
 func _ragdoll():
 	var add_rag = RAGDOLL.instance()
 	add_rag.position = child.position
-	var parts = ["Left Hand",
-				 "Body",
-				 "Head",
-				 "Right Hand",
-				 "Right Foot",
-				 "Left Foot"]
+	var parts = add_rag.get_children()
+#	# don't hardcode arrays like this if you can help it
+#	var parts = ["Left Hand",
+#				 "Body",
+#				 "Head",
+#				 "Right Hand",
+#				 "Right Foot",
+#				 "Left Foot"]
 	for p in parts:
-		add_rag.get_node(p).linear_velocity = child.velocity*2
+		if add_rag is RigidBody2D :
+			add_rag.get_node(p).linear_velocity = child.velocity*2
 	ragdoll = add_rag
 	add_child(add_rag)
 
@@ -139,7 +143,7 @@ func spawn(spawn_position : Vector2 = Players.select_spawn_point()):
 	dead = false
 
 	register_player_inputs()
-	register_collisions()
+#	register_collisions()
 
 func register_player_inputs():
 
@@ -148,13 +152,22 @@ func register_player_inputs():
 	match player_number:
 		'1':
 			player_string = 'one'
+			bit = 64
 		'2':
 			player_string = 'two'
+			bit = 128
 		'3':
 			player_string = 'three'
+			bit = 256
 		'4':
 			player_string = 'four'
+			bit = 512
 
+	child.collision_layer += bit
+	child.collision_mask += Players.player_bits - bit
+	child.left_hand.get_node("Hitbox").collision_mask -= bit
+	child.right_hand.get_node("Hitbox").collision_mask -= bit
+	child.get_node('TopOfHeadArea').collision_mask -= bit
 
 	child.move_left = 'player_' + player_string + '_move_left'
 	child.move_right = 'player_' + player_string + '_move_right'

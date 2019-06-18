@@ -311,6 +311,8 @@ func _update_player_stats():
 			parent.die(Manager.current_minigame.allow_respawns)
 
 func _on_TopOfHeadArea_body_entered(affected_player):
+	if not affected_player.is_in_group("player") :
+		return
 	var affected_player_feet = affected_player.get_node('StateMachine/Sprites/Feet/CollisionShape2D')
 	if affected_player.state == affected_player.states.fall:
 		affected_player.set_state(affected_player.states.jump)
@@ -486,7 +488,7 @@ func _pickup_item():
 	var items = $PickupRange.get_overlapping_areas()
 	var item = null
 	for temp in items : if temp.is_in_group("item") : item = temp.get_parent()
-	
+
 	if item && item.grabbable:
 		holding_item = true
 		item.grab(self)
