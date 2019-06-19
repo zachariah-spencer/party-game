@@ -5,11 +5,11 @@ class_name Player
 
 
 #variable declaration
-const UP : Vector2 = Vector2.UP
-const SLOPE_STOP : int = 64
-const DROP_THRU_BIT : int = 4
-const WALL_JUMP_INWARD_VELOCITY : Vector2 = Vector2(1000, -1200)
-const WALL_JUMP_OUTWARD_VELOCITY : Vector2 = Vector2(600, -1000)
+const UP := Vector2.UP
+const SLOPE_STOP := 64
+const DROP_THRU_BIT := 4
+const WALL_JUMP_INWARD_VELOCITY := Vector2(1000, -1200)
+const WALL_JUMP_OUTWARD_VELOCITY := Vector2(600, -1000)
 const PUNCH_DISTANCE := 800
 
 var can_wall_jump := true
@@ -20,24 +20,24 @@ var move_direction := Vector2.ZERO
 var aim_direction := Vector2.ZERO
 var facing_direction := 1.0
 var wall_direction := 1.0
-var move_speed : float = 14 * Globals.CELL_SIZE
+var move_speed := 14.0 * Globals.CELL_SIZE
 var hit_points := 100
 var held_item
 var holding_item := false
 
 var is_grounded : bool
-var is_jumping : bool = false
+var is_jumping := false
 var can_attack := true
 var is_attacking := false
 var punch_arm := 'left'
 var attack_area
-var hit_exceptions = []
+var hit_exceptions := []
 
-var max_jump_height : float = 8.25 * Globals.CELL_SIZE
-var min_jump_height : float = 0.8 * Globals.CELL_SIZE
-var jump_duration : float = 0.4
+var max_jump_height := 8.25 * Globals.CELL_SIZE
+var min_jump_height := 0.8 * Globals.CELL_SIZE
+var jump_duration := 0.4
 
-var face_textures = [['normal',preload("res://assets/player/face_v.png")],
+var face_textures := [['normal',preload("res://assets/player/face_v.png")],
 					 ['punch',preload("res://assets/player/face_punch.png")],
 					 ['ecstasy',preload("res://assets/player/face_ecstasy.png")],
 					 ['dead',preload("res://assets/player/face_dead.png")]]
@@ -58,19 +58,19 @@ var previous_state = null
 var states : Dictionary = {}
 var wall_action : String
 
-onready var parent : Node = get_parent()
+onready var parent := get_parent()
 onready var local_score := $LocalScore
-onready var state_label : Label = $StateLabel
-onready var hit_points_label : Node = $HitPoints
-onready var anim_tree : AnimationTree = $Rig/AnimationTree
+onready var state_label := $StateLabel
+onready var hit_points_label := $HitPoints
+onready var anim_tree := $Rig/AnimationTree
 
 onready var jump_cooldown := $JumpCooldownTimer
 onready var fall_through_timer := $FallThroughTimer
-onready var wall_slide_cooldown : Node = $WallSlideCooldown
+onready var wall_slide_cooldown := $WallSlideCooldown
 
 onready var wall_slide_sticky_timer := $WallSlideStickyTimer
 onready var attack_timer := $AttackTimer
-onready var attack_cooldown_timer : Node = $AttackCooldown
+onready var attack_cooldown_timer := $AttackCooldown
 
 onready var fall_through_area := $FallingThroughPlatformArea
 onready var left_wall_raycasts := $WallRaycasts/LeftWallRaycasts

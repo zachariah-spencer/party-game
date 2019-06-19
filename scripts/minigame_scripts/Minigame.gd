@@ -57,13 +57,13 @@ func _pregame(has_countdown : bool = true):
 		if has_countdown:
 			Players._update_active_players()
 			for player in Players.active_players:
-				player.child.set_state(player.child.states.disabled)
+				player.child._set_state(player.child.states.disabled)
 
 			yield(Globals.HUD,'begin_game')
 
 			Players._update_active_players()
 			for player in Players.active_players:
-				player.child.set_state(player.child.states.idle)
+				player.child._set_state(player.child.states.idle)
 
 			game_active = true
 		else:
