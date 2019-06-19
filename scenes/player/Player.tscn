@@ -359,7 +359,6 @@ softness = 1.0
 [node name="Right Hand" type="RigidBody2D" parent="Rig" groups=[
 "fist",
 ]]
-editor/display_folded = true
 position = Vector2( -10.49, -16.12 )
 collision_layer = 4
 collision_mask = 0
@@ -578,6 +577,8 @@ margin_bottom = -86.0
 custom_fonts/font = SubResource( 35 )
 align = 1
 
+[connection signal="body_entered" from="Rig/Left Hand/Hitbox" to="." method="_on_AttackArea_body_entered"]
+[connection signal="body_entered" from="Rig/Right Hand/Hitbox" to="." method="_on_AttackArea_body_entered"]
 [connection signal="body_entered" from="TopOfHeadArea" to="." method="_on_TopOfHeadArea_body_entered"]
 [connection signal="timeout" from="WallSlideStickyTimer" to="." method="_on_WallSlideStickyTimer_timeout"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_AttackCooldown_timeout"]

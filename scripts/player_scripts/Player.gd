@@ -1,8 +1,10 @@
 extends KinematicBody2D
 
 class_name Player
-
 #warning-ignore-all:unused_class_variable
+
+
+#variable declaration
 const UP : Vector2 = Vector2.UP
 const SLOPE_STOP : int = 64
 const DROP_THRU_BIT : int = 4
@@ -19,8 +21,7 @@ var aim_direction := Vector2.ZERO
 var facing_direction := 1.0
 var wall_direction := 1.0
 var move_speed : float = 14 * Globals.CELL_SIZE
-var gravity : float
-var hit_points : int = 100
+var hit_points := 100
 var held_item
 var holding_item := false
 
@@ -29,9 +30,9 @@ var is_jumping : bool = false
 var can_attack := true
 var is_attacking := false
 var punch_arm := 'left'
+var attack_area
+var hit_exceptions = []
 
-var max_jump_velocity : float
-var min_jump_velocity : float
 var max_jump_height : float = 8.25 * Globals.CELL_SIZE
 var min_jump_height : float = 0.8 * Globals.CELL_SIZE
 var jump_duration : float = 0.4
@@ -52,62 +53,76 @@ var rs_right : String
 var rs_down : String
 var rs_up : String
 
-var state = null setget set_state
+var state = null setget _set_state
 var previous_state = null
 var states : Dictionary = {}
 var wall_action : String
 
+onready var parent : Node = get_parent()
 onready var local_score := $LocalScore
 onready var state_label : Label = $StateLabel
-onready var anim_tree : AnimationTree = $Rig/AnimationTree
-onready var parent : Node = get_parent()
 onready var hit_points_label : Node = $HitPoints
-onready var attack_area : Area2D
-onready var wall_slide_cooldown : Node = $WallSlideCooldown
-onready var raycasts : Node = $GroundRaycasts
-onready var left_wall_raycasts : Node = $WallRaycasts/LeftWallRaycasts
-onready var right_wall_raycasts : Node = $WallRaycasts/RightWallRaycasts
-onready var wall_slide_sticky_timer : Node = $WallSlideStickyTimer
-onready var attack_timer : Node = $AttackTimer
-onready var attack_cooldown_timer : Node = $AttackCooldown
-onready var right_hand := $'Rig/Right Hand'
-onready var left_hand := $'Rig/Left Hand'
+onready var anim_tree : AnimationTree = $Rig/AnimationTree
+
 onready var jump_cooldown := $JumpCooldownTimer
 onready var fall_through_timer := $FallThroughTimer
+onready var wall_slide_cooldown : Node = $WallSlideCooldown
+
+onready var wall_slide_sticky_timer := $WallSlideStickyTimer
+onready var attack_timer := $AttackTimer
+onready var attack_cooldown_timer : Node = $AttackCooldown
+
 onready var fall_through_area := $FallingThroughPlatformArea
+onready var left_wall_raycasts := $WallRaycasts/LeftWallRaycasts
+onready var right_wall_raycasts := $WallRaycasts/RightWallRaycasts
+onready var raycasts := $GroundRaycasts
+onready var right_hand := $'Rig/Right Hand'
+onready var left_hand := $'Rig/Left Hand'
+onready var gravity := 2 * max_jump_height / pow(jump_duration, 2)
+onready var max_jump_velocity = -sqrt(2 * gravity * max_jump_height)
+onready var min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
 
 func _ready():
+	#call state machines ready function
 	_state_machine_ready()
-	right_hand.get_node('Hitbox').connect("body_entered", self, "_on_AttackArea_body_entered")
-	left_hand.get_node('Hitbox').connect("body_entered", self, "_on_AttackArea_body_entered")
-	hit_points_label.text = String(hit_points)
-	gravity = 2 * max_jump_height / pow(jump_duration, 2)
-	max_jump_velocity = -sqrt(2 * gravity * max_jump_height)
-	min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
+	#set players hitpoints box equal to his health
+	_update_player_stats()
+	#set idle facial expression
 	_set_face()
 
-func _apply_gravity(delta : float):
-	velocity.y += gravity * delta
+func _physics_process(delta):
+	if state != null:
+		_state_logic(delta)
+		var transition = _get_transition(delta)
+		if transition != null:
+			_set_state(transition)
 
-func _cap_gravity_wall_slide():
-	var max_velocity : float 
-	
-	if Input.is_action_pressed(move_down):
-		max_velocity = 16 * Globals.CELL_SIZE
-	else:
-		max_velocity = 4 * Globals.CELL_SIZE
-	velocity.y = min(velocity.y, max_velocity)
+func _input(event : InputEvent):
+	if event.is_action_pressed(attack_input) && attack_cooldown_timer.is_stopped() && state != states.wall_slide && can_attack:
+		if state == states.disabled :
+			pass
+		elif holding_item :
+			throw()
+		elif !_pickup_item() :
+			attack()
+	elif state == states.jump:
+		#VARIABLE JUMP
+		if event.is_action_released(move_jump) && velocity.y < min_jump_velocity:
+			velocity.y = min_jump_velocity
 
-func _apply_movement():
-	if is_jumping && velocity.y >= 0:
-		is_jumping = false
+func hit(by : Node, damage : int, knockback :Vector2) :
+	var x = 40* Globals.CELL_SIZE
+	var y = 500
+	velocity = (Vector2.UP * y + x * sign(knockback.x)*Vector2.RIGHT )
+	$Shockwave.set_emitting(true)
 
-	velocity = move_and_slide(velocity, UP, SLOPE_STOP)
-	is_grounded = !is_jumping && _check_is_grounded()
-
-	if !can_jump && is_on_floor() || !can_jump && state == states.wall_slide:
-		if jump_cooldown.is_stopped():
-			jump_cooldown.start()
+	match Manager.current_minigame.attack_mode:
+		Manager.current_minigame.attack_modes.non_lethal:
+			pass
+		Manager.current_minigame.attack_modes.lethal:
+			hit_points -= damage
+			$Rig/AnimationPlayer.play('hurt')
+			parent.play_random("Hit")
 
 func jump():
 	velocity.y = max_jump_velocity
@@ -191,9 +206,27 @@ func attack():
 		attack_timer.start()
 		attack_cooldown_timer.start()
 
+func _update_player_stats():
+	hit_points_label.text = String(hit_points)
+	if hit_points == 0:
+		if !parent.is_dead():
+			parent.die(Manager.current_minigame.allow_respawns)
+
+func _apply_gravity(delta : float):
+	velocity.y += gravity * delta
+
+func _apply_movement():
+	if is_jumping && velocity.y >= 0:
+		is_jumping = false
+
+	velocity = move_and_slide(velocity, UP, SLOPE_STOP)
+	is_grounded = !is_jumping && _check_is_grounded()
+
+	if !can_jump && is_on_floor() || !can_jump && state == states.wall_slide:
+		if jump_cooldown.is_stopped():
+			jump_cooldown.start()
+
 func _update_move_direction():
-
-
 	move_direction.y = -Input.get_action_strength(move_up) + Input.get_action_strength(move_down)
 	move_direction.x = -Input.get_action_strength(move_left) + Input.get_action_strength(move_right)
 	aim_direction.y = -Input.get_action_strength(rs_up) + Input.get_action_strength(rs_down)
@@ -234,6 +267,15 @@ func _update_move_direction():
 			i.set_scale(Vector2(s.x,s.y))
 		facing_direction = move_direction.x
 
+func _update_wall_direction():
+	var is_near_wall_left : bool = _check_is_valid_wall(left_wall_raycasts)
+	var is_near_wall_right : bool = _check_is_valid_wall(right_wall_raycasts)
+
+	if is_near_wall_left && is_near_wall_right:
+		wall_direction = move_direction.x
+	else:
+		wall_direction = -int(is_near_wall_left) + int(is_near_wall_right)
+
 func _handle_move_input():
 	target_velocity = move_speed * move_direction.x
 	velocity.x = lerp(velocity.x, target_velocity, _get_h_weight())
@@ -246,118 +288,23 @@ func _handle_wall_slide_sticking():
 	else:
 		wall_slide_sticky_timer.stop()
 
-func _get_h_weight():
-	if is_on_floor():
-		return 0.2
-	else:
-		if move_direction.x == 0:
-			return 0.02
-		elif sign(move_direction.x) == sign(velocity.x) && abs(velocity.x) > move_speed:
-			return 0.0
-		else:
-			return 0.1
-
-func _check_is_grounded():
-	if is_instance_valid(raycasts):
-		for raycast in raycasts.get_children():
-			if raycast.is_colliding():
-				return true
-		# If loop completes then raycast was not detected so return false
-		return false
-
-func _update_wall_direction():
-	var is_near_wall_left : bool = _check_is_valid_wall(left_wall_raycasts)
-	var is_near_wall_right : bool = _check_is_valid_wall(right_wall_raycasts)
-
-	if is_near_wall_left && is_near_wall_right:
-		wall_direction = move_direction.x
-	else:
-		wall_direction = -int(is_near_wall_left) + int(is_near_wall_right)
-
-func _check_is_valid_wall(wall_raycasts : Node):
-	for raycast in wall_raycasts.get_children():
-		if raycast.is_colliding():
-			var dot : float = acos(Vector2.UP.dot(raycast.get_collision_normal()))
-			if dot > PI * 0.35 && dot < PI * 0.55:
-				return true
-	return false
-
-func _set_face():
-	# this function will get called every time we need a new face
-	# used for punching, but can also be used for more personality during the game
-	# just leave this to me - TheMikirog
-	var face = $Rig/Head/Face
-
-	# for now it's just the punching, but I plan to implement more
-	face.set_texture(face_textures[0][1])
-
-func _on_AttackTimer_timeout():
-	hit_exceptions = []
-	attack_area.monitoring = false
-	is_attacking = false
-
-func _on_AttackCooldown_timeout():
-	can_attack = true
-
-func hit(by : Node, damage : int, knockback :Vector2) :
-	var x = 40* Globals.CELL_SIZE
-	var y = 500
-	velocity = (Vector2.UP * y + x * sign(knockback.x)*Vector2.RIGHT )
-	$Shockwave.set_emitting(true)
-
-	match Manager.current_minigame.attack_mode:
-		Manager.current_minigame.attack_modes.non_lethal:
-			pass
-		Manager.current_minigame.attack_modes.lethal:
-			hit_points -= damage
-			$Rig/AnimationPlayer.play('hurt')
-			parent.play_random("Hit")
-
-var hit_exceptions = []
-
-func _on_AttackArea_body_entered(body):
-	if body.has_method("hit") and not hit_exceptions.has(body):
-		body.hit(self, 20, (body.global_position - global_position).normalized())
-		hit_exceptions.append(body)
-
-func _update_player_stats():
-	hit_points_label.text = String(hit_points)
-	if hit_points == 0:
-		if !parent.is_dead():
-			parent.die(Manager.current_minigame.allow_respawns)
-
-func _on_TopOfHeadArea_body_entered(affected_player):
-	if not affected_player.is_in_group("player") :
-		return
-	var affected_player_feet = affected_player.get_node('Rig/Feet/CollisionShape2D')
-	if affected_player.state == affected_player.states.fall:
-		affected_player.set_state(affected_player.states.jump)
-		affected_player.velocity.y = -30 * Globals.CELL_SIZE
-		set_state(states.fall)
-		velocity.y = 25 * Globals.CELL_SIZE
-
-
 #statemachine code begins here
 func _state_machine_ready():
-	add_state('idle')
-	add_state('run')
-	add_state('jump')
-	add_state('fall')
-	add_state('wall_slide')
-	add_state('disabled')
+	_add_state('idle')
+	_add_state('run')
+	_add_state('jump')
+	_add_state('fall')
+	_add_state('wall_slide')
+	_add_state('disabled')
 	anim_tree.active = true
 	anim_tree['parameters/playback'].start("Airborne")
 	anim_tree['parameters/playback'].start("Grounded")
 	anim_tree['parameters/Grounded/playback'].start("Idle")
-#	call_deferred('set_state', states.idle)
-	set_state(states.idle)
+#	call_deferred('_set_state', states.idle)
+	_set_state(states.idle)
 
-func _physics_process(delta):
-	if state != null:
-		_state_logic(delta)
-		var transition = _get_transition(delta)
-		if transition != null:
-			set_state(transition)
+func _add_state(state_name):
+	states[state_name] = states.size()
 
 func _state_logic(delta : float):
 	_update_player_stats()
@@ -408,7 +355,7 @@ func _get_transition(delta : float):
 		states.fall:
 			if move_direction.y  > 0 :
 				set_collision_mask_bit(DROP_THRU_BIT, false)
-			elif !is_in_platform() :
+			elif !_is_in_platform() :
 				set_collision_mask_bit(DROP_THRU_BIT, true)
 			if wall_direction != 0 && wall_slide_cooldown.is_stopped() && Input.is_action_pressed(wall_action):
 				return states.wall_slide
@@ -476,7 +423,7 @@ func _exit_state(old_state, new_state):
 		states.wall_slide:
 			wall_slide_cooldown.start()
 
-func set_state(new_state):
+func _set_state(new_state):
 	previous_state = state
 	state = new_state
 
@@ -485,17 +432,19 @@ func set_state(new_state):
 	if new_state != null:
 		_enter_state(new_state, previous_state)
 
-func add_state(state_name):
-	states[state_name] = states.size()
+func _set_face():
+	# this function will get called every time we need a new face
+	# used for punching, but can also be used for more personality during the game
+	# just leave this to me - TheMikirog
+	var face = $Rig/Head/Face
+
+	# for now it's just the punching, but I plan to implement more
+	face.set_texture(face_textures[0][1])
 
 func _update_wall_action():
 	if wall_direction < 0 : wall_action = move_left
 	if wall_direction > 0 : wall_action = move_right
 	return wall_action
-
-func _on_WallSlideStickyTimer_timeout():
-	if state == states.wall_slide:
-		set_state(states.fall)
 
 func _pickup_item():
 	var items = $PickupRange.get_overlapping_areas()
@@ -510,20 +459,6 @@ func _pickup_item():
 		item.position = Vector2.ZERO
 		right_hand.add_child(item)
 	return holding_item
-
-#for handling individual press events
-func _input(event : InputEvent):
-	if event.is_action_pressed(attack_input) && attack_cooldown_timer.is_stopped() && state != states.wall_slide && can_attack:
-		if state == states.disabled :
-			pass
-		elif holding_item :
-			throw()
-		elif !_pickup_item() :
-			attack()
-	elif state == states.jump:
-		#VARIABLE JUMP
-		if event.is_action_released(move_jump) && velocity.y < min_jump_velocity:
-			velocity.y = min_jump_velocity
 
 func _stop_movement():
 	velocity.x = 0
@@ -545,8 +480,52 @@ func _handle_jumping():
 
 		if Input.is_action_pressed(move_jump) && can_jump:
 
-			set_state(states.jump)
+			_set_state(states.jump)
 			wall_jump()
+
+func _is_in_platform():
+	var is_in_platform := false
+	for body in fall_through_area.get_overlapping_bodies():
+		if ( body.get_collision_layer_bit(DROP_THRU_BIT) == true ):
+			return true
+
+	return false
+
+func _check_is_grounded():
+	if is_instance_valid(raycasts):
+		for raycast in raycasts.get_children():
+			if raycast.is_colliding():
+				return true
+		# If loop completes then raycast was not detected so return false
+		return false
+
+func _get_h_weight():
+	if is_on_floor():
+		return 0.2
+	else:
+		if move_direction.x == 0:
+			return 0.02
+		elif sign(move_direction.x) == sign(velocity.x) && abs(velocity.x) > move_speed:
+			return 0.0
+		else:
+			return 0.1
+
+func _check_is_valid_wall(wall_raycasts : Node):
+	for raycast in wall_raycasts.get_children():
+		if raycast.is_colliding():
+			var dot : float = acos(Vector2.UP.dot(raycast.get_collision_normal()))
+			if dot > PI * 0.35 && dot < PI * 0.55:
+				return true
+	return false
+
+func _cap_gravity_wall_slide():
+	var max_velocity : float 
+	
+	if Input.is_action_pressed(move_down):
+		max_velocity = 16 * Globals.CELL_SIZE
+	else:
+		max_velocity = 4 * Globals.CELL_SIZE
+	velocity.y = min(velocity.y, max_velocity)
 
 func _on_JumpCooldownTimer_timeout():
 	can_jump = true
@@ -554,10 +533,29 @@ func _on_JumpCooldownTimer_timeout():
 func _on_FallThroughTimer_timeout():
 	set_collision_mask_bit(DROP_THRU_BIT, false)
 
-func is_in_platform():
-	var is_in_platform := false
-	for body in fall_through_area.get_overlapping_bodies():
-		if ( body.get_collision_layer_bit(DROP_THRU_BIT) == true ):
-			return true
+func _on_WallSlideStickyTimer_timeout():
+	if state == states.wall_slide:
+		_set_state(states.fall)
 
-	return false
+func _on_TopOfHeadArea_body_entered(affected_player):
+	if not affected_player.is_in_group("player") :
+		return
+	var affected_player_feet = affected_player.get_node('Rig/Feet/CollisionShape2D')
+	if affected_player.state == affected_player.states.fall:
+		affected_player._set_state(affected_player.states.jump)
+		affected_player.velocity.y = -30 * Globals.CELL_SIZE
+		_set_state(states.fall)
+		velocity.y = 25 * Globals.CELL_SIZE
+
+func _on_AttackTimer_timeout():
+	hit_exceptions = []
+	attack_area.monitoring = false
+	is_attacking = false
+
+func _on_AttackCooldown_timeout():
+	can_attack = true
+
+func _on_AttackArea_body_entered(body):
+	if body.has_method("hit") and not hit_exceptions.has(body):
+		body.hit(self, 20, (body.global_position - global_position).normalized())
+		hit_exceptions.append(body)
