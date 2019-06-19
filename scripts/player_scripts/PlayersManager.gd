@@ -1,11 +1,8 @@
 extends Node2D
 class_name PlayersManager
 
-onready var RAGDOLL = preload("res://scenes/PlayerDead.tscn")
-onready var player_scene : PackedScene = preload('res://scenes/player/Player.tscn')
 var child : Player
 var ragdoll
-onready var respawn_timer : Node = Timer.new()
 var display_name : String
 var score : int = 0
 var local_score := 0
@@ -15,9 +12,11 @@ var b_button : String
 var start_button : String
 var player_number : String
 var ready = false
-
 var bit := 0
-const ITEM_BIT := 16384
+
+onready var RAGDOLL = preload("res://scenes/PlayerDead.tscn")
+onready var player_scene : PackedScene = preload('res://scenes/player/Player.tscn')
+onready var respawn_timer : Node = Timer.new()
 
 func _ready():
 	set_process_input(true)
@@ -57,9 +56,6 @@ func _clear_children():
 			ragdoll = null
 			child = null
 
-func register_collisions():
-	pass
-
 func is_dead():
 	return dead
 
@@ -73,13 +69,7 @@ func _ragdoll():
 	var add_rag = RAGDOLL.instance()
 	add_rag.position = child.position
 	var parts = add_rag.get_children()
-#	# don't hardcode arrays like this if you can help it
-#	var parts = ["Left Hand",
-#				 "Body",
-#				 "Head",
-#				 "Right Hand",
-#				 "Right Foot",
-#				 "Left Foot"]
+	
 	for p in parts:
 		if add_rag is RigidBody2D :
 			add_rag.get_node(p).linear_velocity = child.velocity*2
@@ -145,7 +135,6 @@ func spawn(spawn_position : Vector2 = Players.select_spawn_point()):
 	dead = false
 
 	register_player_inputs()
-#	register_collisions()
 
 func register_player_inputs():
 
@@ -154,21 +143,21 @@ func register_player_inputs():
 	match player_number:
 		'1':
 			player_string = 'one'
-			bit = 64
+			bit = Globals.P1_BIT
 		'2':
 			player_string = 'two'
-			bit = 128
+			bit = Globals.P2_BIT
 		'3':
 			player_string = 'three'
-			bit = 256
+			bit = Globals.P3_BIT
 		'4':
 			player_string = 'four'
-			bit = 512
+			bit = Globals.P4_BIT
 
 	child.collision_layer += bit
-	child.collision_mask += Players.player_bits - bit
-	child.left_hand.get_node("Hitbox").collision_mask += -bit + ITEM_BIT
-	child.right_hand.get_node("Hitbox").collision_mask += -bit + ITEM_BIT
+	child.collision_mask += Globals.PLAYER_BITS - bit
+	child.left_hand.get_node("Hitbox").collision_mask += -bit + Globals.ITEM_BIT
+	child.right_hand.get_node("Hitbox").collision_mask += -bit + Globals.ITEM_BIT
 	child.get_node('TopOfHeadArea').collision_mask -= bit
 
 	child.move_left = 'player_' + player_string + '_move_left'
