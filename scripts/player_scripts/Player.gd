@@ -58,11 +58,10 @@ var states : Dictionary = {}
 var wall_action : String
 
 onready var local_score := $LocalScore
-onready var state_label : Label = $StateMachine/StateLabel
-onready var anim_tree : AnimationTree = $StateMachine/AnimationTree
-onready var state_machine := $StateMachine
+onready var state_label : Label = $StateLabel
+onready var anim_tree : AnimationTree = $Rig/AnimationTree
 onready var parent : Node = get_parent()
-onready var hit_points_label : Node = $StateMachine/HitPoints
+onready var hit_points_label : Node = $HitPoints
 onready var attack_area : Area2D
 onready var wall_slide_cooldown : Node = $WallSlideCooldown
 onready var raycasts : Node = $GroundRaycasts
@@ -71,8 +70,8 @@ onready var right_wall_raycasts : Node = $WallRaycasts/RightWallRaycasts
 onready var wall_slide_sticky_timer : Node = $WallSlideStickyTimer
 onready var attack_timer : Node = $AttackTimer
 onready var attack_cooldown_timer : Node = $AttackCooldown
-onready var right_hand := $'StateMachine/Sprites/Right Hand'
-onready var left_hand := $'StateMachine/Sprites/Left Hand'
+onready var right_hand := $'Rig/Right Hand'
+onready var left_hand := $'Rig/Left Hand'
 onready var jump_cooldown := $JumpCooldownTimer
 onready var fall_through_timer := $FallThroughTimer
 onready var fall_through_area := $FallingThroughPlatformArea
@@ -155,13 +154,13 @@ func attack():
 	if can_attack:
 		var hand = null
 		var vel = Vector2(0,0)
-		var body_part = $StateMachine/Sprites/Body
-		var head = $StateMachine/Sprites/Head
+		var body_part = $Rig/Body
+		var head = $Rig/Head
 		parent.play_sound("Punch")
 
 		# dictate punch direction based on the head direction
 		var dir = 1
-		var scale = $StateMachine/Sprites/Head/Sprite.scale.x
+		var scale = $Rig/Head/Sprite.scale.x
 		if scale > 0: dir = 1
 		else: dir = -1
 		#actually use move_direction
@@ -185,7 +184,7 @@ func attack():
 		# launch body
 		body_part.apply_torque_impulse(3000*dir)
 
-		$StateMachine/AnimationPlayer.play('attack_'+punch_arm)
+		$Rig/AnimationPlayer.play('attack_'+punch_arm)
 
 		attack_area.monitoring = true
 		is_attacking = true
@@ -221,13 +220,13 @@ func _update_move_direction():
 	if move_direction.x != 0:
 		# all nodes in here will be mirrored when changing directions
 		# these range from simple sprites to feet that require mirroring the parent node, not the sprites themselves
-		var mirror_group = [get_node("StateMachine/Sprites/Right Foot"),
-				get_node("StateMachine/Sprites/Left Foot"),
-				get_node("StateMachine/Sprites/Body/Body"),
-				get_node("StateMachine/Sprites/Head/Sprite"),
-				get_node("StateMachine/Sprites/Head/Face"),
-				get_node("StateMachine/Sprites/Right Hand/Sprite"),
-				get_node("StateMachine/Sprites/Left Hand/Sprite")]
+		var mirror_group = [get_node("Rig/Right Foot"),
+				get_node("Rig/Left Foot"),
+				get_node("Rig/Body/Body"),
+				get_node("Rig/Head/Sprite"),
+				get_node("Rig/Head/Face"),
+				get_node("Rig/Right Hand/Sprite"),
+				get_node("Rig/Left Hand/Sprite")]
 		#could implement face rotation here
 		for i in mirror_group:
 			var s = i.get_scale()
@@ -287,7 +286,7 @@ func _set_face():
 	# this function will get called every time we need a new face
 	# used for punching, but can also be used for more personality during the game
 	# just leave this to me - TheMikirog
-	var face = $StateMachine/Sprites/Head/Face
+	var face = $Rig/Head/Face
 
 	# for now it's just the punching, but I plan to implement more
 	face.set_texture(face_textures[0][1])
@@ -311,7 +310,7 @@ func hit(by : Node, damage : int, knockback :Vector2) :
 			pass
 		Manager.current_minigame.attack_modes.lethal:
 			hit_points -= damage
-			$StateMachine/AnimationPlayer.play('hurt')
+			$Rig/AnimationPlayer.play('hurt')
 			parent.play_random("Hit")
 
 var hit_exceptions = []
@@ -330,7 +329,7 @@ func _update_player_stats():
 func _on_TopOfHeadArea_body_entered(affected_player):
 	if not affected_player.is_in_group("player") :
 		return
-	var affected_player_feet = affected_player.get_node('StateMachine/Sprites/Feet/CollisionShape2D')
+	var affected_player_feet = affected_player.get_node('Rig/Feet/CollisionShape2D')
 	if affected_player.state == affected_player.states.fall:
 		affected_player.set_state(affected_player.states.jump)
 		affected_player.velocity.y = -30 * Globals.CELL_SIZE

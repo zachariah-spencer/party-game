@@ -9,16 +9,16 @@
 [ext_resource path="res://assets/player/body_placeholder.png" type="Texture" id=7]
 [ext_resource path="res://assets/player/head_placeholder.png" type="Texture" id=8]
 [ext_resource path="res://assets/player/face_punch.png" type="Texture" id=9]
-[ext_resource path="res://monogram.ttf" type="DynamicFontData" id=10]
-[ext_resource path="res://misc/player_anim/attack_left.anim" type="Animation" id=11]
-[ext_resource path="res://misc/player_anim/attack_right.anim" type="Animation" id=12]
-[ext_resource path="res://misc/player_anim/fall.anim" type="Animation" id=13]
-[ext_resource path="res://misc/player_anim/idle.anim" type="Animation" id=14]
-[ext_resource path="res://misc/player_anim/jump.anim" type="Animation" id=15]
-[ext_resource path="res://misc/player_anim/run.anim" type="Animation" id=16]
-[ext_resource path="res://misc/player_anim/wall_slide.anim" type="Animation" id=17]
-[ext_resource path="res://shaders/magnify.tres" type="Shader" id=18]
-[ext_resource path="res://assets/sphere_soft.png" type="Texture" id=19]
+[ext_resource path="res://misc/player_anim/attack_left.anim" type="Animation" id=10]
+[ext_resource path="res://misc/player_anim/attack_right.anim" type="Animation" id=11]
+[ext_resource path="res://misc/player_anim/fall.anim" type="Animation" id=12]
+[ext_resource path="res://misc/player_anim/idle.anim" type="Animation" id=13]
+[ext_resource path="res://misc/player_anim/jump.anim" type="Animation" id=14]
+[ext_resource path="res://misc/player_anim/run.anim" type="Animation" id=15]
+[ext_resource path="res://misc/player_anim/wall_slide.anim" type="Animation" id=16]
+[ext_resource path="res://shaders/magnify.tres" type="Shader" id=17]
+[ext_resource path="res://assets/sphere_soft.png" type="Texture" id=18]
+[ext_resource path="res://monogram.ttf" type="DynamicFontData" id=19]
 
 [sub_resource type="AudioStreamRandomPitch" id=1]
 audio_stream = ExtResource( 2 )
@@ -49,99 +49,98 @@ radius = 24.9598
 radius = 70.0755
 height = 187.102
 
-[sub_resource type="DynamicFontData" id=9]
-font_path = "res://monogram.ttf"
-
-[sub_resource type="DynamicFont" id=10]
-size = 40
-font_data = SubResource( 9 )
-
-[sub_resource type="DynamicFont" id=11]
-size = 40
-font_data = ExtResource( 10 )
-
-[sub_resource type="AnimationNodeAnimation" id=12]
+[sub_resource type="AnimationNodeAnimation" id=9]
 animation = "fall"
 
-[sub_resource type="AnimationNodeAnimation" id=13]
+[sub_resource type="AnimationNodeAnimation" id=10]
 animation = "jump"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id=14]
-blend_point_0/node = SubResource( 12 )
+[sub_resource type="AnimationNodeBlendSpace1D" id=11]
+blend_point_0/node = SubResource( 9 )
 blend_point_0/pos = 1.0
-blend_point_1/node = SubResource( 13 )
+blend_point_1/node = SubResource( 10 )
 blend_point_1/pos = -1.0
 
-[sub_resource type="AnimationNodeAnimation" id=15]
+[sub_resource type="AnimationNodeAnimation" id=12]
 animation = "idle"
 
-[sub_resource type="AnimationNodeAnimation" id=16]
+[sub_resource type="AnimationNodeAnimation" id=13]
 animation = "run"
 
-[sub_resource type="AnimationNodeTimeScale" id=17]
+[sub_resource type="AnimationNodeTimeScale" id=14]
 
-[sub_resource type="AnimationNodeBlendTree" id=18]
+[sub_resource type="AnimationNodeBlendTree" id=15]
 graph_offset = Vector2( -274, 59 )
-nodes/anim/node = SubResource( 16 )
+nodes/anim/node = SubResource( 13 )
 nodes/anim/position = Vector2( -80, 140 )
 nodes/output/position = Vector2( 300, 140 )
-nodes/speed/node = SubResource( 17 )
+nodes/speed/node = SubResource( 14 )
 nodes/speed/position = Vector2( 120, 140 )
 node_connections = [ "speed", 0, "anim", "output", 0, "speed" ]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=19]
+[sub_resource type="AnimationNodeStateMachineTransition" id=16]
 xfade_time = 0.1
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=20]
+[sub_resource type="AnimationNodeStateMachineTransition" id=17]
 xfade_time = 0.2
 
-[sub_resource type="AnimationNodeStateMachine" id=21]
-states/Idle/node = SubResource( 15 )
+[sub_resource type="AnimationNodeStateMachine" id=18]
+states/Idle/node = SubResource( 12 )
 states/Idle/position = Vector2( 381, 137 )
-states/Run/node = SubResource( 18 )
+states/Run/node = SubResource( 15 )
 states/Run/position = Vector2( 544, 137 )
-transitions = [ "Idle", "Run", SubResource( 19 ), "Run", "Idle", SubResource( 20 ) ]
+transitions = [ "Idle", "Run", SubResource( 16 ), "Run", "Idle", SubResource( 17 ) ]
 start_node = "Idle"
 graph_offset = Vector2( -26, 57 )
 
-[sub_resource type="AnimationNodeAnimation" id=22]
+[sub_resource type="AnimationNodeAnimation" id=19]
 animation = "wall_slide"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=23]
+[sub_resource type="AnimationNodeStateMachineTransition" id=20]
 xfade_time = 0.05
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=24]
+[sub_resource type="AnimationNodeStateMachineTransition" id=21]
 xfade_time = 0.1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=22]
+xfade_time = 0.1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=23]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=24]
+xfade_time = 0.2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=25]
 xfade_time = 0.1
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=26]
-xfade_time = 0.2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=27]
-xfade_time = 0.2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=28]
-xfade_time = 0.1
-
-[sub_resource type="AnimationNodeStateMachine" id=29]
-states/Airborne/node = SubResource( 14 )
+[sub_resource type="AnimationNodeStateMachine" id=26]
+states/Airborne/node = SubResource( 11 )
 states/Airborne/position = Vector2( 723, 137 )
-states/Grounded/node = SubResource( 21 )
+states/Grounded/node = SubResource( 18 )
 states/Grounded/position = Vector2( 533, 137 )
-"states/Wall Slide/node" = SubResource( 22 )
+"states/Wall Slide/node" = SubResource( 19 )
 "states/Wall Slide/position" = Vector2( 613.555, 211 )
-transitions = [ "Grounded", "Airborne", SubResource( 23 ), "Airborne", "Grounded", SubResource( 24 ), "Airborne", "Wall Slide", SubResource( 25 ), "Wall Slide", "Airborne", SubResource( 26 ), "Wall Slide", "Grounded", SubResource( 27 ), "Grounded", "Wall Slide", SubResource( 28 ) ]
+transitions = [ "Grounded", "Airborne", SubResource( 20 ), "Airborne", "Grounded", SubResource( 21 ), "Airborne", "Wall Slide", SubResource( 22 ), "Wall Slide", "Airborne", SubResource( 23 ), "Wall Slide", "Grounded", SubResource( 24 ), "Grounded", "Wall Slide", SubResource( 25 ) ]
 start_node = "Grounded"
 graph_offset = Vector2( 210.555, 80 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=30]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=27]
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=31]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=28]
+
+[sub_resource type="CapsuleShape2D" id=29]
+radius = 12.0
+height = 61.0
+
+[sub_resource type="RectangleShape2D" id=30]
+extents = Vector2( 25, 43 )
+
+[sub_resource type="CapsuleShape2D" id=31]
+height = 60.0
 
 [sub_resource type="ShaderMaterial" id=32]
-shader = ExtResource( 18 )
+shader = ExtResource( 17 )
 
 [sub_resource type="Curve" id=33]
 _data = [ Vector2( 0, 0 ), 0.0, 2.94974, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
@@ -149,15 +148,16 @@ _data = [ Vector2( 0, 0 ), 0.0, 2.94974, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 [sub_resource type="Gradient" id=34]
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
 
-[sub_resource type="CapsuleShape2D" id=35]
-radius = 12.0
-height = 61.0
+[sub_resource type="DynamicFont" id=35]
+size = 40
+font_data = ExtResource( 19 )
 
-[sub_resource type="RectangleShape2D" id=36]
-extents = Vector2( 25, 43 )
+[sub_resource type="DynamicFontData" id=36]
+font_path = "res://monogram.ttf"
 
-[sub_resource type="CapsuleShape2D" id=37]
-height = 60.0
+[sub_resource type="DynamicFont" id=37]
+size = 40
+font_data = SubResource( 36 )
 
 [node name="Player" type="KinematicBody2D" groups=[
 "player",
@@ -190,40 +190,37 @@ volume_db = -15.0
 bus = "Sounds"
 area_mask = 0
 
-[node name="StateMachine" type="Node2D" parent="."]
-editor/display_folded = true
+[node name="Rig" type="Node2D" parent="."]
 
-[node name="Sprites" type="Node2D" parent="StateMachine"]
-editor/display_folded = true
-
-[node name="Right Foot" type="Node2D" parent="StateMachine/Sprites"]
+[node name="Right Foot" type="Node2D" parent="Rig"]
 editor/display_folded = true
 position = Vector2( 0, 1 )
 rotation = -0.0311069
 
-[node name="Right Foot Sprite" type="Sprite" parent="StateMachine/Sprites/Right Foot"]
+[node name="Right Foot Sprite" type="Sprite" parent="Rig/Right Foot"]
 position = Vector2( 6, 0 )
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 4 )
 offset = Vector2( 0, -95 )
 
-[node name="Left Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
+[node name="Left Pin" type="PinJoint2D" parent="Rig"]
 position = Vector2( 7.87, -26.57 )
 node_a = NodePath("../Left Hand")
 node_b = NodePath("../Body/Arms")
 bias = 0.6
 softness = 12.0
 
-[node name="Right Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
+[node name="Right Pin" type="PinJoint2D" parent="Rig"]
 position = Vector2( -7.6, -26.3 )
 node_a = NodePath("../Right Hand")
 node_b = NodePath("../Body/Arms")
 bias = 0.6
 softness = 12.0
 
-[node name="Left Hand" type="RigidBody2D" parent="StateMachine/Sprites" groups=[
+[node name="Left Hand" type="RigidBody2D" parent="Rig" groups=[
 "fist",
 ]]
+editor/display_folded = true
 position = Vector2( 10.49, -16.12 )
 collision_layer = 2
 collision_mask = 0
@@ -233,7 +230,7 @@ contacts_reported = 6
 contact_monitor = true
 linear_damp = 6.0
 
-[node name="Trail" type="CPUParticles2D" parent="StateMachine/Sprites/Left Hand"]
+[node name="Trail" type="CPUParticles2D" parent="Rig/Left Hand"]
 emitting = false
 amount = 48
 lifetime = 0.1
@@ -250,26 +247,26 @@ angle_random = 1.0
 scale_amount_random = 0.1
 scale_amount_curve = SubResource( 3 )
 
-[node name="Sprite" type="Sprite" parent="StateMachine/Sprites/Left Hand"]
+[node name="Sprite" type="Sprite" parent="Rig/Left Hand"]
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 6 )
 offset = Vector2( -32, 0 )
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="StateMachine/Sprites/Left Hand"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Rig/Left Hand"]
 position = Vector2( -0.01, 0 )
 shape = SubResource( 4 )
 
-[node name="Hitbox" type="Area2D" parent="StateMachine/Sprites/Left Hand"]
+[node name="Hitbox" type="Area2D" parent="Rig/Left Hand"]
 editor/display_folded = true
 monitoring = false
 collision_layer = 0
 collision_mask = 960
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="StateMachine/Sprites/Left Hand/Hitbox"]
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Rig/Left Hand/Hitbox"]
 position = Vector2( -0.0100002, 0 )
 shape = SubResource( 4 )
 
-[node name="Body" type="RigidBody2D" parent="StateMachine/Sprites"]
+[node name="Body" type="RigidBody2D" parent="Rig"]
 editor/display_folded = true
 modulate = Color( 1, 1, 1, 0.893617 )
 position = Vector2( 0, -16.06 )
@@ -279,7 +276,7 @@ mass = 1.5
 gravity_scale = -60.0
 linear_damp = 30.0
 
-[node name="Arms" type="KinematicBody2D" parent="StateMachine/Sprites/Body"]
+[node name="Arms" type="KinematicBody2D" parent="Rig/Body"]
 editor/display_folded = true
 position = Vector2( 0.0949407, -10.458 )
 rotation = 0.00317419
@@ -287,31 +284,31 @@ scale = Vector2( 0.1, 0.1 )
 collision_layer = 0
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Body/Arms"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rig/Body/Arms"]
 position = Vector2( 0, -6.23 )
 shape = SubResource( 5 )
 
-[node name="Body" type="Sprite" parent="StateMachine/Sprites/Body"]
+[node name="Body" type="Sprite" parent="Rig/Body"]
 rotation = 0.00317418
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 7 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Body"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rig/Body"]
 position = Vector2( 0, 0.398 )
 shape = SubResource( 6 )
 
-[node name="Left Foot" type="Node2D" parent="StateMachine/Sprites"]
+[node name="Left Foot" type="Node2D" parent="Rig"]
 editor/display_folded = true
 position = Vector2( 0, 1 )
 rotation = -0.0406802
 
-[node name="Left Foot Sprite" type="Sprite" parent="StateMachine/Sprites/Left Foot"]
+[node name="Left Foot Sprite" type="Sprite" parent="Rig/Left Foot"]
 position = Vector2( -6, 0 )
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 4 )
 offset = Vector2( 0, -95 )
 
-[node name="Head" type="RigidBody2D" parent="StateMachine/Sprites"]
+[node name="Head" type="RigidBody2D" parent="Rig"]
 editor/display_folded = true
 position = Vector2( 0, -53.9 )
 collision_layer = 0
@@ -319,19 +316,19 @@ mass = 2.25
 gravity_scale = -128.0
 linear_damp = 20.0
 
-[node name="Sprite" type="Sprite" parent="StateMachine/Sprites/Head"]
+[node name="Sprite" type="Sprite" parent="Rig/Head"]
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 8 )
 offset = Vector2( 0, -128 )
 
-[node name="Face" type="Sprite" parent="StateMachine/Sprites/Head"]
+[node name="Face" type="Sprite" parent="Rig/Head"]
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 9 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Head"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rig/Head"]
 shape = SubResource( 7 )
 
-[node name="Head Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
+[node name="Head Pin" type="PinJoint2D" parent="Rig"]
 position = Vector2( 0, -29.75 )
 z_as_relative = false
 node_a = NodePath("../Head")
@@ -339,7 +336,7 @@ node_b = NodePath("../Body/Arms")
 bias = 0.9
 softness = 1.0
 
-[node name="Feet" type="KinematicBody2D" parent="StateMachine/Sprites"]
+[node name="Feet" type="KinematicBody2D" parent="Rig"]
 editor/display_folded = true
 position = Vector2( 0.071, 1.85 )
 rotation = 0.00317418
@@ -347,19 +344,19 @@ scale = Vector2( 0.1, 0.1 )
 collision_layer = 0
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Feet"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rig/Feet"]
 position = Vector2( 0, -6.23 )
 rotation = 1.5708
 shape = SubResource( 8 )
 
-[node name="Feet Body Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
+[node name="Feet Body Pin" type="PinJoint2D" parent="Rig"]
 position = Vector2( 0.17, -7.36 )
 node_a = NodePath("../Body")
 node_b = NodePath("../Feet")
 bias = 0.6
 softness = 1.0
 
-[node name="Right Hand" type="RigidBody2D" parent="StateMachine/Sprites" groups=[
+[node name="Right Hand" type="RigidBody2D" parent="Rig" groups=[
 "fist",
 ]]
 editor/display_folded = true
@@ -372,7 +369,7 @@ contacts_reported = 6
 contact_monitor = true
 linear_damp = 5.0
 
-[node name="Trail" type="CPUParticles2D" parent="StateMachine/Sprites/Right Hand"]
+[node name="Trail" type="CPUParticles2D" parent="Rig/Right Hand"]
 emitting = false
 amount = 48
 lifetime = 0.1
@@ -389,82 +386,44 @@ angle_random = 1.0
 scale_amount_random = 0.1
 scale_amount_curve = SubResource( 3 )
 
-[node name="Sprite" type="Sprite" parent="StateMachine/Sprites/Right Hand"]
+[node name="Sprite" type="Sprite" parent="Rig/Right Hand"]
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 6 )
 offset = Vector2( -32, 0 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Right Hand"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rig/Right Hand"]
 shape = SubResource( 4 )
 
-[node name="Hitbox" type="Area2D" parent="StateMachine/Sprites/Right Hand"]
+[node name="Hitbox" type="Area2D" parent="Rig/Right Hand"]
 editor/display_folded = true
 monitoring = false
 collision_layer = 0
 collision_mask = 960
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="StateMachine/Sprites/Right Hand/Hitbox"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Rig/Right Hand/Hitbox"]
 shape = SubResource( 4 )
 
-[node name="StateLabel" type="Label" parent="StateMachine"]
-anchor_left = 0.5
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -50.0
-margin_top = -150.0
-margin_right = 50.0
-margin_bottom = -118.0
-custom_fonts/font = SubResource( 10 )
-align = 1
-
-[node name="HitPoints" type="Label" parent="StateMachine"]
-visible = false
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -50.0
-margin_top = -118.0
-margin_right = 50.0
-margin_bottom = -120.0
-custom_fonts/font = SubResource( 11 )
-align = 1
-
-[node name="AnimationTree" type="AnimationTree" parent="StateMachine"]
-tree_root = SubResource( 29 )
+[node name="AnimationTree" type="AnimationTree" parent="Rig"]
+tree_root = SubResource( 26 )
 anim_player = NodePath("../AnimationPlayer")
 process_mode = 0
-parameters/playback = SubResource( 30 )
+parameters/playback = SubResource( 27 )
 parameters/Airborne/blend_position = 1.072
-parameters/Grounded/playback = SubResource( 31 )
+parameters/Grounded/playback = SubResource( 28 )
 parameters/Grounded/Run/speed/scale = 1.5
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="StateMachine"]
-anims/attack_left = ExtResource( 11 )
-anims/attack_right = ExtResource( 12 )
-anims/fall = ExtResource( 13 )
-anims/idle = ExtResource( 14 )
-anims/jump = ExtResource( 15 )
-anims/run = ExtResource( 16 )
-anims/wall_slide = ExtResource( 17 )
-
-[node name="Shockwave" type="CPUParticles2D" parent="."]
-material = SubResource( 32 )
-position = Vector2( 0, -30.6 )
-emitting = false
-amount = 1
-lifetime = 0.2
-one_shot = true
-local_coords = false
-texture = ExtResource( 19 )
-spread = 0.0
-gravity = Vector2( 0, 0 )
-initial_velocity = 0.0
-scale_amount = 0.2
-scale_amount_curve = SubResource( 33 )
-color_ramp = SubResource( 34 )
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rig"]
+anims/attack_left = ExtResource( 10 )
+anims/attack_right = ExtResource( 11 )
+anims/fall = ExtResource( 12 )
+anims/idle = ExtResource( 13 )
+anims/jump = ExtResource( 14 )
+anims/run = ExtResource( 15 )
+anims/wall_slide = ExtResource( 16 )
 
 [node name="PlayerShape" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -36 )
-shape = SubResource( 35 )
+shape = SubResource( 29 )
 
 [node name="GroundRaycasts" type="Node2D" parent="."]
 editor/display_folded = true
@@ -522,7 +481,7 @@ collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FallingThroughPlatformArea"]
 position = Vector2( 0, -0.142395 )
-shape = SubResource( 36 )
+shape = SubResource( 30 )
 
 [node name="TopOfHeadArea" type="Area2D" parent="."]
 editor/display_folded = true
@@ -531,7 +490,7 @@ collision_layer = 2048
 collision_mask = 960
 
 [node name="Shape" type="CollisionShape2D" parent="TopOfHeadArea"]
-shape = SubResource( 37 )
+shape = SubResource( 31 )
 one_way_collision = true
 
 [node name="PickupRange" type="Area2D" parent="."]
@@ -541,7 +500,7 @@ collision_mask = 16384
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickupRange"]
 position = Vector2( -0.315559, -32.6603 )
-shape = SubResource( 35 )
+shape = SubResource( 29 )
 
 [node name="WallSlideCooldown" type="Timer" parent="."]
 process_mode = 0
@@ -570,6 +529,22 @@ one_shot = true
 wait_time = 0.5
 one_shot = true
 
+[node name="Shockwave" type="CPUParticles2D" parent="."]
+material = SubResource( 32 )
+position = Vector2( 0, -30.6 )
+emitting = false
+amount = 1
+lifetime = 0.2
+one_shot = true
+local_coords = false
+texture = ExtResource( 18 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 0.0
+scale_amount = 0.2
+scale_amount_curve = SubResource( 33 )
+color_ramp = SubResource( 34 )
+
 [node name="LocalScore" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
@@ -577,8 +552,30 @@ margin_left = -119.0
 margin_top = -118.0
 margin_right = 121.0
 margin_bottom = -86.0
-custom_fonts/font = SubResource( 11 )
+custom_fonts/font = SubResource( 35 )
 text = "0"
+align = 1
+
+[node name="StateLabel" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -50.0
+margin_top = -150.0
+margin_right = 50.0
+margin_bottom = -118.0
+custom_fonts/font = SubResource( 37 )
+align = 1
+
+[node name="HitPoints" type="Label" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -50.0
+margin_top = -118.0
+margin_right = 50.0
+margin_bottom = -86.0
+custom_fonts/font = SubResource( 35 )
 align = 1
 
 [connection signal="body_entered" from="TopOfHeadArea" to="." method="_on_TopOfHeadArea_body_entered"]
