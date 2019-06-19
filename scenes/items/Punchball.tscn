@@ -4,20 +4,20 @@
 [ext_resource path="res://scripts/items/Punchball.gd" type="Script" id=2]
 [ext_resource path="res://assets/sphere.png" type="Texture" id=3]
 
-[sub_resource type="Gradient" id=4]
+[sub_resource type="Gradient" id=1]
 colors = PoolColorArray( 1, 1, 1, 0.521569, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=5]
-gradient = SubResource( 4 )
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
 
-[sub_resource type="Curve" id=6]
+[sub_resource type="Curve" id=3]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=7]
-curve = SubResource( 6 )
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
 
-[sub_resource type="ParticlesMaterial" id=3]
-trail_size_modifier = SubResource( 7 )
+[sub_resource type="ParticlesMaterial" id=5]
+trail_size_modifier = SubResource( 4 )
 flag_disable_z = true
 spread = 0.0
 gravity = Vector3( 0, 0, 0 )
@@ -25,12 +25,12 @@ angular_velocity = 4.20047e-005
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 0.15
-color_ramp = SubResource( 5 )
+color_ramp = SubResource( 2 )
 
-[sub_resource type="CircleShape2D" id=1]
+[sub_resource type="CircleShape2D" id=6]
 radius = 60.0
 
-[sub_resource type="CircleShape2D" id=2]
+[sub_resource type="CircleShape2D" id=7]
 radius = 200.0
 
 [node name="Punchball" index="0" instance=ExtResource( 1 )]
@@ -49,7 +49,7 @@ grabbable = false
 [node name="Trail" type="Particles2D" parent="." index="0"]
 speed_scale = 2.0
 local_coords = false
-process_material = SubResource( 3 )
+process_material = SubResource( 5 )
 texture = ExtResource( 3 )
 
 [node name="Obj" parent="." index="1"]
@@ -73,7 +73,7 @@ collision_layer = 0
 collision_mask = 6
 
 [node name="Shape" type="CollisionShape2D" parent="PunchedArea" index="0"]
-shape = SubResource( 1 )
+shape = SubResource( 6 )
 
 [node name="HitCooldownTimer" type="Timer" parent="." index="5"]
 one_shot = true
@@ -106,7 +106,7 @@ collision_layer = 0
 collision_mask = 960
 
 [node name="Shape" type="CollisionShape2D" parent="RunawayArea" index="0"]
-shape = SubResource( 2 )
+shape = SubResource( 7 )
 
 [connection signal="body_entered" from="." to="." method="_on_Punchball_body_entered"]
 [connection signal="timeout" from="ImpulseTimer" to="." method="_on_ImpulseTimer_timeout"]
