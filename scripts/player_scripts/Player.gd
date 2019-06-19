@@ -16,8 +16,8 @@ var velocity : Vector2
 var target_velocity : float
 var move_direction := Vector2.ZERO
 var aim_direction := Vector2.ZERO
-var facing_direction : int = 1
-var wall_direction : int = 1
+var facing_direction := 1.0
+var wall_direction := 1.0
 var move_speed : float = 14 * Globals.CELL_SIZE
 var gravity : float
 var hit_points : int = 100
@@ -114,9 +114,9 @@ func wall_jump():
 	is_jumping = true
 	can_jump = false
 	var wall_jump_velocity : Vector2
-	if facing_direction == wall_direction:
+	if sign(facing_direction) == sign(wall_direction):
 		wall_jump_velocity = WALL_JUMP_INWARD_VELOCITY
-	elif facing_direction == -wall_direction:
+	elif sign(facing_direction) != sign(wall_direction):
 		wall_jump_velocity = WALL_JUMP_OUTWARD_VELOCITY
 	wall_jump_velocity.x *= -wall_direction
 	velocity.y = 0
@@ -358,7 +358,6 @@ func _physics_process(delta):
 			set_state(transition)
 
 func _state_logic(delta : float):
-	_handle_jumping()
 	_update_player_stats()
 	if state != states.disabled:
 		_update_move_direction()
@@ -373,6 +372,7 @@ func _state_logic(delta : float):
 	if state == states.wall_slide:
 		_cap_gravity_wall_slide()
 		_handle_wall_slide_sticking()
+	_handle_jumping()
 
 	_apply_movement()
 
@@ -487,11 +487,8 @@ func add_state(state_name):
 	states[state_name] = states.size()
 
 func _update_wall_action():
-	match wall_direction:
-		-1:
-			wall_action = move_left
-		1:
-			wall_action = move_right
+	if wall_direction < 0 : wall_action = move_left
+	if wall_direction > 0 : wall_action = move_right
 	return wall_action
 
 func _on_WallSlideStickyTimer_timeout():
