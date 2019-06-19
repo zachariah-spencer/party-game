@@ -91,7 +91,7 @@ func _apply_gravity(delta : float):
 	velocity.y += gravity * delta
 
 func _cap_gravity_wall_slide():
-	var max_velocity : float = 4 * Globals.CELL_SIZE if !Input.is_action_pressed(move_down) else 16 * Globals.CELL_SIZE
+	var max_velocity : float = 4 * Globals.CELL_SIZE if move_direction.y < 0 else 16 * Globals.CELL_SIZE
 	velocity.y = min(velocity.y, max_velocity)
 
 func _apply_movement():
@@ -198,18 +198,17 @@ func _update_move_direction():
 
 	#deadzones
 	var deadzone = .25
-	if aim_direction.length() < deadzone :
+	if aim_direction.length_squared() < deadzone :
 		aim_direction = Vector2.ZERO
 	else :
 		aim_direction = aim_direction.normalized() * (aim_direction.length() - deadzone) / (1-deadzone)
 
-	if move_direction.length() < deadzone :
+	if move_direction.length_squared() < deadzone :
 		move_direction = Vector2.ZERO
 	else :
 		move_direction = move_direction.normalized() * (move_direction.length() - deadzone) / (1-deadzone)
 
-	move_direction.x *= .9
-	move_direction.y *= .9
+
 
 	if aim_direction == Vector2.ZERO :
 		aim_direction = move_direction
@@ -404,7 +403,7 @@ func _get_transition(delta : float):
 			elif velocity.y >= 0:
 				return states.fall
 		states.fall:
-			if Input.is_action_pressed(move_down) :
+			if move_direction.y  > 0 :
 				set_collision_mask_bit(DROP_THRU_BIT, false)
 			elif !is_in_platform() :
 				set_collision_mask_bit(DROP_THRU_BIT, true)
@@ -527,7 +526,7 @@ func _stop_movement():
 	velocity.x = 0
 
 func _handle_jumping():
-	if Input.is_action_pressed(move_down) && fall_through_timer.is_stopped() && [states.idle, states.run].has(state):
+	if move_direction.y > 0 && fall_through_timer.is_stopped() && [states.idle, states.run].has(state):
 		fall_through_timer.start()
 	elif Input.is_action_just_released(move_down):
 		fall_through_timer.stop()
@@ -535,7 +534,7 @@ func _handle_jumping():
 	if [states.idle, states.run].has(state) && state != states.wall_slide:
 		#JUMP
 		if Input.is_action_pressed(move_jump):
-			if Input.is_action_pressed(move_down):
+			if move_direction.y > 0:
 				set_collision_mask_bit(DROP_THRU_BIT, false)
 			elif can_jump:
 				jump()
