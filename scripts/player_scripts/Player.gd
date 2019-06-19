@@ -217,7 +217,6 @@ func _update_move_direction():
 
 	if aim_direction == Vector2.ZERO :
 		aim_direction = move_direction
-	$RayCast2D.cast_to = aim_direction.normalized() * 300
 
 	if move_direction.x != 0:
 		# all nodes in here will be mirrored when changing directions

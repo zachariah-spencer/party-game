@@ -1,25 +1,24 @@
-[gd_scene load_steps=58 format=2]
+[gd_scene load_steps=57 format=2]
 
 [ext_resource path="res://scripts/player_scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/audio/foot.wav" type="AudioStream" id=2]
 [ext_resource path="res://assets/audio/punch_whiff.wav" type="AudioStream" id=3]
-[ext_resource path="res://scripts/player_scripts/PlayerStateMachine.gd" type="Script" id=4]
-[ext_resource path="res://assets/player/foot_placeholder.png" type="Texture" id=5]
-[ext_resource path="res://assets/vfx/punch_trail.png" type="Texture" id=6]
-[ext_resource path="res://assets/player/hand_placeholder.png" type="Texture" id=7]
-[ext_resource path="res://assets/player/body_placeholder.png" type="Texture" id=8]
-[ext_resource path="res://assets/player/head_placeholder.png" type="Texture" id=9]
-[ext_resource path="res://assets/player/face_punch.png" type="Texture" id=10]
-[ext_resource path="res://monogram.ttf" type="DynamicFontData" id=11]
-[ext_resource path="res://misc/player_anim/attack_left.anim" type="Animation" id=12]
-[ext_resource path="res://misc/player_anim/attack_right.anim" type="Animation" id=13]
-[ext_resource path="res://misc/player_anim/fall.anim" type="Animation" id=14]
-[ext_resource path="res://misc/player_anim/idle.anim" type="Animation" id=15]
-[ext_resource path="res://misc/player_anim/jump.anim" type="Animation" id=16]
-[ext_resource path="res://misc/player_anim/run.anim" type="Animation" id=17]
-[ext_resource path="res://misc/player_anim/wall_slide.anim" type="Animation" id=18]
-[ext_resource path="res://shaders/magnify.tres" type="Shader" id=19]
-[ext_resource path="res://assets/sphere_soft.png" type="Texture" id=20]
+[ext_resource path="res://assets/player/foot_placeholder.png" type="Texture" id=4]
+[ext_resource path="res://assets/vfx/punch_trail.png" type="Texture" id=5]
+[ext_resource path="res://assets/player/hand_placeholder.png" type="Texture" id=6]
+[ext_resource path="res://assets/player/body_placeholder.png" type="Texture" id=7]
+[ext_resource path="res://assets/player/head_placeholder.png" type="Texture" id=8]
+[ext_resource path="res://assets/player/face_punch.png" type="Texture" id=9]
+[ext_resource path="res://monogram.ttf" type="DynamicFontData" id=10]
+[ext_resource path="res://misc/player_anim/attack_left.anim" type="Animation" id=11]
+[ext_resource path="res://misc/player_anim/attack_right.anim" type="Animation" id=12]
+[ext_resource path="res://misc/player_anim/fall.anim" type="Animation" id=13]
+[ext_resource path="res://misc/player_anim/idle.anim" type="Animation" id=14]
+[ext_resource path="res://misc/player_anim/jump.anim" type="Animation" id=15]
+[ext_resource path="res://misc/player_anim/run.anim" type="Animation" id=16]
+[ext_resource path="res://misc/player_anim/wall_slide.anim" type="Animation" id=17]
+[ext_resource path="res://shaders/magnify.tres" type="Shader" id=18]
+[ext_resource path="res://assets/sphere_soft.png" type="Texture" id=19]
 
 [sub_resource type="AudioStreamRandomPitch" id=1]
 audio_stream = ExtResource( 2 )
@@ -59,7 +58,7 @@ font_data = SubResource( 9 )
 
 [sub_resource type="DynamicFont" id=11]
 size = 40
-font_data = ExtResource( 11 )
+font_data = ExtResource( 10 )
 
 [sub_resource type="AnimationNodeAnimation" id=12]
 animation = "fall"
@@ -142,7 +141,7 @@ graph_offset = Vector2( 210.555, 80 )
 [sub_resource type="AnimationNodeStateMachinePlayback" id=31]
 
 [sub_resource type="ShaderMaterial" id=32]
-shader = ExtResource( 19 )
+shader = ExtResource( 18 )
 
 [sub_resource type="Curve" id=33]
 _data = [ Vector2( 0, 0 ), 0.0, 2.94974, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
@@ -193,7 +192,6 @@ area_mask = 0
 
 [node name="StateMachine" type="Node2D" parent="."]
 editor/display_folded = true
-script = ExtResource( 4 )
 
 [node name="Sprites" type="Node2D" parent="StateMachine"]
 editor/display_folded = true
@@ -206,7 +204,7 @@ rotation = -0.0311069
 [node name="Right Foot Sprite" type="Sprite" parent="StateMachine/Sprites/Right Foot"]
 position = Vector2( 6, 0 )
 scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 5 )
+texture = ExtResource( 4 )
 offset = Vector2( 0, -95 )
 
 [node name="Left Pin" type="PinJoint2D" parent="StateMachine/Sprites"]
@@ -242,7 +240,7 @@ lifetime = 0.1
 one_shot = true
 randomness = 0.1
 local_coords = false
-texture = ExtResource( 6 )
+texture = ExtResource( 5 )
 spread = 180.0
 gravity = Vector2( 0, 96 )
 initial_velocity = 50.0
@@ -254,7 +252,7 @@ scale_amount_curve = SubResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="StateMachine/Sprites/Left Hand"]
 scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 7 )
+texture = ExtResource( 6 )
 offset = Vector2( -32, 0 )
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="StateMachine/Sprites/Left Hand"]
@@ -296,7 +294,7 @@ shape = SubResource( 5 )
 [node name="Body" type="Sprite" parent="StateMachine/Sprites/Body"]
 rotation = 0.00317418
 scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 8 )
+texture = ExtResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Body"]
 position = Vector2( 0, 0.398 )
@@ -310,7 +308,7 @@ rotation = -0.0406802
 [node name="Left Foot Sprite" type="Sprite" parent="StateMachine/Sprites/Left Foot"]
 position = Vector2( -6, 0 )
 scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 5 )
+texture = ExtResource( 4 )
 offset = Vector2( 0, -95 )
 
 [node name="Head" type="RigidBody2D" parent="StateMachine/Sprites"]
@@ -323,12 +321,12 @@ linear_damp = 20.0
 
 [node name="Sprite" type="Sprite" parent="StateMachine/Sprites/Head"]
 scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 9 )
+texture = ExtResource( 8 )
 offset = Vector2( 0, -128 )
 
 [node name="Face" type="Sprite" parent="StateMachine/Sprites/Head"]
 scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 10 )
+texture = ExtResource( 9 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Head"]
 shape = SubResource( 7 )
@@ -381,7 +379,7 @@ lifetime = 0.1
 one_shot = true
 randomness = 0.1
 local_coords = false
-texture = ExtResource( 6 )
+texture = ExtResource( 5 )
 spread = 180.0
 gravity = Vector2( 0, 96 )
 initial_velocity = 50.0
@@ -393,7 +391,7 @@ scale_amount_curve = SubResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="StateMachine/Sprites/Right Hand"]
 scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 7 )
+texture = ExtResource( 6 )
 offset = Vector2( -32, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/Sprites/Right Hand"]
@@ -440,13 +438,13 @@ parameters/Grounded/playback = SubResource( 31 )
 parameters/Grounded/Run/speed/scale = 1.5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="StateMachine"]
-anims/attack_left = ExtResource( 12 )
-anims/attack_right = ExtResource( 13 )
-anims/fall = ExtResource( 14 )
-anims/idle = ExtResource( 15 )
-anims/jump = ExtResource( 16 )
-anims/run = ExtResource( 17 )
-anims/wall_slide = ExtResource( 18 )
+anims/attack_left = ExtResource( 11 )
+anims/attack_right = ExtResource( 12 )
+anims/fall = ExtResource( 13 )
+anims/idle = ExtResource( 14 )
+anims/jump = ExtResource( 15 )
+anims/run = ExtResource( 16 )
+anims/wall_slide = ExtResource( 17 )
 
 [node name="Shockwave" type="CPUParticles2D" parent="."]
 material = SubResource( 32 )
@@ -456,7 +454,7 @@ amount = 1
 lifetime = 0.2
 one_shot = true
 local_coords = false
-texture = ExtResource( 20 )
+texture = ExtResource( 19 )
 spread = 0.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 0.0
@@ -470,7 +468,6 @@ shape = SubResource( 35 )
 
 [node name="GroundRaycasts" type="Node2D" parent="."]
 editor/display_folded = true
-visible = false
 
 [node name="CenterGroundRaycast" type="RayCast2D" parent="GroundRaycasts"]
 position = Vector2( 0, 10 )
@@ -492,7 +489,6 @@ collision_mask = 17
 
 [node name="WallRaycasts" type="Node2D" parent="."]
 editor/display_folded = true
-visible = false
 
 [node name="LeftWallRaycasts" type="Node2D" parent="WallRaycasts"]
 
@@ -520,7 +516,6 @@ cast_to = Vector2( 12, 0 )
 
 [node name="FallingThroughPlatformArea" type="Area2D" parent="."]
 editor/display_folded = true
-visible = false
 position = Vector2( 0, -36 )
 collision_layer = 0
 collision_mask = 16
@@ -528,6 +523,25 @@ collision_mask = 16
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FallingThroughPlatformArea"]
 position = Vector2( 0, -0.142395 )
 shape = SubResource( 36 )
+
+[node name="TopOfHeadArea" type="Area2D" parent="."]
+editor/display_folded = true
+position = Vector2( 0, -84 )
+collision_layer = 2048
+collision_mask = 960
+
+[node name="Shape" type="CollisionShape2D" parent="TopOfHeadArea"]
+shape = SubResource( 37 )
+one_way_collision = true
+
+[node name="PickupRange" type="Area2D" parent="."]
+editor/display_folded = true
+collision_layer = 16384
+collision_mask = 16384
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupRange"]
+position = Vector2( -0.315559, -32.6603 )
+shape = SubResource( 35 )
 
 [node name="WallSlideCooldown" type="Timer" parent="."]
 process_mode = 0
@@ -552,39 +566,9 @@ one_shot = true
 wait_time = 0.02
 one_shot = true
 
-[node name="TopOfHeadArea" type="Area2D" parent="."]
-editor/display_folded = true
-visible = false
-position = Vector2( 0, -84 )
-collision_layer = 2048
-collision_mask = 960
-
-[node name="Shape" type="CollisionShape2D" parent="TopOfHeadArea"]
-shape = SubResource( 37 )
-one_way_collision = true
-
-[node name="PickupRange" type="Area2D" parent="."]
-editor/display_folded = true
-visible = false
-collision_layer = 16384
-collision_mask = 16384
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupRange"]
-position = Vector2( -0.315559, -32.6603 )
-shape = SubResource( 35 )
-
 [node name="FallThroughTimer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
-
-[node name="JumpingUpThroughPlatformArea" type="Area2D" parent="."]
-visible = false
-position = Vector2( 0, -80 )
-collision_layer = 0
-collision_mask = 16
-
-[node name="Shape" type="CollisionShape2D" parent="JumpingUpThroughPlatformArea"]
-shape = SubResource( 36 )
 
 [node name="LocalScore" type="Label" parent="."]
 anchor_left = 0.5
@@ -597,11 +581,9 @@ custom_fonts/font = SubResource( 11 )
 text = "0"
 align = 1
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
-
+[connection signal="body_entered" from="TopOfHeadArea" to="." method="_on_TopOfHeadArea_body_entered"]
 [connection signal="timeout" from="WallSlideStickyTimer" to="." method="_on_WallSlideStickyTimer_timeout"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_AttackCooldown_timeout"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
 [connection signal="timeout" from="JumpCooldownTimer" to="." method="_on_JumpCooldownTimer_timeout"]
-[connection signal="body_entered" from="TopOfHeadArea" to="." method="_on_TopOfHeadArea_body_entered"]
 [connection signal="timeout" from="FallThroughTimer" to="." method="_on_FallThroughTimer_timeout"]

@@ -73,7 +73,6 @@ func update_chunk(old_chunk : Node2D):
 	#instance and set new chunk above players on the top of the tower
 	new_chunk.position = old_chunk.position
 	new_chunk.position.y -= old_chunk.size
-	print(new_chunk.name)
 
 	#add to tree
 	call_deferred('add_child', new_chunk)

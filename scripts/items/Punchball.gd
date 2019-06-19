@@ -49,7 +49,6 @@ func _on_ImpulseTimer_timeout():
 		_handle_random_motion()
 
 func hit(by : Node, damage : int, knockback :Vector2):
-	print('ball hit function called')
 	if can_be_hit && by.is_attacking:
 		var knockback_velocity : Vector2 = Vector2.ZERO
 	
