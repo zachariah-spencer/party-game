@@ -15,7 +15,9 @@ var b_button : String
 var start_button : String
 var player_number : String
 var ready = false
+
 var bit := 0
+const ITEM_BIT := 16384
 
 func _ready():
 	set_process_input(true)
@@ -165,8 +167,8 @@ func register_player_inputs():
 
 	child.collision_layer += bit
 	child.collision_mask += Players.player_bits - bit
-	child.left_hand.get_node("Hitbox").collision_mask -= bit
-	child.right_hand.get_node("Hitbox").collision_mask -= bit
+	child.left_hand.get_node("Hitbox").collision_mask += -bit + ITEM_BIT
+	child.right_hand.get_node("Hitbox").collision_mask += -bit + ITEM_BIT
 	child.get_node('TopOfHeadArea').collision_mask -= bit
 
 	child.move_left = 'player_' + player_string + '_move_left'
