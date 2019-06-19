@@ -300,7 +300,6 @@ func _state_machine_ready():
 	anim_tree['parameters/playback'].start("Airborne")
 	anim_tree['parameters/playback'].start("Grounded")
 	anim_tree['parameters/Grounded/playback'].start("Idle")
-#	call_deferred('_set_state', states.idle)
 	_set_state(states.idle)
 
 func _add_state(state_name):
@@ -346,8 +345,6 @@ func _get_transition(delta : float):
 			elif abs(move_direction.x) == 0:
 				return states.idle
 		states.jump:
-#			if wall_direction != 0  && wall_slide_cooldown.is_stopped() && Input.is_action_pressed(wall_action):
-#				return states.wall_slide
 			if is_on_floor():
 				return states.idle
 			elif velocity.y >= 0:
@@ -368,8 +365,6 @@ func _get_transition(delta : float):
 				return states.idle
 			elif wall_direction == 0:
 				return states.fall
-#			elif !Input.is_action_pressed(wall_action) && wall_slide_sticky_timer.is_stopped():
-#				return states.fall
 
 	#Error in transitions if this is returned
 	return null
