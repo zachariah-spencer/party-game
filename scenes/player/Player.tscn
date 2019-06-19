@@ -598,6 +598,7 @@ text = "0"
 align = 1
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
+
 [connection signal="timeout" from="WallSlideStickyTimer" to="." method="_on_WallSlideStickyTimer_timeout"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_AttackCooldown_timeout"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]

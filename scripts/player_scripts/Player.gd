@@ -91,7 +91,12 @@ func _apply_gravity(delta : float):
 	velocity.y += gravity * delta
 
 func _cap_gravity_wall_slide():
-	var max_velocity : float = 4 * Globals.CELL_SIZE if move_direction.y < 0 else 16 * Globals.CELL_SIZE
+	var max_velocity : float 
+	
+	if Input.is_action_pressed(move_down):
+		max_velocity = 16 * Globals.CELL_SIZE
+	else:
+		max_velocity = 4 * Globals.CELL_SIZE
 	velocity.y = min(velocity.y, max_velocity)
 
 func _apply_movement():
