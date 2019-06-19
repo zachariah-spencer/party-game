@@ -34,6 +34,7 @@ radius = 60.0
 radius = 200.0
 
 [node name="Punchball" index="0" instance=ExtResource( 1 )]
+collision_layer = 1
 collision_mask = 17351
 mass = 4.0
 gravity_scale = 0.0
@@ -78,30 +79,8 @@ shape = SubResource( 6 )
 [node name="HitCooldownTimer" type="Timer" parent="." index="5"]
 one_shot = true
 
-[node name="Raycasts" type="Node2D" parent="." index="6"]
+[node name="RunawayArea" type="Area2D" parent="." index="6"]
 editor/display_folded = true
-
-[node name="BottomCast" type="RayCast2D" parent="Raycasts" index="0"]
-enabled = true
-cast_to = Vector2( 0, 200 )
-collision_mask = 960
-
-[node name="TopCast" type="RayCast2D" parent="Raycasts" index="1"]
-enabled = true
-cast_to = Vector2( 0, -200 )
-collision_mask = 960
-
-[node name="RightCast" type="RayCast2D" parent="Raycasts" index="2"]
-enabled = true
-cast_to = Vector2( 200, 0 )
-collision_mask = 960
-
-[node name="LeftCast" type="RayCast2D" parent="Raycasts" index="3"]
-enabled = true
-cast_to = Vector2( -200, 0 )
-collision_mask = 960
-
-[node name="RunawayArea" type="Area2D" parent="." index="7"]
 collision_layer = 0
 collision_mask = 960
 
@@ -110,7 +89,6 @@ shape = SubResource( 7 )
 
 [connection signal="body_entered" from="." to="." method="_on_Punchball_body_entered"]
 [connection signal="timeout" from="ImpulseTimer" to="." method="_on_ImpulseTimer_timeout"]
-[connection signal="body_entered" from="PunchedArea" to="." method="_on_PunchedArea_body_entered"]
 [connection signal="timeout" from="HitCooldownTimer" to="." method="_on_HitCooldownTimer_timeout"]
 [connection signal="body_entered" from="RunawayArea" to="." method="_on_RunawayArea_body_entered"]
 [connection signal="body_exited" from="RunawayArea" to="." method="_on_RunawayArea_body_exited"]
