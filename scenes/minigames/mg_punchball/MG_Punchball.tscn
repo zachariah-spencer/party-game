@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/minigames/MG.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/minigame_scripts/mg_punchball/MG_Punchball.gd" type="Script" id=2]
+[ext_resource path="res://scenes/minigames/mg_punchball/maps/PunchballMap1.tscn" type="PackedScene" id=3]
+
+[node name="MG_Punchball" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+win_condition = 1
+allow_respawns = true
+visible_name = "Punchball"
+
+[node name="SpawnPoints" parent="." index="1"]
+editor/display_folded = true
+
+[node name="PlayerOneSpawnF" parent="SpawnPoints" index="0"]
+position = Vector2( 128, 650 )
+
+[node name="PlayerTwoSpawnF" parent="SpawnPoints" index="1"]
+position = Vector2( 320, 650 )
+
+[node name="PlayerThreeSpawnF" parent="SpawnPoints" index="2"]
+position = Vector2( 1152, 650 )
+
+[node name="PlayerFourSpawnF" parent="SpawnPoints" index="3"]
+position = Vector2( 1344, 650 )
+
+[node name="CanvasLayer" parent="." index="2"]
+editor/display_folded = true
+
+[node name="PunchballMap1" parent="." index="6" instance=ExtResource( 3 )]
+

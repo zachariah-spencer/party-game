@@ -11,7 +11,7 @@ func _ready():
 	
 	yield(Globals.HUD, 'begin_game')
 	
-	$Punchball/ImpulseTimer.start()
+	get_tree().get_nodes_in_group('punchball')[0].get_node('ImpulseTimer').start()
 
 func _physics_process(delta):
 	_run_minigame_loop()
