@@ -1,5 +1,10 @@
 extends Minigame
 
+func _init():
+	maps = [
+	preload('res://scenes/minigames/mg_punchball/maps/4_PunchballMap1.tscn')
+	]
+
 func _ready():
 	add_to_group('minigames')
 	Manager.minigame_name = 'punchball'

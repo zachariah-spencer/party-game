@@ -1,13 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://scenes/minigames/MapTemplate.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scripts/minigame_scripts/Map.gd" type="Script" id=2]
-[ext_resource path="res://scenes/items/Punchball.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/items/Punchball.tscn" type="PackedScene" id=2]
 
 [node name="4_PunchballMap1" index="0" groups=[
 "maps",
 ] instance=ExtResource( 1 )]
-script = ExtResource( 2 )
 optimal_player_count = 4
 
 [node name="TerrainTilemap" parent="." index="0"]
@@ -17,8 +15,9 @@ tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 
 tile_data = PoolIntArray( 327681, 1, 0, 327682, 1, 0, 327683, 1, 0, 327707, 1, 0, 327708, 1, 0, 327709, 1, 0, 524293, 1, 0, 524294, 1, 0, 524296, 1, 0, 524297, 1, 0, 524309, 1, 0, 524310, 1, 0, 524312, 1, 0, 524313, 1, 0, 786433, 1, 0, 786434, 1, 0, 786435, 1, 0, 786445, 1, 0, 786446, 1, 0, 786447, 1, 0, 786448, 1, 0, 786449, 1, 0, 786459, 1, 0, 786460, 1, 0, 786461, 1, 0, 983042, 1, 0, 983050, 1, 0, 983054, 1, 0, 983055, 1, 0, 983056, 1, 0, 983060, 1, 0, 983068, 1, 0 )
 
 [node name="SpawnPoints" parent="." index="3"]
+editor/display_folded = false
 position = Vector2( 256, 0 )
 
-[node name="Punchball" parent="." index="4" instance=ExtResource( 3 )]
+[node name="Punchball" parent="." index="4" instance=ExtResource( 2 )]
 position = Vector2( 992, 160 )
 

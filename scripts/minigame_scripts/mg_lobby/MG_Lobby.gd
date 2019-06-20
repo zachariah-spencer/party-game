@@ -28,7 +28,7 @@ func _ready():
 
 
 
-func _process(delta):
+func _physics_process(delta):
 	_check_ready_ups()
 
 func _check_ready_ups():
