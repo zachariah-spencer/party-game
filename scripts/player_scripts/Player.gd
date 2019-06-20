@@ -82,6 +82,8 @@ onready var gravity := 2 * max_jump_height / pow(jump_duration, 2)
 onready var max_jump_velocity = -sqrt(2 * gravity * max_jump_height)
 onready var min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
 
+signal interacted
+
 func _ready():
 	#call state machines ready function
 	_state_machine_ready()
@@ -89,7 +91,12 @@ func _ready():
 	_update_player_stats()
 	#set idle facial expression
 	_set_face()
-
+	
+	var interactables = get_tree().get_nodes_in_group('interactable')
+	
+	if interactables.size() != 0:
+		for interactable in interactables:
+			connect('interacted',interactable, 'interact')
 func _physics_process(delta):
 	if state != null:
 		_state_logic(delta)
@@ -167,6 +174,7 @@ func drop():
 
 func attack():
 	if can_attack:
+		emit_signal('interacted', self)
 		var hand = null
 		var vel = Vector2(0,0)
 		var body_part = $Rig/Body

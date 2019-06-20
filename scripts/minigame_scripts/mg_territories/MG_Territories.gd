@@ -1,7 +1,8 @@
 extends Minigame
 
 func _ready():
-	yield(Globals.HUD, 'begin_game')
+	add_to_group('minigames')
+	Manager.minigame_name = 'territories'
 
 func _physics_process(delta):
 	_run_minigame_loop()

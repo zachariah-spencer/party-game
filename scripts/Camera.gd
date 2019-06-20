@@ -16,7 +16,10 @@ func _process(delta):
 	for player in Players._get_alive_players():
 		dist += center.distance_to(player.child.global_position)
 	if alive > 1 :
-		zoom = lerp(zoom, Vector2.ONE * max(.1,log(dist)/log(40)-.3), .5)
+		if dist < 860:
+			zoom = lerp(zoom, Vector2.ONE * max(.1,log(dist)/log(40)-.3), .08)
+		elif dist >= 860:
+			zoom = lerp(zoom, Vector2.ONE * max(.1,log(dist * 5)/log(40)-.3), .08)
 	else :
 		zoom = Vector2.ONE * default_zoom_mod
 	global_position = center

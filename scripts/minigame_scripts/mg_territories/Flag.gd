@@ -1,26 +1,27 @@
 extends Area2D
 
-var owned_by : PlayersManager
-var player_on_flag : Player
+var owned_by : PlayersManager = null
+var player_on_flag : Player = null
 
 signal flag_captured
 signal flag_deowned
 
 func _ready():
-	connect('flag_captured', get_parent(),'_increase_local_score')
-	connect('flag_deowned', get_parent(),'_decrease_local_score')
+	connect('flag_captured', Manager.current_minigame,'_increase_local_score')
+	connect('flag_deowned', Manager.current_minigame,'_decrease_local_score')
 
-func hit(by : Node, damage : int, knockback : Vector2):
-	print('here')
-	if player_on_flag:
-		print('in if here')
+func interact(by : Player):
+	if player_on_flag && player_on_flag.parent != owned_by && !Manager.current_minigame.game_over:
+		if owned_by:
+			emit_signal('flag_deowned', owned_by, 1)
+		
 		owned_by = by.parent
 		modulate = owned_by.modulate
 		emit_signal('flag_captured', owned_by, 1)
 
-func _on_Flag_body_entered(body):
+func _on_InteractArea_body_entered(body):
 	player_on_flag = body as Player
 
 
-func _on_Flag_body_exited(body):
+func _on_InteractArea_body_exited(body):
 	player_on_flag = null
