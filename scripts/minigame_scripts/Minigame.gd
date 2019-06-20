@@ -37,6 +37,9 @@ func _ready():
 		map = get_tree().get_nodes_in_group('maps')[0]
 	
 	spawn_points = map.get_node('SpawnPoints').get_children()
+	
+#	_update_active_spawn_points()
+	
 	spawn_points.shuffle()
 	camera.current = true
 	
@@ -52,9 +55,32 @@ func _ready():
 
 	connect('game_times_up', Manager, '_on_game_times_up')
 
+#func _update_active_spawn_points():
+#	match map.optimal_player_count:
+#		-1:
+#			pass
+#		2:
+#			spawn_points.pop_back()
+#			spawn_points.pop_back()
+#			spawn_points.pop_back()
+#		3:
+#			spawn_points.pop_back()
+#			spawn_points.pop_back()
+#		4:
+#			pass
+
 func _select_a_map():
 	#set a map
+	maps.shuffle()
 	map = maps[0].instance()
+	if map.optimal_player_count != -1:
+		if map.optimal_player_count != Players._update_active_players().size():
+			maps.shuffle()
+			map = maps[0].instance()
+	else:
+		if map.optimal_player_count != 4:
+			maps.shuffle()
+			map = maps[0].instance()
 	
 	#load map into the world
 	add_child(map)
@@ -64,9 +90,9 @@ func _physics_process(delta):
 
 func _insert_players():
 	Players._update_active_players()
+	
 	for player in Players.active_players :
 		player.spawn(spawn_points[int(player.player_number)-1].position)
-		print(player.position)
 
 func _pregame(has_countdown : bool = true):
 	#if game has a countdown
