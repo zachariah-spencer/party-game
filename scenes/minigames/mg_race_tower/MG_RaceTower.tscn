@@ -2,7 +2,7 @@
 
 [ext_resource path="res://scenes/minigames/MGTemplate.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/minigame_scripts/mg_race_tower/MG_RaceTower.gd" type="Script" id=2]
-[ext_resource path="res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/chunks/TowerChunkOne.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/Any_RaceTowerMap1.tscn" type="PackedScene" id=3]
 [ext_resource path="res://icon.png" type="Texture" id=4]
 
 [sub_resource type="Shader" id=1]
@@ -50,10 +50,13 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 960, 32 )
 
-[node name="MG_RaceTower" instance=ExtResource( 1 )]
+[node name="MG_RaceTower" index="0" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+visible_name = "Race Tower"
+max_lava_speed = 2.6
+lava_speed_increment = 0.05
 
-[node name="TowerChunkOne" parent="." index="2" instance=ExtResource( 3 )]
+[node name="Any_RaceTowerMap1" parent="." index="2" instance=ExtResource( 3 )]
 
 [node name="Lava" type="Area2D" parent="." index="3"]
 editor/display_folded = true

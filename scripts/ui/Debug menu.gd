@@ -3,7 +3,6 @@ extends PopupMenu
 func _ready():
 	for game in Manager.GAMES :
 		var g = game.instance()
-		print(g.visible_name)
 		add_item(g.visible_name)
 
 func _input(event):

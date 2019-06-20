@@ -14,7 +14,7 @@ func chunk_entered(body):
 	if body.is_in_group("player") :
 		if entered == false:
 			entered = true
-			get_parent().update_chunk(self)
+			get_parent().get_parent().update_chunk(self)
 
 func on_chunk_updates():
 	pass

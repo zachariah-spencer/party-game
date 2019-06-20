@@ -63,6 +63,7 @@ extents = Vector2( 32, 16 )
 
 [node name="TowerChunkOne" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+size = 1024
 
 [node name="Area" parent="." index="0"]
 position = Vector2( 448, -512 )

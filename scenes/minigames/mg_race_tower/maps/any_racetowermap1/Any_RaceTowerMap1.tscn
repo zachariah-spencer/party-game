@@ -7,5 +7,20 @@
 [node name="Any_RaceTowerMap1" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
+[node name="SpawnPoints" parent="." index="3"]
+editor/display_folded = false
+
+[node name="PlayerOneSpawnF" parent="SpawnPoints" index="0"]
+position = Vector2( 128, -160 )
+
+[node name="PlayerTwoSpawnF" parent="SpawnPoints" index="1"]
+position = Vector2( 256, -160 )
+
+[node name="PlayerThreeSpawnF" parent="SpawnPoints" index="2"]
+position = Vector2( 640, -160 )
+
+[node name="PlayerFourSpawnF" parent="SpawnPoints" index="3"]
+position = Vector2( 768, -160 )
+
 [node name="TowerChunkOne" parent="." index="4" instance=ExtResource( 3 )]
 
