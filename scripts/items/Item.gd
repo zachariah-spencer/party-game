@@ -51,8 +51,8 @@ func get_hit_mask(hit := hits):
 	match hit :
 		hit_types.opponents :
 			if _owner :
-				return Players.player_bits - _owner.parent.bit
-			else : return Player.player_bits
+				return Globals.PLAYER_BITS - _owner.parent.bit
+			else : return Globals.PLAYER_BITS
 		hit_types.everybody :
 			return Players.player_bits
 		hit_types.terrain :

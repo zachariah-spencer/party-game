@@ -204,3 +204,6 @@ func _handle_local_scoring():
 
 func _increase_local_score(player : PlayersManager, amount := 0):
 	player.local_score += amount
+
+func _decrease_local_score(player : PlayersManager, amount := 0):
+	player.local_score -= amount
