@@ -1,14 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://scenes/minigames/MapTemplate.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scripts/minigame_scripts/mg_race_tower/maps/any_racetowermap1/Any_RaceTowerMap1.gd" type="Script" id=2]
-[ext_resource path="res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/chunks/TowerChunkOne.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/chunks/TowerChunkOne.tscn" type="PackedScene" id=2]
 
-[node name="Any_RaceTowerMap1" instance=ExtResource( 1 )]
-script = ExtResource( 2 )
-
-[node name="SpawnPoints" parent="." index="3"]
-editor/display_folded = false
+[node name="Any_RaceTowerMap1" index="0" instance=ExtResource( 1 )]
+map_index = 1
 
 [node name="PlayerOneSpawnF" parent="SpawnPoints" index="0"]
 position = Vector2( 128, -160 )
@@ -22,5 +18,5 @@ position = Vector2( 640, -160 )
 [node name="PlayerFourSpawnF" parent="SpawnPoints" index="3"]
 position = Vector2( 768, -160 )
 
-[node name="TowerChunkOne" parent="." index="4" instance=ExtResource( 3 )]
+[node name="TowerChunkOne" parent="." index="4" instance=ExtResource( 2 )]
 

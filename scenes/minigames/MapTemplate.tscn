@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://scripts/minigame_scripts/mg_punchball/maps/PunchballMap1.gd" type="Script" id=1]
+[ext_resource path="res://scripts/minigame_scripts/Map.gd" type="Script" id=1]
 [ext_resource path="res://DevTileset.tres" type="TileSet" id=2]
 
 [node name="Map" type="Node2D"]

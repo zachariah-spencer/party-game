@@ -1,44 +1,25 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://scripts/minigame_scripts/mg_race_tower/maps/TowerChunk.gd" type="Script" id=1]
-[ext_resource path="res://scripts/minigame_scripts/mg_race_tower/maps/any_racetowermap1/chunks/TowerChunkSeven.gd" type="Script" id=2]
-[ext_resource path="res://DevTileset.tres" type="TileSet" id=3]
-[ext_resource path="res://scenes/minigames/mg_race_tower/maps/TowerChunk.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/minigames/mg_race_tower/maps/TowerChunk.tscn" type="PackedScene" id=1]
+[ext_resource path="res://DevTileset.tres" type="TileSet" id=2]
 
-
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 448, 32 )
-
-[sub_resource type="PackedScene" id=2]
-_bundled = {
-"conn_count": 0,
-"conns": PoolIntArray(  ),
-"editable_instances": [  ],
-"names": PoolStringArray( "TowerChunk", "Node2D", "script", "Area", "Area2D", "position", "Shape", "CollisionShape2D", "shape" ),
-"node_count": 3,
-"node_paths": [ NodePath("."), NodePath("./Area") ],
-"nodes": PoolIntArray( -1, -1, 1, 0, -1, 1, 2, 0, 0, 1073741824, 0, 4, 3, -1, 1, 5, 1, 0, 1073741825, 0, 7, 6, -1, 1, 8, 2, 0 ),
-"variants": [ ExtResource( 1 ), Vector2( 448, -3072 ), SubResource( 1 ) ],
-"version": 2
-}
-
-[node name="TowerChunkSeven" instance=ExtResource( 4 )]
-script = ExtResource( 2 )
+[node name="TowerChunkSeven" instance=ExtResource( 1 )]
 size = 1088
+chunk_id = 7
 
 [node name="Area" parent="." index="0"]
 position = Vector2( 448, -544 )
 
 [node name="TileMapTerrain" type="TileMap" parent="." index="1"]
 position = Vector2( 0, 1024 )
-tile_set = ExtResource( 3 )
+tile_set = ExtResource( 2 )
 collision_mask = 0
 format = 1
 tile_data = PoolIntArray( -2162688, 0, 0, -2162675, 0, 0, -2097152, 0, 0, -2097139, 0, 0, -2031616, 0, 0, -2031613, 0, 0, -2031611, 0, 0, -2031610, 0, 0, -2031609, 0, 0, -2031608, 0, 0, -2031607, 0, 0, -2031606, 0, 0, -2031603, 0, 0, -1966080, 0, 0, -1966077, 0, 0, -1966075, 0, 0, -1966074, 0, 0, -1966073, 0, 0, -1966070, 0, 0, -1966067, 0, 0, -1900544, 0, 0, -1900541, 0, 0, -1900538, 0, 0, -1900537, 0, 0, -1900534, 0, 0, -1900531, 0, 0, -1835008, 0, 0, -1835007, 0, 0, -1835005, 0, 0, -1835002, 0, 0, -1835001, 0, 0, -1834999, 0, 0, -1834998, 0, 0, -1834995, 0, 0, -1769472, 0, 0, -1769471, 0, 0, -1769469, 0, 0, -1769468, 0, 0, -1769466, 0, 0, -1769465, 0, 0, -1769463, 0, 0, -1769462, 0, 0, -1769461, 0, 0, -1769459, 0, 0, -1703936, 0, 0, -1703933, 0, 0, -1703930, 0, 0, -1703929, 0, 0, -1703926, 0, 0, -1703923, 0, 0, -1638400, 0, 0, -1638397, 0, 0, -1638394, 0, 0, -1638393, 0, 0, -1638390, 0, 0, -1638387, 0, 0, -1572864, 0, 0, -1572862, 0, 0, -1572861, 0, 0, -1572859, 0, 0, -1572858, 0, 0, -1572857, 0, 0, -1572856, 0, 0, -1572854, 0, 0, -1572852, 0, 0, -1572851, 0, 0, -1507328, 0, 0, -1507325, 0, 0, -1507322, 0, 0, -1507321, 0, 0, -1507318, 0, 0, -1507315, 0, 0, -1441792, 0, 0, -1441789, 0, 0, -1441786, 0, 0, -1441785, 0, 0, -1441782, 0, 0, -1441779, 0, 0, -1376256, 0, 0, -1376253, 0, 0, -1376250, 0, 0, -1376249, 0, 0, -1376246, 0, 0, -1376243, 0, 0, -1310720, 0, 0, -1310707, 0, 0, -1245184, 0, 0, -1245171, 0, 0, -1179648, 0, 0, -1179635, 0, 0, -1114112, 0, 0, -1114111, 0, 0, -1114110, 0, 0, -1114109, 0, 0, -1114106, 0, 0, -1114105, 0, 0, -1114102, 0, 0, -1114101, 0, 0, -1114100, 0, 0, -1114099, 0, 0 )
 
 [node name="TileMapPlatforms" type="TileMap" parent="." index="2"]
 position = Vector2( 0, 1024 )
-tile_set = ExtResource( 3 )
+tile_set = ExtResource( 2 )
 collision_layer = 16
 collision_mask = 0
 format = 1

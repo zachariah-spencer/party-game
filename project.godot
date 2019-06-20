@@ -42,7 +42,7 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "TowerChunk",
 "language": "GDScript",
-"path": "res://scripts/minigame_scripts/mg_race_tower/maps/TowerChunk.gd"
+"path": "res://scripts/minigame_scripts/mg_race_tower/TowerChunk.gd"
 } ]
 _global_script_class_icons={
 "Item": "",

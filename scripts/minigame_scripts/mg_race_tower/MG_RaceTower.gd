@@ -46,11 +46,6 @@ func _on_Lava_body_entered(player):
 	player.hit_points = 0
 
 func update_chunk(old_chunk : Node2D):
-	#This instancing is causing extreme lag
-	#Unsure if this is a code problem or merely
-	#a node-count issue as we are using individual
-	#nodes for each 64x64 block of terrain
-
 	#let all active chunks know that more are being loaded
 	emit_signal('updated_chunks')
 	CHUNKS.shuffle()
