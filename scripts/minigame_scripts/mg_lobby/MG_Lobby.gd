@@ -11,7 +11,6 @@ var num_of_ready_ups = 0
 func _ready():
 	add_to_group('minigames')
 	Manager.minigame_name = 'lobby'
-	visible_name = "Lobby"
 	game_instructions = "Press '1'\nto ready up!"
 	game_time = 999999999999999999999
 	has_countdown = false

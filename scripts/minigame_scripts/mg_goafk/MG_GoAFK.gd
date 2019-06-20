@@ -3,7 +3,6 @@ extends Minigame
 func _ready():
 	add_to_group('minigames')
 	Manager.minigame_name = 'goafk'
-	visible_name = "Go AFK"
 	game_instructions = "DON'T MOVE!!!"
 	game_time = 5
 	has_countdown = false

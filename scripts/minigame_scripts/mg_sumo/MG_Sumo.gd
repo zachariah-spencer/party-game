@@ -3,7 +3,6 @@ extends Minigame
 func _ready():
 	add_to_group('minigames')
 	Manager.minigame_name = 'sumo'
-	visible_name = 'Sumo'
 	game_instructions = "Punch The Other\nPlayers Off!"
 	game_time = 15
 	win_condition = win_conditions.last_alive_allow_no_winners

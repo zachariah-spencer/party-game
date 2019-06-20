@@ -3,14 +3,14 @@ extends Minigame
 #When a new map chunk scene to be randomly generated is created, adding it to this list
 #should insert it into the procedural rotation
 const CHUNKS  = [
-	preload('res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/TowerChunkTwo.tscn'),
-	preload('res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/TowerChunkThree.tscn'),
-	preload('res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/TowerChunkFour.tscn'),
-	preload('res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/TowerChunkFive.tscn'),
-	preload('res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/TowerChunkSix.tscn'),
-	preload('res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/TowerChunkSeven.tscn'),
-	preload('res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/TowerChunkEight.tscn'),
-	preload('res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/TowerChunkNine.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/chunks/TowerChunkTwo.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/chunks/TowerChunkThree.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/chunks/TowerChunkFour.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/chunks/TowerChunkFive.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/chunks/TowerChunkSix.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/chunks/TowerChunkSeven.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/chunks/TowerChunkEight.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/chunks/TowerChunkNine.tscn'),
 ]
 
 var update_timer : int
@@ -24,7 +24,6 @@ signal updated_chunks
 func _ready():
 	add_to_group('minigames')
 	Manager.minigame_name = 'race_tower'
-	visible_name = "Tower Race"
 	game_instructions = "Race to\nEscape the Lava!"
 	game_time = 30
 	update_timer = game_time - lava_speed_incrementing_time

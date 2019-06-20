@@ -2,4 +2,7 @@ extends Node
 
 class_name Map
 
-export var optimal_player_count := 4
+func _ready():
+	add_to_group('maps')
+
+export var optimal_player_count := -1
