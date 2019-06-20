@@ -6,7 +6,7 @@
 
 [node name="MG_Territories" index="0" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-game_time = 10
+game_time = 30
 game_instructions = "Capture the most flags"
 win_condition = 3
 visible_name = "Territories"
