@@ -3,14 +3,14 @@ extends Minigame
 #When a new map chunk scene to be randomly generated is created, adding it to this list
 #should insert it into the procedural rotation
 const CHUNKS  = [
-	preload('res://scenes/minigames/mg_race_tower/TowerChunkTwo.tscn'),
-	preload('res://scenes/minigames/mg_race_tower/TowerChunkThree.tscn'),
-	preload('res://scenes/minigames/mg_race_tower/TowerChunkFour.tscn'),
-	preload('res://scenes/minigames/mg_race_tower/TowerChunkFive.tscn'),
-	preload('res://scenes/minigames/mg_race_tower/TowerChunkSix.tscn'),
-	preload('res://scenes/minigames/mg_race_tower/TowerChunkSeven.tscn'),
-	preload('res://scenes/minigames/mg_race_tower/TowerChunkEight.tscn'),
-	preload('res://scenes/minigames/mg_race_tower/TowerChunkNine.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/maps/TowerChunkTwo.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/maps/TowerChunkThree.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/maps/TowerChunkFour.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/maps/TowerChunkFive.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/maps/TowerChunkSix.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/maps/TowerChunkSeven.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/maps/TowerChunkEight.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/maps/TowerChunkNine.tscn'),
 ]
 
 var update_timer : int

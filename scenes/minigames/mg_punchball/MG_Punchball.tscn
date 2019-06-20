@@ -4,9 +4,9 @@
 [ext_resource path="res://scripts/minigame_scripts/mg_punchball/MG_Punchball.gd" type="Script" id=2]
 [ext_resource path="res://scenes/minigames/mg_punchball/maps/4_PunchballMap1.tscn" type="PackedScene" id=3]
 
-
-[node name="MG_Punchball" instance=ExtResource( 1 )]
+[node name="MG_Punchball" index="0" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+visible_name = "Punchball"
 
 [node name="PunchballMap1" parent="." index="2" instance=ExtResource( 3 )]
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://scenes/minigames/mg_race_tower/TowerChunk.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scripts/minigame_scripts/mg_race_tower/TowerChunkEight.gd" type="Script" id=2]
+[ext_resource path="res://scenes/minigames/mg_race_tower/maps/TowerChunk.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/minigame_scripts/mg_race_tower/maps/TowerChunkEight.gd" type="Script" id=2]
 [ext_resource path="res://DevTileset.tres" type="TileSet" id=3]
 
 [node name="TowerChunkEight" instance=ExtResource( 1 )]
