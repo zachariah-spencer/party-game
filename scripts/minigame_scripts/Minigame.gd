@@ -21,6 +21,7 @@ var game_active : bool = false
 var game_over : bool = false
 var minigame_timer : Timer
 var spawn_points : Array
+onready var map = get_tree().get_nodes_in_group('maps')[0]
 
 onready var hud : Node = $CanvasLayer/HUD
 
@@ -28,7 +29,9 @@ signal game_times_up
 
 func _ready():
 	Manager.current_minigame = self
-	spawn_points = $SpawnPoints.get_children()
+	spawn_points = map.get_node('SpawnPoints').get_children()
+#	elif Manager.minigame_name == 'lobby':
+#		spawn_points = $SpawnPoints.get_children()
 	spawn_points.shuffle()
 	camera.current = true
 	minigame_timer = Timer.new()

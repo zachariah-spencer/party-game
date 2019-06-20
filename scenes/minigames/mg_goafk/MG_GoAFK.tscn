@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://scenes/minigames/MG.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scripts/minigame_scripts/MG_GoAFK.gd" type="Script" id=2]
+[ext_resource path="res://scenes/minigames/old/MGTemplate_old.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/minigame_scripts/mg_goafk/MG_GoAFK.gd" type="Script" id=2]
 [ext_resource path="res://DevTileset.tres" type="TileSet" id=3]
 
 [node name="MG_GoAFK" index="0" instance=ExtResource( 1 )]
@@ -24,3 +24,4 @@ position = Vector2( 1344, 672 )
 tile_set = ExtResource( 3 )
 format = 1
 tile_data = PoolIntArray( 851969, 0, 0, 851970, 0, 0, 851971, 0, 0, 851972, 0, 0, 851973, 0, 0, 851974, 0, 0, 851975, 0, 0, 851976, 0, 0, 851977, 0, 0, 851978, 0, 0, 851979, 0, 0, 851980, 0, 0, 851981, 0, 0, 851982, 0, 0, 851983, 0, 0, 851984, 0, 0, 851985, 0, 0, 851986, 0, 0, 851987, 0, 0, 851988, 0, 0, 851989, 0, 0, 851990, 0, 0 )
+

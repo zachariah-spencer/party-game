@@ -1,9 +1,11 @@
 [gd_scene load_steps=13 format=2]
 
-[ext_resource path="res://scenes/minigames/MG.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/minigames/old/MGTemplate_old.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/minigame_scripts/mg_race_tower/MG_RaceTower.gd" type="Script" id=2]
 [ext_resource path="res://icon.png" type="Texture" id=3]
 [ext_resource path="res://scenes/minigames/mg_race_tower/TowerChunkOne.tscn" type="PackedScene" id=4]
+
+
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;

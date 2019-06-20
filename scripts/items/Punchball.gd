@@ -12,7 +12,7 @@ var can_be_hit := true
 signal player_got_a_punch
 
 func _ready():
-	connect('player_got_a_punch',get_parent(),'_increase_local_score')
+	connect('player_got_a_punch',get_parent().get_parent(),'_increase_local_score')
 	_weight = 10
 	bounce = .6
 
@@ -63,7 +63,7 @@ func hit(by : Node, damage : int, knockback :Vector2):
 	
 		hit_cooldown.start()
 		modulate.a = .5
-		if !get_parent().game_over:
+		if !get_parent().get_parent().game_over:
 			emit_signal('player_got_a_punch', by.parent, 1)
 
 func _on_HitCooldownTimer_timeout():
