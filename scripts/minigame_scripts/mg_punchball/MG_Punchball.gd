@@ -4,7 +4,8 @@ func _init():
 	maps = [
 	preload('res://scenes/minigames/mg_punchball/maps/4_PunchballMap1.tscn'),
 	preload('res://scenes/minigames/mg_punchball/maps/2_PunchballMap2.tscn'),
-	preload('res://scenes/minigames/mg_punchball/maps/3_PunchballMap3.tscn')
+	preload('res://scenes/minigames/mg_punchball/maps/3_PunchballMap3.tscn'),
+	preload('res://scenes/minigames/mg_punchball/maps/Any_PunchballMap4.tscn')
 	]
 
 func _ready():
