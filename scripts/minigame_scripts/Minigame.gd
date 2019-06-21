@@ -22,7 +22,8 @@ var game_active : bool = false
 var game_over : bool = false
 var minigame_timer : Timer
 var spawn_points : Array
-var map
+var map : Node2D
+var forced_to_lobby := false
 onready var hud : Node = $CanvasLayer/HUD
 
 var maps : Array = []
@@ -88,6 +89,10 @@ func _select_a_map():
 	add_child(map)
 
 func _physics_process(delta):
+	if Players._update_active_players().size() < 2 && Manager.minigame_name != 'lobby' && !forced_to_lobby:
+		forced_to_lobby = true
+		Manager._start_new_minigame(Manager.GAMES[0])
+	
 	_handle_local_scoring()
 
 func _insert_players():
