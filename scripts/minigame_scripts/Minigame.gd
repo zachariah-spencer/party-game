@@ -30,6 +30,7 @@ var maps : Array = []
 signal game_times_up
 
 func _ready():
+	Players._update_active_players()
 	Manager.current_minigame = self
 	if has_map_rotations:
 		_select_a_map()
@@ -72,8 +73,6 @@ func _select_a_map():
 	maps.shuffle()
 	map = maps[0].instance()
 	
-	Players._update_active_players()
-	
 	if map.optimal_player_count != -1:
 		while map.optimal_player_count != Players.active_players.size():
 			map.free()
@@ -92,7 +91,6 @@ func _physics_process(delta):
 	_handle_local_scoring()
 
 func _insert_players():
-	Players._update_active_players()
 	
 	for player in Players.active_players :
 		player.spawn(spawn_points[int(player.player_number)-1].position)
@@ -101,13 +99,12 @@ func _pregame(has_countdown : bool = true):
 	#if game has a countdown
 	if Manager.minigame_name != 'lobby':
 		if has_countdown:
-			Players._update_active_players()
 			for player in Players.active_players:
 				player.child._set_state(player.child.states.disabled)
 
 			yield(Globals.HUD,'begin_game')
 
-			for player in Players._update_active_players():
+			for player in Players._get_alive_players():
 				player.child._set_state(player.child.states.idle)
 
 			game_active = true
