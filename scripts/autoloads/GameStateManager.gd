@@ -3,11 +3,11 @@ extends Node
 #a list of all the minigames that can be played
 onready var GAMES = [
 
-	preload('res://scenes/minigames/MG_Lobby.tscn'),
-	preload('res://scenes/minigames/MG_Sumo.tscn'),
-	preload('res://scenes/minigames/MG_GoAFK.tscn'),
-	preload('res://scenes/minigames/mg_race_tower/MG_Race_Tower.tscn'),
-	preload('res://scenes/minigames/MG_Punchball.tscn'),
+	preload('res://scenes/minigames/mg_lobby/MG_Lobby.tscn'),
+	preload('res://scenes/minigames/mg_sumo/MG_Sumo.tscn'),
+	preload('res://scenes/minigames/mg_goafk/MG_GoAFK.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/MG_RaceTower.tscn'),
+	preload('res://scenes/minigames/mg_punchball/MG_Punchball.tscn'),
 	preload('res://scenes/minigames/mg_territories/MG_Territories.tscn')
 
 ]
@@ -89,9 +89,3 @@ func _select_random_minigame():
 		return rotation.front()
 	else :
 		return rotation.pop_front()
-
-func _force_back_to_lobby():
-	Players._update_active_players()
-	if Players.active_players.size() < 2:
-		_start_new_minigame(GAMES['lobby'])
-

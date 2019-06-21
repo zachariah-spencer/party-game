@@ -3,14 +3,14 @@ extends Minigame
 #When a new map chunk scene to be randomly generated is created, adding it to this list
 #should insert it into the procedural rotation
 const CHUNKS  = [
-	preload('res://scenes/minigames/mg_race_tower/TowerChunkTwo.tscn'),
-	preload('res://scenes/minigames/mg_race_tower/TowerChunkThree.tscn'),
-	preload('res://scenes/minigames/mg_race_tower/TowerChunkFour.tscn'),
-	preload('res://scenes/minigames/mg_race_tower/TowerChunkFive.tscn'),
-	preload('res://scenes/minigames/mg_race_tower/TowerChunkSix.tscn'),
-	preload('res://scenes/minigames/mg_race_tower/TowerChunkSeven.tscn'),
-	preload('res://scenes/minigames/mg_race_tower/TowerChunkEight.tscn'),
-	preload('res://scenes/minigames/mg_race_tower/TowerChunkNine.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/chunks/TowerChunkTwo.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/chunks/TowerChunkThree.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/chunks/TowerChunkFour.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/chunks/TowerChunkFive.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/chunks/TowerChunkSix.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/chunks/TowerChunkSeven.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/chunks/TowerChunkEight.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/chunks/TowerChunkNine.tscn'),
 ]
 
 var update_timer : int
@@ -24,7 +24,6 @@ signal updated_chunks
 func _ready():
 	add_to_group('minigames')
 	Manager.minigame_name = 'race_tower'
-	visible_name = "Tower Race"
 	game_instructions = "Race to\nEscape the Lava!"
 	game_time = 30
 	update_timer = game_time - lava_speed_incrementing_time
@@ -47,11 +46,6 @@ func _on_Lava_body_entered(player):
 	player.hit_points = 0
 
 func update_chunk(old_chunk : Node2D):
-	#This instancing is causing extreme lag
-	#Unsure if this is a code problem or merely
-	#a node-count issue as we are using individual
-	#nodes for each 64x64 block of terrain
-
 	#let all active chunks know that more are being loaded
 	emit_signal('updated_chunks')
 	CHUNKS.shuffle()

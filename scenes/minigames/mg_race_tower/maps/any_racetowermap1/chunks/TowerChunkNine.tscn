@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scenes/minigames/mg_race_tower/maps/TowerChunk.tscn" type="PackedScene" id=1]
+[ext_resource path="res://DevTileset.tres" type="TileSet" id=2]
+
+[node name="TowerChunkNine" instance=ExtResource( 1 )]
+size = 640
+chunk_id = 9
+
+[node name="Area" parent="." index="0"]
+position = Vector2( 448, -320 )
+
+[node name="TileMapTerrain" type="TileMap" parent="." index="1"]
+position = Vector2( 0, 3456 )
+tile_set = ExtResource( 2 )
+collision_mask = 0
+format = 1
+tile_data = PoolIntArray( -4194304, 0, 0, -4194291, 0, 0, -4128768, 0, 0, -4128755, 0, 0, -4063232, 0, 0, -4063229, 0, 0, -4063228, 0, 0, -4063227, 0, 0, -4063224, 0, 0, -4063223, 0, 0, -4063222, 0, 0, -4063221, 0, 0, -4063220, 0, 0, -4063219, 0, 0, -3997696, 0, 0, -3997693, 0, 0, -3997686, 0, 0, -3997683, 0, 0, -3932160, 0, 0, -3932157, 0, 0, -3932150, 0, 0, -3932147, 0, 0, -3866624, 0, 0, -3866621, 0, 0, -3866617, 0, 0, -3866616, 0, 0, -3866615, 0, 0, -3866614, 0, 0, -3866611, 0, 0, -3801088, 0, 0, -3801085, 0, 0, -3801082, 0, 0, -3801081, 0, 0, -3801078, 0, 0, -3801077, 0, 0, -3801075, 0, 0, -3735552, 0, 0, -3735549, 0, 0, -3735539, 0, 0, -3670016, 0, 0, -3670013, 0, 0, -3670003, 0, 0, -3604480, 0, 0, -3604477, 0, 0, -3604476, 0, 0, -3604475, 0, 0, -3604474, 0, 0, -3604473, 0, 0, -3604470, 0, 0, -3604469, 0, 0, -3604468, 0, 0, -3604467, 0, 0 )
+
+[node name="TileMapPlatforms" type="TileMap" parent="." index="2"]
+position = Vector2( 0, 3460 )
+tile_set = ExtResource( 2 )
+collision_layer = 16
+collision_mask = 0
+format = 1
+tile_data = PoolIntArray( -4063231, 1, 0, -4063230, 1, 0, -4063226, 1, 0, -4063225, 1, 0, -3801087, 1, 0, -3801086, 1, 0, -3801084, 1, 0, -3801083, 1, 0, -3801076, 1, 0 )
+

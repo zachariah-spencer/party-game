@@ -16,53 +16,104 @@ export var has_timer : bool = true
 export var has_countdown : bool = true
 export var visible_name := ''
 export var has_local_score := false
-onready var camera = get_node("Cam")
+export var has_map_rotations := false
+
 var game_active : bool = false
 var game_over : bool = false
 var minigame_timer : Timer
 var spawn_points : Array
+var map : Node2D
+var maps : Array = []
+var forced_to_lobby := false
 
 onready var hud : Node = $CanvasLayer/HUD
+onready var camera = get_node("Cam")
 
 signal game_times_up
 
 func _ready():
+	Players._update_active_players()
+	
 	Manager.current_minigame = self
-	spawn_points = $SpawnPoints.get_children()
+	if has_map_rotations:
+		_select_a_map()
+	else:
+		map = get_tree().get_nodes_in_group('maps')[0]
+	
+	spawn_points = map.get_node('SpawnPoints').get_children()
+	_update_active_spawn_points()
 	spawn_points.shuffle()
+	
 	camera.current = true
-	minigame_timer = Timer.new()
-	minigame_timer.connect('timeout', self, '_handle_minigame_time')
-	add_child(minigame_timer)
-	minigame_timer.set_autostart(true)
-	minigame_timer.set_one_shot(false)
-	minigame_timer.start(1)
+	connect('game_times_up', Manager, '_on_game_times_up')
 	
 	call_deferred('_insert_players')
 	call_deferred('_pregame')
 
-	connect('game_times_up', Manager, '_on_game_times_up')
+	
+
+func _init_minigame_timer():
+	minigame_timer = Timer.new()
+	minigame_timer.connect('timeout', self, '_handle_minigame_time')
+	minigame_timer.set_autostart(true)
+	minigame_timer.set_one_shot(false)
+	add_child(minigame_timer)
+	minigame_timer.start(1)
+
+func _update_active_spawn_points():
+	match map.optimal_player_count:
+		-1:
+			pass
+		2:
+			spawn_points.pop_back()
+			spawn_points.pop_back()
+		3:
+			spawn_points.pop_back()
+		4:
+			pass
+
+func _select_a_map():
+	#set a map
+	maps.shuffle()
+	map = maps[0].instance()
+	
+	if map.optimal_player_count != -1:
+		while map.optimal_player_count != Players.active_players.size():
+			map.free()
+			maps.shuffle()
+			map = maps[0].instance()
+	else:
+		while spawn_points.size() != 4:
+			map.free()
+			maps.shuffle()
+			map = maps[0].instance()
+	
+	#load map into the world
+	add_child(map)
 
 func _physics_process(delta):
+	if Players._update_active_players().size() < 2 && Manager.minigame_name != 'lobby' && !forced_to_lobby:
+		forced_to_lobby = true
+		Manager._start_new_minigame(Manager.GAMES[0])
+	
 	_handle_local_scoring()
 
 func _insert_players():
-	Players._update_active_players()
+	var i := 0
 	for player in Players.active_players :
-		player.spawn(spawn_points[int(player.player_number)-1].position)
+		player.spawn(spawn_points[i].position)
+		i += 1
 
 func _pregame(has_countdown : bool = true):
 	#if game has a countdown
 	if Manager.minigame_name != 'lobby':
 		if has_countdown:
-			Players._update_active_players()
 			for player in Players.active_players:
 				player.child._set_state(player.child.states.disabled)
 
 			yield(Globals.HUD,'begin_game')
 
-			Players._update_active_players()
-			for player in Players.active_players:
+			for player in Players._get_alive_players():
 				player.child._set_state(player.child.states.idle)
 
 			game_active = true
@@ -75,12 +126,6 @@ func _pregame(has_countdown : bool = true):
 
 func _run_minigame_loop():
 	pass
-
-#func _check_game_win_conditions():
-#	if Players._get_alive_players().size() == 1:
-#		_game_won()
-#	elif Players._get_alive_players().size() == 0 || game_time == 0:
-#		_game_won(true)
 
 func _check_game_win_conditions():
 	match win_condition:
