@@ -1,7 +1,6 @@
 extends Item
 onready var impulse_timer := $ImpulseTimer
 onready var hit_cooldown := $HitCooldownTimer
-onready var punch_area := $PunchedArea
 onready var runaway_area := $RunawayArea
 export var random_speed := 200
 export var runaway_speed := 32

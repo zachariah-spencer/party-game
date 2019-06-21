@@ -16,7 +16,18 @@ tile_data = PoolIntArray( 327681, 1, 0, 327682, 1, 0, 327683, 1, 0, 327707, 1, 0
 
 [node name="SpawnPoints" parent="." index="3"]
 editor/display_folded = false
-position = Vector2( 256, 0 )
+
+[node name="PlayerOneSpawnF" parent="SpawnPoints" index="0"]
+position = Vector2( 384, 650 )
+
+[node name="PlayerTwoSpawnF" parent="SpawnPoints" index="1"]
+position = Vector2( 576, 650 )
+
+[node name="PlayerThreeSpawnF" parent="SpawnPoints" index="2"]
+position = Vector2( 1408, 650 )
+
+[node name="PlayerFourSpawnF" parent="SpawnPoints" index="3"]
+position = Vector2( 1600, 650 )
 
 [node name="Punchball" parent="." index="4" instance=ExtResource( 2 )]
 position = Vector2( 992, 160 )

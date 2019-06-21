@@ -38,7 +38,7 @@ func _ready():
 	
 	spawn_points = map.get_node('SpawnPoints').get_children()
 	
-#	_update_active_spawn_points()
+	_update_active_spawn_points()
 	
 	spawn_points.shuffle()
 	camera.current = true
@@ -55,30 +55,33 @@ func _ready():
 
 	connect('game_times_up', Manager, '_on_game_times_up')
 
-#func _update_active_spawn_points():
-#	match map.optimal_player_count:
-#		-1:
-#			pass
-#		2:
-#			spawn_points.pop_back()
-#			spawn_points.pop_back()
-#			spawn_points.pop_back()
-#		3:
-#			spawn_points.pop_back()
-#			spawn_points.pop_back()
-#		4:
-#			pass
+func _update_active_spawn_points():
+	match map.optimal_player_count:
+		-1:
+			pass
+		2:
+			spawn_points.pop_back()
+			spawn_points.pop_back()
+		3:
+			spawn_points.pop_back()
+		4:
+			pass
 
 func _select_a_map():
 	#set a map
 	maps.shuffle()
 	map = maps[0].instance()
+	
+	Players._update_active_players()
+	
 	if map.optimal_player_count != -1:
-		if map.optimal_player_count != Players._update_active_players().size():
+		while map.optimal_player_count != Players.active_players.size():
+			map.free()
 			maps.shuffle()
 			map = maps[0].instance()
 	else:
-		if map.optimal_player_count != 4:
+		while spawn_points.size() != 4:
+			map.free()
 			maps.shuffle()
 			map = maps[0].instance()
 	
@@ -104,8 +107,7 @@ func _pregame(has_countdown : bool = true):
 
 			yield(Globals.HUD,'begin_game')
 
-			Players._update_active_players()
-			for player in Players.active_players:
+			for player in Players._update_active_players():
 				player.child._set_state(player.child.states.idle)
 
 			game_active = true

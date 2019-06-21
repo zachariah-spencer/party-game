@@ -30,7 +30,7 @@ color_ramp = SubResource( 2 )
 [sub_resource type="CircleShape2D" id=6]
 radius = 200.0
 
-[node name="Punchball" index="0" groups=[
+[node name="Punchball" groups=[
 "punchball",
 ] instance=ExtResource( 1 )]
 collision_layer = 16385
