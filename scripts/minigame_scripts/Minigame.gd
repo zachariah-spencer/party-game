@@ -91,9 +91,10 @@ func _physics_process(delta):
 	_handle_local_scoring()
 
 func _insert_players():
-	
+	var i := 0
 	for player in Players.active_players :
-		player.spawn(spawn_points[int(player.player_number)-1].position)
+		player.spawn(spawn_points[i].position)
+		i += 1
 
 func _pregame(has_countdown : bool = true):
 	#if game has a countdown
