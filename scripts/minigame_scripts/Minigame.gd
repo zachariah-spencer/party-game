@@ -17,21 +17,23 @@ export var has_countdown : bool = true
 export var visible_name := ''
 export var has_local_score := false
 export var has_map_rotations := false
-onready var camera = get_node("Cam")
+
 var game_active : bool = false
 var game_over : bool = false
 var minigame_timer : Timer
 var spawn_points : Array
 var map : Node2D
-var forced_to_lobby := false
-onready var hud : Node = $CanvasLayer/HUD
-
 var maps : Array = []
+var forced_to_lobby := false
+
+onready var hud : Node = $CanvasLayer/HUD
+onready var camera = get_node("Cam")
 
 signal game_times_up
 
 func _ready():
 	Players._update_active_players()
+	
 	Manager.current_minigame = self
 	if has_map_rotations:
 		_select_a_map()
@@ -39,23 +41,24 @@ func _ready():
 		map = get_tree().get_nodes_in_group('maps')[0]
 	
 	spawn_points = map.get_node('SpawnPoints').get_children()
-	
 	_update_active_spawn_points()
-	
 	spawn_points.shuffle()
-	camera.current = true
 	
-	minigame_timer = Timer.new()
-	minigame_timer.connect('timeout', self, '_handle_minigame_time')
-	add_child(minigame_timer)
-	minigame_timer.set_autostart(true)
-	minigame_timer.set_one_shot(false)
-	minigame_timer.start(1)
+	camera.current = true
+	connect('game_times_up', Manager, '_on_game_times_up')
 	
 	call_deferred('_insert_players')
 	call_deferred('_pregame')
 
-	connect('game_times_up', Manager, '_on_game_times_up')
+	
+
+func _init_minigame_timer():
+	minigame_timer = Timer.new()
+	minigame_timer.connect('timeout', self, '_handle_minigame_time')
+	minigame_timer.set_autostart(true)
+	minigame_timer.set_one_shot(false)
+	add_child(minigame_timer)
+	minigame_timer.start(1)
 
 func _update_active_spawn_points():
 	match map.optimal_player_count:
