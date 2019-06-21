@@ -47,18 +47,16 @@ func _ready():
 	camera.current = true
 	connect('game_times_up', Manager, '_on_game_times_up')
 	
-	call_deferred('_insert_players')
-	call_deferred('_pregame')
-
-	
-
-func _init_minigame_timer():
 	minigame_timer = Timer.new()
 	minigame_timer.connect('timeout', self, '_handle_minigame_time')
+	add_child(minigame_timer)
 	minigame_timer.set_autostart(true)
 	minigame_timer.set_one_shot(false)
-	add_child(minigame_timer)
 	minigame_timer.start(1)
+	
+	
+	call_deferred('_insert_players')
+	call_deferred('_pregame')
 
 func _update_active_spawn_points():
 	match map.optimal_player_count:
