@@ -75,13 +75,11 @@ func _select_a_map():
 	maps.shuffle()
 	map = maps[0].instance()
 	
+	#if map only designed for a certain # of players then 
+	#keep randomly picking until a map is found that supports 
+	#the current # of active players
 	if map.optimal_player_count != -1:
 		while map.optimal_player_count != Players.active_players.size():
-			map.free()
-			maps.shuffle()
-			map = maps[0].instance()
-	else:
-		while spawn_points.size() != 4:
 			map.free()
 			maps.shuffle()
 			map = maps[0].instance()
