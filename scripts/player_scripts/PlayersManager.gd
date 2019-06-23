@@ -98,6 +98,7 @@ func _activate_player(instant := false ):
 	Globals.HUD._update_hud()
 
 func _deactivate_player():
+	ready = false
 	active = false
 	die()
 	Players._update_active_players()
