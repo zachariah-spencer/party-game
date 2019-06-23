@@ -8,7 +8,8 @@ onready var GAMES = [
 	preload('res://scenes/minigames/mg_goafk/MG_GoAFK.tscn'),
 	preload('res://scenes/minigames/mg_race_tower/MG_RaceTower.tscn'),
 	preload('res://scenes/minigames/mg_punchball/MG_Punchball.tscn'),
-	preload('res://scenes/minigames/mg_territories/MG_Territories.tscn')
+	preload('res://scenes/minigames/mg_territories/MG_Territories.tscn'),
+	preload('res://scenes/minigames/mg_horseshoes/MG_Horseshoes.tscn')
 
 ]
 
