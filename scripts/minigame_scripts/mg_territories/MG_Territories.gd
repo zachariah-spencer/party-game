@@ -4,7 +4,9 @@ func _init():
 	maps = [
 	preload('res://scenes/minigames/mg_territories/maps/4_TerritoriesMap1.tscn'),
 	preload('res://scenes/minigames/mg_territories/maps/3_TerritoriesMap2.tscn'),
-	preload('res://scenes/minigames/mg_territories/maps/2_TerritoriesMap3.tscn')
+	preload('res://scenes/minigames/mg_territories/maps/2_TerritoriesMap3.tscn'),
+	preload('res://scenes/minigames/mg_territories/maps/Any_TerritoriesMap4.tscn'),
+	preload('res://scenes/minigames/mg_territories/maps/Any_TerritoriesMap5.tscn')
 	]
 
 func _ready():

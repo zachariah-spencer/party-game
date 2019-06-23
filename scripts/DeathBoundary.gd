@@ -4,7 +4,7 @@ extends Area2D
 #otherwise their signals won't properly connect
 
 func _ready():
-	connect("body_entered", get_parent().get_parent(), 'on_out_of_bounds')
+	connect("body_entered", self, 'on_out_of_bounds')
 
 func on_out_of_bounds(body):
 	if body.get_parent().is_in_group('players'):

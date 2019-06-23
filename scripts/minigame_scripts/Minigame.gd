@@ -142,8 +142,10 @@ func _check_game_win_conditions():
 				_game_won(true)
 		
 		win_conditions.highest_local_score:
-			if game_time == 0:
+			if game_time == 0 || Players._get_alive_players().size() == 1:
 				_game_won()
+			elif Players._get_alive_players().size() == 0:
+				_game_won(true)
 
 
 
@@ -187,32 +189,40 @@ func _game_won(no_winner = false, multi_winner = false):
 			game_over = true
 			game_active = false
 			
-			var winning_player : PlayersManager = null
-			var winning_players : Array = []
-			var highest_score := 0
-			for player in Players._update_active_players():
-				if player.local_score > highest_score:
-					highest_score = player.local_score
-					winning_player = player
-				elif player.local_score == highest_score:
-					if !winning_players.has(winning_player):
-						winning_players.append(winning_player)
-					if !winning_players.has(player):
-						winning_players.append(player)
-			if highest_score != 0:
-				if winning_players.size() > 1:
-					$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Its a tie!\nWinners:\n'
-					for player in winning_players:
-						player.score += 1
-						$CanvasLayer/HUD/TimeLeft/Instructions.text = $CanvasLayer/HUD/TimeLeft/Instructions.text +  player.display_name + '\n'
-						$CanvasLayer/HUD._update_scores()
-						
-				else:
-					winning_player.score += 1
-					$CanvasLayer/HUD._update_scores()
-					$CanvasLayer/HUD/TimeLeft/Instructions.text = winning_player.display_name + ' Won!'
-			else:
+			if no_winner:
 				$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Nobody Won!'
+				return
+			elif Players._get_alive_players().size() == 1:
+				Players._get_alive_players()[0].score += 1
+				$CanvasLayer/HUD._update_scores()
+				$CanvasLayer/HUD/TimeLeft/Instructions.text = Players._get_alive_players()[0].display_name + ' Won!'
+			else:
+				var winning_player : PlayersManager = null
+				var winning_players : Array = []
+				var highest_score := 0
+				for player in Players._update_active_players():
+					if player.local_score > highest_score:
+						highest_score = player.local_score
+						winning_player = player
+					elif player.local_score == highest_score:
+						if !winning_players.has(winning_player):
+							winning_players.append(winning_player)
+						if !winning_players.has(player):
+							winning_players.append(player)
+				if highest_score != 0:
+					if winning_players.size() > 1:
+						$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Its a tie!\nWinners:\n'
+						for player in winning_players:
+							player.score += 1
+							$CanvasLayer/HUD/TimeLeft/Instructions.text = $CanvasLayer/HUD/TimeLeft/Instructions.text +  player.display_name + '\n'
+							$CanvasLayer/HUD._update_scores()
+							
+					else:
+						winning_player.score += 1
+						$CanvasLayer/HUD._update_scores()
+						$CanvasLayer/HUD/TimeLeft/Instructions.text = winning_player.display_name + ' Won!'
+				else:
+					$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Nobody Won!'
 
 func _end_game():
 	#stop the minigame timer
