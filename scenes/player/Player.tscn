@@ -427,7 +427,6 @@ position = Vector2( 0, -36 )
 shape = SubResource( 29 )
 
 [node name="GroundRaycasts" type="Node2D" parent="."]
-editor/display_folded = true
 
 [node name="CenterGroundRaycast" type="RayCast2D" parent="GroundRaycasts"]
 position = Vector2( 0, 10 )
@@ -448,6 +447,7 @@ cast_to = Vector2( 0, 10 )
 collision_mask = 17
 
 [node name="WallRaycasts" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="LeftWallRaycasts" type="Node2D" parent="WallRaycasts"]
 

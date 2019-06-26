@@ -5,7 +5,7 @@ class_name Player
 
 
 #variable declaration
-const UP := Vector2.UP
+var up_direction := Vector2.UP
 const SLOPE_STOP := 64
 const DROP_THRU_BIT := 4
 const WALL_JUMP_INWARD_VELOCITY := Vector2(1000, -1200)
@@ -83,6 +83,22 @@ onready var max_jump_velocity = -sqrt(2 * gravity * max_jump_height)
 onready var min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
 
 signal interacted
+
+func _invert_gravity():
+	gravity *= -1
+	max_jump_velocity = -sqrt(2 * gravity * max_jump_height)
+	min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
+	
+	if gravity < 0:
+		up_direction = Vector2.DOWN
+		raycasts.position.y = -90
+	elif gravity > 0:
+		up_direction = Vector2.UP
+		raycasts.position.y = 0
+	
+	
+	for raycast in raycasts.get_children():
+		raycast.cast_to *= -1
 
 func _ready():
 	#call state machines ready function
@@ -227,7 +243,7 @@ func _apply_movement():
 	if is_jumping && velocity.y >= 0:
 		is_jumping = false
 
-	velocity = move_and_slide(velocity, UP, SLOPE_STOP)
+	velocity = move_and_slide(velocity, up_direction, SLOPE_STOP)
 	is_grounded = !is_jumping && _check_is_grounded()
 
 	if !can_jump && is_on_floor() || !can_jump && state == states.wall_slide:
