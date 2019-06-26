@@ -36,6 +36,8 @@ scale = Vector2( 0.02, 0.02 )
 amount = 90
 lifetime = 0.3
 preprocess = 20.0
+visibility_rect = Rect2( -50000, -50000, 5e+006, 500000 )
+draw_order = 1
 process_material = SubResource( 4 )
 texture = ExtResource( 2 )
 
