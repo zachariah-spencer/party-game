@@ -20,12 +20,14 @@ func _process(delta):
 			zoom = lerp(zoom, Vector2.ONE * max(.1,log(dist)/log(40)-.3), .08)
 		elif dist >= 860 && dist < 1300:
 			zoom = lerp(zoom, Vector2.ONE * max(.1,log(dist * 5)/log(40)-.3), .08)
-		elif dist >= 1300 && dist < 2000:
+		elif dist >= 1300 && dist < 1800:
 			zoom = lerp(zoom, Vector2.ONE * max(.1,log(dist * 10)/log(40)-.3), .08)
-		elif dist >= 2000 && dist < 2600:
+		elif dist >= 1800 && dist < 2300:
 			zoom = lerp(zoom, Vector2.ONE * max(.1,log(dist * 20)/log(40)-.3), .08)
-		elif dist >= 2600:
+		elif dist >= 2300 && dist < 2700:
 			zoom = lerp(zoom, Vector2.ONE * max(.1,log(dist * 35)/log(40)-.3), .08)
+		elif dist >= 2700:
+			zoom = lerp(zoom, Vector2.ONE * max(.1,log(dist * 45)/log(40)-.3), .08)
 	else :
 		zoom = Vector2.ONE * default_zoom_mod
 	global_position = center
