@@ -2,7 +2,7 @@ extends Node2D
 
 onready var area = $Area
 
-export var launch_speed = 75
+export var launch_speed = 60
 
 func _ready():
 	area.connect('body_entered', self, 'on_body_entered')

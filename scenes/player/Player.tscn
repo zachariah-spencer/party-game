@@ -164,7 +164,7 @@ font_data = SubResource( 36 )
 ]]
 position = Vector2( 0, -8.11656 )
 collision_layer = 8
-collision_mask = 25
+collision_mask = 4121
 script = ExtResource( 1 )
 
 [node name="Sounds" type="Node2D" parent="."]
@@ -191,6 +191,7 @@ bus = "Sounds"
 area_mask = 0
 
 [node name="Rig" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Right Foot" type="Node2D" parent="Rig"]
 editor/display_folded = true
@@ -220,6 +221,7 @@ softness = 12.0
 [node name="Left Hand" type="RigidBody2D" parent="Rig" groups=[
 "fist",
 ]]
+editor/display_folded = true
 position = Vector2( 10.49, -16.12 )
 collision_layer = 2
 collision_mask = 0
@@ -358,6 +360,7 @@ softness = 1.0
 [node name="Right Hand" type="RigidBody2D" parent="Rig" groups=[
 "fist",
 ]]
+editor/display_folded = true
 position = Vector2( -10.49, -16.12 )
 collision_layer = 4
 collision_mask = 0
@@ -445,7 +448,6 @@ cast_to = Vector2( 0, 10 )
 collision_mask = 17
 
 [node name="WallRaycasts" type="Node2D" parent="."]
-editor/display_folded = true
 
 [node name="LeftWallRaycasts" type="Node2D" parent="WallRaycasts"]
 

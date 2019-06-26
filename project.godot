@@ -339,6 +339,7 @@ debug={
 2d_physics/layer_10="player_four"
 2d_physics/layer_11="corpse"
 2d_physics/layer_12="no_players"
+2d_physics/layer_13="no_slide_walls"
 2d_physics/layer_15="items"
 
 [physics]
