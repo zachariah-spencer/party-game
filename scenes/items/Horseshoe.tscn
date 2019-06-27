@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scenes/items/Item.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/items/Horseshoe.gd" type="Script" id=2]
@@ -7,7 +7,11 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 13, 3.2 )
 
-[node name="Horseshoe" index="0" instance=ExtResource( 1 )]
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 18.0
+height = 45.0
+
+[node name="Horseshoe" instance=ExtResource( 1 )]
 collision_mask = 16385
 mass = 1.5
 continuous_cd = 2
@@ -31,3 +35,12 @@ scale = Vector2( 3, 3 )
 [node name="CollisionShape2D" parent="Pickup_area" index="0"]
 position = Vector2( 0, -0.214638 )
 
+[node name="ShotLandedArea" type="Area2D" parent="." index="2"]
+collision_layer = 0
+collision_mask = 8192
+
+[node name="Shape" type="CollisionShape2D" parent="ShotLandedArea" index="0"]
+rotation = 1.5708
+shape = SubResource( 2 )
+
+[connection signal="area_entered" from="ShotLandedArea" to="." method="_on_ShotLandedArea_area_entered"]
