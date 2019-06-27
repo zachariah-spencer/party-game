@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scenes/minigames/MapTemplate.tscn" type="PackedScene" id=1]
 [ext_resource path="res://lobbytileset.tres" type="TileSet" id=2]
 [ext_resource path="res://scripts/Reset-Boundary.gd" type="Script" id=3]
 [ext_resource path="res://scenes/Booster.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/items/Horseshoe.tscn" type="PackedScene" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 150 )
@@ -11,7 +12,7 @@ extents = Vector2( 32, 150 )
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 10000, 32 )
 
-[node name="LobbyMap" index="0" groups=[
+[node name="LobbyMap" groups=[
 "maps",
 ] instance=ExtResource( 1 )]
 
@@ -80,4 +81,10 @@ position = Vector2( 1280, 1120 )
 
 [node name="PlayerFourSpawnF" parent="SpawnPoints" index="3"]
 position = Vector2( 1792, 1120 )
+
+[node name="Horseshoe" parent="." index="11" instance=ExtResource( 5 )]
+position = Vector2( 800, 700 )
+collision_layer = 0
+contacts_reported = 0
+contact_monitor = false
 

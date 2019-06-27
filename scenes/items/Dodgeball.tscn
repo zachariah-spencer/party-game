@@ -7,7 +7,6 @@
 radius = 33.0
 
 [node name="Dodgeball" instance=ExtResource( 1 )]
-editor/display_folded = true
 collision_mask = 16385
 mass = 1.5
 continuous_cd = 2
