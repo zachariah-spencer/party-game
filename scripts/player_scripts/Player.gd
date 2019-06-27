@@ -78,38 +78,34 @@ onready var right_wall_raycasts := $WallRaycasts/RightWallRaycasts
 onready var raycasts := $GroundRaycasts
 onready var right_hand := $'Rig/Right Hand'
 onready var left_hand := $'Rig/Left Hand'
-onready var gravity := 2 * max_jump_height / pow(jump_duration, 2)
-onready var max_jump_velocity = -sqrt(2 * gravity * max_jump_height)
-onready var min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
+onready var gravity_magnitude := 2 * max_jump_height / pow(jump_duration, 2)
+onready var gravity = Vector2.DOWN
+onready var max_jump_velocity = -sqrt(2 * gravity_magnitude * max_jump_height)
+onready var min_jump_velocity = -sqrt(2 * gravity_magnitude * min_jump_height)
 
 signal interacted
 
-func _invert_gravity():
-	gravity *= -1
-	max_jump_velocity = -sqrt(2 * gravity * max_jump_height)
-	min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
-	
-	if gravity < 0:
-		up_direction = Vector2.DOWN
-		raycasts.position.y = -90
-	elif gravity > 0:
-		up_direction = Vector2.UP
-		raycasts.position.y = 0
-	
-	
+func _set_gravity(new_gravity := Vector2.DOWN ):
+	gravity = new_gravity
+#	if gravity.x < 0 :
+#		raycasts.position.x = 0
+#	else :
+#		raycasts.position.x = 90
+	rotation = gravity.angle() - PI/2
 	for raycast in raycasts.get_children():
-		raycast.cast_to *= -1
+		raycast.cast_to = gravity*10
 
 func _ready():
+	_set_gravity(Vector2.DOWN)
 	#call state machines ready function
 	_state_machine_ready()
 	#set players hitpoints box equal to his health
 	_update_player_stats()
 	#set idle facial expression
 	_set_face()
-	
+
 	var interactables = get_tree().get_nodes_in_group('interactable')
-	
+
 	if interactables.size() != 0:
 		for interactable in interactables:
 			connect('interacted',interactable, 'interact')
@@ -148,7 +144,7 @@ func hit(by : Node, damage : int, knockback :Vector2) :
 			parent.play_random("Hit")
 
 func jump():
-	velocity.y = max_jump_velocity
+	velocity = max_jump_velocity*gravity
 	can_jump = false
 	is_jumping = true
 
@@ -162,7 +158,7 @@ func wall_jump():
 		wall_jump_velocity = WALL_JUMP_OUTWARD_VELOCITY
 	wall_jump_velocity.x *= -wall_direction
 	velocity.y = 0
-	velocity += wall_jump_velocity
+	velocity += wall_jump_velocity * gravity.y
 
 func throw():
 	if holding_item :
@@ -237,13 +233,13 @@ func _update_player_stats():
 			parent.die(Manager.current_minigame.allow_respawns)
 
 func _apply_gravity(delta : float):
-	velocity.y += gravity * delta
+	velocity += gravity*gravity_magnitude * delta
 
 func _apply_movement():
 	if is_jumping && velocity.y >= 0:
 		is_jumping = false
 
-	velocity = move_and_slide(velocity, up_direction, SLOPE_STOP)
+	velocity = move_and_slide(velocity, -gravity, SLOPE_STOP)
 	is_grounded = !is_jumping && _check_is_grounded()
 
 	if !can_jump && is_on_floor() || !can_jump && state == states.wall_slide:
@@ -288,7 +284,7 @@ func _update_move_direction():
 		for i in mirror_group:
 			var s = i.get_scale()
 			if (s.x > 0 and move_direction.x < 0) or (s.x < 0 and move_direction.x > 0) : s.x *= -1
-			i.set_scale(Vector2(s.x,s.y))
+			i.scale.x = s.x * gravity.y
 		facing_direction = move_direction.x
 
 func _update_wall_direction():
@@ -461,8 +457,8 @@ func _set_face():
 	face.set_texture(face_textures[0][1])
 
 func _update_wall_action():
-	if wall_direction < 0 : wall_action = move_left
-	if wall_direction > 0 : wall_action = move_right
+	if wall_direction*gravity.y < 0 : wall_action = move_left
+	if wall_direction*gravity.y > 0 : wall_action = move_right
 	return wall_action
 
 func _pickup_item():
@@ -538,13 +534,14 @@ func _check_is_valid_wall(wall_raycasts : Node):
 	return false
 
 func _cap_gravity_wall_slide():
-	var max_velocity : float 
-	
-	if Input.is_action_pressed(move_down):
+	var max_velocity : float
+
+	if sign(move_direction.y) == sign(gravity.y) :
 		max_velocity = 16 * Globals.CELL_SIZE
 	else:
 		max_velocity = 4 * Globals.CELL_SIZE
-	velocity.y = min(velocity.y, max_velocity)
+	velocity.y = min(abs(velocity.y), abs(max_velocity)) * sign(velocity.y)
+
 
 func _on_JumpCooldownTimer_timeout():
 	can_jump = true

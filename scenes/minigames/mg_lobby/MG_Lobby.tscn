@@ -8,14 +8,14 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 300, -400 )
 
-[node name="MG_Lobby" index="0" instance=ExtResource( 1 )]
+[node name="MG_Lobby" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 visible_name = "Lobby"
 
 [node name="LobbyMap" parent="." index="2" instance=ExtResource( 3 )]
 
 [node name="AntigravityArea" type="Area2D" parent="." index="3"]
-position = Vector2( 352, -1200 )
+position = Vector2( 1339.72, 454.429 )
 space_override = 3
 gravity = -200.0
 script = ExtResource( 4 )
@@ -25,4 +25,3 @@ __meta__ = {
 
 [node name="Shape" type="CollisionShape2D" parent="AntigravityArea" index="0"]
 shape = SubResource( 1 )
-

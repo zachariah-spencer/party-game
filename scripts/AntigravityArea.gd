@@ -6,12 +6,12 @@ func _ready():
 
 func on_body_entered(body):
 	var player = body as Player
-	
+
 	if player:
-		player._invert_gravity()
+		player._set_gravity(Vector2.UP)
 
 func on_body_exited(body):
 	var player = body as Player
-	
+
 	if player:
-		player._invert_gravity()
+		player._set_gravity(Vector2.DOWN)
