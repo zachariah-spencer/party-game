@@ -30,17 +30,19 @@ func _integrate_forces(state):
 		has_been_moved = true
 
 func _on_ShotLandedArea_area_entered(area):
-	var target = area
+	var target = area.get_parent()
 	
 	if !landed:
 		landed = true
 		fall_timer.start()
-		target.get_parent().stack.append(self)
-		landed_pos = target.get_node('Position').get_global_position()
-		if target.get_parent().stack.size() > 4:
-			target.get_parent().item_spawn_pos.position.y -= 20
-			target.get_parent().area_shape.position.y -= 10
-
+		target.stack.append(self)
+		landed_pos = target.get_node('Area/Position').get_global_position()
+		grabbable = false
+		
+		if target.stack.size() > 4:
+			target.item_spawn_pos.position.y -= 20
+			target.area_shape.position.y -= 12
+			target.sprite.position.y -= 14
 
 func _on_FallTimer_timeout():
 	mode = RigidBody2D.MODE_KINEMATIC

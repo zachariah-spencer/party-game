@@ -3,9 +3,8 @@
 [ext_resource path="res://scripts/minigame_scripts/mg_horseshoes/HorseshoeTarget.gd" type="Script" id=1]
 [ext_resource path="res://assets/icon.png" type="Texture" id=2]
 
-[sub_resource type="CapsuleShape2D" id=1]
-radius = 40.0
-height = 32.5
+[sub_resource type="CircleShape2D" id=1]
+radius = 38.0
 
 [node name="HorseshoeTarget" type="Node2D"]
 script = ExtResource( 1 )
@@ -15,7 +14,7 @@ collision_layer = 8192
 collision_mask = 0
 
 [node name="Shape" type="CollisionShape2D" parent="Area"]
-position = Vector2( 0, -30 )
+position = Vector2( 0, -35 )
 shape = SubResource( 1 )
 
 [node name="Position" type="Position2D" parent="Area"]
