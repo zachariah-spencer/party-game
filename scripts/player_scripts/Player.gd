@@ -297,8 +297,11 @@ func _update_wall_direction():
 		wall_direction = -int(is_near_wall_left) + int(is_near_wall_right)
 
 func _handle_move_input():
-	target_velocity = move_speed * move_direction.x
-	velocity.x = lerp(velocity.x, target_velocity, _get_h_weight())
+	var y_comp = velocity.project(gravity)
+	var x_comp = (move_direction - move_direction.project(gravity)) * move_speed
+	velocity = velocity.linear_interpolate(x_comp + y_comp, _get_h_weight())
+#	target_velocity = move_speed * move_direction.x
+#	velocity.x = lerp(velocity.x, target_velocity, _get_h_weight())
 
 func _handle_wall_slide_sticking():
 	if !Input.is_action_pressed(wall_action):
