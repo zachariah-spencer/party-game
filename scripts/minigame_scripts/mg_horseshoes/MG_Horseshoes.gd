@@ -1,8 +1,10 @@
 extends Minigame
 
+var grenade
+
 func _init():
 	maps = [
-	preload('res://scenes/minigames/mg_horseshoes/maps/Any_HorseshoesMap1.tscn')
+	preload('res://scenes/minigames/mg_horseshoes/maps/Any_HorseshoesMap1.tscn'),
 	]
 
 
