@@ -4,7 +4,7 @@
 [ext_resource path="res://scenes/items/Horseshoe.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/minigames/mg_horseshoes/HorseshoeTarget.tscn" type="PackedScene" id=3]
 
-[node name="Any_HorseshoesMap1" index="0" groups=[
+[node name="Any_HorseshoesMap1" groups=[
 "maps",
 ] instance=ExtResource( 1 )]
 
