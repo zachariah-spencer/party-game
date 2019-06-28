@@ -1,10 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scenes/minigames/MapTemplate.tscn" type="PackedScene" id=1]
 [ext_resource path="res://lobbytileset.tres" type="TileSet" id=2]
 [ext_resource path="res://scripts/Reset-Boundary.gd" type="Script" id=3]
 [ext_resource path="res://scenes/Booster.tscn" type="PackedScene" id=4]
-[ext_resource path="res://scenes/items/Grenade.tscn" type="PackedScene" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 150 )
@@ -12,7 +11,7 @@ extents = Vector2( 32, 150 )
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 10000, 32 )
 
-[node name="LobbyMap" groups=[
+[node name="LobbyMap" index="0" groups=[
 "maps",
 ] instance=ExtResource( 1 )]
 
@@ -55,21 +54,6 @@ shape = SubResource( 1 )
 position = Vector2( -1750, 350 )
 shape = SubResource( 2 )
 
-[node name="Booster" parent="." index="5" instance=ExtResource( 4 )]
-position = Vector2( 512, 1312 )
-
-[node name="Booster4" parent="." index="6" instance=ExtResource( 4 )]
-position = Vector2( 0, 1312 )
-
-[node name="Booster5" parent="." index="7" instance=ExtResource( 4 )]
-position = Vector2( 2048, 1312 )
-
-[node name="Booster2" parent="." index="8" instance=ExtResource( 4 )]
-position = Vector2( 1024, 1312 )
-
-[node name="Booster3" parent="." index="9" instance=ExtResource( 4 )]
-position = Vector2( 1536, 1312 )
-
 [node name="PlayerOneSpawnF" parent="SpawnPoints" index="0"]
 position = Vector2( 256, 1120 )
 
@@ -82,6 +66,21 @@ position = Vector2( 1280, 1120 )
 [node name="PlayerFourSpawnF" parent="SpawnPoints" index="3"]
 position = Vector2( 1792, 1120 )
 
-[node name="Grenade" parent="." index="11" instance=ExtResource( 5 )]
-position = Vector2( 950, 800 )
+[node name="Boosters" type="Node2D" parent="." index="6"]
+editor/display_folded = true
+
+[node name="Booster" parent="Boosters" index="0" instance=ExtResource( 4 )]
+position = Vector2( 512, 1312 )
+
+[node name="Booster4" parent="Boosters" index="1" instance=ExtResource( 4 )]
+position = Vector2( 0, 1312 )
+
+[node name="Booster5" parent="Boosters" index="2" instance=ExtResource( 4 )]
+position = Vector2( 2048, 1312 )
+
+[node name="Booster2" parent="Boosters" index="3" instance=ExtResource( 4 )]
+position = Vector2( 1024, 1312 )
+
+[node name="Booster3" parent="Boosters" index="4" instance=ExtResource( 4 )]
+position = Vector2( 1536, 1312 )
 

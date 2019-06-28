@@ -46,6 +46,7 @@ func _ready():
 	
 	camera.current = true
 	connect('game_times_up', Manager, '_on_game_times_up')
+	Globals.HUD.connect('begin_game', Manager.current_minigame, '_on_begin_game')
 	
 	minigame_timer = Timer.new()
 	minigame_timer.connect('timeout', self, '_handle_minigame_time')
@@ -106,19 +107,14 @@ func _pregame(has_countdown : bool = true):
 		if has_countdown:
 			for player in Players.active_players:
 				player.child._set_state(player.child.states.disabled)
-
+			
 			yield(Globals.HUD,'begin_game')
-
+			
 			for player in Players._get_alive_players():
 				player.child._set_state(player.child.states.idle)
 
-			game_active = true
-		else:
-		#if game has no countdown then don't disable players (WIP)
-			yield(Globals.HUD,'begin_game')
-			game_active = true
-	else:
-		game_active = true
+func _on_begin_game():
+	game_active = true
 
 func _run_minigame_loop():
 	pass
