@@ -91,7 +91,7 @@ func _set_gravity(new_gravity := Vector2.DOWN ):
 #		raycasts.position.x = 0
 #	else :
 #		raycasts.position.x = 90
-	rotation = gravity.angle() - PI/2
+#	rotation = gravity.angle() - PI/2
 	for raycast in raycasts.get_children():
 		raycast.cast_to = gravity*10
 
@@ -233,6 +233,8 @@ func _update_player_stats():
 			parent.die(Manager.current_minigame.allow_respawns)
 
 func _apply_gravity(delta : float):
+	if rotation != gravity.angle() - PI/2 :
+		rotation = lerp(rotation, gravity.angle() - PI/2, .1)
 	velocity += gravity*gravity_magnitude * delta
 
 func _apply_movement():
@@ -270,7 +272,9 @@ func _update_move_direction():
 	if aim_direction == Vector2.ZERO :
 		aim_direction = move_direction
 
-	if move_direction.x != 0:
+	var x_comp = move_direction.cross(gravity)
+
+	if x_comp != 0:
 		# all nodes in here will be mirrored when changing directions
 		# these range from simple sprites to feet that require mirroring the parent node, not the sprites themselves
 		var mirror_group = [get_node("Rig/Right Foot"),
@@ -283,8 +287,9 @@ func _update_move_direction():
 		#could implement face rotation here
 		for i in mirror_group:
 			var s = i.get_scale()
-			if (s.x > 0 and move_direction.x < 0) or (s.x < 0 and move_direction.x > 0) : s.x *= -1
-			i.scale.x = s.x * gravity.y
+			if (s.x > 0 and x_comp < 0) or (s.x < 0 and x_comp > 0) :
+				s.x *= -1
+			i.scale.x = s.x
 		facing_direction = move_direction.x
 
 func _update_wall_direction():
@@ -470,13 +475,16 @@ func _pickup_item():
 	for temp in items : if temp.is_in_group("item") : item = temp.get_parent()
 
 	if item && item.grabbable:
-		holding_item = true
-		item.grab(self)
-		held_item = item
-		item.get_parent().remove_child(item)
-		item.position = Vector2.ZERO
-		right_hand.add_child(item)
+		set_item(item)
 	return holding_item
+
+func set_item(item : Item):
+	holding_item = true
+	item.grab(self)
+	held_item = item
+	item.get_parent().remove_child(item)
+	item.position = Vector2.ZERO
+	right_hand.add_child(item)
 
 func _stop_movement():
 	velocity.x = 0
