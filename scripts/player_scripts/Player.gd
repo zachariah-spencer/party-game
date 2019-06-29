@@ -15,6 +15,7 @@ const PUNCH_DISTANCE := 800
 var can_wall_jump := true
 var can_jump := true
 var velocity : Vector2
+var adjusted_velocity : Vector2
 var target_velocity : float
 var move_direction := Vector2.ZERO
 var aim_direction := Vector2.ZERO
@@ -126,8 +127,8 @@ func _input(event : InputEvent):
 			attack()
 	elif state == states.jump:
 		#VARIABLE JUMP
-		if event.is_action_released(move_jump) && velocity.y < min_jump_velocity:
-			velocity.y = min_jump_velocity
+		if event.is_action_released(move_jump) && adjusted_velocity.y < min_jump_velocity:
+			adjusted_velocity.y = min_jump_velocity
 
 func hit(by : Node, damage : int, knockback :Vector2) :
 	var x = 40* Globals.CELL_SIZE
@@ -165,12 +166,12 @@ func throw():
 		holding_item = false
 		var dir
 		var pos = global_position + Vector2.UP * 20
-		if aim_direction.length() > .2 :
+		if aim_direction != Vector2.ZERO :
 			dir = aim_direction
 			pos += aim_direction * 50
 		else :
-			dir = facing_direction*Vector2.RIGHT
-			pos += facing_direction*Vector2.RIGHT * 20
+			dir = facing_direction*Vector2.RIGHT.rotated(gravity.angle() - PI/2)
+			pos += facing_direction*Vector2.RIGHT.rotated(gravity.angle() - PI/2)  * 20
 
 		# throwing and item slightly changes velocity if it has weight
 		if held_item._weight > 0 :
@@ -214,7 +215,8 @@ func attack():
 		if aim_direction != Vector2.ZERO:
 			vel = hand.get_gravity_scale()*PUNCH_DISTANCE*aim_direction.normalized()
 		else :
-			vel = Vector2(hand.get_gravity_scale()*PUNCH_DISTANCE*dir,0)
+			vel = dir * Vector2.RIGHT.rotated(gravity.angle() - PI/2) * hand.get_gravity_scale()*PUNCH_DISTANCE
+#			vel = Vector2(hand.get_gravity_scale()*PUNCH_DISTANCE*dir,0)
 		hand.apply_central_impulse(vel)
 		# launch body
 		body_part.apply_torque_impulse(3000*dir)
@@ -237,8 +239,11 @@ func _apply_gravity(delta : float):
 		rotation = lerp(rotation, gravity.angle() - PI/2, .1)
 	velocity += gravity*gravity_magnitude * delta
 
+
 func _apply_movement():
-	if is_jumping && velocity.y >= 0:
+	adjusted_velocity = velocity.rotated(-(gravity.angle() - PI/2))
+
+	if is_jumping && adjusted_velocity.y >= 0:
 		is_jumping = false
 
 	velocity = move_and_slide(velocity, -gravity, SLOPE_STOP)
@@ -352,30 +357,30 @@ func _state_logic(delta : float):
 
 	_apply_movement()
 
-	anim_tree['parameters/Airborne/blend_position'] = velocity.y / 300
+	anim_tree['parameters/Airborne/blend_position'] = adjusted_velocity.y / 300
 
 func _get_transition(delta : float):
 	match state:
 		states.idle:
 			if !is_on_floor():
-				if velocity.y < 0:
+				if adjusted_velocity.y < 0:
 					return states.jump
-				elif velocity.y >= 0:
+				elif adjusted_velocity.y >= 0:
 					return states.fall
 			elif abs(move_direction.x) != 0:
 				return states.run
 		states.run:
 			if !is_on_floor():
-				if velocity.y < 0:
+				if adjusted_velocity.y < 0:
 					return states.jump
-				elif velocity.y >= 0:
+				elif adjusted_velocity.y >= 0:
 					return states.fall
 			elif abs(move_direction.x) == 0:
 				return states.idle
 		states.jump:
 			if is_on_floor():
 				return states.idle
-			elif velocity.y >= 0:
+			elif adjusted_velocity.y >= 0:
 				return states.fall
 		states.fall:
 			if move_direction.y  > 0 :
@@ -386,7 +391,7 @@ func _get_transition(delta : float):
 				return states.wall_slide
 			elif is_on_floor():
 				return states.idle
-			elif velocity.y < 0:
+			elif adjusted_velocity.y < 0:
 				return states.jump
 		states.wall_slide:
 			if is_on_floor():

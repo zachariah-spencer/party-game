@@ -17,7 +17,8 @@ visible_name = "Lobby"
 [node name="AntigravityArea" type="Area2D" parent="." index="3"]
 position = Vector2( 1339.72, 454.429 )
 space_override = 3
-gravity = -200.0
+gravity_vec = Vector2( -1, 0 )
+gravity = 200.0
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_group_": true

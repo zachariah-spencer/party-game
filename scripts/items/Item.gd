@@ -2,7 +2,7 @@ extends RigidBody2D
 class_name Item
 
 var _held
-var _owner : Player
+var _owner
 onready var sprite = $Obj/Sprite
 var _weight := 0
 export var throwable := true
@@ -24,7 +24,7 @@ func _on_body_entered(body):
 	pass
 
 
-func grab(by : Player):
+func grab(by):
 	if grabbable:
 		_owner = by
 		sprite.modulate = _owner.modulate
@@ -33,7 +33,7 @@ func grab(by : Player):
 		collision_layer = 0
 		$Pickup_area.monitorable = false
 
-func throw(direction : Vector2, pos : Vector2 , by : Player):
+func throw(direction : Vector2, pos : Vector2 , by):
 	if throwable:
 		_owner = by
 		sprite.modulate = _owner.get_parent().modulate

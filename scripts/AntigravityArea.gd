@@ -8,7 +8,7 @@ func on_body_entered(body):
 	var player = body as Player
 
 	if player:
-		player._set_gravity(Vector2.UP)
+		player._set_gravity(gravity_vec)
 
 func on_body_exited(body):
 	var player = body as Player
