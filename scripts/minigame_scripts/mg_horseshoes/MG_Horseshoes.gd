@@ -7,6 +7,7 @@ var starting_horseshoes := false
 func _init():
 	maps = [
 	preload('res://scenes/minigames/mg_horseshoes/maps/Any_HorseshoesMap1.tscn'),
+	preload('res://scenes/minigames/mg_horseshoes/maps/Any_HorseshoesMap2.tscn'),
 	]
 
 
@@ -19,10 +20,10 @@ func _physics_process(delta):
 	_run_minigame_loop()
 
 func _run_minigame_loop():
-	
+
 	if game_active:
 		_check_game_win_conditions()
-		
+
 #		if !has_spawned_nade:
 #			Players.player_one.child.set_item(grenade.instance())
 #			has_spawned_nade = true
