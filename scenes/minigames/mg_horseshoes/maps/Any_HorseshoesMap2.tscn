@@ -1,11 +1,11 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/minigames/MapTemplate.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scenes/items/Horseshoe.tscn" type="PackedScene" id=2]
-[ext_resource path="res://scenes/minigames/mg_horseshoes/HorseshoeTarget.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scenes/Booster.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/minigames/mg_horseshoes/HorseshoeTarget.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/Booster.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/items/ItemDispenser.tscn" type="PackedScene" id=4]
 
-[node name="Any_HorseshoesMap1" index="0" groups=[
+[node name="Any_HorseshoesMap1" groups=[
 "maps",
 ] instance=ExtResource( 1 )]
 
@@ -31,35 +31,27 @@ position = Vector2( -144.713, 128 )
 [node name="PlayerFourSpawnF" parent="SpawnPoints" index="3"]
 position = Vector2( 704, 128 )
 
-[node name="Horseshoe" parent="." index="5" instance=ExtResource( 2 )]
-position = Vector2( -47.8009, 583.443 )
-
-[node name="Horseshoe6" parent="." index="6" instance=ExtResource( 2 )]
-position = Vector2( -92.3232, 490.974 )
-
-[node name="Horseshoe2" parent="." index="7" instance=ExtResource( 2 )]
-position = Vector2( 900.865, 14.929 )
-
-[node name="Horseshoe8" parent="." index="8" instance=ExtResource( 2 )]
-position = Vector2( 839.219, 90.2743 )
-
-[node name="Horseshoe3" parent="." index="9" instance=ExtResource( 2 )]
-position = Vector2( -80.126, 204.192 )
-
-[node name="Horseshoe4" parent="." index="10" instance=ExtResource( 2 )]
-position = Vector2( 928.263, 525.222 )
-
-[node name="Horseshoe7" parent="." index="11" instance=ExtResource( 2 )]
-position = Vector2( 780.997, 484.125 )
-
-[node name="Horseshoe5" parent="." index="12" instance=ExtResource( 2 )]
-position = Vector2( -178.446, 12.6666 )
-
-[node name="HorseshoeTarget" parent="." index="13" instance=ExtResource( 3 )]
+[node name="HorseshoeTarget" parent="." index="5" instance=ExtResource( 2 )]
 position = Vector2( 403.521, 499.521 )
 
-[node name="Booster" parent="." index="14" instance=ExtResource( 4 )]
+[node name="Booster" parent="." index="6" instance=ExtResource( 3 )]
 position = Vector2( -624.072, 734.723 )
 
-[node name="Booster2" parent="." index="15" instance=ExtResource( 4 )]
+[node name="Booster2" parent="." index="7" instance=ExtResource( 3 )]
 position = Vector2( 1522.56, 743.575 )
+
+[node name="ItemDispenser" parent="." index="8" instance=ExtResource( 4 )]
+position = Vector2( -330.636, 224.832 )
+item_path = "res://scenes/items/Horseshoe.tscn"
+
+[node name="ItemDispenser2" parent="." index="9" instance=ExtResource( 4 )]
+position = Vector2( -348.195, 729.182 )
+item_path = "res://scenes/items/Horseshoe.tscn"
+
+[node name="ItemDispenser3" parent="." index="10" instance=ExtResource( 4 )]
+position = Vector2( 1227.78, 731.7 )
+item_path = "res://scenes/items/Horseshoe.tscn"
+
+[node name="ItemDispenser4" parent="." index="11" instance=ExtResource( 4 )]
+position = Vector2( 1225.26, 215.606 )
+item_path = "res://scenes/items/Horseshoe.tscn"

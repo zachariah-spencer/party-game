@@ -6,6 +6,7 @@ var durability = 20
 var exploding := false
 
 func _ready():
+	bounce = 1
 	fuse_timer.one_shot = true
 	fuse_timer.autostart = false
 	add_child(fuse_timer)

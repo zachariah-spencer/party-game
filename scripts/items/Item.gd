@@ -26,6 +26,8 @@ func _on_body_entered(body):
 
 func grab(by):
 	if grabbable:
+		if get_parent() :
+			get_parent().remove_child(self)
 		_owner = by
 		sprite.modulate = _owner.modulate
 		emit_signal("grabbed")

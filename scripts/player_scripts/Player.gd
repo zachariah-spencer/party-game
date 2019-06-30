@@ -481,6 +481,8 @@ func _pickup_item():
 
 	if item && item.grabbable:
 		set_item(item)
+	elif item :
+		item.grab(self)
 	return holding_item
 
 func set_item(item):
