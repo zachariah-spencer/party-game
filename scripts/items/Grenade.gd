@@ -15,12 +15,10 @@ func _ready():
 	connect("thrown", self, "_on_throw")
 
 func _on_grab():
-	#this doesn't work as well as I'd like
-	fuse_timer.start(1.4)
+	pass
 
 func _on_throw():
-
-	pass
+	fuse_timer.start(1.5)
 
 func _fuse_timeout() :
 	exploding = true

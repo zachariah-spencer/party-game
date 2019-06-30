@@ -483,13 +483,14 @@ func _pickup_item():
 		set_item(item)
 	return holding_item
 
-func set_item(item : Item):
-	holding_item = true
-	item.grab(self)
-	held_item = item
-	item.get_parent().remove_child(item)
-	item.position = Vector2.ZERO
-	right_hand.add_child(item)
+func _set_item(item):
+	if item:
+		item.sprite = item.get_node('Obj/Sprite')
+		holding_item = true
+		item.grab(self)
+		held_item = item
+		item.position = Vector2.ZERO
+		right_hand.call_deferred('add_child', item)
 
 func _stop_movement():
 	velocity.x = 0

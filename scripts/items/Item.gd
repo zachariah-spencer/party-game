@@ -42,7 +42,7 @@ func throw(direction : Vector2, pos : Vector2 , by):
 		global_position = pos
 		Manager.current_minigame.add_child(self)
 		$Pickup_area.monitorable = true
-		collision_layer = get_hit_mask(hit_types.opponents) + get_hit_mask(hit_types.terrain)
+		collision_layer = get_hit_mask(hit_types.opponents) + get_hit_mask(hit_types.terrain) + Globals.ITEM_BIT
 		apply_central_impulse(direction)
 		emit_signal("thrown")
 
