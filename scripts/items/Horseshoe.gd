@@ -20,26 +20,26 @@ func _on_throw():
 	pass
 
 func _integrate_forces(state):
-	
+
 	if landed && !has_been_moved:
 		var t = state.get_transform()
-		
+
 		t.origin.x = landed_pos.x
-		
+
 		t.origin.y = landed_pos.y
-		
+
 		angular_velocity = 0
 		rotation = 0
-		
-		
+
+
 		linear_velocity.x = 0
-		
+
 		state.set_transform(t)
 		has_been_moved = true
 
 func _on_ShotLandedArea_area_entered(area):
 	var target = area.get_parent()
-	
+
 	if !landed:
 		landed = true
 		fall_timer.start()
@@ -47,14 +47,14 @@ func _on_ShotLandedArea_area_entered(area):
 		landed_pos = target.get_node('Area/Position').get_global_position()
 		grabbable = false
 		set_collision_mask_bit(4, true)
-		
+
 		if target.stack.size() > 4:
 			target.item_spawn_pos.position.y -= 20
 			target.area_shape.position.y -= 12
 			target.sprite.position.y -= 14
-		
+
 		#set_item_to_grenade_here
-		_owner._set_item(grenade.instance())
+		_owner.set_item(grenade.instance())
 
 func _on_FallTimer_timeout():
 	mode = RigidBody2D.MODE_KINEMATIC
