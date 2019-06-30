@@ -483,7 +483,7 @@ func _pickup_item():
 		set_item(item)
 	return holding_item
 
-func _set_item(item):
+func set_item(item):
 	if item:
 		item.sprite = item.get_node('Obj/Sprite')
 		holding_item = true
