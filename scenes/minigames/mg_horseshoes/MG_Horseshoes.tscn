@@ -11,3 +11,4 @@ attack_mode = 1
 win_condition = 1
 visible_name = "Horseshoes"
 has_map_rotations = true
+

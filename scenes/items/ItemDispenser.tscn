@@ -8,3 +8,4 @@ mode = 1
 script = ExtResource( 2 )
 throwable = false
 grabbable = false
+
