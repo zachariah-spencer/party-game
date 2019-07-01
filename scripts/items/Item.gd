@@ -19,9 +19,6 @@ signal thrown
 func _ready():
 	connect("body_entered" , self, "_on_body_entered")
 	$Pickup_area.add_to_group("item")
-	connect("grabbed", self, "_on_grab")
-	connect("thrown", self, "_on_throw")
-
 
 func _on_body_entered(body):
 	pass
@@ -37,10 +34,11 @@ func grab(by):
 			get_parent().remove_child(self)
 		_owner = by
 		sprite.modulate = _owner.modulate
-		emit_signal("grabbed")
 		mode = MODE_STATIC
 		collision_layer = 0
 		$Pickup_area.monitorable = false
+		emit_signal("grabbed")
+		_on_grab()
 
 func throw(direction : Vector2, pos : Vector2 , by):
 	if throwable:
@@ -53,6 +51,7 @@ func throw(direction : Vector2, pos : Vector2 , by):
 		$Pickup_area.monitorable = true
 		collision_layer = get_hit_mask(hit_types.opponents) + get_hit_mask(hit_types.terrain) + Globals.ITEM_BIT
 		apply_central_impulse(direction)
+		_on_throw()
 		emit_signal("thrown")
 
 func get_hit_mask(hit := hits):
