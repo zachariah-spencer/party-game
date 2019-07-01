@@ -1,25 +1,116 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scenes/minigames/MapTemplate.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scripts/minigame_scripts/Map.gd" type="Script" id=2]
+[ext_resource path="res://lobbytileset.tres" type="TileSet" id=2]
+[ext_resource path="res://scripts/Reset-Boundary.gd" type="Script" id=3]
+[ext_resource path="res://scenes/Booster.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/items/ItemDispenser.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/GravityField.tscn" type="PackedScene" id=6]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 32, 150 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 10000, 32 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 123.368, 224.462 )
 
 [node name="LobbyMap" index="0" groups=[
 "maps",
 ] instance=ExtResource( 1 )]
-script = ExtResource( 2 )
 
 [node name="TerrainTilemap" parent="." index="0"]
-tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 10, 0, 0, 11, 0, 0, 12, 0, 0, 13, 0, 0, 14, 0, 0, 15, 0, 0, 16, 0, 0, 17, 0, 0, 18, 0, 0, 19, 0, 0, 20, 0, 0, 21, 0, 0, 22, 0, 0, 23, 0, 0, 65536, 0, 0, 65559, 0, 0, 131072, 0, 0, 131095, 0, 0, 196608, 0, 0, 196631, 0, 0, 262144, 0, 0, 262167, 0, 0, 327680, 0, 0, 327703, 0, 0, 393216, 0, 0, 393239, 0, 0, 458752, 0, 0, 458775, 0, 0, 524288, 0, 0, 524311, 0, 0, 589824, 0, 0, 589847, 0, 0, 655360, 0, 0, 655383, 0, 0, 720896, 0, 0, 720919, 0, 0, 786432, 0, 0, 786455, 0, 0, 851968, 0, 0, 851969, 0, 0, 851970, 0, 0, 851971, 0, 0, 851972, 0, 0, 851973, 0, 0, 851974, 0, 0, 851975, 0, 0, 851976, 0, 0, 851977, 0, 0, 851978, 0, 0, 851979, 0, 0, 851980, 0, 0, 851981, 0, 0, 851982, 0, 0, 851983, 0, 0, 851984, 0, 0, 851985, 0, 0, 851986, 0, 0, 851987, 0, 0, 851988, 0, 0, 851989, 0, 0, 851990, 0, 0, 851991, 0, 0 )
+scale = Vector2( 0.2, 0.2 )
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 256, 256 )
+tile_data = PoolIntArray( -65545, 2, 0, -9, 2, 0, 65527, 1, 0, 131063, 3, 0, 65556, 1, 0, 65557, 0, 0, 65559, 3, 0, 65560, 2, 0, 65561, 1, 0, 196595, 2, 0, 131092, 1, 0, 131093, 2, 0, 131095, 2, 0, 131106, 0, 0, 262131, 1, 0, 196628, 3, 0, 196643, 3, 0, 196655, 3, 0, 196656, 3, 0, 196659, 2, 0, 196660, 1, 0, 327667, 1, 0, 262164, 1, 0, 262191, 2, 0, 262196, 1, 0, 393201, 2, 0, 393202, 2, 0, 393203, 3, 0, 327700, 3, 0, 327727, 1, 0, 458743, 2, 0, 393236, 3, 0, 393245, 0, 0, 393247, 2, 0, 393263, 0, 0, 524279, 3, 0, 458772, 2, 0, 458791, 0, 0, 458792, 1, 0, 589815, 3, 0, 589816, 2, 0, 524308, 1, 0, 524335, 2, 0, 655351, 3, 0, 589844, 2, 0, 720883, 1, 0, 786419, 2, 0, 851955, 1, 0, 917491, 3, 0, 917498, 1, 0, 917499, 2, 0, 917500, 3, 0, 917501, 0, 0, 983026, 0, 0, 983030, 2, 0, 983034, 2, 0, 983035, 1, 0, 1048566, 1, 0, 1048567, 1, 0, 1048568, 2, 0, 1048569, 3, 0, 983045, 3, 0, 983046, 3, 0, 983047, 2, 0, 1114105, 3, 0, 1048582, 1, 0, 1769458, 0, 0, 1769460, 1, 0, 1769461, 3, 0, 1769462, 2, 0, 1769463, 3, 0, 1769464, 0, 0, 1769466, 3, 0, 1769467, 2, 0, 1769468, 3, 0, 1769469, 0, 0, 1769471, 1, 0, 1703936, 3, 0, 1703937, 2, 0, 1703938, 2, 0, 1703939, 1, 0, 1703940, 0, 0, 1703942, 2, 0, 1703943, 2, 0, 1703944, 0, 0, 1703946, 2, 0, 1703947, 3, 0, 1703948, 1, 0, 1703949, 2, 0, 1703950, 0, 0, 1703952, 3, 0, 1703953, 2, 0, 1703954, 1, 0, 1703955, 3, 0, 1703956, 1, 0, 1703957, 2, 0, 1703958, 2, 0, 1703959, 0, 0, 1703961, 3, 0, 1703962, 1, 0, 1703963, 1, 0, 1703964, 1, 0, 1703965, 2, 0, 1703966, 3, 0, 1703967, 0, 0, 1703969, 3, 0, 1703970, 1, 0, 1703971, 2, 0, 1703972, 3, 0, 1703973, 1, 0, 1703974, 0, 0, 1703976, 1, 0, 1703977, 1, 0, 1703978, 1, 0, 1703979, 3, 0, 1703980, 2, 0, 1703981, 2, 0, 1703982, 0, 0, 1703984, 3, 0, 1703985, 3, 0, 1703986, 1, 0, 1703987, 2, 0, 1703988, 0, 0, 1834996, 2, 0, 1834997, 2, 0, 1834998, 1, 0, 1834999, 1, 0, 1835002, 1, 0, 1835003, 2, 0, 1835004, 1, 0, 1835007, 2, 0, 1769472, 1, 0, 1769473, 3, 0, 1769474, 1, 0, 1769475, 1, 0, 1769478, 3, 0, 1769479, 1, 0, 1769482, 3, 0, 1769483, 1, 0, 1769484, 2, 0, 1769485, 1, 0, 1769488, 1, 0, 1769489, 3, 0, 1769490, 1, 0, 1769491, 2, 0, 1769492, 3, 0, 1769493, 1, 0, 1769494, 3, 0, 1769497, 2, 0, 1769498, 2, 0, 1769499, 3, 0, 1769500, 1, 0, 1769501, 1, 0, 1769502, 2, 0, 1769505, 2, 0, 1769506, 3, 0, 1769507, 1, 0, 1769508, 1, 0, 1769509, 3, 0, 1769512, 2, 0, 1769513, 3, 0, 1769514, 3, 0, 1769515, 1, 0, 1769516, 1, 0, 1769517, 2, 0, 1769520, 2, 0, 1769521, 3, 0, 1769522, 2, 0, 1769523, 1, 0 )
 
-[node name="PlatformTilemap" parent="." index="1"]
-tile_data = PoolIntArray( 196613, 1, 0, 196614, 1, 0, 196619, 1, 0, 196620, 1, 0, 196625, 1, 0, 196626, 1, 0, 393218, 1, 0, 393219, 1, 0, 393224, 1, 0, 393225, 1, 0, 393230, 1, 0, 393231, 1, 0, 393236, 1, 0, 393237, 1, 0, 589829, 1, 0, 589830, 1, 0, 589835, 1, 0, 589836, 1, 0, 589841, 1, 0, 589842, 1, 0, 786433, 2, 0, 786434, 1, 0, 786435, 1, 0, 786436, 2, 0, 786439, 2, 0, 786440, 1, 0, 786441, 1, 0, 786442, 2, 0, 786445, 2, 0, 786446, 1, 0, 786447, 1, 0, 786448, 2, 0, 786451, 2, 0, 786452, 1, 0, 786453, 1, 0, 786454, 2, 0 )
+[node name="NoSlideTilemap" parent="." index="1"]
+scale = Vector2( 0.2, 0.2 )
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 256, 256 )
+
+[node name="PlatformTilemap" parent="." index="2"]
+scale = Vector2( 0.2, 0.2 )
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 256, 256 )
+tile_data = PoolIntArray( -65544, 4, 0, -65543, 4, 0, -65542, 4, 0, -65541, 4, 0, -131044, 4, 0, -131043, 4, 0, -131042, 4, 0, 196657, 4, 0, 196658, 4, 0, 458801, 4, 0, 458802, 4, 0, 589825, 4, 0, 589826, 4, 0, 720910, 4, 0, 720911, 4, 0, 720912, 4, 0, 720913, 4, 0, 720945, 4, 0, 720946, 4, 0, 851979, 4, 0, 851980, 4, 0, 983028, 4, 0, 983029, 4, 0, 983042, 4, 0, 983043, 4, 0, 983044, 4, 0, 983077, 4, 0, 983078, 4, 0, 983079, 4, 0, 983080, 4, 0, 983081, 4, 0, 983082, 4, 0, 983086, 4, 0, 983087, 4, 0, 983088, 4, 0, 983091, 4, 0, 983092, 4, 0, 983093, 4, 0, 1114121, 4, 0, 1114122, 4, 0, 1572868, 4, 0, 1572869, 4, 0, 1572878, 4, 0, 1572879, 4, 0, 1572888, 4, 0, 1572889, 4, 0, 1572898, 4, 0, 1572899, 4, 0, 1638403, 4, 0, 1638406, 4, 0, 1638413, 4, 0, 1638416, 4, 0, 1638423, 4, 0, 1638426, 4, 0, 1638433, 4, 0, 1638436, 4, 0 )
+
+[node name="Reset-Boundary" type="Area2D" parent="." index="4"]
+editor/display_folded = true
+position = Vector2( 2784, 1120 )
+collision_layer = 0
+collision_mask = 8
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Shape" type="CollisionShape2D" parent="Reset-Boundary" index="0"]
+position = Vector2( 10, 60 )
+shape = SubResource( 1 )
+
+[node name="Shape2" type="CollisionShape2D" parent="Reset-Boundary" index="1"]
+position = Vector2( -3530, 60 )
+shape = SubResource( 1 )
+
+[node name="Shape3" type="CollisionShape2D" parent="Reset-Boundary" index="2"]
+position = Vector2( -1750, 350 )
+shape = SubResource( 2 )
 
 [node name="PlayerOneSpawnF" parent="SpawnPoints" index="0"]
-position = Vector2( 192, 650 )
+position = Vector2( 256, 1120 )
 
 [node name="PlayerTwoSpawnF" parent="SpawnPoints" index="1"]
-position = Vector2( 576, 650 )
+position = Vector2( 768, 1120 )
 
 [node name="PlayerThreeSpawnF" parent="SpawnPoints" index="2"]
-position = Vector2( 960, 650 )
+position = Vector2( 1280, 1120 )
+
+[node name="PlayerFourSpawnF" parent="SpawnPoints" index="3"]
+position = Vector2( 1792, 1120 )
+
+[node name="Boosters" type="Node2D" parent="." index="6"]
+editor/display_folded = true
+
+[node name="Booster" parent="Boosters" index="0" instance=ExtResource( 4 )]
+position = Vector2( 512, 1312 )
+
+[node name="Booster4" parent="Boosters" index="1" instance=ExtResource( 4 )]
+position = Vector2( 0, 1312 )
+
+[node name="Booster5" parent="Boosters" index="2" instance=ExtResource( 4 )]
+position = Vector2( 2048, 1312 )
+
+[node name="Booster2" parent="Boosters" index="3" instance=ExtResource( 4 )]
+position = Vector2( 1024, 1312 )
+
+[node name="Booster3" parent="Boosters" index="4" instance=ExtResource( 4 )]
+position = Vector2( 1536, 1312 )
+
+[node name="ItemDispenser" parent="." index="7" instance=ExtResource( 5 )]
+position = Vector2( 785.401, 1156.68 )
+item_path = "res://scenes/items/ContactGrenade.tscn"
+
+[node name="ItemDispenser2" parent="." index="8" instance=ExtResource( 5 )]
+position = Vector2( 1275.68, 1148.75 )
+item_path = "res://scenes/items/ContactGrenade.tscn"
+
+[node name="ItemDispenser3" parent="." index="9" instance=ExtResource( 5 )]
+position = Vector2( 1769.14, 1150.33 )
+item_path = "res://scenes/items/ContactGrenade.tscn"
+
+[node name="ItemDispenser4" parent="." index="10" instance=ExtResource( 5 )]
+position = Vector2( 261.689, 1170.76 )
+item_path = "res://scenes/items/ContactGrenade.tscn"
+
+[node name="GravityField" parent="." index="11" instance=ExtResource( 6 )]
+position = Vector2( 1199.89, 288.963 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GravityField" index="1"]
+shape = SubResource( 3 )
+
+[node name="DefaultFocus" parent="." index="12"]
+position = Vector2( 1024, 1024 )
 

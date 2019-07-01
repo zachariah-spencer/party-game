@@ -5,7 +5,7 @@ class_name Player
 
 
 #variable declaration
-const UP := Vector2.UP
+var up_direction := Vector2.UP
 const SLOPE_STOP := 64
 const DROP_THRU_BIT := 4
 const WALL_JUMP_INWARD_VELOCITY := Vector2(1000, -1200)
@@ -15,6 +15,7 @@ const PUNCH_DISTANCE := 800
 var can_wall_jump := true
 var can_jump := true
 var velocity : Vector2
+var adjusted_velocity : Vector2
 var target_velocity : float
 var move_direction := Vector2.ZERO
 var aim_direction := Vector2.ZERO
@@ -78,22 +79,34 @@ onready var right_wall_raycasts := $WallRaycasts/RightWallRaycasts
 onready var raycasts := $GroundRaycasts
 onready var right_hand := $'Rig/Right Hand'
 onready var left_hand := $'Rig/Left Hand'
-onready var gravity := 2 * max_jump_height / pow(jump_duration, 2)
-onready var max_jump_velocity = -sqrt(2 * gravity * max_jump_height)
-onready var min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
+onready var gravity_magnitude := 2 * max_jump_height / pow(jump_duration, 2)
+onready var gravity = Vector2.DOWN
+onready var max_jump_velocity = -sqrt(2 * gravity_magnitude * max_jump_height)
+onready var min_jump_velocity = -sqrt(2 * gravity_magnitude * min_jump_height)
 
 signal interacted
 
+func _set_gravity(new_gravity := Vector2.DOWN ):
+	gravity = new_gravity
+#	if gravity.x < 0 :
+#		raycasts.position.x = 0
+#	else :
+#		raycasts.position.x = 90
+#	rotation = gravity.angle() - PI/2
+	for raycast in raycasts.get_children():
+		raycast.cast_to = gravity*10
+
 func _ready():
+	_set_gravity(Vector2.DOWN)
 	#call state machines ready function
 	_state_machine_ready()
 	#set players hitpoints box equal to his health
 	_update_player_stats()
 	#set idle facial expression
 	_set_face()
-	
+
 	var interactables = get_tree().get_nodes_in_group('interactable')
-	
+
 	if interactables.size() != 0:
 		for interactable in interactables:
 			connect('interacted',interactable, 'interact')
@@ -114,8 +127,8 @@ func _input(event : InputEvent):
 			attack()
 	elif state == states.jump:
 		#VARIABLE JUMP
-		if event.is_action_released(move_jump) && velocity.y < min_jump_velocity:
-			velocity.y = min_jump_velocity
+		if event.is_action_released(move_jump) && adjusted_velocity.y < min_jump_velocity:
+			adjusted_velocity.y = min_jump_velocity
 
 func hit(by : Node, damage : int, knockback :Vector2) :
 	var x = 40* Globals.CELL_SIZE
@@ -132,7 +145,7 @@ func hit(by : Node, damage : int, knockback :Vector2) :
 			parent.play_random("Hit")
 
 func jump():
-	velocity.y = max_jump_velocity
+	velocity = max_jump_velocity*gravity
 	can_jump = false
 	is_jumping = true
 
@@ -146,26 +159,26 @@ func wall_jump():
 		wall_jump_velocity = WALL_JUMP_OUTWARD_VELOCITY
 	wall_jump_velocity.x *= -wall_direction
 	velocity.y = 0
-	velocity += wall_jump_velocity
+	velocity += wall_jump_velocity * gravity.y
 
 func throw():
 	if holding_item :
 		holding_item = false
 		var dir
 		var pos = global_position + Vector2.UP * 20
-		if aim_direction.length() > .2 :
+		if aim_direction != Vector2.ZERO :
 			dir = aim_direction
 			pos += aim_direction * 50
 		else :
-			dir = facing_direction*Vector2.RIGHT
-			pos += facing_direction*Vector2.RIGHT * 20
+			dir = facing_direction*Vector2.RIGHT.rotated(gravity.angle() - PI/2)
+			pos += facing_direction*Vector2.RIGHT.rotated(gravity.angle() - PI/2)  * 20
 
 		# throwing and item slightly changes velocity if it has weight
 		if held_item._weight > 0 :
 			velocity = Vector2.ZERO
 			velocity -= dir.normalized()*held_item._weight*100
-
 		held_item.throw(dir*1600, pos, self)
+		held_item = null
 
 func drop():
 	if holding_item :
@@ -202,7 +215,8 @@ func attack():
 		if aim_direction != Vector2.ZERO:
 			vel = hand.get_gravity_scale()*PUNCH_DISTANCE*aim_direction.normalized()
 		else :
-			vel = Vector2(hand.get_gravity_scale()*PUNCH_DISTANCE*dir,0)
+			vel = dir * Vector2.RIGHT.rotated(gravity.angle() - PI/2) * hand.get_gravity_scale()*PUNCH_DISTANCE
+#			vel = Vector2(hand.get_gravity_scale()*PUNCH_DISTANCE*dir,0)
 		hand.apply_central_impulse(vel)
 		# launch body
 		body_part.apply_torque_impulse(3000*dir)
@@ -221,13 +235,18 @@ func _update_player_stats():
 			parent.die(Manager.current_minigame.allow_respawns)
 
 func _apply_gravity(delta : float):
-	velocity.y += gravity * delta
+	if rotation != gravity.angle() - PI/2 :
+		rotation = lerp(rotation, gravity.angle() - PI/2, .1)
+	velocity += gravity*gravity_magnitude * delta
+
 
 func _apply_movement():
-	if is_jumping && velocity.y >= 0:
+	adjusted_velocity = velocity.rotated(-(gravity.angle() - PI/2))
+
+	if is_jumping && adjusted_velocity.y >= 0:
 		is_jumping = false
 
-	velocity = move_and_slide(velocity, UP, SLOPE_STOP)
+	velocity = move_and_slide(velocity, -gravity, SLOPE_STOP)
 	is_grounded = !is_jumping && _check_is_grounded()
 
 	if !can_jump && is_on_floor() || !can_jump && state == states.wall_slide:
@@ -258,7 +277,9 @@ func _update_move_direction():
 	if aim_direction == Vector2.ZERO :
 		aim_direction = move_direction
 
-	if move_direction.x != 0:
+	var x_comp = move_direction.cross(gravity)
+
+	if x_comp != 0:
 		# all nodes in here will be mirrored when changing directions
 		# these range from simple sprites to feet that require mirroring the parent node, not the sprites themselves
 		var mirror_group = [get_node("Rig/Right Foot"),
@@ -271,8 +292,9 @@ func _update_move_direction():
 		#could implement face rotation here
 		for i in mirror_group:
 			var s = i.get_scale()
-			if (s.x > 0 and move_direction.x < 0) or (s.x < 0 and move_direction.x > 0) : s.x *= -1
-			i.set_scale(Vector2(s.x,s.y))
+			if (s.x > 0 and x_comp < 0) or (s.x < 0 and x_comp > 0) :
+				s.x *= -1
+			i.scale.x = s.x
 		facing_direction = move_direction.x
 
 func _update_wall_direction():
@@ -285,8 +307,11 @@ func _update_wall_direction():
 		wall_direction = -int(is_near_wall_left) + int(is_near_wall_right)
 
 func _handle_move_input():
-	target_velocity = move_speed * move_direction.x
-	velocity.x = lerp(velocity.x, target_velocity, _get_h_weight())
+	var y_comp = velocity.project(gravity)
+	var x_comp = (move_direction - move_direction.project(gravity)) * move_speed
+	velocity = velocity.linear_interpolate(x_comp + y_comp, _get_h_weight())
+#	target_velocity = move_speed * move_direction.x
+#	velocity.x = lerp(velocity.x, target_velocity, _get_h_weight())
 
 func _handle_wall_slide_sticking():
 	if !Input.is_action_pressed(wall_action):
@@ -332,30 +357,30 @@ func _state_logic(delta : float):
 
 	_apply_movement()
 
-	anim_tree['parameters/Airborne/blend_position'] = velocity.y / 300
+	anim_tree['parameters/Airborne/blend_position'] = adjusted_velocity.y / 300
 
 func _get_transition(delta : float):
 	match state:
 		states.idle:
 			if !is_on_floor():
-				if velocity.y < 0:
+				if adjusted_velocity.y < 0:
 					return states.jump
-				elif velocity.y >= 0:
+				elif adjusted_velocity.y >= 0:
 					return states.fall
 			elif abs(move_direction.x) != 0:
 				return states.run
 		states.run:
 			if !is_on_floor():
-				if velocity.y < 0:
+				if adjusted_velocity.y < 0:
 					return states.jump
-				elif velocity.y >= 0:
+				elif adjusted_velocity.y >= 0:
 					return states.fall
 			elif abs(move_direction.x) == 0:
 				return states.idle
 		states.jump:
 			if is_on_floor():
 				return states.idle
-			elif velocity.y >= 0:
+			elif adjusted_velocity.y >= 0:
 				return states.fall
 		states.fall:
 			if move_direction.y  > 0 :
@@ -366,7 +391,7 @@ func _get_transition(delta : float):
 				return states.wall_slide
 			elif is_on_floor():
 				return states.idle
-			elif velocity.y < 0:
+			elif adjusted_velocity.y < 0:
 				return states.jump
 		states.wall_slide:
 			if is_on_floor():
@@ -445,8 +470,8 @@ func _set_face():
 	face.set_texture(face_textures[0][1])
 
 func _update_wall_action():
-	if wall_direction < 0 : wall_action = move_left
-	if wall_direction > 0 : wall_action = move_right
+	if wall_direction*gravity.y < 0 : wall_action = move_left
+	if wall_direction*gravity.y > 0 : wall_action = move_right
 	return wall_action
 
 func _pickup_item():
@@ -455,13 +480,19 @@ func _pickup_item():
 	for temp in items : if temp.is_in_group("item") : item = temp.get_parent()
 
 	if item && item.grabbable:
+		set_item(item)
+	elif item :
+		item.grab(self)
+	return holding_item
+
+func set_item(item):
+	if item:
+		item.sprite = item.get_node('Obj/Sprite')
 		holding_item = true
 		item.grab(self)
 		held_item = item
-		item.get_parent().remove_child(item)
 		item.position = Vector2.ZERO
-		right_hand.add_child(item)
-	return holding_item
+		right_hand.call_deferred('add_child', item)
 
 func _stop_movement():
 	velocity.x = 0
@@ -522,13 +553,14 @@ func _check_is_valid_wall(wall_raycasts : Node):
 	return false
 
 func _cap_gravity_wall_slide():
-	var max_velocity : float 
-	
-	if Input.is_action_pressed(move_down):
+	var max_velocity : float
+
+	if sign(move_direction.y) == sign(gravity.y) :
 		max_velocity = 16 * Globals.CELL_SIZE
 	else:
 		max_velocity = 4 * Globals.CELL_SIZE
-	velocity.y = min(velocity.y, max_velocity)
+	velocity.y = min(abs(velocity.y), abs(max_velocity)) * sign(velocity.y)
+
 
 func _on_JumpCooldownTimer_timeout():
 	can_jump = true

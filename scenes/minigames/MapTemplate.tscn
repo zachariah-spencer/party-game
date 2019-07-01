@@ -11,6 +11,12 @@ tile_set = ExtResource( 2 )
 collision_mask = 0
 format = 1
 
+[node name="NoSlideTilemap" type="TileMap" parent="."]
+tile_set = ExtResource( 2 )
+collision_layer = 4096
+collision_mask = 0
+format = 1
+
 [node name="PlatformTilemap" type="TileMap" parent="."]
 tile_set = ExtResource( 2 )
 collision_layer = 16
@@ -39,4 +45,9 @@ position = Vector2( 1152, 650 )
 
 [node name="PlayerFourSpawnF" type="Position2D" parent="SpawnPoints"]
 position = Vector2( 1344, 650 )
+
+[node name="DefaultFocus" type="Position2D" parent="." groups=[
+"focus",
+"default_focus",
+]]
 

@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scenes/items/Item.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/items/ItemDispenser.gd" type="Script" id=2]
+
+[node name="ItemDispenser" instance=ExtResource( 1 )]
+mode = 1
+script = ExtResource( 2 )
+throwable = false
+grabbable = false
+

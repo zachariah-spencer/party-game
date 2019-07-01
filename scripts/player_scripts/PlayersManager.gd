@@ -69,7 +69,7 @@ func _ragdoll():
 	var add_rag = RAGDOLL.instance()
 	add_rag.position = child.position
 	var parts = add_rag.get_children()
-	
+
 	for p in parts:
 		if add_rag is RigidBody2D :
 			add_rag.get_node(p).linear_velocity = child.velocity*2

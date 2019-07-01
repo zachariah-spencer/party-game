@@ -2,7 +2,7 @@ extends RigidBody2D
 class_name Item
 
 var _held
-var _owner : Player
+var _owner
 onready var sprite = $Obj/Sprite
 var _weight := 0
 export var throwable := true
@@ -23,17 +23,24 @@ func _ready():
 func _on_body_entered(body):
 	pass
 
+func _on_grab():
+	pass
+func _on_throw():
+	pass
 
-func grab(by : Player):
+func grab(by):
 	if grabbable:
+		if get_parent() :
+			get_parent().remove_child(self)
 		_owner = by
 		sprite.modulate = _owner.modulate
-		emit_signal("grabbed")
 		mode = MODE_STATIC
 		collision_layer = 0
 		$Pickup_area.monitorable = false
+		emit_signal("grabbed")
+		_on_grab()
 
-func throw(direction : Vector2, pos : Vector2 , by : Player):
+func throw(direction : Vector2, pos : Vector2 , by):
 	if throwable:
 		_owner = by
 		sprite.modulate = _owner.get_parent().modulate
@@ -42,8 +49,9 @@ func throw(direction : Vector2, pos : Vector2 , by : Player):
 		global_position = pos
 		Manager.current_minigame.add_child(self)
 		$Pickup_area.monitorable = true
-		collision_layer = get_hit_mask(hit_types.opponents) + get_hit_mask(hit_types.terrain)
+		collision_layer = get_hit_mask(hit_types.opponents) + get_hit_mask(hit_types.terrain) + Globals.ITEM_BIT
 		apply_central_impulse(direction)
+		_on_throw()
 		emit_signal("thrown")
 
 func get_hit_mask(hit := hits):
@@ -54,7 +62,7 @@ func get_hit_mask(hit := hits):
 				return Globals.PLAYER_BITS - _owner.parent.bit
 			else : return Globals.PLAYER_BITS
 		hit_types.everybody :
-			return Players.player_bits
+			return Globals.PLAYER_BITS
 		hit_types.terrain :
 			return 17
 		hit_types.terrain_no_platforms :
