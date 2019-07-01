@@ -1,10 +1,23 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scenes/player/PlayerOne.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/player/PlayerTwo.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/player/PlayerThree.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/player/PlayerFour.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scripts/ui/PauseMenu.gd" type="Script" id=5]
+[ext_resource path="res://assets/monogram.ttf" type="DynamicFontData" id=6]
+
+[sub_resource type="DynamicFont" id=1]
+size = 50
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 50
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 50
+font_data = ExtResource( 6 )
 
 [node name="World" type="Node"]
 
@@ -25,6 +38,7 @@ layer = 10
 
 [node name="PauseMenu" type="Control" parent="MenuLayer"]
 pause_mode = 2
+editor/display_folded = true
 visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
@@ -33,5 +47,117 @@ script = ExtResource( 5 )
 [node name="Overlay" type="ColorRect" parent="MenuLayer/PauseMenu"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0, 0, 0, 0.345098 )
+color = Color( 0, 0, 0, 0.756863 )
 
+[node name="MainPause" type="VBoxContainer" parent="MenuLayer/PauseMenu"]
+editor/display_folded = true
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_top = -210.0
+margin_right = 164.0
+margin_bottom = -112.0
+
+[node name="Label" type="Label" parent="MenuLayer/PauseMenu/MainPause"]
+margin_right = 164.0
+margin_bottom = 41.0
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 0.258824 )
+text = "Paused"
+align = 1
+
+[node name="SettingsButton" type="Button" parent="MenuLayer/PauseMenu/MainPause"]
+margin_top = 45.0
+margin_right = 164.0
+margin_bottom = 92.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 1, 1, 1, 0.243137 )
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+text = "Settings"
+flat = true
+align = 0
+
+[node name="QuitGameButton" type="Button" parent="MenuLayer/PauseMenu/MainPause"]
+margin_top = 45.0
+margin_right = 164.0
+margin_bottom = 92.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 1, 1, 1, 0.243137 )
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+text = "Quit Game"
+flat = true
+align = 0
+
+[node name="Settings" type="VBoxContainer" parent="MenuLayer/PauseMenu"]
+editor/display_folded = true
+visible = false
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_top = -210.0
+margin_right = 164.0
+margin_bottom = -112.0
+
+[node name="Label" type="Label" parent="MenuLayer/PauseMenu/Settings"]
+margin_right = 221.0
+margin_bottom = 41.0
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 0.258824 )
+text = "Settings"
+align = 1
+
+[node name="FullscreenCheckbox" type="CheckBox" parent="MenuLayer/PauseMenu/Settings"]
+margin_top = 45.0
+margin_right = 221.0
+margin_bottom = 94.0
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color_hover_pressed = Color( 1, 1, 1, 0.27451 )
+custom_colors/font_color = Color( 1, 1, 1, 0.270588 )
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+custom_colors/font_color_pressed = Color( 1, 1, 1, 0.27451 )
+text = "Fullscreen"
+flat = true
+align = 2
+
+[node name="MuteSoundsButton" type="Button" parent="MenuLayer/PauseMenu/Settings"]
+margin_top = 98.0
+margin_right = 221.0
+margin_bottom = 145.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 1, 1, 1, 0.243137 )
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+text = "Mute Sounds"
+flat = true
+align = 0
+
+[node name="MuteMusicButton" type="Button" parent="MenuLayer/PauseMenu/Settings"]
+margin_top = 149.0
+margin_right = 221.0
+margin_bottom = 196.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 1, 1, 1, 0.243137 )
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+text = "Mute Music"
+flat = true
+align = 0
+
+[node name="BackButton" type="Button" parent="MenuLayer/PauseMenu/Settings"]
+margin_top = 200.0
+margin_right = 221.0
+margin_bottom = 247.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 1, 1, 1, 0.243137 )
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+text = "Back"
+flat = true
+align = 0
+
+[connection signal="pressed" from="MenuLayer/PauseMenu/MainPause/SettingsButton" to="MenuLayer/PauseMenu" method="_on_SettingsButton_pressed"]
+[connection signal="pressed" from="MenuLayer/PauseMenu/MainPause/QuitGameButton" to="MenuLayer/PauseMenu" method="_on_QuitGameButton_pressed"]
+[connection signal="pressed" from="MenuLayer/PauseMenu/Settings/FullscreenCheckbox" to="MenuLayer/PauseMenu" method="_on_CheckBox_pressed"]
+[connection signal="pressed" from="MenuLayer/PauseMenu/Settings/MuteSoundsButton" to="MenuLayer/PauseMenu" method="_on_MuteSoundsButton_pressed"]
+[connection signal="pressed" from="MenuLayer/PauseMenu/Settings/MuteMusicButton" to="MenuLayer/PauseMenu" method="_on_MuteMusicButton_pressed"]
+[connection signal="pressed" from="MenuLayer/PauseMenu/Settings/BackButton" to="MenuLayer/PauseMenu" method="_on_BackButton_pressed"]
