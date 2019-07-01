@@ -46,3 +46,8 @@ position = Vector2( 1152, 650 )
 [node name="PlayerFourSpawnF" type="Position2D" parent="SpawnPoints"]
 position = Vector2( 1344, 650 )
 
+[node name="DefaultFocus" type="Position2D" parent="." groups=[
+"focus",
+"default_focus",
+]]
+
