@@ -16,7 +16,7 @@ extents = Vector2( 10000, 32 )
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 123.368, 224.462 )
 
-[node name="LobbyMap" index="0" groups=[
+[node name="LobbyMap" groups=[
 "maps",
 ] instance=ExtResource( 1 )]
 
@@ -72,7 +72,6 @@ position = Vector2( 1280, 1120 )
 position = Vector2( 1792, 1120 )
 
 [node name="Boosters" type="Node2D" parent="." index="6"]
-editor/display_folded = true
 
 [node name="Booster" parent="Boosters" index="0" instance=ExtResource( 4 )]
 position = Vector2( 512, 1312 )
