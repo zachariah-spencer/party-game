@@ -8,7 +8,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 111.697, 233.216 )
 
-[node name="Any_HorseshoesMap1" index="0" groups=[
+[node name="Any_HorseshoesMap1" groups=[
 "maps",
 ] instance=ExtResource( 1 )]
 

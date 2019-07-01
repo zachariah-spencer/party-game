@@ -16,7 +16,7 @@ extents = Vector2( 10000, 32 )
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 123.368, 224.462 )
 
-[node name="LobbyMap" groups=[
+[node name="LobbyMap" index="0" groups=[
 "maps",
 ] instance=ExtResource( 1 )]
 
@@ -110,3 +110,4 @@ position = Vector2( 1199.89, 288.963 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GravityField" index="1"]
 shape = SubResource( 3 )
+
