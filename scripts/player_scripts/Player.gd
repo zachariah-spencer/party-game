@@ -128,7 +128,7 @@ func _input(event : InputEvent):
 	elif state == states.jump:
 		#VARIABLE JUMP
 		if event.is_action_released(move_jump) && adjusted_velocity.y < min_jump_velocity:
-			adjusted_velocity.y = min_jump_velocity
+			velocity = (velocity - velocity.project(gravity)) + (min_jump_velocity * Vector2.DOWN.rotated(gravity.angle() - PI/2))
 
 func hit(by : Node, damage : int, knockback :Vector2) :
 	var x = 40* Globals.CELL_SIZE
