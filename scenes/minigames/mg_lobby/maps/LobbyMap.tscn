@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scenes/minigames/MapTemplate.tscn" type="PackedScene" id=1]
 [ext_resource path="res://lobbytileset.tres" type="TileSet" id=2]
 [ext_resource path="res://scripts/Reset-Boundary.gd" type="Script" id=3]
 [ext_resource path="res://scenes/Booster.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/items/ItemDispenser.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/GravityField.tscn" type="PackedScene" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 150 )
@@ -11,7 +13,10 @@ extents = Vector2( 32, 150 )
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 10000, 32 )
 
-[node name="LobbyMap" index="0" groups=[
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 123.368, 224.462 )
+
+[node name="LobbyMap" groups=[
 "maps",
 ] instance=ExtResource( 1 )]
 
@@ -84,3 +89,24 @@ position = Vector2( 1024, 1312 )
 [node name="Booster3" parent="Boosters" index="4" instance=ExtResource( 4 )]
 position = Vector2( 1536, 1312 )
 
+[node name="ItemDispenser" parent="." index="7" instance=ExtResource( 5 )]
+position = Vector2( 785.401, 1156.68 )
+item_path = "res://scenes/items/ContactGrenade.tscn"
+
+[node name="ItemDispenser2" parent="." index="8" instance=ExtResource( 5 )]
+position = Vector2( 1275.68, 1148.75 )
+item_path = "res://scenes/items/ContactGrenade.tscn"
+
+[node name="ItemDispenser3" parent="." index="9" instance=ExtResource( 5 )]
+position = Vector2( 1769.14, 1150.33 )
+item_path = "res://scenes/items/ContactGrenade.tscn"
+
+[node name="ItemDispenser4" parent="." index="10" instance=ExtResource( 5 )]
+position = Vector2( 261.689, 1170.76 )
+item_path = "res://scenes/items/ContactGrenade.tscn"
+
+[node name="GravityField" parent="." index="11" instance=ExtResource( 6 )]
+position = Vector2( 1199.89, 288.963 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GravityField" index="1"]
+shape = SubResource( 3 )

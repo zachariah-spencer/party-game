@@ -2,22 +2,14 @@ extends Item
 
 onready var shot_landed_area := $ShotLandedArea
 onready var fall_timer := $FallTimer
-onready var grenade = preload('res://scenes/items/Grenade.tscn')
+onready var grenade = preload('res://scenes/items/ContactGrenade.tscn')
 var landed := false
 var frame_count := 0
 var landed_pos : Vector2
 var has_been_moved := false
 
 func _ready():
-	connect("grabbed", self, "_on_grab")
-	connect("thrown", self, "_on_throw")
 	_weight = 4
-
-func _on_grab():
-	pass
-
-func _on_throw():
-	pass
 
 func _integrate_forces(state):
 

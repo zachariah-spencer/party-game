@@ -3,8 +3,8 @@ extends Area2D
 func _ready():
 
 	var mat : ParticlesMaterial = $Particles2D.process_material.duplicate()
-	var circle = $Shape.shape as CircleShape2D
-	var rect = $Shape.shape as RectangleShape2D
+	var circle = $CollisionShape2D.shape as CircleShape2D
+	var rect = $CollisionShape2D.shape as RectangleShape2D
 	var area = 0
 	if circle :
 		mat.emission_shape = ParticlesMaterial.EMISSION_SHAPE_SPHERE
@@ -14,9 +14,9 @@ func _ready():
 		mat.emission_shape = ParticlesMaterial.EMISSION_SHAPE_BOX
 		mat.emission_box_extents = Vector3(rect.extents.x, rect.extents.y, 0)
 		area = rect.extents.x * rect.extents.y
-	mat.gravity = Vector3(gravity_vec.x * 100, gravity_vec.y * 100, 0)
+	mat.gravity = Vector3(gravity_vec.normalized().x * 100, gravity_vec.normalized().y * 100, 0)
 
-	$Particles2D.amount = area * 100
+	$Particles2D.amount = area/100
 	$Particles2D.process_material = mat
 
 

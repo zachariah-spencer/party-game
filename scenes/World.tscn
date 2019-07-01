@@ -18,4 +18,3 @@
 [node name="PlayerThree" parent="Players" instance=ExtResource( 3 )]
 
 [node name="PlayerFour" parent="Players" instance=ExtResource( 4 )]
-

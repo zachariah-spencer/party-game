@@ -6,7 +6,7 @@ var starting_horseshoes := false
 
 func _init():
 	maps = [
-	preload('res://scenes/minigames/mg_horseshoes/maps/Any_HorseshoesMap1.tscn'),
+#	preload('res://scenes/minigames/mg_horseshoes/maps/Any_HorseshoesMap1.tscn'),
 	preload('res://scenes/minigames/mg_horseshoes/maps/Any_HorseshoesMap2.tscn'),
 	]
 

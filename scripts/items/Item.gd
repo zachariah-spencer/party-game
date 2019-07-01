@@ -19,10 +19,17 @@ signal thrown
 func _ready():
 	connect("body_entered" , self, "_on_body_entered")
 	$Pickup_area.add_to_group("item")
+	connect("grabbed", self, "_on_grab")
+	connect("thrown", self, "_on_throw")
+
 
 func _on_body_entered(body):
 	pass
 
+func _on_grab():
+	pass
+func _on_throw():
+	pass
 
 func grab(by):
 	if grabbable:
@@ -56,7 +63,7 @@ func get_hit_mask(hit := hits):
 				return Globals.PLAYER_BITS - _owner.parent.bit
 			else : return Globals.PLAYER_BITS
 		hit_types.everybody :
-			return Players.player_bits
+			return Globals.PLAYER_BITS
 		hit_types.terrain :
 			return 17
 		hit_types.terrain_no_platforms :
