@@ -34,6 +34,7 @@ font_data = ExtResource( 6 )
 [node name="PlayerFour" parent="Players" instance=ExtResource( 4 )]
 
 [node name="MenuLayer" type="CanvasLayer" parent="."]
+editor/display_folded = true
 layer = 10
 
 [node name="PauseMenu" type="Control" parent="MenuLayer"]
@@ -51,6 +52,7 @@ color = Color( 0, 0, 0, 0.756863 )
 
 [node name="MainPause" type="VBoxContainer" parent="MenuLayer/PauseMenu"]
 editor/display_folded = true
+visible = false
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_top = -210.0

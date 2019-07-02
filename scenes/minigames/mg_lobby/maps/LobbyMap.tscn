@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scenes/minigames/MapTemplate.tscn" type="PackedScene" id=1]
 [ext_resource path="res://lobbytileset.tres" type="TileSet" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://scenes/Booster.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/items/ItemDispenser.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/GravityField.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/RoundLever.tscn" type="PackedScene" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 150 )
@@ -112,4 +113,7 @@ shape = SubResource( 3 )
 
 [node name="DefaultFocus" parent="." index="12"]
 position = Vector2( 1024, 1024 )
+
+[node name="RoundLever" parent="." index="13" instance=ExtResource( 7 )]
+position = Vector2( 950, 1300 )
 
