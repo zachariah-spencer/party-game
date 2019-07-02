@@ -28,6 +28,11 @@ var repeats := true
 
 var shuffle := false
 
+#manages how many minigames will be rotated before declaring a winner and going back to lobby
+var rounds_to_play := 10
+
+var rounds_played := 0
+
 #the current minigame at any given playtime
 var current_minigame : Minigame
 

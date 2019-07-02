@@ -115,5 +115,5 @@ shape = SubResource( 3 )
 position = Vector2( 1024, 1024 )
 
 [node name="RoundLever" parent="." index="13" instance=ExtResource( 7 )]
-position = Vector2( 950, 1300 )
+position = Vector2( -224, 1305 )
 
