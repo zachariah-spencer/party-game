@@ -16,6 +16,10 @@ func _input(event):
 			settings.visible = false
 			main.visible = true
 
+func _on_Return_To_Lobby_pressed():
+	if pause_state:
+		visible = false
+		Manager._start_new_minigame(Manager.GAMES[0])
 
 func _on_SettingsButton_pressed():
 	if pause_state:

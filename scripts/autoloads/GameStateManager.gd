@@ -26,7 +26,7 @@ var minigame_name : String
 #rotation will loop if set to true
 var repeats := true
 
-var shuffle := false
+var shuffle := true
 
 #manages how many minigames will be rotated before declaring a winner and going back to lobby
 var rounds_to_play := 10
