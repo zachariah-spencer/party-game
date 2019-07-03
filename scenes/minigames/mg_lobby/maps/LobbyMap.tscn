@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scenes/minigames/MapTemplate.tscn" type="PackedScene" id=1]
 [ext_resource path="res://lobbytileset.tres" type="TileSet" id=2]
@@ -7,12 +7,6 @@
 [ext_resource path="res://scenes/items/ItemDispenser.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/map_elements/GravityField.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/map_elements/RoundSettingApparatus.tscn" type="PackedScene" id=7]
-
-
-
-
-
-
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 150 )
@@ -27,12 +21,12 @@ extents = Vector2( 167.2, 265.581 )
 extents = Vector2( 167.2, 299.744 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 547.054, 100 )
-
-[sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 698.503, 130.235 )
 
-[node name="LobbyMap" groups=[
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 547.054, 100 )
+
+[node name="LobbyMap" index="0" groups=[
 "maps",
 ] instance=ExtResource( 1 )]
 
@@ -132,22 +126,15 @@ position = Vector2( 2568.42, 891.678 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GravityField3" index="1"]
 shape = SubResource( 4 )
 
-[node name="GravityField4" parent="." index="13" instance=ExtResource( 6 )]
-position = Vector2( 3458.37, 711.227 )
-gravity_vec = Vector2( 1, 0 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GravityField4" index="1"]
-shape = SubResource( 5 )
-
 [node name="RoundSettingApparatus" parent="." index="13" instance=ExtResource( 7 )]
-position = Vector2( 2400, 1305 )
+position = Vector2( -448, 1305 )
 
 [node name="GravityField5" parent="." index="14" instance=ExtResource( 6 )]
 position = Vector2( 3344.01, 429.959 )
 gravity_vec = Vector2( -1, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GravityField5" index="1"]
-shape = SubResource( 6 )
+shape = SubResource( 5 )
 
 [node name="GravityField2" parent="." index="15" instance=ExtResource( 6 )]
 position = Vector2( 887.422, 328.362 )
@@ -156,5 +143,13 @@ gravity_vec = Vector2( 1, 0 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GravityField2" index="1"]
 shape = SubResource( 3 )
 
-[node name="DefaultFocus" parent="." index="16"]
+[node name="GravityField4" parent="." index="16" instance=ExtResource( 6 )]
+position = Vector2( 3458.37, 711.227 )
+gravity_vec = Vector2( 1, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GravityField4" index="1"]
+shape = SubResource( 6 )
+
+[node name="DefaultFocus" parent="." index="17"]
 position = Vector2( 1024, 1024 )
+
