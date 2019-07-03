@@ -382,7 +382,7 @@ func _get_transition(delta : float):
 			elif adjusted_velocity.y >= 0:
 				return states.fall
 		states.fall:
-			if move_direction.rotated(gravity.angle() - 2/PI).y  > 0 :
+			if move_direction.rotated(gravity.angle() - PI/2).y  > 0 :
 				set_collision_mask_bit(DROP_THRU_BIT, false)
 			elif !_is_in_platform() :
 				set_collision_mask_bit(DROP_THRU_BIT, true)
@@ -497,15 +497,16 @@ func _stop_movement():
 	velocity.x = 0
 
 func _handle_jumping():
-	if move_direction.rotated(gravity.angle() - 2/PI).y > 0 && fall_through_timer.is_stopped() && [states.idle, states.run].has(state):
+	if move_direction.rotated(gravity.angle() - PI/2).y > 0 && fall_through_timer.is_stopped() && [states.idle, states.run].has(state):
 		fall_through_timer.start()
-	elif move_direction.rotated(gravity.angle() - 2/PI).y < 0 :
+	elif move_direction.rotated(gravity.angle() - PI/2).y < 0 :
 		fall_through_timer.stop()
 
 	if [states.idle, states.run].has(state) && state != states.wall_slide:
 		#JUMP
 		if Input.is_action_pressed(move_jump):
-			if move_direction.rotated(gravity.angle() - 2/PI).y > 0:
+			print(move_direction.rotated(gravity.angle() - PI/2).y)
+			if move_direction.rotated(gravity.angle() - PI/2).y > .2:
 				set_collision_mask_bit(DROP_THRU_BIT, false)
 			elif can_jump:
 				jump()
