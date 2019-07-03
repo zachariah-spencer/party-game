@@ -13,6 +13,7 @@ onready var parent = get_parent()
 
 func _ready():
 	rounds_label.text = String(parent.num_rounds)
+	parent.num_rounds = 10
 
 func interact(by : Player):
 	if player_nearby != null && can_flip && player_nearby == by:

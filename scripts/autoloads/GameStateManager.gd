@@ -24,7 +24,7 @@ var transition_scene : PackedScene = preload('res://scenes/Transition.tscn')
 var minigame_name : String
 
 #rotation will loop if set to true
-var repeats := true
+var repeats := false
 
 var shuffle := true
 
@@ -72,13 +72,18 @@ func _start_new_minigame(new_minigame : PackedScene):
 func _on_game_times_up():
 	rounds_played += 1
 	
-	if rounds_played <= rounds_to_play:
+	if repeats:
 		var next_minigame
 		next_minigame = _select_random_minigame()
 		_start_new_minigame(next_minigame)
 	else:
-		Players.reset_players_data()
-		_start_new_minigame(GAMES[0])
+		if rounds_played <= rounds_to_play:
+			var next_minigame
+			next_minigame = _select_random_minigame()
+			_start_new_minigame(next_minigame)
+		else:
+			Players.reset_players_data()
+			_start_new_minigame(GAMES[0])
 
 
 func _select_random_minigame():
@@ -87,9 +92,6 @@ func _select_random_minigame():
 	#mixes up the order, this means a possiblity of the same game back to back with repeats
 	if shuffle : rotation.shuffle()
 
-	if repeats :
-		#cycles through for if not shuffling
-		rotation.push_back(rotation.pop_front())
-		return rotation.front()
-	else :
-		return rotation.pop_front()
+	#cycles through for if not shuffling
+	rotation.push_back(rotation.pop_front())
+	return rotation.front()

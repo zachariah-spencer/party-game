@@ -14,6 +14,7 @@ onready var parent = get_parent()
 
 func _ready():
 	infinite_label.text = 'Infinite: ' + _get_infinite_state()
+	Manager.repeats = false
 
 func interact(by : Player):
 	if player_nearby != null && can_flip && player_nearby == by:
