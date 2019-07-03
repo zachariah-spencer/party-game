@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://scripts/InfiniteRoundLever.gd" type="Script" id=1]
+[ext_resource path="res://scripts/map_elements/InfiniteRoundLever.gd" type="Script" id=1]
 [ext_resource path="res://assets/switchbase.png" type="Texture" id=2]
 [ext_resource path="res://assets/switchhead.png" type="Texture" id=3]
 
