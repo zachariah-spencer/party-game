@@ -18,7 +18,9 @@ func _input(event):
 
 func _on_Return_To_Lobby_pressed():
 	if pause_state:
+		get_tree().paused = !pause_state
 		visible = false
+		Players.reset_players_data()
 		Manager._start_new_minigame(Manager.GAMES[0])
 
 func _on_SettingsButton_pressed():
