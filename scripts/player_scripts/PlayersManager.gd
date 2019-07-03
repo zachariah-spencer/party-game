@@ -14,7 +14,7 @@ var player_number : String
 var ready = false
 var bit := 0
 
-onready var RAGDOLL = preload("res://scenes/PlayerDead.tscn")
+onready var RAGDOLL = preload("res://scenes/player/PlayerDead.tscn")
 onready var player_scene : PackedScene = preload('res://scenes/player/Player.tscn')
 onready var respawn_timer : Node = Timer.new()
 
