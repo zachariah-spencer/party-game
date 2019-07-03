@@ -70,20 +70,18 @@ func _start_new_minigame(new_minigame : PackedScene):
 		world_node.add_child(current_minigame)
 
 func _on_game_times_up():
-	var next_minigame
-	next_minigame = _select_random_minigame()
-
-	_start_new_minigame(next_minigame)
+	rounds_played += 1
+	
+	if rounds_played <= rounds_to_play:
+		var next_minigame
+		next_minigame = _select_random_minigame()
+		_start_new_minigame(next_minigame)
+	else:
+		Players.reset_players_data()
+		_start_new_minigame(GAMES[0])
 
 
 func _select_random_minigame():
-	#DO
-#	var selected_num : int = int(rand_range(0, GAMES.size()))
-#	#WHILE
-#	while GAMES.keys()[selected_num] == minigame_name || GAMES.keys()[selected_num] == 'lobby':
-#		selected_num = int(rand_range(0, GAMES.size()))
-#
-#	var selected_game : PackedScene = GAMES.values()[selected_num]
 	if rotation.empty() :
 		return GAMES['lobby']
 	#mixes up the order, this means a possiblity of the same game back to back with repeats

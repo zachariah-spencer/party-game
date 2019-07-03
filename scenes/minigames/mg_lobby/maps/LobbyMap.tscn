@@ -6,7 +6,7 @@
 [ext_resource path="res://scenes/Booster.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/items/ItemDispenser.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/GravityField.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scenes/RoundLever.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/RoundSettingApparatus.tscn" type="PackedScene" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 150 )
@@ -114,6 +114,6 @@ shape = SubResource( 3 )
 [node name="DefaultFocus" parent="." index="12"]
 position = Vector2( 1024, 1024 )
 
-[node name="RoundLever" parent="." index="13" instance=ExtResource( 7 )]
-position = Vector2( -224, 1305 )
+[node name="RoundSettingApparatus" parent="." index="13" instance=ExtResource( 7 )]
+position = Vector2( 2400, 1305 )
 

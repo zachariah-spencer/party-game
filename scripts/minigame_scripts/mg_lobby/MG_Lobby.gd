@@ -1,6 +1,6 @@
 extends Minigame
 
-onready var round_lever := $LobbyMap/RoundLever
+onready var round_settings := $LobbyMap/RoundSettingApparatus
 
 var player_one_ready : bool = false
 var player_two_ready : bool = false
@@ -50,6 +50,7 @@ func _check_ready_ups():
 
 	if active >= 2 && active == ready:
 		if !is_starting:
-			Manager.rounds_to_play = round_lever.num_rounds
+			Manager.rounds_played = 0
+			Manager.rounds_to_play = round_settings.num_rounds
 			_game_won(true)
 			is_starting = true
