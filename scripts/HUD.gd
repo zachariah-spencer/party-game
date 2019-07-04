@@ -5,6 +5,7 @@ extends Control
 
 #reference to time counter display
 onready var time_display : Label = $TimeLeft
+onready var instructions := $TimeLeft/Instructions
 onready var minigame : Minigame = Manager.current_minigame
 signal begin_game
 

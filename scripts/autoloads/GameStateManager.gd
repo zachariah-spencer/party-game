@@ -83,8 +83,7 @@ func _on_game_times_up():
 			next_minigame = _select_random_minigame()
 			_start_new_minigame(next_minigame)
 		else:
-			Players.reset_players_data()
-			_start_new_minigame(GAMES[0])
+			_start_new_minigame(GAMES[7])
 
 
 func _select_random_minigame():

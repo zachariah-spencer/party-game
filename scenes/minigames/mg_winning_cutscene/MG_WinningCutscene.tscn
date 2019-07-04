@@ -6,10 +6,18 @@
 
 [node name="MG_WinningCutscene" index="0" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-game_time = 10
+game_time = 15
+game_instructions = ""
 win_condition = 2
+has_timer = false
 has_countdown = false
 visible_name = "winning_cutscene"
 
 [node name="WinningCutsceneMap" parent="." index="2" instance=ExtResource( 3 )]
 
+[node name="CutsceneOverTimer" type="Timer" parent="." index="3"]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="CutsceneOverTimer" to="." method="_on_CutsceneOverTimer_timeout"]

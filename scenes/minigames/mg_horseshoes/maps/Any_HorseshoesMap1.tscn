@@ -18,20 +18,17 @@ tile_data = PoolIntArray( 524293, 1, 0, 524294, 1, 0 )
 collision_mask = 8
 tile_data = PoolIntArray( -2, 3, 0, -1, 3, 0, -65536, 3, 0, -65535, 3, 0, -65534, 3, 0, -65533, 3, 0, -65528, 3, 0, -65527, 3, 0, -65526, 3, 0, -65525, 3, 0, -65524, 3, 0, -65523, 3, 0, 65534, 3, 0, 3, 3, 0, 8, 3, 0, 13, 3, 0, 131070, 3, 0, 65539, 3, 0, 65544, 3, 0, 65549, 3, 0, 196606, 3, 0, 131075, 3, 0, 131080, 3, 0, 131085, 3, 0, 262142, 3, 0, 196611, 3, 0, 196616, 3, 0, 196621, 3, 0, 327678, 3, 0, 327679, 3, 0, 262146, 3, 0, 262147, 3, 0, 262152, 3, 0, 262153, 3, 0, 262156, 3, 0, 262157, 3, 0, 655358, 3, 0, 655359, 3, 0, 589824, 3, 0, 589825, 3, 0, 589826, 3, 0, 589827, 3, 0, 589832, 3, 0, 589833, 3, 0, 589834, 3, 0, 589835, 3, 0, 589836, 3, 0, 589837, 3, 0, 720894, 3, 0, 655363, 3, 0, 655368, 3, 0, 655373, 3, 0, 786430, 3, 0, 720899, 3, 0, 720904, 3, 0, 720909, 3, 0, 851966, 3, 0, 786435, 3, 0, 786440, 3, 0, 786445, 3, 0, 917502, 3, 0, 851971, 3, 0, 851976, 3, 0, 851981, 3, 0, 983038, 3, 0, 983039, 3, 0, 917504, 3, 0, 917505, 3, 0, 917506, 3, 0, 917507, 3, 0, 917512, 3, 0, 917513, 3, 0, 917514, 3, 0, 917515, 3, 0, 917516, 3, 0, 917517, 3, 0 )
 
-[node name="SpawnPoints" parent="." index="4"]
-editor/display_folded = false
-
-[node name="PlayerOneSpawnF" parent="SpawnPoints" index="0"]
-position = Vector2( 64, 768 )
-
-[node name="PlayerTwoSpawnF" parent="SpawnPoints" index="1"]
-position = Vector2( 704, 768 )
-
-[node name="PlayerThreeSpawnF" parent="SpawnPoints" index="2"]
+[node name="PlayerOneSpawn" parent="SpawnPoints" index="0"]
 position = Vector2( 64, 128 )
 
-[node name="PlayerFourSpawnF" parent="SpawnPoints" index="3"]
+[node name="PlayerTwoSpawn" parent="SpawnPoints" index="1"]
 position = Vector2( 704, 128 )
+
+[node name="PlayerThreeSpawn" parent="SpawnPoints" index="2"]
+position = Vector2( 64, 768 )
+
+[node name="PlayerFourSpawn" parent="SpawnPoints" index="3"]
+position = Vector2( 704, 768 )
 
 [node name="Horseshoe" parent="." index="5" instance=ExtResource( 2 )]
 position = Vector2( 128, -736 )

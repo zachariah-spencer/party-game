@@ -32,18 +32,17 @@ format = 1
 [node name="SpawnPoints" type="Node2D" parent="." groups=[
 "spawnpoints",
 ]]
-editor/display_folded = true
 
-[node name="PlayerOneSpawnF" type="Position2D" parent="SpawnPoints"]
+[node name="PlayerOneSpawn" type="Position2D" parent="SpawnPoints"]
 position = Vector2( 128, 650 )
 
-[node name="PlayerTwoSpawnF" type="Position2D" parent="SpawnPoints"]
+[node name="PlayerTwoSpawn" type="Position2D" parent="SpawnPoints"]
 position = Vector2( 320, 650 )
 
-[node name="PlayerThreeSpawnF" type="Position2D" parent="SpawnPoints"]
+[node name="PlayerThreeSpawn" type="Position2D" parent="SpawnPoints"]
 position = Vector2( 1152, 650 )
 
-[node name="PlayerFourSpawnF" type="Position2D" parent="SpawnPoints"]
+[node name="PlayerFourSpawn" type="Position2D" parent="SpawnPoints"]
 position = Vector2( 1344, 650 )
 
 [node name="DefaultFocus" type="Position2D" parent="." groups=[

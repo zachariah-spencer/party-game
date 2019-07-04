@@ -26,7 +26,7 @@ extents = Vector2( 698.503, 130.235 )
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 547.054, 125 )
 
-[node name="LobbyMap" index="0" groups=[
+[node name="LobbyMap" groups=[
 "maps",
 ] instance=ExtResource( 1 )]
 
@@ -69,17 +69,17 @@ shape = SubResource( 1 )
 position = Vector2( -1750, 350 )
 shape = SubResource( 2 )
 
-[node name="PlayerOneSpawnF" parent="SpawnPoints" index="0"]
-position = Vector2( 256, 1120 )
+[node name="PlayerOneSpawn" parent="SpawnPoints" index="0"]
+position = Vector2( 256, 1180 )
 
-[node name="PlayerTwoSpawnF" parent="SpawnPoints" index="1"]
-position = Vector2( 768, 1120 )
+[node name="PlayerTwoSpawn" parent="SpawnPoints" index="1"]
+position = Vector2( 785.401, 1170.76 )
 
-[node name="PlayerThreeSpawnF" parent="SpawnPoints" index="2"]
-position = Vector2( 1280, 1120 )
+[node name="PlayerThreeSpawn" parent="SpawnPoints" index="2"]
+position = Vector2( 1275.68, 1161.38 )
 
-[node name="PlayerFourSpawnF" parent="SpawnPoints" index="3"]
-position = Vector2( 1792, 1120 )
+[node name="PlayerFourSpawn" parent="SpawnPoints" index="3"]
+position = Vector2( 1792, 1156.68 )
 
 [node name="Boosters" type="Node2D" parent="." index="6"]
 
