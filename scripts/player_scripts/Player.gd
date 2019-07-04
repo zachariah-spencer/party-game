@@ -12,6 +12,10 @@ const WALL_JUMP_INWARD_VELOCITY := Vector2(1000, -1200)
 const WALL_JUMP_OUTWARD_VELOCITY := Vector2(600, -1000)
 const PUNCH_DISTANCE := 800
 
+var disable_jumping := false
+var disable_movement := false
+var disable_fists := false
+
 var can_wall_jump := true
 var can_jump := true
 var velocity : Vector2
@@ -145,21 +149,23 @@ func hit(by : Node, damage : int, knockback :Vector2) :
 			parent.play_random("Hit")
 
 func jump():
-	velocity = max_jump_velocity*gravity
-	can_jump = false
-	is_jumping = true
+	if !disable_jumping:
+		velocity = max_jump_velocity*gravity
+		can_jump = false
+		is_jumping = true
 
 func wall_jump():
-	is_jumping = true
-	can_jump = false
-	var wall_jump_velocity : Vector2
-	if sign(facing_direction) == sign(wall_direction):
-		wall_jump_velocity = WALL_JUMP_INWARD_VELOCITY
-	else :
-		wall_jump_velocity = WALL_JUMP_OUTWARD_VELOCITY
-
-	var rotated = wall_jump_velocity.rotated(gravity.angle() - PI/2)
-	velocity = rotated.project(gravity) + ((rotated - rotated.project(gravity)) * wall_direction)
+	if !disable_jumping:
+		is_jumping = true
+		can_jump = false
+		var wall_jump_velocity : Vector2
+		if sign(facing_direction) == sign(wall_direction):
+			wall_jump_velocity = WALL_JUMP_INWARD_VELOCITY
+		else :
+			wall_jump_velocity = WALL_JUMP_OUTWARD_VELOCITY
+	
+		var rotated = wall_jump_velocity.rotated(gravity.angle() - PI/2)
+		velocity = rotated.project(gravity) + ((rotated - rotated.project(gravity)) * wall_direction)
 
 func throw():
 	if holding_item :
@@ -186,7 +192,7 @@ func drop():
 		held_item.throw(velocity, global_position+Vector2.DOWN*10 ,self)
 
 func attack():
-	if can_attack:
+	if can_attack && !disable_fists:
 		emit_signal('interacted', self)
 		var hand = null
 		var vel = Vector2(0,0)
@@ -307,9 +313,10 @@ func _update_wall_direction():
 		wall_direction = -int(is_near_wall_left) + int(is_near_wall_right)
 
 func _handle_move_input():
-	var y_comp = velocity.project(gravity)
-	var x_comp = (move_direction - move_direction.project(gravity)) * move_speed
-	velocity = velocity.linear_interpolate(x_comp + y_comp, _get_h_weight())
+	if !disable_movement:
+		var y_comp = velocity.project(gravity)
+		var x_comp = (move_direction - move_direction.project(gravity)) * move_speed
+		velocity = velocity.linear_interpolate(x_comp + y_comp, _get_h_weight())
 
 
 func _handle_wall_slide_sticking():
@@ -415,8 +422,9 @@ func _enter_state(new_state, old_state):
 			state_label.text = 'idle'
 		states.run:
 			state_name = "Grounded"
-			anim = "Run"
-			_state = anim_tree['parameters/Grounded/playback']
+			if !disable_movement:
+				anim = "Run"
+				_state = anim_tree['parameters/Grounded/playback']
 			state_label.text = 'run'
 		states.jump:
 			set_collision_mask_bit(DROP_THRU_BIT, false)
@@ -478,7 +486,7 @@ func _pickup_item():
 	var item = null
 	for temp in items : if temp.is_in_group("item") : item = temp.get_parent()
 
-	if item && item.grabbable:
+	if item && item.grabbable && !disable_fists:
 		set_item(item)
 	elif item :
 		item.grab(self)
@@ -505,7 +513,7 @@ func _handle_jumping():
 	if [states.idle, states.run].has(state) && state != states.wall_slide:
 		#JUMP
 		if Input.is_action_pressed(move_jump):
-			print(move_direction.rotated(gravity.angle() - PI/2).y)
+			
 			if move_direction.rotated(gravity.angle() - PI/2).y > .2:
 				set_collision_mask_bit(DROP_THRU_BIT, false)
 			elif can_jump:
