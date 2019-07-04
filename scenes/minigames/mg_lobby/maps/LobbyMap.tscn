@@ -24,7 +24,7 @@ extents = Vector2( 167.2, 299.744 )
 extents = Vector2( 698.503, 130.235 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 547.054, 100 )
+extents = Vector2( 547.054, 125 )
 
 [node name="LobbyMap" index="0" groups=[
 "maps",

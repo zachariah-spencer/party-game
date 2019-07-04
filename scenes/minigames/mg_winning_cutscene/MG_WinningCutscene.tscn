@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/minigames/MGTemplate.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/minigame_scripts/mg_winning_cutscene/MG_WinningCutscene.gd" type="Script" id=2]
+[ext_resource path="res://scenes/minigames/mg_winning_cutscene/WinningCutsceneMap.tscn" type="PackedScene" id=3]
+
+[node name="MG_WinningCutscene" index="0" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+game_time = 10
+win_condition = 2
+has_countdown = false
+visible_name = "winning_cutscene"
+
+[node name="WinningCutsceneMap" parent="." index="2" instance=ExtResource( 3 )]
+

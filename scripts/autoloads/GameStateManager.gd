@@ -9,7 +9,8 @@ onready var GAMES = [
 	preload('res://scenes/minigames/mg_race_tower/MG_RaceTower.tscn'),
 	preload('res://scenes/minigames/mg_punchball/MG_Punchball.tscn'),
 	preload('res://scenes/minigames/mg_territories/MG_Territories.tscn'),
-	preload('res://scenes/minigames/mg_horseshoes/MG_Horseshoes.tscn')
+	preload('res://scenes/minigames/mg_horseshoes/MG_Horseshoes.tscn'),
+	preload('res://scenes/minigames/mg_winning_cutscene/MG_WinningCutscene.tscn')
 
 ]
 
@@ -47,7 +48,7 @@ func _ready():
 	_start_new_minigame(GAMES[0])
 	print(minigame_name)
 
-func set_rotation(exclude := [GAMES[0] ]) :
+func set_rotation(exclude := [GAMES[0], GAMES[7]]) :
 	for game in GAMES:
 		if not exclude.has(game) :
 			rotation.append(game)
