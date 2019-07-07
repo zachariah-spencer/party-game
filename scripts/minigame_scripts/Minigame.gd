@@ -57,7 +57,7 @@ func _ready():
 	
 	
 	call_deferred('_insert_players')
-	call_deferred('_pregame')
+	call_deferred('_pregame', has_countdown)
 
 func _update_active_spawn_points():
 	match map.optimal_player_count:
@@ -104,16 +104,13 @@ func _insert_players():
 func _pregame(has_countdown : bool = true):
 	#if game has a countdown
 	if !['lobby', 'winning_cutscene'].has(Manager.minigame_name):
-		if has_countdown:
-			for player in Players.active_players:
-				player.child._set_state(player.child.states.disabled)
-			
-			yield(Globals.HUD,'begin_game')
-			
-			for player in Players._get_alive_players():
-				player.child._set_state(player.child.states.idle)
-	else:
-		game_active = true
+		for player in Players.active_players:
+			player.child._set_state(player.child.states.disabled)
+		
+		yield(Globals.HUD,'begin_game')
+		
+		for player in Players._get_alive_players():
+			player.child._set_state(player.child.states.idle)
 
 func _on_begin_game():
 	game_active = true

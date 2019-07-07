@@ -8,8 +8,8 @@ class_name Player
 var up_direction := Vector2.UP
 const SLOPE_STOP := 64
 const DROP_THRU_BIT := 4
-const WALL_JUMP_INWARD_VELOCITY := Vector2(1000, -1200)
-const WALL_JUMP_OUTWARD_VELOCITY := Vector2(600, -1000)
+const WALL_JUMP_INWARD_VELOCITY := Vector2(-1000, -1200)
+const WALL_JUMP_OUTWARD_VELOCITY := Vector2(-600, -1000)
 const PUNCH_DISTANCE := 800
 
 var disable_jumping := false
@@ -283,6 +283,8 @@ func _update_move_direction():
 	if aim_direction == Vector2.ZERO :
 		aim_direction = move_direction
 
+	$Cast.cast_to = aim_direction * 150
+	
 	var x_comp = move_direction.cross(gravity)
 
 	if x_comp != 0:
@@ -316,16 +318,12 @@ func _handle_move_input():
 	if !disable_movement:
 		var y_comp = velocity.project(gravity)
 		var x_comp = (move_direction - move_direction.project(gravity)) * move_speed
-		velocity = velocity.linear_interpolate(x_comp + y_comp, _get_h_weight())
+		velocity = velocity.linear_interpolate(x_comp + y_comp, .2)
 
 
 func _handle_wall_slide_sticking():
-	if sign(move_direction.cross(gravity)) != 0 :
+	if sign(move_direction.rotated(gravity.angle() - PI / 2).x) == sign(wall_direction) :
 		wall_slide_sticky_timer.start()
-#		if wall_slide_sticky_timer.is_stopped() && !Input.is_action_pressed(move_jump):
-#			wall_slide_sticky_timer.start()
-#	else:
-#		wall_slide_sticky_timer.stop()
 
 #statemachine code begins here
 func _state_machine_ready():
@@ -373,7 +371,7 @@ func _get_transition(delta : float):
 					return states.jump
 				elif adjusted_velocity.y >= 0:
 					return states.fall
-			elif abs(move_direction.x) != 0:
+			elif abs(move_direction.rotated(gravity.angle() - PI / 2).x) > 0.1:
 				return states.run
 		states.run:
 			if !is_on_floor():
@@ -381,7 +379,7 @@ func _get_transition(delta : float):
 					return states.jump
 				elif adjusted_velocity.y >= 0:
 					return states.fall
-			elif abs(move_direction.x) == 0:
+			elif abs(move_direction.rotated(gravity.angle() - PI / 2).x) < 0.1:
 				return states.idle
 		states.jump:
 			if is_on_floor():
@@ -389,7 +387,7 @@ func _get_transition(delta : float):
 			elif adjusted_velocity.y >= 0:
 				return states.fall
 		states.fall:
-			if move_direction.rotated(gravity.angle() - PI/2).y  > 0 :
+			if move_direction.rotated(gravity.angle() - PI/2).y > 0.5:
 				set_collision_mask_bit(DROP_THRU_BIT, false)
 			elif !_is_in_platform() :
 				set_collision_mask_bit(DROP_THRU_BIT, true)
@@ -505,16 +503,16 @@ func _stop_movement():
 	velocity.x = 0
 
 func _handle_jumping():
-	if move_direction.rotated(gravity.angle() - PI/2).y > 0 && fall_through_timer.is_stopped() && [states.idle, states.run].has(state):
+	if move_direction.rotated(gravity.angle() - PI/2).y > 0.1 && fall_through_timer.is_stopped() && [states.idle, states.run].has(state):
 		fall_through_timer.start()
-	elif move_direction.rotated(gravity.angle() - PI/2).y < 0 :
+	elif move_direction.rotated(gravity.angle() - PI/2).y < 0.1 :
 		fall_through_timer.stop()
 
 	if [states.idle, states.run].has(state) && state != states.wall_slide:
 		#JUMP
 		if Input.is_action_pressed(move_jump):
 			
-			if move_direction.rotated(gravity.angle() - PI/2).y > .2:
+			if move_direction.rotated(gravity.angle() - PI/2).y > .2 && _is_on_platform():
 				set_collision_mask_bit(DROP_THRU_BIT, false)
 			elif can_jump:
 				jump()
@@ -533,6 +531,12 @@ func _is_in_platform():
 
 	return false
 
+func _is_on_platform():
+	var is_on_platform := false
+	for body in raycasts.get_children():
+		if body.is_colliding() :
+			return true
+
 func _check_is_grounded():
 	if is_instance_valid(raycasts):
 		for raycast in raycasts.get_children():
@@ -541,16 +545,17 @@ func _check_is_grounded():
 		# If loop completes then raycast was not detected so return false
 		return false
 
-func _get_h_weight():
-	if is_on_floor():
-		return 0.2
-	else:
-		if move_direction.x == 0:
-			return 0.02
-		elif sign(move_direction.x) == sign(velocity.x) && abs(velocity.x) > move_speed:
-			return 0.0
-		else:
-			return 0.1
+#func _get_h_weight():
+#DOES NOT CURRENTLY WORK
+#	if is_on_floor():
+#		return 0.2
+#	else:
+#		if move_direction.rotated(gravity.angle() - PI / 2).x < 0.1:
+#			return 0.02
+#		elif sign(move_direction.x) == sign(velocity.x) && abs(velocity.x) > move_speed:
+#			return 0.0
+#		else:
+#			return 0.1
 
 func _check_is_valid_wall(wall_raycasts : Node):
 	for raycast in wall_raycasts.get_children():
@@ -563,7 +568,7 @@ func _check_is_valid_wall(wall_raycasts : Node):
 func _cap_gravity_wall_slide():
 	var max_velocity : float
 #	if any part the move direction is "down"
-	if move_direction.cross(gravity) * wall_direction < 1 :
+	if move_direction.project(gravity).dot(gravity) > 0.3 :
 		max_velocity = 16 * Globals.CELL_SIZE
 	else:
 		max_velocity = 4 * Globals.CELL_SIZE

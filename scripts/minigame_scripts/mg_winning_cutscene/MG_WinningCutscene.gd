@@ -29,9 +29,7 @@ func _insert_players():
 
 class ScoringSort:
 	static func sort(a, b):
-		if a.score < b.score:
-			return a < b
-		return b < a
+		return a.score > b.score
 
 func _on_CutsceneOverTimer_timeout():
 	can_return = true

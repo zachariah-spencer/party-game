@@ -428,24 +428,25 @@ position = Vector2( 0, -36 )
 shape = SubResource( 29 )
 
 [node name="GroundRaycasts" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="CenterGroundRaycast" type="RayCast2D" parent="GroundRaycasts"]
 position = Vector2( 0, 10 )
 enabled = true
 cast_to = Vector2( 0, 10 )
-collision_mask = 17
+collision_mask = 16
 
 [node name="LeftGroundRaycast" type="RayCast2D" parent="GroundRaycasts"]
 position = Vector2( -10, 10 )
 enabled = true
 cast_to = Vector2( 0, 10 )
-collision_mask = 17
+collision_mask = 16
 
 [node name="RightGroundRaycast" type="RayCast2D" parent="GroundRaycasts"]
 position = Vector2( 10, 10 )
 enabled = true
 cast_to = Vector2( 0, 10 )
-collision_mask = 17
+collision_mask = 16
 
 [node name="WallRaycasts" type="Node2D" parent="."]
 editor/display_folded = true
@@ -578,6 +579,11 @@ margin_right = 50.0
 margin_bottom = -86.0
 custom_fonts/font = SubResource( 35 )
 align = 1
+
+[node name="Cast" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 0, 128 )
+collision_mask = 0
 
 [connection signal="body_entered" from="Rig/Left Hand/Hitbox" to="." method="_on_AttackArea_body_entered"]
 [connection signal="body_entered" from="Rig/Right Hand/Hitbox" to="." method="_on_AttackArea_body_entered"]

@@ -2,16 +2,12 @@ extends Node
 
 #a list of all the minigames that can be played
 onready var GAMES = [
-
-	preload('res://scenes/minigames/mg_lobby/MG_Lobby.tscn'),
 	preload('res://scenes/minigames/mg_sumo/MG_Sumo.tscn'),
 	preload('res://scenes/minigames/mg_goafk/MG_GoAFK.tscn'),
 	preload('res://scenes/minigames/mg_race_tower/MG_RaceTower.tscn'),
 	preload('res://scenes/minigames/mg_punchball/MG_Punchball.tscn'),
 	preload('res://scenes/minigames/mg_territories/MG_Territories.tscn'),
 	preload('res://scenes/minigames/mg_horseshoes/MG_Horseshoes.tscn'),
-	preload('res://scenes/minigames/mg_winning_cutscene/MG_WinningCutscene.tscn')
-
 ]
 
 onready var rotation := []
@@ -29,6 +25,9 @@ var repeats := false
 
 var shuffle := true
 
+onready var lobby := preload('res://scenes/minigames/mg_lobby/MG_Lobby.tscn')
+onready var winning_cutscene := preload('res://scenes/minigames/mg_winning_cutscene/MG_WinningCutscene.tscn')
+
 #manages how many minigames will be rotated before declaring a winner and going back to lobby
 var rounds_to_play := 10
 
@@ -45,10 +44,10 @@ func _ready():
 	set_rotation()
 	world_node = get_parent().get_node('World')
 	randomize()
-	_start_new_minigame(GAMES[0])
+	_start_new_minigame(lobby)
 	print(minigame_name)
 
-func set_rotation(exclude := [GAMES[0], GAMES[7]]) :
+func set_rotation(exclude := []) :
 	for game in GAMES:
 		if not exclude.has(game) :
 			rotation.append(game)
@@ -83,12 +82,14 @@ func _on_game_times_up():
 			next_minigame = _select_random_minigame()
 			_start_new_minigame(next_minigame)
 		else:
-			_start_new_minigame(GAMES[7])
+			Players.reset_players_data()
+			_start_new_minigame(winning_cutscene)
 
 
 func _select_random_minigame():
-	if rotation.empty() :
-		return GAMES['lobby']
+	if rotation.empty():
+		if rounds_played <= rounds_to_play:
+			set_rotation()
 	#mixes up the order, this means a possiblity of the same game back to back with repeats
 	if shuffle : rotation.shuffle()
 

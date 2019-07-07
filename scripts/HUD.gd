@@ -72,19 +72,20 @@ func _update_hud():
 	_update_game_timer()
 
 func _process(delta):
-	if minigame.has_timer:
-		if minigame.game_active:
+	if minigame.has_timer && minigame.game_active:
 			_update_game_timer()
-		elif !minigame.game_active && !minigame.game_over && minigame.has_countdown:
-			if $Countdown/CountdownTimer.is_stopped():
-				$Countdown/CountdownTimer.start()
-				$Countdown.visible = true
-		elif !minigame.game_active && !minigame.game_over && !minigame.has_countdown:
-			if $Countdown/CountdownTimer.is_stopped():
-				$Countdown.text = 'Begin!'
-				$Countdown.modulate = Color(1,1,1,1)
-				$Countdown/CountdownTimer.start()
-				$Countdown.visible = true
+	
+	
+	if !minigame.game_active && !minigame.game_over && minigame.has_countdown:
+		if $Countdown/CountdownTimer.is_stopped():
+			$Countdown/CountdownTimer.start()
+			$Countdown.visible = true
+	elif !minigame.game_active && !minigame.game_over && !minigame.has_countdown && !['lobby', 'winning_cutscene'].has(Manager.minigame_name):
+		if $Countdown/CountdownTimer.is_stopped():
+			$Countdown.text = 'Begin!'
+			$Countdown.modulate = Color(1,1,1,1)
+			$Countdown/CountdownTimer.start()
+			$Countdown.visible = true
 
 func _on_CountdownTimer_timeout():
 	if minigame.has_countdown:
