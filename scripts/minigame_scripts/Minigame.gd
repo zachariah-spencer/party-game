@@ -90,8 +90,10 @@ func _select_a_map():
 
 func _physics_process(delta):
 	if Players._update_active_players().size() < 2 && Manager.minigame_name != 'lobby' && !forced_to_lobby:
+		_game_won(true)
 		forced_to_lobby = true
-		Manager._start_new_minigame(Manager.GAMES[0])
+		Players.reset_players_data()
+		Manager._start_new_minigame(Manager.lobby)
 	
 	_handle_local_scoring()
 

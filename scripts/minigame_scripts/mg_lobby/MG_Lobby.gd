@@ -22,6 +22,7 @@ func _ready():
 	instant_player_insertion = true
 #	$Cam.current = true
 
+
 	Globals.HUD.get_node('Scorecards/Statuses/P1Ready').text = 'Not Ready'
 	Globals.HUD.get_node('Scorecards/Statuses/P2Ready').text = 'Not Ready'
 	Globals.HUD.get_node('Scorecards/Statuses/P3Ready').text = 'Not Ready'
