@@ -5,7 +5,8 @@
 [ext_resource path="res://assets/sphere.png" type="Texture" id=3]
 
 [sub_resource type="Gradient" id=1]
-colors = PoolColorArray( 1, 1, 1, 0.521569, 1, 1, 1, 0 )
+offsets = PoolRealArray( 0, 0.0615385, 1 )
+colors = PoolColorArray( 1, 1, 1, 0.521569, 1, 1, 1, 0.4654, 1, 1, 1, 0 )
 
 [sub_resource type="GradientTexture" id=2]
 gradient = SubResource( 1 )
@@ -30,10 +31,10 @@ color_ramp = SubResource( 2 )
 [sub_resource type="CircleShape2D" id=6]
 radius = 200.0
 
-[node name="Punchball" groups=[
+[node name="Punchball" index="0" groups=[
 "punchball",
 ] instance=ExtResource( 1 )]
-collision_mask = 16391
+collision_mask = 17351
 mass = 4.0
 gravity_scale = 0.0
 continuous_cd = 2
@@ -43,6 +44,7 @@ angular_damp = 128.0
 script = ExtResource( 2 )
 throwable = false
 grabbable = false
+knockback_speed = 4000
 
 [node name="Trail" type="Particles2D" parent="." index="0"]
 speed_scale = 2.0

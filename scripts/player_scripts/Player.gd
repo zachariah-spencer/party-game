@@ -37,7 +37,8 @@ var is_attacking := false
 var punch_arm := 'left'
 var attack_area
 var hit_exceptions := []
-var collision_exceptions := []
+var invulnerable_to_bits := []
+var hurt_by : Node
 
 var max_jump_height := 8.25 * Globals.CELL_SIZE
 var min_jump_height := 0.8 * Globals.CELL_SIZE
@@ -150,12 +151,9 @@ func hit(by : Node, damage : int, knockback :Vector2) :
 			$Rig/AnimationPlayer.play('hurt')
 			parent.play_random("Hit")
 
-func make_hurt_invulnerable(source_bit : int):
-	collision_exceptions.append(source_bit)
-	_update_collision_exceptions()
-	
-	right_hand.set_collision_layer_bit(2, false)
-	left_hand.set_collision_layer_bit(1, false)
+func make_hurt_invulnerable(by : Node, invulnerable_to := []):
+	hurt_by = by
+	invulnerable_to_bits = invulnerable_to
 	
 	modulate.a = .5
 	
@@ -626,21 +624,5 @@ func _on_AttackArea_body_entered(body):
 		body.hit(self, 20, (body.global_position - global_position).normalized())
 		hit_exceptions.append(body)
 
-func _update_collision_exceptions():
-	for exception_bit in collision_exceptions:
-		set_collision_mask_bit(exception_bit, false)
-
-func _disable_collision_exceptions():
-	for exception_bit in collision_exceptions:
-		set_collision_mask_bit(exception_bit, true)
-
-func _clear_collision_exceptions():
-	_disable_collision_exceptions()
-	collision_exceptions.clear()
-	
-	modulate.a = 1
-
 func _on_HurtCooldownTimer_timeout():
-	_clear_collision_exceptions()
-	right_hand.set_collision_layer_bit(2, true)
-	left_hand.set_collision_layer_bit(1, true)
+	modulate.a = 1

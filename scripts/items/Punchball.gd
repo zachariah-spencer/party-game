@@ -59,22 +59,18 @@ func hit(by : Node, damage : int, knockback :Vector2):
 		can_be_hit = false
 		set_collision_mask_bit(1, false)
 		set_collision_mask_bit(2, false)
-		set_collision_mask_bit(3, true)
 		painful = true
 	
 		hit_cooldown.start()
-		modulate.a = .5
-#		if !get_parent().get_parent().game_over:
-#			emit_signal('player_got_a_punch', by.parent, 1)
+		$Obj/Sprite.modulate = Color.darkred
 
 func _on_HitCooldownTimer_timeout():
 	painful = false
 	can_be_hit = true
-	modulate.a = 1
+	$Obj/Sprite.modulate = Color.white
 	
 	set_collision_mask_bit(1, true)
 	set_collision_mask_bit(2, true)
-	set_collision_mask_bit(3, false)
 
 func _on_RunawayArea_body_entered(body):
 	player_near_ball = body as Player
@@ -87,5 +83,5 @@ func _on_RunawayArea_body_exited(body):
 func _on_Punchball_body_entered(body):
 	var player = body as Player
 	if player && painful:
-		player.hit(self, 20, linear_velocity)
-		player.make_hurt_invulnerable(14)
+		player.hit(self, 50, linear_velocity)
+		player.make_hurt_invulnerable(self, [14])
