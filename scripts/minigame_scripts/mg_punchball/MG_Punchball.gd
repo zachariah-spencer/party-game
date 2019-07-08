@@ -13,11 +13,6 @@ func _ready():
 	add_to_group('minigames')
 	Manager.minigame_name = 'punchball'
 	game_instructions = "Hit the ball!"
-	game_time = 30
-	win_condition = win_conditions.highest_local_score
-	has_local_score = true
-	
-	yield(Globals.HUD, 'begin_game')
 	
 	get_tree().get_nodes_in_group('punchball')[0].get_node('ImpulseTimer').start()
 

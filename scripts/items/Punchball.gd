@@ -7,6 +7,7 @@ export var runaway_speed := 32
 export var knockback_speed := 5000
 var player_near_ball : Player
 var can_be_hit := true
+var painful := false
 
 signal player_got_a_punch
 
@@ -56,21 +57,24 @@ func hit(by : Node, damage : int, knockback :Vector2):
 		apply_central_impulse(knockback_velocity)
 	
 		can_be_hit = false
-	
-		for i in range(6,9):
-			set_collision_mask_bit(i, false)
+		set_collision_mask_bit(1, false)
+		set_collision_mask_bit(2, false)
+		set_collision_mask_bit(3, true)
+		painful = true
 	
 		hit_cooldown.start()
 		modulate.a = .5
-		if !get_parent().get_parent().game_over:
-			emit_signal('player_got_a_punch', by.parent, 1)
+#		if !get_parent().get_parent().game_over:
+#			emit_signal('player_got_a_punch', by.parent, 1)
 
 func _on_HitCooldownTimer_timeout():
-	for i in range(6,9):
-		set_collision_mask_bit(i, true)
-	
+	painful = false
 	can_be_hit = true
 	modulate.a = 1
+	
+	set_collision_mask_bit(1, true)
+	set_collision_mask_bit(2, true)
+	set_collision_mask_bit(3, false)
 
 func _on_RunawayArea_body_entered(body):
 	player_near_ball = body as Player
@@ -78,3 +82,10 @@ func _on_RunawayArea_body_entered(body):
 
 func _on_RunawayArea_body_exited(body):
 	player_near_ball = null
+
+
+func _on_Punchball_body_entered(body):
+	var player = body as Player
+	if player && painful:
+		player.hit(self, 20, linear_velocity)
+		player.make_hurt_invulnerable(14)

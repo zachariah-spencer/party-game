@@ -37,6 +37,7 @@ var is_attacking := false
 var punch_arm := 'left'
 var attack_area
 var hit_exceptions := []
+var collision_exceptions := []
 
 var max_jump_height := 8.25 * Globals.CELL_SIZE
 var min_jump_height := 0.8 * Globals.CELL_SIZE
@@ -76,6 +77,7 @@ onready var wall_slide_cooldown := $WallSlideCooldown
 onready var wall_slide_sticky_timer := $WallSlideStickyTimer
 onready var attack_timer := $AttackTimer
 onready var attack_cooldown_timer := $AttackCooldown
+onready var hurt_cooldown_timer := $HurtCooldownTimer
 
 onready var fall_through_area := $FallingThroughPlatformArea
 onready var left_wall_raycasts := $WallRaycasts/LeftWallRaycasts
@@ -147,6 +149,17 @@ func hit(by : Node, damage : int, knockback :Vector2) :
 			hit_points -= damage
 			$Rig/AnimationPlayer.play('hurt')
 			parent.play_random("Hit")
+
+func make_hurt_invulnerable(source_bit : int):
+	collision_exceptions.append(source_bit)
+	_update_collision_exceptions()
+	
+	right_hand.set_collision_layer_bit(2, false)
+	left_hand.set_collision_layer_bit(1, false)
+	
+	modulate.a = .5
+	
+	hurt_cooldown_timer.start()
 
 func jump():
 	if !disable_jumping:
@@ -322,6 +335,8 @@ func _handle_move_input():
 
 
 func _handle_wall_slide_sticking():
+	
+	#THIS DOESN'T WORK IN SIDEWAYS GRAVITY
 	if sign(move_direction.rotated(gravity.angle() - PI / 2).x) == sign(wall_direction) :
 		wall_slide_sticky_timer.start()
 
@@ -610,3 +625,22 @@ func _on_AttackArea_body_entered(body):
 	if body.has_method("hit") and not hit_exceptions.has(body):
 		body.hit(self, 20, (body.global_position - global_position).normalized())
 		hit_exceptions.append(body)
+
+func _update_collision_exceptions():
+	for exception_bit in collision_exceptions:
+		set_collision_mask_bit(exception_bit, false)
+
+func _disable_collision_exceptions():
+	for exception_bit in collision_exceptions:
+		set_collision_mask_bit(exception_bit, true)
+
+func _clear_collision_exceptions():
+	_disable_collision_exceptions()
+	collision_exceptions.clear()
+	
+	modulate.a = 1
+
+func _on_HurtCooldownTimer_timeout():
+	_clear_collision_exceptions()
+	right_hand.set_collision_layer_bit(2, true)
+	left_hand.set_collision_layer_bit(1, true)

@@ -33,13 +33,11 @@ radius = 200.0
 [node name="Punchball" groups=[
 "punchball",
 ] instance=ExtResource( 1 )]
-collision_layer = 16385
-collision_mask = 17351
+collision_mask = 16391
 mass = 4.0
 gravity_scale = 0.0
 continuous_cd = 2
 contacts_reported = 6
-contact_monitor = true
 linear_damp = 0.5
 angular_damp = 128.0
 script = ExtResource( 2 )
@@ -53,7 +51,6 @@ process_material = SubResource( 5 )
 texture = ExtResource( 3 )
 
 [node name="Obj" parent="." index="1"]
-editor/display_folded = true
 scale = Vector2( 5, 5 )
 
 [node name="Pickup_area" parent="." index="2"]
@@ -78,6 +75,7 @@ collision_mask = 960
 [node name="Shape" type="CollisionShape2D" parent="RunawayArea" index="0"]
 shape = SubResource( 6 )
 
+[connection signal="body_entered" from="." to="." method="_on_Punchball_body_entered"]
 [connection signal="timeout" from="ImpulseTimer" to="." method="_on_ImpulseTimer_timeout"]
 [connection signal="timeout" from="HitCooldownTimer" to="." method="_on_HitCooldownTimer_timeout"]
 [connection signal="body_entered" from="RunawayArea" to="." method="_on_RunawayArea_body_entered"]
