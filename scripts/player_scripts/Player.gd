@@ -37,8 +37,6 @@ var is_attacking := false
 var punch_arm := 'left'
 var attack_area
 var hit_exceptions := []
-var invulnerable_to_bits := []
-var hurt_by : Node
 
 var max_jump_height := 8.25 * Globals.CELL_SIZE
 var min_jump_height := 0.8 * Globals.CELL_SIZE
@@ -150,14 +148,6 @@ func hit(by : Node, damage : int, knockback :Vector2) :
 			hit_points -= damage
 			$Rig/AnimationPlayer.play('hurt')
 			parent.play_random("Hit")
-
-func make_hurt_invulnerable(by : Node, invulnerable_to := []):
-	hurt_by = by
-	invulnerable_to_bits = invulnerable_to
-	
-	modulate.a = .5
-	
-	hurt_cooldown_timer.start()
 
 func jump():
 	if !disable_jumping:
