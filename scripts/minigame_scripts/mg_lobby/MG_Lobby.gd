@@ -1,5 +1,7 @@
 extends Minigame
 
+onready var round_settings := $LobbyMap/RoundSettingApparatus
+
 var player_one_ready : bool = false
 var player_two_ready : bool = false
 var player_three_ready : bool = false
@@ -19,6 +21,7 @@ func _ready():
 	win_condition = win_conditions.lobby_readied
 	instant_player_insertion = true
 #	$Cam.current = true
+
 
 	Globals.HUD.get_node('Scorecards/Statuses/P1Ready').text = 'Not Ready'
 	Globals.HUD.get_node('Scorecards/Statuses/P2Ready').text = 'Not Ready'
@@ -48,5 +51,7 @@ func _check_ready_ups():
 
 	if active >= 2 && active == ready:
 		if !is_starting:
+			Manager.rounds_played = 0
+			Manager.rounds_to_play = round_settings.num_rounds
 			_game_won(true)
 			is_starting = true

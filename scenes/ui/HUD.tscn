@@ -47,7 +47,6 @@ align = 1
 valign = 1
 
 [node name="Scorecards" type="Control" parent="."]
-editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 

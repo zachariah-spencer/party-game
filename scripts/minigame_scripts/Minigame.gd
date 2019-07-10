@@ -57,7 +57,7 @@ func _ready():
 	
 	
 	call_deferred('_insert_players')
-	call_deferred('_pregame')
+	call_deferred('_pregame', has_countdown)
 
 func _update_active_spawn_points():
 	match map.optimal_player_count:
@@ -90,8 +90,10 @@ func _select_a_map():
 
 func _physics_process(delta):
 	if Players._update_active_players().size() < 2 && Manager.minigame_name != 'lobby' && !forced_to_lobby:
+		_game_won(true)
 		forced_to_lobby = true
-		Manager._start_new_minigame(Manager.GAMES[0])
+		Players.reset_players_data()
+		Manager._start_new_minigame(Manager.lobby)
 	
 	_handle_local_scoring()
 
@@ -103,15 +105,14 @@ func _insert_players():
 
 func _pregame(has_countdown : bool = true):
 	#if game has a countdown
-	if Manager.minigame_name != 'lobby':
-		if has_countdown:
-			for player in Players.active_players:
-				player.child._set_state(player.child.states.disabled)
-			
-			yield(Globals.HUD,'begin_game')
-			
-			for player in Players._get_alive_players():
-				player.child._set_state(player.child.states.idle)
+	if !['lobby', 'winning_cutscene'].has(Manager.minigame_name):
+		for player in Players.active_players:
+			player.child._set_state(player.child.states.disabled)
+		
+		yield(Globals.HUD,'begin_game')
+		
+		for player in Players._get_alive_players():
+			player.child._set_state(player.child.states.idle)
 
 func _on_begin_game():
 	game_active = true

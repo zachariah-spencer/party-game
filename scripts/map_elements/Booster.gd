@@ -11,7 +11,6 @@ func _ready():
 func on_body_entered(body):
 	var player = body as Player
 	var item = body as Item
-	print('Body collided with booster: ' + body.name)
 	
 	if player:
 		player.velocity.y = -launch_speed * Globals.CELL_SIZE

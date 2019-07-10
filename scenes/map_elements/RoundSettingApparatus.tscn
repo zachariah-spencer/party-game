@@ -1,0 +1,54 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scripts/map_elements/RoundSettingApparatus.gd" type="Script" id=1]
+[ext_resource path="res://scenes/map_elements/RoundLever.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/map_elements/InfiniteRoundLever.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/monogram.ttf" type="DynamicFontData" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 50
+font_data = ExtResource( 4 )
+
+[node name="RoundSettingApparatus" type="Node2D"]
+script = ExtResource( 1 )
+max_rounds = 50
+
+[node name="Decrement" parent="." instance=ExtResource( 2 )]
+position = Vector2( -100, 0 )
+increment_amount = -1
+
+[node name="Increment" parent="." instance=ExtResource( 2 )]
+position = Vector2( 100, 0 )
+
+[node name="InfiniteRoundLever" parent="." instance=ExtResource( 3 )]
+
+[node name="DescLabel" type="Label" parent="."]
+margin_left = -73.0
+margin_top = -250.0
+margin_right = 77.0
+margin_bottom = -200.0
+custom_fonts/font = SubResource( 1 )
+text = "Rounds"
+align = 1
+valign = 1
+
+[node name="InfiniteLabel" type="Label" parent="."]
+margin_left = -120.0
+margin_top = -150.0
+margin_right = 127.0
+margin_bottom = -100.0
+custom_fonts/font = SubResource( 1 )
+text = "Infinite: Off"
+align = 1
+valign = 1
+
+[node name="RoundsLabel" type="Label" parent="."]
+margin_left = -35.5
+margin_top = -100.0
+margin_right = 39.5
+margin_bottom = -50.0
+custom_fonts/font = SubResource( 1 )
+text = "10"
+align = 1
+valign = 1
+

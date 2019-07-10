@@ -1,14 +1,14 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scenes/minigames/MapTemplate.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scenes/GravityField.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/map_elements/GravityField.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/minigames/mg_horseshoes/HorseshoeTarget.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/items/ItemDispenser.tscn" type="PackedScene" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 111.697, 233.216 )
 
-[node name="Any_HorseshoesMap1" groups=[
+[node name="Any_HorseshoesMap1" index="0" groups=[
 "maps",
 ] instance=ExtResource( 1 )]
 
@@ -51,20 +51,17 @@ tile_data = PoolIntArray( 196600, 0, 0, 196601, 0, 0, 196602, 0, 0, 196603, 0, 0
 collision_mask = 8
 tile_data = PoolIntArray( 262136, 3, 0, 196610, 3, 0, 196618, 3, 0, 196628, 3, 0, 327672, 3, 0, 262146, 3, 0, 262154, 3, 0, 262164, 3, 0, 393208, 3, 0, 327682, 3, 0, 327690, 3, 0, 327700, 3, 0, 458744, 3, 0, 393218, 3, 0, 393226, 3, 0, 393236, 3, 0, 524284, 3, 0, 524285, 3, 0, 524286, 3, 0, 458766, 3, 0, 458767, 3, 0, 458768, 3, 0, 589816, 3, 0, 524290, 3, 0, 524298, 3, 0, 524308, 3, 0, 655352, 3, 0, 589826, 3, 0, 589834, 3, 0, 589844, 3, 0, 720888, 3, 0, 655362, 3, 0, 655370, 3, 0, 655380, 3, 0, 786424, 3, 0, 720898, 3, 0, 720906, 3, 0, 720916, 3, 0 )
 
-[node name="SpawnPoints" parent="." index="8"]
-editor/display_folded = false
+[node name="PlayerOneSpawn" parent="SpawnPoints" index="0"]
+position = Vector2( -160, 320 )
 
-[node name="PlayerOneSpawnF" parent="SpawnPoints" index="0"]
-position = Vector2( -320, 640 )
+[node name="PlayerTwoSpawn" parent="SpawnPoints" index="1"]
+position = Vector2( -160, 650 )
 
-[node name="PlayerTwoSpawnF" parent="SpawnPoints" index="1"]
-position = Vector2( 1152, 640 )
+[node name="PlayerThreeSpawn" parent="SpawnPoints" index="2"]
+position = Vector2( 1024, 320 )
 
-[node name="PlayerThreeSpawnF" parent="SpawnPoints" index="2"]
-position = Vector2( -320, 320 )
-
-[node name="PlayerFourSpawnF" parent="SpawnPoints" index="3"]
-position = Vector2( 1152, 320 )
+[node name="PlayerFourSpawn" parent="SpawnPoints" index="3"]
+position = Vector2( 1024, 650 )
 
 [node name="HorseshoeTarget" parent="." index="9" instance=ExtResource( 3 )]
 position = Vector2( 414.313, 760.696 )

@@ -2,15 +2,12 @@ extends Node
 
 #a list of all the minigames that can be played
 onready var GAMES = [
-
-	preload('res://scenes/minigames/mg_lobby/MG_Lobby.tscn'),
 	preload('res://scenes/minigames/mg_sumo/MG_Sumo.tscn'),
 	preload('res://scenes/minigames/mg_goafk/MG_GoAFK.tscn'),
 	preload('res://scenes/minigames/mg_race_tower/MG_RaceTower.tscn'),
 	preload('res://scenes/minigames/mg_punchball/MG_Punchball.tscn'),
 	preload('res://scenes/minigames/mg_territories/MG_Territories.tscn'),
-	preload('res://scenes/minigames/mg_horseshoes/MG_Horseshoes.tscn')
-
+	preload('res://scenes/minigames/mg_horseshoes/MG_Horseshoes.tscn'),
 ]
 
 onready var rotation := []
@@ -24,9 +21,17 @@ var transition_scene : PackedScene = preload('res://scenes/Transition.tscn')
 var minigame_name : String
 
 #rotation will loop if set to true
-var repeats := true
+var repeats := false
 
-var shuffle := false
+var shuffle := true
+
+onready var lobby := preload('res://scenes/minigames/mg_lobby/MG_Lobby.tscn')
+onready var winning_cutscene := preload('res://scenes/minigames/mg_winning_cutscene/MG_WinningCutscene.tscn')
+
+#manages how many minigames will be rotated before declaring a winner and going back to lobby
+var rounds_to_play := 10
+
+var rounds_played := 0
 
 #the current minigame at any given playtime
 var current_minigame : Minigame
@@ -39,10 +44,10 @@ func _ready():
 	set_rotation()
 	world_node = get_parent().get_node('World')
 	randomize()
-	_start_new_minigame(GAMES[0])
+	_start_new_minigame(lobby)
 	print(minigame_name)
 
-func set_rotation(exclude := [GAMES[0] ]) :
+func set_rotation(exclude := []) :
 	for game in GAMES:
 		if not exclude.has(game) :
 			rotation.append(game)
@@ -65,28 +70,28 @@ func _start_new_minigame(new_minigame : PackedScene):
 		world_node.add_child(current_minigame)
 
 func _on_game_times_up():
-	var next_minigame
-	next_minigame = _select_random_minigame()
-
-	_start_new_minigame(next_minigame)
+	rounds_played += 1
+	
+	if repeats:
+		var next_minigame
+		next_minigame = _select_random_minigame()
+		_start_new_minigame(next_minigame)
+	else:
+		if rounds_played <= rounds_to_play:
+			var next_minigame
+			next_minigame = _select_random_minigame()
+			_start_new_minigame(next_minigame)
+		else:
+			_start_new_minigame(winning_cutscene)
 
 
 func _select_random_minigame():
-	#DO
-#	var selected_num : int = int(rand_range(0, GAMES.size()))
-#	#WHILE
-#	while GAMES.keys()[selected_num] == minigame_name || GAMES.keys()[selected_num] == 'lobby':
-#		selected_num = int(rand_range(0, GAMES.size()))
-#
-#	var selected_game : PackedScene = GAMES.values()[selected_num]
-	if rotation.empty() :
-		return GAMES['lobby']
+	if rotation.empty():
+		if rounds_played <= rounds_to_play:
+			set_rotation()
 	#mixes up the order, this means a possiblity of the same game back to back with repeats
 	if shuffle : rotation.shuffle()
 
-	if repeats :
-		#cycles through for if not shuffling
-		rotation.push_back(rotation.pop_front())
-		return rotation.front()
-	else :
-		return rotation.pop_front()
+	#cycles through for if not shuffling
+	rotation.push_back(rotation.pop_front())
+	return rotation.front()

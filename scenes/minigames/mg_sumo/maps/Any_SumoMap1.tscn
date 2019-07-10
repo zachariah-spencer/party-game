@@ -7,20 +7,17 @@
 [node name="TerrainTilemap" parent="." index="0"]
 tile_data = PoolIntArray( 262144, 0, 0, 262145, 0, 0, 262146, 0, 0, 262147, 0, 0, 262148, 0, 0, 262149, 0, 0 )
 
-[node name="SpawnPoints" parent="." index="4"]
-editor/display_folded = false
+[node name="PlayerOneSpawn" parent="SpawnPoints" index="0"]
+position = Vector2( 96, 192 )
 
-[node name="PlayerOneSpawnF" parent="SpawnPoints" index="0"]
-position = Vector2( 32, 160 )
+[node name="PlayerTwoSpawn" parent="SpawnPoints" index="1"]
+position = Vector2( 160, 192 )
 
-[node name="PlayerTwoSpawnF" parent="SpawnPoints" index="1"]
-position = Vector2( 128, 160 )
+[node name="PlayerThreeSpawn" parent="SpawnPoints" index="2"]
+position = Vector2( 224, 192 )
 
-[node name="PlayerThreeSpawnF" parent="SpawnPoints" index="2"]
-position = Vector2( 256, 160 )
-
-[node name="PlayerFourSpawnF" parent="SpawnPoints" index="3"]
-position = Vector2( 352, 160 )
+[node name="PlayerFourSpawn" parent="SpawnPoints" index="3"]
+position = Vector2( 288, 192 )
 
 [node name="DefaultFocus" parent="." index="5"]
 position = Vector2( 192, 160 )
