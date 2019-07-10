@@ -72,9 +72,9 @@ func _on_HitCooldownTimer_timeout():
 	set_collision_mask_bit(1, true)
 	set_collision_mask_bit(2, true)
 	
-	for player in players_hit:
-		pain_area.set_collision_mask_bit(player.parent.single_bit, true)
-		player.modulate.a = 1
+	for player in Players._get_alive_players():
+		pain_area.set_collision_mask_bit(player.single_bit, true)
+		player.child.modulate.a = 1
 
 func _on_RunawayArea_body_entered(body):
 	player_near_ball = body as Player

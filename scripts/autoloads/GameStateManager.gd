@@ -82,7 +82,6 @@ func _on_game_times_up():
 			next_minigame = _select_random_minigame()
 			_start_new_minigame(next_minigame)
 		else:
-			Players.reset_players_data()
 			_start_new_minigame(winning_cutscene)
 
 
