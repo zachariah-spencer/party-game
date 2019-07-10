@@ -38,4 +38,4 @@ func _input(event):
 	if can_return:
 		if event.is_action_pressed('player_one_start'):
 			Players.reset_players_data()
-			Manager._start_new_minigame(Manager.GAMES[0])
+			Manager._start_new_minigame(Manager.lobby)

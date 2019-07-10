@@ -76,6 +76,7 @@ onready var wall_slide_cooldown := $WallSlideCooldown
 onready var wall_slide_sticky_timer := $WallSlideStickyTimer
 onready var attack_timer := $AttackTimer
 onready var attack_cooldown_timer := $AttackCooldown
+onready var hurt_cooldown_timer := $HurtCooldownTimer
 
 onready var fall_through_area := $FallingThroughPlatformArea
 onready var left_wall_raycasts := $WallRaycasts/LeftWallRaycasts
@@ -322,6 +323,8 @@ func _handle_move_input():
 
 
 func _handle_wall_slide_sticking():
+	
+	#THIS DOESN'T WORK IN SIDEWAYS GRAVITY
 	if sign(move_direction.rotated(gravity.angle() - PI / 2).x) == sign(wall_direction) :
 		wall_slide_sticky_timer.start()
 
@@ -610,3 +613,6 @@ func _on_AttackArea_body_entered(body):
 	if body.has_method("hit") and not hit_exceptions.has(body):
 		body.hit(self, 20, (body.global_position - global_position).normalized())
 		hit_exceptions.append(body)
+
+func _on_HurtCooldownTimer_timeout():
+	modulate.a = 1

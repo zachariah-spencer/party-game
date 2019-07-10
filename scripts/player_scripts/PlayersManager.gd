@@ -13,6 +13,7 @@ var start_button : String
 var player_number : String
 var ready = false
 var bit := 0
+var single_bit := 0
 
 onready var RAGDOLL = preload("res://scenes/player/PlayerDead.tscn")
 onready var player_scene : PackedScene = preload('res://scenes/player/Player.tscn')
@@ -145,15 +146,19 @@ func register_player_inputs():
 		'1':
 			player_string = 'one'
 			bit = Globals.P1_BIT
+			single_bit = 6
 		'2':
 			player_string = 'two'
 			bit = Globals.P2_BIT
+			single_bit = 7
 		'3':
 			player_string = 'three'
 			bit = Globals.P3_BIT
+			single_bit = 8
 		'4':
 			player_string = 'four'
 			bit = Globals.P4_BIT
+			single_bit = 9
 
 	child.collision_layer += bit
 	child.collision_mask += Globals.PLAYER_BITS - bit

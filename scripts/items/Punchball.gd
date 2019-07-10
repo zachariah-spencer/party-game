@@ -7,6 +7,10 @@ export var runaway_speed := 32
 export var knockback_speed := 5000
 var player_near_ball : Player
 var can_be_hit := true
+var painful := false
+var players_hit := []
+
+onready var pain_area := $PainfulArea
 
 signal player_got_a_punch
 
@@ -56,21 +60,21 @@ func hit(by : Node, damage : int, knockback :Vector2):
 		apply_central_impulse(knockback_velocity)
 	
 		can_be_hit = false
-	
-		for i in range(6,9):
-			set_collision_mask_bit(i, false)
-	
+		painful = true
 		hit_cooldown.start()
-		modulate.a = .5
-		if !get_parent().get_parent().game_over:
-			emit_signal('player_got_a_punch', by.parent, 1)
+		$Obj/Sprite.modulate = Color.darkred
 
 func _on_HitCooldownTimer_timeout():
-	for i in range(6,9):
-		set_collision_mask_bit(i, true)
-	
+	painful = false
 	can_be_hit = true
-	modulate.a = 1
+	$Obj/Sprite.modulate = Color.white
+	
+	set_collision_mask_bit(1, true)
+	set_collision_mask_bit(2, true)
+	
+	for player in Players._get_alive_players():
+		pain_area.set_collision_mask_bit(player.single_bit, true)
+		player.child.modulate.a = 1
 
 func _on_RunawayArea_body_entered(body):
 	player_near_ball = body as Player
@@ -78,3 +82,12 @@ func _on_RunawayArea_body_entered(body):
 
 func _on_RunawayArea_body_exited(body):
 	player_near_ball = null
+
+
+func _on_PainfulArea_body_entered(body):
+	var player = body as Player
+	if player && painful:
+		player.hit(self, 50, linear_velocity)
+		pain_area.set_collision_mask_bit(player.parent.single_bit, false)
+		player.modulate.a = .5
+		players_hit.append(player)
