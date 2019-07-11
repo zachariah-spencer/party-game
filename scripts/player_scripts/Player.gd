@@ -138,7 +138,7 @@ func _input(event : InputEvent):
 func hit(by : Node, damage : int, knockback :Vector2) :
 	var x = 40* Globals.CELL_SIZE
 	var y = 500
-	velocity = (Vector2.UP * y + x * sign(knockback.x)*Vector2.RIGHT )
+	velocity = ((Vector2.UP * y) + (x * sign(knockback.x)*Vector2.RIGHT)).rotated(gravity.angle() -PI/2)
 	$Shockwave.set_emitting(true)
 
 	match Manager.current_minigame.attack_mode:
@@ -164,7 +164,7 @@ func wall_jump():
 			wall_jump_velocity = WALL_JUMP_INWARD_VELOCITY
 		else :
 			wall_jump_velocity = WALL_JUMP_OUTWARD_VELOCITY
-	
+
 		var rotated = wall_jump_velocity.rotated(gravity.angle() - PI/2)
 		velocity = rotated.project(gravity) + ((rotated - rotated.project(gravity)) * wall_direction)
 
@@ -285,7 +285,7 @@ func _update_move_direction():
 		aim_direction = move_direction
 
 	$Cast.cast_to = aim_direction * 150
-	
+
 	var x_comp = move_direction.cross(gravity)
 
 	if x_comp != 0:
@@ -317,13 +317,16 @@ func _update_wall_direction():
 
 func _handle_move_input():
 	if !disable_movement:
+		var h_weight = .2
+		if state == states.fall or state == states.jump :
+			h_weight = .02
 		var y_comp = velocity.project(gravity)
 		var x_comp = (move_direction - move_direction.project(gravity)) * move_speed
-		velocity = velocity.linear_interpolate(x_comp + y_comp, .2)
+		velocity = velocity.linear_interpolate(x_comp + y_comp, h_weight)
 
 
 func _handle_wall_slide_sticking():
-	
+
 	#THIS DOESN'T WORK IN SIDEWAYS GRAVITY
 	if sign(move_direction.rotated(gravity.angle() - PI / 2).x) == sign(wall_direction) :
 		wall_slide_sticky_timer.start()
@@ -514,7 +517,7 @@ func _handle_jumping():
 	if [states.idle, states.run].has(state) && state != states.wall_slide:
 		#JUMP
 		if Input.is_action_pressed(move_jump):
-			
+
 			if move_direction.rotated(gravity.angle() - PI/2).y > .2 && _is_on_platform():
 				set_collision_mask_bit(DROP_THRU_BIT, false)
 			elif can_jump:
