@@ -52,9 +52,11 @@ extents = Vector2( 960, 32 )
 
 [node name="MG_RaceTower" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+game_time = 1410065408
+win_condition = 1
+has_timer = false
 visible_name = "Race Tower"
 max_lava_speed = 2.6
-lava_speed_increment = 0.05
 
 [node name="Any_RaceTowerMap1" parent="." index="2" instance=ExtResource( 3 )]
 

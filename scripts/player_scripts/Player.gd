@@ -135,19 +135,27 @@ func _input(event : InputEvent):
 		if event.is_action_released(move_jump) && adjusted_velocity.y < min_jump_velocity:
 			velocity = (velocity - velocity.project(gravity)) + (min_jump_velocity * Vector2.DOWN.rotated(gravity.angle() - PI/2))
 
-func hit(by : Node, damage : int, knockback :Vector2) :
+func hit(by : Node, damage : int, knockback := Vector2.ZERO, environmental := false) :
 	var x = 40* Globals.CELL_SIZE
 	var y = 500
 	velocity = ((Vector2.UP * y) + (x * sign(knockback.x)*Vector2.RIGHT)).rotated(gravity.angle() -PI/2)
 	$Shockwave.set_emitting(true)
-
-	match Manager.current_minigame.attack_mode:
-		Manager.current_minigame.attack_modes.non_lethal:
-			pass
-		Manager.current_minigame.attack_modes.lethal:
-			hit_points -= damage
-			$Rig/AnimationPlayer.play('hurt')
-			parent.play_random("Hit")
+	
+	if !environmental:
+		match Manager.current_minigame.attack_mode:
+			Manager.current_minigame.attack_modes.non_lethal:
+				pass
+			Manager.current_minigame.attack_modes.lethal:
+				hit_points -= damage
+				$Rig/AnimationPlayer.play('hurt')
+				parent.play_random("Hit")
+				modulate.a = .5
+				#set a special h weight here
+				hurt_cooldown_timer.start()
+	else:
+		hit_points -= damage
+		$Rig/AnimationPlayer.play('hurt')
+		parent.play_random("Hit")
 
 func jump():
 	if !disable_jumping:
@@ -236,8 +244,11 @@ func attack():
 		attack_cooldown_timer.start()
 
 func _update_player_stats():
+	if Manager.current_minigame.visible_hp:
+		hit_points_label.visible = true
+	
 	hit_points_label.text = String(hit_points)
-	if hit_points == 0:
+	if hit_points <= 0:
 		if !parent.is_dead():
 			parent.die(Manager.current_minigame.allow_respawns)
 
@@ -319,7 +330,7 @@ func _handle_move_input():
 	if !disable_movement:
 		var h_weight = .2
 		if state == states.fall or state == states.jump :
-			h_weight = .02
+			h_weight = .1
 		var y_comp = velocity.project(gravity)
 		var x_comp = (move_direction - move_direction.project(gravity)) * move_speed
 		velocity = velocity.linear_interpolate(x_comp + y_comp, h_weight)
@@ -619,3 +630,4 @@ func _on_AttackArea_body_entered(body):
 
 func _on_HurtCooldownTimer_timeout():
 	modulate.a = 1
+	#allow normal h weight again

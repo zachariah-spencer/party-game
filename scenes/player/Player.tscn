@@ -561,9 +561,9 @@ anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -50.0
-margin_top = -150.0
+margin_top = -184.0
 margin_right = 50.0
-margin_bottom = -118.0
+margin_bottom = -152.0
 custom_fonts/font = SubResource( 37 )
 align = 1
 
@@ -571,12 +571,13 @@ align = 1
 visible = false
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -50.0
-margin_top = -118.0
-margin_right = 50.0
-margin_bottom = -86.0
+margin_left = -64.0
+margin_top = -151.883
+margin_right = 64.0
+margin_bottom = -119.883
 custom_fonts/font = SubResource( 35 )
 align = 1
+valign = 1
 
 [node name="Cast" type="RayCast2D" parent="."]
 enabled = true

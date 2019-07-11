@@ -17,6 +17,7 @@ export var has_countdown : bool = true
 export var visible_name := ''
 export var has_local_score := false
 export var has_map_rotations := false
+export var visible_hp := false
 
 var game_active : bool = false
 var game_over : bool = false
@@ -54,6 +55,7 @@ func _ready():
 	minigame_timer.set_autostart(true)
 	minigame_timer.set_one_shot(false)
 	minigame_timer.start(1)
+	
 	
 	
 	call_deferred('_insert_players')
@@ -228,6 +230,8 @@ func _end_game():
 	yield(get_tree().create_timer(3), 'timeout')
 
 	#PUT STUFF TO DO DURING THE WAITING PERIOD AT THE END OF A MINIGAME HERE
+	for player in Players._update_active_players():
+		player.local_score = 0
 
 	#Tell GSM to transition minigames
 	emit_signal('game_times_up')
@@ -247,8 +251,6 @@ func _handle_local_scoring():
 		if !player.dead:
 			player.child.local_score.visible = true if has_local_score else false
 			player.child.local_score.text = String(player.local_score)
-		if !game_active && !game_over:
-			player.local_score = 0
 
 func _increase_local_score(player : PlayersManager, amount := 0):
 	player.local_score += amount
