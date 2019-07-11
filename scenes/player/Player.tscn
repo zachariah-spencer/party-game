@@ -586,7 +586,7 @@ collision_mask = 0
 
 [node name="HurtCooldownTimer" type="Timer" parent="."]
 process_mode = 0
-wait_time = 2.0
+wait_time = 0.5
 one_shot = true
 
 [connection signal="body_entered" from="Rig/Left Hand/Hitbox" to="." method="_on_AttackArea_body_entered"]

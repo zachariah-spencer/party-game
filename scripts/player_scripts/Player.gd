@@ -29,6 +29,7 @@ var move_speed := 14.0 * Globals.CELL_SIZE
 var hit_points := 100
 var held_item
 var holding_item := false
+var override_h := 0.0
 
 var is_grounded : bool
 var is_jumping := false
@@ -141,6 +142,11 @@ func hit(by : Node, damage : int, knockback := Vector2.ZERO, environmental := fa
 	velocity = ((Vector2.UP * y) + (x * sign(knockback.x)*Vector2.RIGHT)).rotated(gravity.angle() -PI/2)
 	$Shockwave.set_emitting(true)
 	
+	modulate.a = .5
+	#set a special h weight here
+	override_h = .02
+	hurt_cooldown_timer.start()
+	
 	if !environmental:
 		match Manager.current_minigame.attack_mode:
 			Manager.current_minigame.attack_modes.non_lethal:
@@ -149,9 +155,6 @@ func hit(by : Node, damage : int, knockback := Vector2.ZERO, environmental := fa
 				hit_points -= damage
 				$Rig/AnimationPlayer.play('hurt')
 				parent.play_random("Hit")
-				modulate.a = .5
-				#set a special h weight here
-				hurt_cooldown_timer.start()
 	else:
 		hit_points -= damage
 		$Rig/AnimationPlayer.play('hurt')
@@ -333,7 +336,10 @@ func _handle_move_input():
 			h_weight = .1
 		var y_comp = velocity.project(gravity)
 		var x_comp = (move_direction - move_direction.project(gravity)) * move_speed
-		velocity = velocity.linear_interpolate(x_comp + y_comp, h_weight)
+		if override_h == 0.0:
+			velocity = velocity.linear_interpolate(x_comp + y_comp, h_weight)
+		else:
+			velocity = velocity.linear_interpolate(x_comp + y_comp, override_h)
 
 
 func _handle_wall_slide_sticking():
@@ -630,4 +636,4 @@ func _on_AttackArea_body_entered(body):
 
 func _on_HurtCooldownTimer_timeout():
 	modulate.a = 1
-	#allow normal h weight again
+	override_h = 0.0
