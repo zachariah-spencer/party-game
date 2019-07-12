@@ -8,7 +8,10 @@ var frame_count := 0
 var landed_pos : Vector2
 var has_been_moved := false
 
+signal made_shot
+
 func _ready():
+	connect('made_shot', Manager.current_minigame, 'on_made_shot')
 	_weight = 4
 
 func _integrate_forces(state):
@@ -39,14 +42,13 @@ func _on_ShotLandedArea_area_entered(area):
 		landed_pos = target.get_node('Area/Position').get_global_position()
 		grabbable = false
 		set_collision_mask_bit(4, true)
-
+		
 		if target.stack.size() > 4:
 			target.item_spawn_pos.position.y -= 20
 			target.area_shape.position.y -= 12
 			target.sprite.position.y -= 14
-
-		#set_item_to_grenade_here
-		_owner.set_item(grenade.instance())
+		
+		emit_signal('made_shot', _owner)
 
 func _on_FallTimer_timeout():
 	mode = RigidBody2D.MODE_KINEMATIC
