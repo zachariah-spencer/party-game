@@ -330,8 +330,6 @@ func _update_wall_direction():
 
 func _handle_move_input(h_weight := .2):
 	if !disable_movement:
-		if state == states.fall or state == states.jump :
-			h_weight = .1
 		var y_comp = velocity.project(gravity)
 		var x_comp = (move_direction - move_direction.project(gravity)) * move_speed
 		velocity = velocity.linear_interpolate(x_comp + y_comp, h_weight)
@@ -368,8 +366,10 @@ func _state_logic(delta : float):
 	if state != states.wall_slide or state != states.disabled:
 		if state == states.hitstun :
 			_handle_move_input(.02)
+		elif state == states.jump or state == states.fall :
+			_handle_move_input(.1)
 		else :
-			_handle_move_input(.2)
+			 _handle_move_input()
 	if state == states.disabled:
 		_stop_movement()
 	if state == states.wall_slide:
@@ -566,18 +566,6 @@ func _check_is_grounded():
 				return true
 		# If loop completes then raycast was not detected so return false
 		return false
-
-#func _get_h_weight():
-#DOES NOT CURRENTLY WORK
-#	if is_on_floor():
-#		return 0.2
-#	else:
-#		if move_direction.rotated(gravity.angle() - PI / 2).x < 0.1:
-#			return 0.02
-#		elif sign(move_direction.x) == sign(velocity.x) && abs(velocity.x) > move_speed:
-#			return 0.0
-#		else:
-#			return 0.1
 
 func _check_is_valid_wall(wall_raycasts : Node):
 	for raycast in wall_raycasts.get_children():
