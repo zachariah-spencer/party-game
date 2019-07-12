@@ -5,9 +5,10 @@
 
 [node name="MG_Punchball" index="0" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-game_time = 45
-attack_mode = 1
+game_time = 1410065408
 win_condition = 1
+has_timer = false
 visible_name = "Punchball"
 has_map_rotations = true
+visible_hp = true
 
