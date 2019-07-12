@@ -29,7 +29,6 @@ var move_speed := 14.0 * Globals.CELL_SIZE
 var hit_points := 100
 var held_item
 var holding_item := false
-var override_h := 0.0
 
 var is_grounded : bool
 var is_jumping := false
@@ -139,14 +138,14 @@ func _input(event : InputEvent):
 func hit(by : Node, damage : int, knockback := Vector2.ZERO, environmental := false) :
 	var x = 40* Globals.CELL_SIZE
 	var y = 500
-	velocity = ((Vector2.UP * y) + (x * sign(knockback.x)*Vector2.RIGHT)).rotated(gravity.angle() -PI/2)
+	if knockback != Vector2.ZERO :
+		velocity = ((Vector2.UP * y) + (x * sign(knockback.x)*Vector2.RIGHT)).rotated(gravity.angle() -PI/2)
 	$Shockwave.set_emitting(true)
-	
-	modulate.a = .5
+
 	#set a special h weight here
-	override_h = .02
+	_set_state(states.hitstun)
 	hurt_cooldown_timer.start()
-	
+
 	if !environmental:
 		match Manager.current_minigame.attack_mode:
 			Manager.current_minigame.attack_modes.non_lethal:
@@ -249,7 +248,7 @@ func attack():
 func _update_player_stats():
 	if Manager.current_minigame.visible_hp:
 		hit_points_label.visible = true
-	
+
 	hit_points_label.text = String(hit_points)
 	if hit_points <= 0:
 		if !parent.is_dead():
@@ -329,22 +328,16 @@ func _update_wall_direction():
 	else:
 		wall_direction = -int(is_near_wall_left) + int(is_near_wall_right)
 
-func _handle_move_input():
+func _handle_move_input(h_weight := .2):
 	if !disable_movement:
-		var h_weight = .2
 		if state == states.fall or state == states.jump :
 			h_weight = .1
 		var y_comp = velocity.project(gravity)
 		var x_comp = (move_direction - move_direction.project(gravity)) * move_speed
-		if override_h == 0.0:
-			velocity = velocity.linear_interpolate(x_comp + y_comp, h_weight)
-		else:
-			velocity = velocity.linear_interpolate(x_comp + y_comp, override_h)
+		velocity = velocity.linear_interpolate(x_comp + y_comp, h_weight)
 
 
 func _handle_wall_slide_sticking():
-
-	#THIS DOESN'T WORK IN SIDEWAYS GRAVITY
 	if sign(move_direction.rotated(gravity.angle() - PI / 2).x) == sign(wall_direction) :
 		wall_slide_sticky_timer.start()
 
@@ -356,6 +349,7 @@ func _state_machine_ready():
 	_add_state('fall')
 	_add_state('wall_slide')
 	_add_state('disabled')
+	_add_state('hitstun')
 	anim_tree.active = true
 	anim_tree['parameters/playback'].start("Airborne")
 	anim_tree['parameters/playback'].start("Grounded")
@@ -367,21 +361,21 @@ func _add_state(state_name):
 
 func _state_logic(delta : float):
 	_update_player_stats()
-	if state != states.disabled:
-		_update_move_direction()
-	else:
-		_stop_movement()
+	_update_move_direction()
 	_update_wall_direction()
 	_update_wall_action()
 	_apply_gravity(delta)
-	if state != states.wall_slide:
-		if state != states.disabled:
-			_handle_move_input()
+	if state != states.wall_slide or state != states.disabled:
+		if state == states.hitstun :
+			_handle_move_input(.02)
+		else :
+			_handle_move_input(.2)
+	if state == states.disabled:
+		_stop_movement()
 	if state == states.wall_slide:
 		_cap_gravity_wall_slide()
 		_handle_wall_slide_sticking()
 	_handle_jumping()
-
 	_apply_movement()
 
 	anim_tree['parameters/Airborne/blend_position'] = adjusted_velocity.y / 300
@@ -434,6 +428,7 @@ func _enter_state(new_state, old_state):
 	var state_name = null
 	var _state = null
 	var anim = null
+	var mod = 1.0
 
 	match new_state:
 		states.idle:
@@ -461,7 +456,11 @@ func _enter_state(new_state, old_state):
 			anim = "Idle"
 			_state = anim_tree['parameters/Grounded/playback']
 			state_label.text = 'disabled'
+		states.hitstun:
+			mod = .5
+			state_label.text = 'hitstun'
 
+	modulate.a = mod
 	if state_name :
 		var playback = anim_tree['parameters/playback']
 		if !playback.is_playing() :
@@ -523,7 +522,7 @@ func set_item(item):
 		right_hand.call_deferred('add_child', item)
 
 func _stop_movement():
-	velocity.x = 0
+	velocity = velocity.project(gravity)
 
 func _handle_jumping():
 	if move_direction.rotated(gravity.angle() - PI/2).y > 0.1 && fall_through_timer.is_stopped() && [states.idle, states.run].has(state):
@@ -551,7 +550,6 @@ func _is_in_platform():
 	for body in fall_through_area.get_overlapping_bodies():
 		if body.get_collision_layer_bit(DROP_THRU_BIT) :
 			return true
-
 	return false
 
 func _is_on_platform():
@@ -559,6 +557,7 @@ func _is_on_platform():
 	for body in raycasts.get_children():
 		if body.is_colliding() :
 			return true
+	return false
 
 func _check_is_grounded():
 	if is_instance_valid(raycasts):
@@ -635,5 +634,5 @@ func _on_AttackArea_body_entered(body):
 		hit_exceptions.append(body)
 
 func _on_HurtCooldownTimer_timeout():
-	modulate.a = 1
-	override_h = 0.0
+	_set_state(states.idle)
+
