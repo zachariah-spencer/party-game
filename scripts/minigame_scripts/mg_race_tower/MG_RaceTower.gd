@@ -14,9 +14,9 @@ const CHUNKS  = [
 ]
 
 var update_timer : int
-export var lava_speed := 0.6
-export var max_lava_speed := 3.1
-export var lava_speed_increment := 0.1
+export var lava_speed := 0.8
+export var max_lava_speed := 3.0
+export var lava_speed_increment := 0.05
 export var lava_speed_incrementing_time := 1
 
 signal updated_chunks
@@ -25,9 +25,7 @@ func _ready():
 	add_to_group('minigames')
 	Manager.minigame_name = 'race_tower'
 	game_instructions = "Race to\nEscape the Lava!"
-	game_time = 30
 	update_timer = game_time - lava_speed_incrementing_time
-#	$Cam.current = true
 	$Lava.connect('body_entered',self,'_on_Lava_body_entered')
 
 func _physics_process(delta):
@@ -37,13 +35,14 @@ func _physics_process(delta):
 
 func _run_minigame_loop():
 	if game_active:
-		#potential trig. implementation (needs difficulty tweaking)
+#		potential trig. implementation (needs difficulty tweaking)
 #		$Lava.position.y -= lava_speed*(sin(game_time) + lava_speed * .1)
+
 		$Lava.position.y -= lava_speed
 		_check_game_win_conditions()
 
 func _on_Lava_body_entered(player):
-	player.hit_points = 0
+	player.hit(self, 100, Vector2.ZERO, true)
 
 func update_chunk(old_chunk : Node2D):
 	#let all active chunks know that more are being loaded
