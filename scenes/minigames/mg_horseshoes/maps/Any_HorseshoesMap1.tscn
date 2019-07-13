@@ -68,7 +68,6 @@ position = Vector2( 512, 640 )
 item_path = "res://scenes/items/Horseshoe.tscn"
 
 [node name="GravityFields" type="Node" parent="." index="8"]
-editor/display_folded = true
 
 [node name="GravityField" parent="GravityFields" index="0" instance=ExtResource( 4 )]
 editor/display_folded = true

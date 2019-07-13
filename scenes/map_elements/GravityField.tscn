@@ -35,4 +35,3 @@ amount = 100
 lifetime = 1.5
 visibility_rect = Rect2( -500, -500, 1000, 1000 )
 process_material = SubResource( 3 )
-

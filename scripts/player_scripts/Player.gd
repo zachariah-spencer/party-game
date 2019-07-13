@@ -15,6 +15,7 @@ const PUNCH_DISTANCE := 800
 var disable_jumping := false
 var disable_movement := false
 var disable_fists := false
+var spawn_point : Node2D
 
 var can_wall_jump := true
 var can_jump := true
@@ -91,6 +92,7 @@ onready var max_jump_velocity = -sqrt(2 * gravity_magnitude * max_jump_height)
 onready var min_jump_velocity = -sqrt(2 * gravity_magnitude * min_jump_height)
 
 signal interacted
+signal dropped
 
 func _set_gravity(new_gravity := Vector2.DOWN ):
 	gravity = new_gravity
@@ -141,12 +143,12 @@ func hit(by : Node, damage : int, knockback := Vector2.ZERO, environmental := fa
 	var y = 500
 	velocity = ((Vector2.UP * y) + (x * sign(knockback.x)*Vector2.RIGHT)).rotated(gravity.angle() -PI/2)
 	$Shockwave.set_emitting(true)
-	
+
 	modulate.a = .5
 	#set a special h weight here
 	override_h = .02
 	hurt_cooldown_timer.start()
-	
+
 	if !environmental:
 		match Manager.current_minigame.attack_mode:
 			Manager.current_minigame.attack_modes.non_lethal:
@@ -249,7 +251,7 @@ func attack():
 func _update_player_stats():
 	if Manager.current_minigame.visible_hp:
 		hit_points_label.visible = true
-	
+
 	hit_points_label.text = String(hit_points)
 	if hit_points <= 0:
 		if !parent.is_dead():

@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Area2D",
+"class": "GravityField",
+"language": "GDScript",
+"path": "res://scripts/map_elements/GravityField.gd"
+}, {
 "base": "Item",
 "class": "Grenade",
 "language": "GDScript",
@@ -18,6 +23,11 @@ _global_script_classes=[ {
 "class": "Item",
 "language": "GDScript",
 "path": "res://scripts/items/Item.gd"
+}, {
+"base": "Area2D",
+"class": "Lever",
+"language": "GDScript",
+"path": "res://scripts/map_elements/levers/Lever.gd"
 }, {
 "base": "Node",
 "class": "Map",
@@ -50,8 +60,10 @@ _global_script_classes=[ {
 "path": "res://scripts/minigame_scripts/mg_race_tower/TowerChunk.gd"
 } ]
 _global_script_class_icons={
+"GravityField": "",
 "Grenade": "",
 "Item": "",
+"Lever": "",
 "Map": "",
 "Minigame": "",
 "Player": "",

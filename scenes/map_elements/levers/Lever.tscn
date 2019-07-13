@@ -1,6 +1,6 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://scripts/map_elements/InfiniteRoundLever.gd" type="Script" id=1]
+[ext_resource path="res://scripts/map_elements/levers/Lever.gd" type="Script" id=1]
 [ext_resource path="res://assets/switchbase.png" type="Texture" id=2]
 [ext_resource path="res://assets/switchhead.png" type="Texture" id=3]
 
@@ -8,8 +8,8 @@
 radius = 40.0
 
 [sub_resource type="Animation" id=2]
-resource_name = "off"
-length = 0.1
+resource_name = "flip_lever"
+length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath("Switch:rotation_degrees")
 tracks/0/interp = 1
@@ -17,10 +17,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1 ),
-"transitions": PoolRealArray( 1.51572, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.3 ),
+"transitions": PoolRealArray( 1, 1.51572, 7.46426 ),
 "update": 0,
-"values": [ 30.0, -30.0 ]
+"values": [ -30.0, 30.0, -30.0 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Switch:position")
@@ -29,48 +29,20 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1 ),
-"transitions": PoolRealArray( 1.51572, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.3 ),
+"transitions": PoolRealArray( 1, 1.51572, 7.46426 ),
 "update": 0,
-"values": [ Vector2( 5, 0 ), Vector2( -5, 0 ) ]
+"values": [ Vector2( -5, 0 ), Vector2( 5, 0 ), Vector2( -5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "on"
-length = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("Switch:rotation_degrees")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1 ),
-"transitions": PoolRealArray( 1, 1.51572 ),
-"update": 0,
-"values": [ -30.0, 30.0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Switch:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1 ),
-"transitions": PoolRealArray( 1, 1.51572 ),
-"update": 0,
-"values": [ Vector2( -5, 0 ), Vector2( 5, 0 ) ]
-}
-
-[node name="InfiniteRoundLever" type="Area2D" groups=[
+[node name="Lever" type="Area2D" groups=[
 "interactable",
 ]]
 collision_layer = 32768
 collision_mask = 960
 script = ExtResource( 1 )
 
-[node name="Shape" type="CollisionShape2D" parent="."]
+[node name="InteractionArea" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
 [node name="Cooldown" type="Timer" parent="."]
@@ -78,7 +50,7 @@ wait_time = 0.3
 one_shot = true
 
 [node name="Base" type="Sprite" parent="."]
-modulate = Color( 0.313726, 1, 0, 1 )
+modulate = Color( 0.172549, 0.172549, 0.172549, 1 )
 texture = ExtResource( 2 )
 
 [node name="Switch" type="Sprite" parent="."]
@@ -87,9 +59,7 @@ rotation = -0.523599
 texture = ExtResource( 3 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/off = SubResource( 2 )
-anims/on = SubResource( 3 )
-
+anims/flip_lever = SubResource( 2 )
 [connection signal="body_entered" from="." to="." method="_on_NearbyArea_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_NearbyArea_body_exited"]
 [connection signal="timeout" from="Cooldown" to="." method="_on_Cooldown_timeout"]
