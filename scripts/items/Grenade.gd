@@ -6,6 +6,8 @@ var damage = 50
 var durability = 20
 var exploding := false
 export var fuse_time := 1.5
+export var prelit_fuse_time := 2.5
+var prelit := false
 
 func _ready():
 	bounce = 1
@@ -13,12 +15,16 @@ func _ready():
 	fuse_timer.autostart = false
 	add_child(fuse_timer)
 	fuse_timer.connect("timeout", self, "_fuse_timeout")
+	
+	if prelit:
+		fuse_timer.start(prelit_fuse_time)
 
 func _on_grab():
 	pass
 
 func _on_throw():
-	fuse_timer.start(fuse_time)
+	if fuse_timer.is_stopped():
+		fuse_timer.start(fuse_time)
 
 func _fuse_timeout() :
 	exploding = true

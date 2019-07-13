@@ -83,8 +83,8 @@ func on_made_shot(player):
 func _spawn_grenade(spawn_pos):
 	var grenade_instance = grenade.instance()
 	grenade_instance.position = spawn_pos
-	add_child(grenade_instance)
-	grenade_instance.fuse_timer.start(grenade_instance.fuse_time)
+	grenade_instance.prelit = true
+	call_deferred('add_child', grenade_instance)
 
 func _physics_process(delta):
 	_run_minigame_loop()

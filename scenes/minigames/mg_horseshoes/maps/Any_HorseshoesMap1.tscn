@@ -11,7 +11,7 @@ extents = Vector2( 256, 160 )
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 96, 160 )
 
-[node name="Any_HorseshoesMap1" groups=[
+[node name="Any_HorseshoesMap1" index="0" groups=[
 "maps",
 ] instance=ExtResource( 1 )]
 
@@ -108,7 +108,6 @@ gravity_vec = Vector2( 0, 1 )
 shape = SubResource( 1 )
 
 [node name="PositionHandlers" type="Node" parent="." index="9"]
-editor/display_folded = true
 
 [node name="FirstArea" type="Area2D" parent="PositionHandlers" index="0"]
 editor/display_folded = true
@@ -151,14 +150,14 @@ __meta__ = {
 shape = SubResource( 2 )
 
 [node name="FirstGrenadeSpawn" type="Position2D" parent="PositionHandlers" index="4"]
-position = Vector2( 160, 0 )
+position = Vector2( 160, 256 )
 
 [node name="SecondGrenadeSpawn" type="Position2D" parent="PositionHandlers" index="5"]
-position = Vector2( 608, 0 )
+position = Vector2( 608, 256 )
 
 [node name="ThirdGrenadeSpawn" type="Position2D" parent="PositionHandlers" index="6"]
-position = Vector2( 160, 448 )
+position = Vector2( 160, 384 )
 
 [node name="FourthGrenadeSpawn" type="Position2D" parent="PositionHandlers" index="7"]
-position = Vector2( 608, 448 )
+position = Vector2( 608, 384 )
 
