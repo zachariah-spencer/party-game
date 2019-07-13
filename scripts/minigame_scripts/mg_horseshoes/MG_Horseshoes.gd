@@ -1,23 +1,5 @@
 extends Minigame
 
-var has_spawned_nade := false
-var starting_horseshoes := false
-
-var first_area_player = null
-var second_area_player = null
-var third_area_player = null
-var fourth_area_player = null
-
-onready var first_area := map.get_node('PositionHandlers/FirstArea')
-onready var second_area := map.get_node('PositionHandlers/SecondArea')
-onready var third_area := map.get_node('PositionHandlers/ThirdArea')
-onready var fourth_area := map.get_node('PositionHandlers/FourthArea')
-
-onready var first_grenade_spawn := map.get_node('PositionHandlers/FirstGrenadeSpawn')
-onready var second_grenade_spawn := map.get_node('PositionHandlers/SecondGrenadeSpawn')
-onready var third_grenade_spawn := map.get_node('PositionHandlers/ThirdGrenadeSpawn')
-onready var fourth_grenade_spawn := map.get_node('PositionHandlers/FourthGrenadeSpawn')
-
 onready var grenade = load('res://scenes/items/Grenade.tscn')
 
 func _init():
@@ -50,10 +32,6 @@ func _run_minigame_loop():
 
 	if game_active:
 		_check_game_win_conditions()
-
-#		if !has_spawned_nade:
-#			Players.player_one.child.set_item(grenade.instance())
-#			has_spawned_nade = true
 
 func _on_begin_game():
 	._on_begin_game()

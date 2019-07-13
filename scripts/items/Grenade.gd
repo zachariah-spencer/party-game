@@ -15,7 +15,7 @@ func _ready():
 	fuse_timer.autostart = false
 	add_child(fuse_timer)
 	fuse_timer.connect("timeout", self, "_fuse_timeout")
-	
+
 	if prelit:
 		fuse_timer.start(prelit_fuse_time)
 
@@ -29,9 +29,10 @@ func _on_throw():
 func _fuse_timeout() :
 	exploding = true
 	fuse_timer.stop()
-	if _owner :
+	if _owner  && _owner.held_item == self:
 		_owner.drop()
 	$Obj/Sprite.visible = false
+	yield(get_tree(), "idle_frame")
 	var victims = $ExplosionArea.get_overlapping_bodies()
 	for body in victims :
 		var distance = body.global_position - global_position
