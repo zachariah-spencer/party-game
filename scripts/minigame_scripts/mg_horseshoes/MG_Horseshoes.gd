@@ -30,55 +30,12 @@ func _ready():
 	add_to_group('minigames')
 	Manager.minigame_name = 'horseshoes'
 	game_instructions = 'Land a horseshoe to help \n kill the others!'
-	
-	
-	first_area.connect('body_entered', Manager.current_minigame, 'register_first_area')
-	second_area.connect('body_entered', Manager.current_minigame, 'register_second_area')
-	third_area.connect('body_entered', Manager.current_minigame, 'register_third_area')
-	fourth_area.connect('body_entered', Manager.current_minigame, 'register_fourth_area')
-
-func register_first_area(body):
-	var player = body as Player
-	if player:
-		first_area_player = player.parent
-
-func register_second_area(body):
-	var player = body as Player
-	if player:
-		second_area_player = player.parent
-
-func register_third_area(body):
-	var player = body as Player
-	if player:
-		third_area_player = player.parent
-
-func register_fourth_area(body):
-	var player = body as Player
-	if player:
-		fourth_area_player = player.parent
 
 func on_made_shot(player):
-	player = player.parent
-	var landed_player = null
-	
-	match player:
-		first_area_player:
-			landed_player = first_area_player
-		second_area_player:
-			landed_player = second_area_player
-		third_area_player:
-			landed_player = third_area_player
-		fourth_area_player:
-			landed_player = fourth_area_player
-	
-	if landed_player != first_area_player:
-		_spawn_grenade(first_grenade_spawn.position)
-	if landed_player != second_area_player:
-		_spawn_grenade(second_grenade_spawn.position)
-	if landed_player != third_area_player:
-		_spawn_grenade(third_grenade_spawn.position)
-	if landed_player != fourth_area_player:
-		_spawn_grenade(fourth_grenade_spawn.position)
+	for p in Players.active_players :
+		if p != player.parent :
+			var rand = Vector2(rand_range(-100, 100), rand_range(-100, 100))
+			_spawn_grenade(p.position + rand)
 
 func _spawn_grenade(spawn_pos):
 	var grenade_instance = grenade.instance()

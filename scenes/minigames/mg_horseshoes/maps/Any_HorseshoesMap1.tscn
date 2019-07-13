@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scenes/minigames/MapTemplate.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/minigames/mg_horseshoes/HorseshoeTarget.tscn" type="PackedScene" id=2]
@@ -7,9 +7,6 @@
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 256, 160 )
-
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 96, 160 )
 
 [node name="Any_HorseshoesMap1" index="0" groups=[
 "maps",
@@ -106,58 +103,3 @@ gravity_vec = Vector2( 0, 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GravityFields/GravityField4" index="1"]
 shape = SubResource( 1 )
-
-[node name="PositionHandlers" type="Node" parent="." index="9"]
-
-[node name="FirstArea" type="Area2D" parent="PositionHandlers" index="0"]
-editor/display_folded = true
-position = Vector2( 160, 96 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PositionHandlers/FirstArea" index="0"]
-shape = SubResource( 2 )
-
-[node name="SecondArea" type="Area2D" parent="PositionHandlers" index="1"]
-editor/display_folded = true
-position = Vector2( 608, 96 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PositionHandlers/SecondArea" index="0"]
-shape = SubResource( 2 )
-
-[node name="ThirdArea" type="Area2D" parent="PositionHandlers" index="2"]
-editor/display_folded = true
-position = Vector2( 160, 544 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PositionHandlers/ThirdArea" index="0"]
-shape = SubResource( 2 )
-
-[node name="FourthArea" type="Area2D" parent="PositionHandlers" index="3"]
-editor/display_folded = true
-position = Vector2( 608, 544 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PositionHandlers/FourthArea" index="0"]
-shape = SubResource( 2 )
-
-[node name="FirstGrenadeSpawn" type="Position2D" parent="PositionHandlers" index="4"]
-position = Vector2( 160, 256 )
-
-[node name="SecondGrenadeSpawn" type="Position2D" parent="PositionHandlers" index="5"]
-position = Vector2( 608, 256 )
-
-[node name="ThirdGrenadeSpawn" type="Position2D" parent="PositionHandlers" index="6"]
-position = Vector2( 160, 384 )
-
-[node name="FourthGrenadeSpawn" type="Position2D" parent="PositionHandlers" index="7"]
-position = Vector2( 608, 384 )
-
