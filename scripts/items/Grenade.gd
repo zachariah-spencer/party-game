@@ -2,7 +2,7 @@ extends Item
 class_name Grenade
 
 onready var fuse_timer := Timer.new()
-var damage = 100
+var damage = 50
 var durability = 20
 var exploding := false
 export var fuse_time := 1.5
