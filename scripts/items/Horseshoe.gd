@@ -27,6 +27,7 @@ func _on_ShotLandedArea_area_entered(area):
 	target = area.get_parent()
 
 	if !landed:
+		$LandedSFX.play()
 		landed = true
 		fall_timer.start()
 		target.stack.append(self)

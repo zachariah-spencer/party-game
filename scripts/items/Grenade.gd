@@ -33,7 +33,7 @@ func _fuse_timeout() :
 	mode = RigidBody2D.MODE_STATIC
 	exploding = true
 	fuse_timer.stop()
-	if is_instance_valid(_owner)  && _owner.held_item == self:
+	if is_instance_valid(_owner) and _owner is Player and _owner.held_item == self:
 		_owner.drop()
 	$Obj/Sprite.visible = false
 	yield(get_tree(), "idle_frame")
@@ -50,7 +50,10 @@ func _fuse_timeout() :
 	$Explosion.emitting = true
 	$Smoke.emitting	= true
 	$Core.emitting = true
-	yield(get_tree().create_timer($Smoke.lifetime + .2), "timeout")
+	$ExplosionSFX.play()
+	yield(get_tree().create_timer($Explosion.lifetime), "timeout")
+	$ExplosionArea.collision_mask = 0
+	yield(get_tree().create_timer($Smoke.lifetime - $Explosion.lifetime), "timeout")
 	queue_free()
 
 func _integrate_forces(state):
