@@ -508,6 +508,7 @@ wait_time = 0.2
 one_shot = true
 
 [node name="WallSlideStickyTimer" type="Timer" parent="."]
+wait_time = 0.1
 one_shot = true
 
 [node name="AttackCooldown" type="Timer" parent="."]
@@ -587,7 +588,6 @@ collision_mask = 0
 process_mode = 0
 wait_time = 0.5
 one_shot = true
-
 [connection signal="body_entered" from="Rig/Left Hand/Hitbox" to="." method="_on_AttackArea_body_entered"]
 [connection signal="body_entered" from="Rig/Right Hand/Hitbox" to="." method="_on_AttackArea_body_entered"]
 [connection signal="body_entered" from="TopOfHeadArea" to="." method="_on_TopOfHeadArea_body_entered"]

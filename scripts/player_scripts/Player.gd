@@ -351,7 +351,7 @@ func _state_logic(delta : float):
 	_update_wall_direction()
 	_update_wall_action()
 	_apply_gravity(delta)
-	if state != states.wall_slide or state != states.disabled:
+	if state != states.wall_slide and state != states.disabled:
 		if state == states.hitstun :
 			_handle_move_input(.02)
 		elif state == states.jump or state == states.fall :
@@ -405,7 +405,7 @@ func _get_transition(delta : float):
 		states.wall_slide:
 			if is_on_floor():
 				return states.idle
-			elif wall_direction == 0:
+			elif wall_direction == 0 :
 				return states.fall
 
 	#Error in transitions if this is returned
