@@ -143,7 +143,7 @@ func hit(by : Node, damage : int, knockback := Vector2.ZERO, type := Damage.ENVI
 	_set_state(states.hitstun)
 	hurt_cooldown_timer.start()
 
-	if type == Damage.ENVIORMENTAL:
+	if type != Damage.ENVIORMENTAL:
 		match Manager.current_minigame.attack_mode:
 			Manager.current_minigame.attack_modes.non_lethal:
 				pass
