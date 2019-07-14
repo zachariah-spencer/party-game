@@ -1,8 +1,9 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://scenes/items/Item.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/items/Grenade.gd" type="Script" id=2]
 [ext_resource path="res://assets/vfx/explosion.png" type="Texture" id=3]
+[ext_resource path="res://assets/sphere_soft.png" type="Texture" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -10,39 +11,91 @@
 radius = 114.774
 
 [sub_resource type="Gradient" id=3]
-offsets = PoolRealArray( 0, 0.0645161, 0.201613, 0.375, 0.971774, 1 )
-colors = PoolColorArray( 1, 1, 1, 0.254902, 0.803922, 0, 0, 0.670588, 0.65625, 0.461426, 0, 0.392157, 0.235294, 0.235294, 0.235294, 0.501961, 0.679688, 0.679688, 0.679688, 0, 1, 1, 1, 0 )
+offsets = PoolRealArray( 0, 0.685484 )
+colors = PoolColorArray( 0.537255, 0.537255, 0.537255, 0.231373, 1, 1, 1, 0 )
 
 [sub_resource type="GradientTexture" id=4]
 gradient = SubResource( 3 )
 
-[sub_resource type="Curve" id=5]
+[sub_resource type="ParticlesMaterial" id=5]
+emission_shape = 1
+emission_sphere_radius = 80.0
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, -800, 0 )
+initial_velocity = 300.0
+initial_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle = 180.0
+angle_random = 1.0
+color_ramp = SubResource( 4 )
+
+[sub_resource type="Gradient" id=6]
+offsets = PoolRealArray( 0, 0.133065, 0.221774, 0.383065, 0.983871, 0.987903, 1 )
+colors = PoolColorArray( 1, 1, 1, 0.105882, 1, 0, 0, 0.388235, 0.253906, 0, 0, 0.488809, 0.789062, 0.720289, 0.160278, 0.740242, 0.870907, 0.866986, 0.835055, 0.158192, 0.960531, 0.960531, 0.960531, 0.0259077, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=7]
+gradient = SubResource( 6 )
+
+[sub_resource type="Curve" id=8]
 _data = [ Vector2( 0.0363552, 0.7651 ), 0.0, 0.741916, 0, 0, Vector2( 0.996263, 0.4747 ), -2.36064, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=6]
-curve = SubResource( 5 )
+[sub_resource type="CurveTexture" id=9]
+curve = SubResource( 8 )
 
-[sub_resource type="ParticlesMaterial" id=7]
+[sub_resource type="ParticlesMaterial" id=10]
+emission_shape = 1
+emission_sphere_radius = 50.0
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, -100, 0 )
+initial_velocity = 200.0
+angular_velocity = 1.05
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 100.0
+angle = 180.0
+angle_random = 1.0
+scale_curve = SubResource( 9 )
+color_ramp = SubResource( 7 )
+
+[sub_resource type="OpenSimplexNoise" id=11]
+
+[sub_resource type="NoiseTexture" id=12]
+seamless = true
+as_normalmap = true
+bump_strength = 15.8
+noise = SubResource( 11 )
+
+[sub_resource type="Gradient" id=13]
+offsets = PoolRealArray( 0.00403226, 0.262097, 0.721774, 1 )
+colors = PoolColorArray( 1, 1, 1, 0.380392, 1, 0, 0, 0.223529, 0.875, 1, 0, 0.740242, 1, 0.678431, 0, 0.494118 )
+
+[sub_resource type="GradientTexture" id=14]
+gradient = SubResource( 13 )
+
+[sub_resource type="ParticlesMaterial" id=15]
 emission_shape = 1
 emission_sphere_radius = 30.0
 flag_disable_z = true
 spread = 180.0
-gravity = Vector3( 0, -500, 0 )
-initial_velocity = 300.0
+gravity = Vector3( 0, -100, 0 )
+initial_velocity = 25.0
 initial_velocity_random = 1.0
-angular_velocity = -50.0
-angular_velocity_random = 1.0
+angular_velocity = -0.733291
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
+angle = 180.0
 angle_random = 1.0
-scale_curve = SubResource( 6 )
-color_ramp = SubResource( 4 )
+scale_curve = SubResource( 9 )
+color_ramp = SubResource( 14 )
 
-[sub_resource type="OpenSimplexNoise" id=8]
+[sub_resource type="OpenSimplexNoise" id=16]
+period = 180.0
 
-[sub_resource type="NoiseTexture" id=9]
-seamless = true
-noise = SubResource( 8 )
+[sub_resource type="NoiseTexture" id=17]
+noise = SubResource( 16 )
 
 [node name="Grenade" index="0" instance=ExtResource( 1 )]
 mass = 1.25
@@ -60,11 +113,40 @@ collision_mask = 16392
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionArea" index="0"]
 shape = SubResource( 2 )
 
-[node name="Explosion" type="Particles2D" parent="." index="3"]
+[node name="Smoke" type="Particles2D" parent="." index="3"]
+visible = false
+light_mask = 32768
 emitting = false
-amount = 40
+amount = 50
+lifetime = 0.8
 one_shot = true
-explosiveness = 0.9
-process_material = SubResource( 7 )
+explosiveness = 0.7
+process_material = SubResource( 5 )
 texture = ExtResource( 3 )
-normal_map = SubResource( 9 )
+
+[node name="Explosion" type="Particles2D" parent="." index="4"]
+light_mask = 16384
+emitting = false
+amount = 15
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.8
+draw_order = 1
+process_material = SubResource( 10 )
+texture = ExtResource( 3 )
+normal_map = SubResource( 12 )
+
+[node name="Core" type="Particles2D" parent="." index="5"]
+light_mask = 16384
+emitting = false
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource( 15 )
+texture = ExtResource( 3 )
+normal_map = SubResource( 17 )
+
+[node name="ExplosionLight" type="Light2D" parent="." index="6"]
+texture = ExtResource( 4 )
+color = Color( 1, 0, 0, 1 )
+range_item_cull_mask = 16384

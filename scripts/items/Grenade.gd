@@ -43,22 +43,22 @@ func _fuse_timeout() :
 		#hits players and bodies
 		if body.is_in_group("player") :
 			if body is Player :
-				body.hit(self, damage, distance.normalized())
+				body.hit(self, damage, distance.normalized(), Damage.EXPLOSION)
 			#add code to interact with ragdolls
 		if body  is Item and body != self :
-			body.hit(self, damage, distance.normalized())
+			body.hit(self, damage, distance.normalized(), Damage.EXPLOSION)
 	$Explosion.emitting = true
-	yield(get_tree().create_timer(.8), "timeout")
+	$Smoke.emitting	= true
+	$Core.emitting = true
+	yield(get_tree().create_timer($Smoke.lifetime + .2), "timeout")
 	queue_free()
 
 
-func _integrate_forces(state):
-	if exploding : state.linear_velocity = Vector2.ZERO
-
-func hit(by : Node, damage : int, knockback : Vector2):
-	durability -= damage
-	if durability <= 0 and !exploding:
-		fuse_timer.start(.1)
-	elif !exploding :
-		fuse_timer.start(.5)
-	apply_central_impulse(knockback * 400)
+func hit(by : Node, damage : int, knockback : Vector2, type := Damage.ENVIORMENTAL):
+	if type == Damage.EXPLOSION or type == Damage.FIRE :
+		durability -= damage
+		if durability <= 0 and !exploding:
+			fuse_timer.start(.1)
+		elif !exploding :
+			fuse_timer.start(.5)
+		apply_central_impulse(knockback * 400)

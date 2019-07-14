@@ -35,7 +35,7 @@ func grab(by):
 		_owner = by
 		sprite.modulate = _owner.modulate
 		mode = MODE_STATIC
-		collision_layer = 0
+		collision_layer = Globals.ITEM_BIT
 		$Pickup_area.monitorable = false
 		emit_signal("grabbed")
 		_on_grab()
@@ -73,5 +73,5 @@ func _deown():
 	sprite.modulate = Color.white
 	_owner = null
 
-func hit(by : Node, damage : int, knockback :Vector2) :
+func hit(by : Node, damage : int, knockback :Vector2, type := Damage.ENVIORMENTAL) :
 	pass

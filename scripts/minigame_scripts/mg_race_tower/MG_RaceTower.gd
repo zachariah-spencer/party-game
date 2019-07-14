@@ -42,7 +42,7 @@ func _run_minigame_loop():
 		_check_game_win_conditions()
 
 func _on_Lava_body_entered(player):
-	player.hit(self, 100, Vector2.ZERO, true)
+	player.hit(self, 100, Vector2.ZERO, true, Damage.FIRE)
 
 func update_chunk(old_chunk : Node2D):
 	#let all active chunks know that more are being loaded

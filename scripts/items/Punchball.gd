@@ -25,40 +25,40 @@ func _physics_process(delta):
 
 func _handle_runaway(delta : float):
 	var runaway_velocity : Vector2 = Vector2.ZERO
-	
+
 	if player_near_ball:
 		if runaway_velocity == Vector2.ZERO:
 			runaway_velocity = ( ( (player_near_ball.global_position - global_position).normalized() ) * Globals.CELL_SIZE / 3 )* -1
-		
+
 		apply_central_impulse(runaway_velocity)
 
 func _handle_random_motion():
 	var impulse_vector : Vector2
 	var do_flip_x := randi() % 2
 	var do_flip_y := randi() % 2
-	
+
 	impulse_vector.x = rand_range(random_speed, random_speed * 2)
 	impulse_vector.y = rand_range(random_speed, random_speed * 2)
-	
+
 	if do_flip_x:
 		impulse_vector.x *= -1
 	if do_flip_y:
 		impulse_vector.y *= -1
-	
+
 	apply_central_impulse(impulse_vector)
 
 func _on_ImpulseTimer_timeout():
 	if !player_near_ball && can_be_hit:
 		_handle_random_motion()
 
-func hit(by : Node, damage : int, knockback :Vector2):
+func hit(by : Node, damage : int, knockback :Vector2, type := Damage.ENVIORMENTAL):
 	if can_be_hit && by.is_attacking:
 		var knockback_velocity : Vector2 = Vector2.ZERO
-	
+
 		knockback_velocity.x = knockback.x * knockback_speed
 		knockback_velocity.y = knockback.y * knockback_speed * 2
 		apply_central_impulse(knockback_velocity)
-	
+
 		can_be_hit = false
 		painful = true
 		hit_cooldown.start()
@@ -68,10 +68,10 @@ func _on_HitCooldownTimer_timeout():
 	painful = false
 	can_be_hit = true
 	$Obj/Sprite.modulate = Color.white
-	
+
 	set_collision_mask_bit(1, true)
 	set_collision_mask_bit(2, true)
-	
+
 	for player in Players._get_alive_players():
 		pain_area.set_collision_mask_bit(player.single_bit, true)
 		player.child.modulate.a = 1
@@ -87,7 +87,7 @@ func _on_RunawayArea_body_exited(body):
 func _on_PainfulArea_body_entered(body):
 	var player = body as Player
 	if player && painful:
-		player.hit(self, 50, linear_velocity, true)
+		player.hit(self, 50, linear_velocity, Damage.ENVIORMENTAL)
 		pain_area.set_collision_mask_bit(player.parent.single_bit, false)
 		player.modulate.a = .5
 		players_hit.append(player)

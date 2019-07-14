@@ -138,18 +138,21 @@ func _input(event : InputEvent):
 		if event.is_action_released(move_jump) && adjusted_velocity.y < min_jump_velocity:
 			velocity = (velocity - velocity.project(gravity)) + (min_jump_velocity * Vector2.DOWN.rotated(gravity.angle() - PI/2))
 
-func hit(by : Node, damage : int, knockback := Vector2.ZERO, environmental := false) :
+func hit(by : Node, damage : int, knockback := Vector2.ZERO, type := Damage.ENVIORMENTAL) :
 	var x = 40* Globals.CELL_SIZE
 	var y = 500
 	velocity = ((Vector2.UP * y) + (x * sign(knockback.x)*Vector2.RIGHT)).rotated(gravity.angle() -PI/2)
 	$Shockwave.set_emitting(true)
+
+	if holding_item :
+		held_item.hit(by, damage, knockback, type)
 
 	modulate.a = .5
 	#set a special h weight here
 	override_h = .02
 	hurt_cooldown_timer.start()
 
-	if !environmental:
+	if type == Damage.ENVIORMENTAL:
 		match Manager.current_minigame.attack_mode:
 			Manager.current_minigame.attack_modes.non_lethal:
 				pass
@@ -161,6 +164,7 @@ func hit(by : Node, damage : int, knockback := Vector2.ZERO, environmental := fa
 		hit_points -= damage
 		$Rig/AnimationPlayer.play('hurt')
 		parent.play_random("Hit")
+
 
 func jump():
 	if !disable_jumping:
@@ -633,7 +637,7 @@ func _on_AttackCooldown_timeout():
 
 func _on_AttackArea_body_entered(body):
 	if body.has_method("hit") and not hit_exceptions.has(body):
-		body.hit(self, 20, (body.global_position - global_position).normalized())
+		body.hit(self, 20, (body.global_position - global_position).normalized(), Damage.PUNCHES)
 		hit_exceptions.append(body)
 
 func _on_HurtCooldownTimer_timeout():
