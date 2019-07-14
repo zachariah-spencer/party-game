@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/items/Item.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/items/ItemDispenser.gd" type="Script" id=2]
+[ext_resource path="res://assets/bucket.png" type="Texture" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 35.4193, 58.5543 )
 
 [node name="ItemDispenser" instance=ExtResource( 1 )]
 mode = 1
@@ -9,3 +13,13 @@ script = ExtResource( 2 )
 throwable = false
 grabbable = false
 
+[node name="Sprite" parent="Obj" index="0"]
+modulate = Color( 0.796078, 0.796078, 0.796078, 1 )
+position = Vector2( 1.36139, -36.4748 )
+scale = Vector2( 0.4, 0.4 )
+z_index = -2
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" parent="Pickup_area" index="0"]
+position = Vector2( 2.43733, -48.0278 )
+shape = SubResource( 1 )

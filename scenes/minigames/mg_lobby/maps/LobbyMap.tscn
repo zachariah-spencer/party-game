@@ -15,19 +15,19 @@ extents = Vector2( 32, 150 )
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 10000, 32 )
 
-[sub_resource type="RectangleShape2D" id=4]
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 167.2, 299.744 )
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 698.503, 130.235 )
 
-[sub_resource type="RectangleShape2D" id=6]
+[sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 547.054, 125 )
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 167.2, 265.581 )
 
-[node name="LobbyMap" index="0" groups=[
+[node name="LobbyMap" groups=[
 "maps",
 ] instance=ExtResource( 1 )]
 
@@ -104,26 +104,26 @@ position = Vector2( 1024, 1312 )
 position = Vector2( 1536, 1312 )
 
 [node name="ItemDispenser" parent="." index="7" instance=ExtResource( 5 )]
-position = Vector2( 785.401, 1156.68 )
-item_path = "res://scenes/items/ContactGrenade.tscn"
+position = Vector2( 795.927, 1219.84 )
+item_path = "res://scenes/items/Grenade.tscn"
 
 [node name="ItemDispenser2" parent="." index="8" instance=ExtResource( 5 )]
-position = Vector2( 1275.68, 1148.75 )
+position = Vector2( 1304.32, 1220.35 )
 item_path = "res://scenes/items/ContactGrenade.tscn"
 
 [node name="ItemDispenser3" parent="." index="9" instance=ExtResource( 5 )]
-position = Vector2( 1769.14, 1150.33 )
+position = Vector2( 1803.51, 1219.06 )
 item_path = "res://scenes/items/ContactGrenade.tscn"
 
 [node name="ItemDispenser4" parent="." index="10" instance=ExtResource( 5 )]
-position = Vector2( 261.689, 1170.76 )
+position = Vector2( 265.585, 1219.46 )
 item_path = "res://scenes/items/ContactGrenade.tscn"
 
 [node name="GravityField3" parent="." index="11" instance=ExtResource( 6 )]
 position = Vector2( 2568.42, 891.678 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GravityField3" index="1"]
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 
 [node name="RoundSettingApparatus" parent="." index="12" instance=ExtResource( 7 )]
 position = Vector2( -448, 1305 )
@@ -133,14 +133,14 @@ position = Vector2( 3344.01, 429.959 )
 gravity_vec = Vector2( -1, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GravityField5" index="1"]
-shape = SubResource( 5 )
+shape = SubResource( 4 )
 
 [node name="GravityField4" parent="." index="14" instance=ExtResource( 6 )]
 position = Vector2( 3488, 704 )
 gravity_vec = Vector2( 1, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GravityField4" index="1"]
-shape = SubResource( 6 )
+shape = SubResource( 5 )
 
 [node name="DefaultFocus" parent="." index="15"]
 position = Vector2( 1024, 1024 )
@@ -152,11 +152,11 @@ position = Vector2( 608.899, 636.017 )
 position = Vector2( 609.631, -291.146 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Lever/GravityField" index="1"]
-shape = SubResource( 3 )
+shape = SubResource( 6 )
 
 [node name="GravityField2" parent="Lever" index="6" instance=ExtResource( 6 )]
 position = Vector2( 278.523, -307.655 )
 gravity_vec = Vector2( 1, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Lever/GravityField2" index="1"]
-shape = SubResource( 3 )
+shape = SubResource( 6 )

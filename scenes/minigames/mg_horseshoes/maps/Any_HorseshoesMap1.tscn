@@ -1,29 +1,25 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scenes/minigames/MapTemplate.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/minigames/mg_horseshoes/HorseshoeTarget.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/items/ItemDispenser.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scenes/map_elements/GravityField.tscn" type="PackedScene" id=4]
-
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 256, 160 )
 
 [node name="Any_HorseshoesMap1" index="0" groups=[
 "maps",
 ] instance=ExtResource( 1 )]
 
 [node name="TerrainTilemap" parent="." index="0"]
-tile_data = PoolIntArray( -65540, 0, 0, -65539, 0, 0, -65538, 0, 0, -65537, 0, 0, -131072, 0, 0, -131071, 0, 0, -131070, 0, 0, -131069, 0, 0, -131068, 0, 0, -131067, 0, 0, -131066, 0, 0, -131065, 0, 0, -131064, 0, 0, -131063, 0, 0, -131062, 0, 0, -131061, 0, 0, -131060, 0, 0, -131059, 0, 0, -131058, 0, 0, -131057, 0, 0, -65532, 0, 0, -65531, 0, 0, -65530, 0, 0, -65529, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 65540, 0, 0, 65541, 0, 0, 65542, 0, 0, 65543, 0, 0, 131076, 0, 0, 131077, 0, 0, 131078, 0, 0, 131079, 0, 0, 196612, 0, 0, 196613, 0, 0, 196614, 0, 0, 196615, 0, 0, 327676, 0, 0, 327677, 0, 0, 327678, 0, 0, 327679, 0, 0, 262144, 0, 0, 262145, 0, 0, 262146, 0, 0, 262147, 0, 0, 262148, 0, 0, 262149, 0, 0, 262150, 0, 0, 262151, 0, 0, 262152, 0, 0, 262153, 0, 0, 262154, 0, 0, 262155, 0, 0, 262156, 0, 0, 262157, 0, 0, 262158, 0, 0, 262159, 0, 0, 393212, 0, 0, 393213, 0, 0, 393214, 0, 0, 393215, 0, 0, 327680, 0, 0, 327681, 0, 0, 327682, 0, 0, 327683, 0, 0, 327684, 0, 0, 327685, 0, 0, 327686, 0, 0, 327687, 0, 0, 327688, 0, 0, 327689, 0, 0, 327690, 0, 0, 327691, 0, 0, 327692, 0, 0, 327693, 0, 0, 327694, 0, 0, 327695, 0, 0, 393220, 0, 0, 393221, 0, 0, 393222, 0, 0, 393223, 0, 0, 458756, 0, 0, 458757, 0, 0, 458758, 0, 0, 458759, 0, 0, 524292, 0, 0, 524293, 0, 0, 524294, 0, 0, 524295, 0, 0, 589828, 0, 0, 589829, 0, 0, 589830, 0, 0, 589831, 0, 0, 655364, 0, 0, 655365, 0, 0, 655366, 0, 0, 655367, 0, 0, 786428, 0, 0, 786429, 0, 0, 786430, 0, 0, 786431, 0, 0, 720896, 0, 0, 720897, 0, 0, 720898, 0, 0, 720899, 0, 0, 720900, 0, 0, 720901, 0, 0, 720902, 0, 0, 720903, 0, 0, 720904, 0, 0, 720905, 0, 0, 720906, 0, 0, 720907, 0, 0, 720908, 0, 0, 720909, 0, 0, 720910, 0, 0, 720911, 0, 0 )
+tile_data = PoolIntArray( -65543, 0, 0, -65542, 0, 0, -65541, 0, 0, -65540, 0, 0, -65539, 0, 0, -65538, 0, 0, -65537, 0, 0, -131072, 0, 0, -131071, 0, 0, -131070, 0, 0, -131069, 0, 0, -131068, 0, 0, -131067, 0, 0, -131066, 0, 0, -131065, 0, 0, -131064, 0, 0, -131063, 0, 0, -131062, 0, 0, -131061, 0, 0, -131060, 0, 0, -131059, 0, 0, -131058, 0, 0, -131057, 0, 0, -131056, 0, 0, -131055, 0, 0, -131054, 0, 0, -65532, 0, 0, -65531, 0, 0, -65530, 0, 0, -65529, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 65540, 0, 0, 65541, 0, 0, 65542, 0, 0, 65543, 0, 0, 131076, 0, 0, 131077, 0, 0, 131078, 0, 0, 131079, 0, 0, 196612, 0, 0, 196613, 0, 0, 196614, 0, 0, 196615, 0, 0, 327673, 0, 0, 327674, 0, 0, 327675, 0, 0, 327676, 0, 0, 327677, 0, 0, 327678, 0, 0, 327679, 0, 0, 262144, 0, 0, 262145, 0, 0, 262146, 0, 0, 262147, 0, 0, 262148, 0, 0, 262149, 0, 0, 262150, 0, 0, 262151, 0, 0, 262152, 0, 0, 262153, 0, 0, 262154, 0, 0, 262155, 0, 0, 262156, 0, 0, 262157, 0, 0, 262158, 0, 0, 262159, 0, 0, 262160, 0, 0, 262161, 0, 0, 262162, 0, 0, 393209, 0, 0, 393210, 0, 0, 393211, 0, 0, 393212, 0, 0, 393213, 0, 0, 393214, 0, 0, 393215, 0, 0, 327680, 0, 0, 327681, 0, 0, 327682, 0, 0, 327683, 0, 0, 327684, 0, 0, 327685, 0, 0, 327686, 0, 0, 327687, 0, 0, 327688, 0, 0, 327689, 0, 0, 327690, 0, 0, 327691, 0, 0, 327692, 0, 0, 327693, 0, 0, 327694, 0, 0, 327695, 0, 0, 327696, 0, 0, 327697, 0, 0, 327698, 0, 0, 393220, 0, 0, 393221, 0, 0, 393222, 0, 0, 393223, 0, 0, 458756, 0, 0, 458757, 0, 0, 458758, 0, 0, 458759, 0, 0, 524292, 0, 0, 524293, 0, 0, 524294, 0, 0, 524295, 0, 0, 589828, 0, 0, 589829, 0, 0, 589830, 0, 0, 589831, 0, 0, 655364, 0, 0, 655365, 0, 0, 655366, 0, 0, 655367, 0, 0, 786425, 0, 0, 786426, 0, 0, 786427, 0, 0, 786428, 0, 0, 786429, 0, 0, 786430, 0, 0, 786431, 0, 0, 720896, 0, 0, 720897, 0, 0, 720898, 0, 0, 720899, 0, 0, 720900, 0, 0, 720901, 0, 0, 720902, 0, 0, 720903, 0, 0, 720904, 0, 0, 720905, 0, 0, 720906, 0, 0, 720907, 0, 0, 720908, 0, 0, 720909, 0, 0, 720910, 0, 0, 720911, 0, 0, 720912, 0, 0, 720913, 0, 0, 720914, 0, 0 )
 
 [node name="PlayerBlockerTilemap" parent="." index="3"]
 collision_mask = 8
 tile_data = PoolIntArray( -65536, 3, 0, -65525, 3, 0, 0, 3, 0, 11, 3, 0, 65536, 3, 0, 65547, 3, 0, 131072, 3, 0, 131083, 3, 0, 196608, 3, 0, 196619, 3, 0, 393216, 3, 0, 393227, 3, 0, 458752, 3, 0, 458763, 3, 0, 524288, 3, 0, 524299, 3, 0, 589824, 3, 0, 589835, 3, 0, 655360, 3, 0, 655371, 3, 0 )
 
 [node name="PlayerOneSpawn" parent="SpawnPoints" index="0"]
-position = Vector2( 160, 32 )
+position = Vector2( 134.894, 174.265 )
 
 [node name="PlayerTwoSpawn" parent="SpawnPoints" index="1"]
-position = Vector2( 608, 32 )
+position = Vector2( 638.685, 160.317 )
 
 [node name="PlayerThreeSpawn" parent="SpawnPoints" index="2"]
 position = Vector2( 160, 608 )
@@ -32,73 +28,33 @@ position = Vector2( 160, 608 )
 position = Vector2( 608, 608 )
 
 [node name="Targets" type="Node" parent="." index="6"]
-editor/display_folded = true
 
 [node name="HorseshoeTarget" parent="Targets" index="0" instance=ExtResource( 2 )]
-position = Vector2( -220.8, -32 )
-rotation = 3.14159
+position = Vector2( -224.681, 224.674 )
 
 [node name="HorseshoeTarget2" parent="Targets" index="1" instance=ExtResource( 2 )]
 position = Vector2( -224, 672 )
 
 [node name="HorseshoeTarget3" parent="Targets" index="2" instance=ExtResource( 2 )]
-position = Vector2( 992, -32 )
-rotation = 3.14159
+position = Vector2( 993.164, 225.66 )
 
 [node name="HorseshoeTarget4" parent="Targets" index="3" instance=ExtResource( 2 )]
 position = Vector2( 992, 672 )
 
 [node name="Dispensers" type="Node" parent="." index="7"]
-editor/display_folded = true
 
 [node name="ItemDispenser" parent="Dispensers" index="0" instance=ExtResource( 3 )]
-position = Vector2( 256, 0 )
+position = Vector2( 221.31, 248.742 )
 item_path = "res://scenes/items/Horseshoe.tscn"
 
 [node name="ItemDispenser2" parent="Dispensers" index="1" instance=ExtResource( 3 )]
-position = Vector2( 256, 640 )
+position = Vector2( 220.731, 696.807 )
 item_path = "res://scenes/items/Horseshoe.tscn"
 
 [node name="ItemDispenser3" parent="Dispensers" index="2" instance=ExtResource( 3 )]
-position = Vector2( 512, 0 )
+position = Vector2( 543.892, 250.538 )
 item_path = "res://scenes/items/Horseshoe.tscn"
 
 [node name="ItemDispenser4" parent="Dispensers" index="3" instance=ExtResource( 3 )]
-position = Vector2( 512, 640 )
+position = Vector2( 540.101, 699.202 )
 item_path = "res://scenes/items/Horseshoe.tscn"
-
-[node name="GravityFields" type="Node" parent="." index="8"]
-
-[node name="GravityField" parent="GravityFields" index="0" instance=ExtResource( 4 )]
-editor/display_folded = true
-visible = false
-position = Vector2( 0, 96 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GravityFields/GravityField" index="1"]
-shape = SubResource( 1 )
-
-[node name="GravityField2" parent="GravityFields" index="1" instance=ExtResource( 4 )]
-editor/display_folded = true
-visible = false
-position = Vector2( 768, 96 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GravityFields/GravityField2" index="1"]
-shape = SubResource( 1 )
-
-[node name="GravityField3" parent="GravityFields" index="2" instance=ExtResource( 4 )]
-editor/display_folded = true
-visible = false
-position = Vector2( 768, 544 )
-gravity_vec = Vector2( 0, 1 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GravityFields/GravityField3" index="1"]
-shape = SubResource( 1 )
-
-[node name="GravityField4" parent="GravityFields" index="3" instance=ExtResource( 4 )]
-editor/display_folded = true
-visible = false
-position = Vector2( 0, 544 )
-gravity_vec = Vector2( 0, 1 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GravityFields/GravityField4" index="1"]
-shape = SubResource( 1 )
