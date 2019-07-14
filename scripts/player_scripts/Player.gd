@@ -5,7 +5,6 @@ class_name Player
 
 
 #variable declaration
-var up_direction := Vector2.UP
 const SLOPE_STOP := 64
 const DROP_THRU_BIT := 4
 const WALL_JUMP_INWARD_VELOCITY := Vector2(-1000, -1200)
@@ -23,6 +22,7 @@ var velocity : Vector2
 var adjusted_velocity : Vector2
 var target_velocity : float
 var move_direction := Vector2.ZERO
+var move_direction_adjusted = Vector2.ZERO
 var aim_direction := Vector2.ZERO
 var facing_direction := 1.0
 var wall_direction := 1.0
@@ -30,12 +30,8 @@ var move_speed := 14.0 * Globals.CELL_SIZE
 var hit_points := 100
 var held_item
 var holding_item := false
-var override_h := 0.0
 
-var is_grounded : bool
-var is_jumping := false
 var can_attack := true
-var is_attacking := false
 var punch_arm := 'left'
 var attack_area
 var hit_exceptions := []
@@ -66,7 +62,7 @@ var states : Dictionary = {}
 var wall_action : Vector2
 
 onready var parent := get_parent()
-onready var local_score := $LocalScore
+#onready var local_score := $LocalScore
 onready var state_label := $StateLabel
 onready var hit_points_label := $HitPoints
 onready var anim_tree := $Rig/AnimationTree
@@ -83,7 +79,7 @@ onready var hurt_cooldown_timer := $HurtCooldownTimer
 onready var fall_through_area := $FallingThroughPlatformArea
 onready var left_wall_raycasts := $WallRaycasts/LeftWallRaycasts
 onready var right_wall_raycasts := $WallRaycasts/RightWallRaycasts
-onready var raycasts := $GroundRaycasts
+onready var platform_raycasts := $GroundRaycasts
 onready var right_hand := $'Rig/Right Hand'
 onready var left_hand := $'Rig/Left Hand'
 onready var gravity_magnitude := 2 * max_jump_height / pow(jump_duration, 2)
@@ -96,12 +92,7 @@ signal dropped
 
 func _set_gravity(new_gravity := Vector2.DOWN ):
 	gravity = new_gravity
-#	if gravity.x < 0 :
-#		raycasts.position.x = 0
-#	else :
-#		raycasts.position.x = 90
-#	rotation = gravity.angle() - PI/2
-	for raycast in raycasts.get_children():
+	for raycast in platform_raycasts.get_children():
 		raycast.cast_to = gravity*10
 
 func _ready():
@@ -118,6 +109,7 @@ func _ready():
 	if interactables.size() != 0:
 		for interactable in interactables:
 			connect('interacted',interactable, 'interact')
+
 func _physics_process(delta):
 	if state != null:
 		_state_logic(delta)
@@ -126,7 +118,7 @@ func _physics_process(delta):
 			_set_state(transition)
 
 func _input(event : InputEvent):
-	if event.is_action_pressed(attack_input) && attack_cooldown_timer.is_stopped() && state != states.wall_slide && can_attack:
+	if event.is_action_pressed(attack_input) && attack_cooldown_timer.is_stopped() && state != states.wall_slide:
 		if state == states.disabled :
 			pass
 		elif holding_item :
@@ -141,15 +133,14 @@ func _input(event : InputEvent):
 func hit(by : Node, damage : int, knockback := Vector2.ZERO, type := Damage.ENVIORMENTAL) :
 	var x = 40* Globals.CELL_SIZE
 	var y = 500
-	velocity = ((Vector2.UP * y) + (x * sign(knockback.x)*Vector2.RIGHT)).rotated(gravity.angle() -PI/2)
+	if knockback != Vector2.ZERO :
+		velocity = ((Vector2.UP * y) + (x * sign(knockback.x)*Vector2.RIGHT)).rotated(gravity.angle() -PI/2)
 	$Shockwave.set_emitting(true)
 
 	if holding_item :
 		held_item.hit(by, damage, knockback, type)
-
-	modulate.a = .5
 	#set a special h weight here
-	override_h = .02
+	_set_state(states.hitstun)
 	hurt_cooldown_timer.start()
 
 	if type == Damage.ENVIORMENTAL:
@@ -170,11 +161,9 @@ func jump():
 	if !disable_jumping:
 		velocity = max_jump_velocity*gravity
 		can_jump = false
-		is_jumping = true
 
 func wall_jump():
 	if !disable_jumping:
-		is_jumping = true
 		can_jump = false
 		var wall_jump_velocity : Vector2
 		if sign(facing_direction) == sign(wall_direction):
@@ -210,7 +199,7 @@ func drop():
 		held_item.throw(velocity, global_position+Vector2.DOWN*10 ,self)
 
 func attack():
-	if can_attack && !disable_fists:
+	if !disable_fists:
 		emit_signal('interacted', self)
 		var hand = null
 		var vel = Vector2(0,0)
@@ -248,7 +237,6 @@ func attack():
 		$Rig/AnimationPlayer.play('attack_'+punch_arm)
 
 		attack_area.monitoring = true
-		is_attacking = true
 		attack_timer.start()
 		attack_cooldown_timer.start()
 
@@ -270,11 +258,7 @@ func _apply_gravity(delta : float):
 func _apply_movement():
 	adjusted_velocity = velocity.rotated(-(gravity.angle() - PI/2))
 
-	if is_jumping && adjusted_velocity.y >= 0:
-		is_jumping = false
-
 	velocity = move_and_slide(velocity, -gravity, SLOPE_STOP)
-	is_grounded = !is_jumping && _check_is_grounded()
 
 	if !can_jump && is_on_floor() || !can_jump && state == states.wall_slide:
 		if jump_cooldown.is_stopped():
@@ -293,16 +277,13 @@ func _update_move_direction():
 		aim_direction = Vector2.ZERO
 	else :
 		aim_direction = aim_direction.normalized() * (aim_direction.length() - deadzone) / (1-deadzone)
-
 	if move_direction.length_squared() < deadzone :
 		move_direction = Vector2.ZERO
 	else :
 		move_direction = move_direction.normalized() * (move_direction.length() - deadzone) / (1-deadzone)
-
-
-
 	if aim_direction == Vector2.ZERO :
 		aim_direction = move_direction
+	move_direction_adjusted = move_direction.rotated(gravity.angle() - PI/2)
 
 	$Cast.cast_to = aim_direction * 150
 
@@ -335,23 +316,15 @@ func _update_wall_direction():
 	else:
 		wall_direction = -int(is_near_wall_left) + int(is_near_wall_right)
 
-func _handle_move_input():
+func _handle_move_input(h_weight := .2):
 	if !disable_movement:
-		var h_weight = .2
-		if state == states.fall or state == states.jump :
-			h_weight = .1
 		var y_comp = velocity.project(gravity)
 		var x_comp = (move_direction - move_direction.project(gravity)) * move_speed
-		if override_h == 0.0:
-			velocity = velocity.linear_interpolate(x_comp + y_comp, h_weight)
-		else:
-			velocity = velocity.linear_interpolate(x_comp + y_comp, override_h)
+		velocity = velocity.linear_interpolate(x_comp + y_comp, h_weight)
 
 
 func _handle_wall_slide_sticking():
-
-	#THIS DOESN'T WORK IN SIDEWAYS GRAVITY
-	if sign(move_direction.rotated(gravity.angle() - PI / 2).x) == sign(wall_direction) :
+	if sign(move_direction_adjusted.x) == sign(wall_direction) :
 		wall_slide_sticky_timer.start()
 
 #statemachine code begins here
@@ -362,6 +335,7 @@ func _state_machine_ready():
 	_add_state('fall')
 	_add_state('wall_slide')
 	_add_state('disabled')
+	_add_state('hitstun')
 	anim_tree.active = true
 	anim_tree['parameters/playback'].start("Airborne")
 	anim_tree['parameters/playback'].start("Grounded")
@@ -373,21 +347,23 @@ func _add_state(state_name):
 
 func _state_logic(delta : float):
 	_update_player_stats()
-	if state != states.disabled:
-		_update_move_direction()
-	else:
-		_stop_movement()
+	_update_move_direction()
 	_update_wall_direction()
 	_update_wall_action()
 	_apply_gravity(delta)
-	if state != states.wall_slide:
-		if state != states.disabled:
-			_handle_move_input()
+	if state != states.wall_slide or state != states.disabled:
+		if state == states.hitstun :
+			_handle_move_input(.02)
+		elif state == states.jump or state == states.fall :
+			_handle_move_input(.1)
+		else :
+			 _handle_move_input()
+	if state == states.disabled:
+		_stop_movement()
 	if state == states.wall_slide:
 		_cap_gravity_wall_slide()
 		_handle_wall_slide_sticking()
 	_handle_jumping()
-
 	_apply_movement()
 
 	anim_tree['parameters/Airborne/blend_position'] = adjusted_velocity.y / 300
@@ -400,7 +376,7 @@ func _get_transition(delta : float):
 					return states.jump
 				elif adjusted_velocity.y >= 0:
 					return states.fall
-			elif abs(move_direction.rotated(gravity.angle() - PI / 2).x) > 0.1:
+			elif abs(move_direction_adjusted.x) > 0.1:
 				return states.run
 		states.run:
 			if !is_on_floor():
@@ -408,7 +384,7 @@ func _get_transition(delta : float):
 					return states.jump
 				elif adjusted_velocity.y >= 0:
 					return states.fall
-			elif abs(move_direction.rotated(gravity.angle() - PI / 2).x) < 0.1:
+			elif abs(move_direction_adjusted.x) < 0.1:
 				return states.idle
 		states.jump:
 			if is_on_floor():
@@ -416,7 +392,7 @@ func _get_transition(delta : float):
 			elif adjusted_velocity.y >= 0:
 				return states.fall
 		states.fall:
-			if move_direction.rotated(gravity.angle() - PI/2).y > 0.5:
+			if move_direction_adjusted.y > 0.5:
 				set_collision_mask_bit(DROP_THRU_BIT, false)
 			elif !_is_in_platform() :
 				set_collision_mask_bit(DROP_THRU_BIT, true)
@@ -440,6 +416,7 @@ func _enter_state(new_state, old_state):
 	var state_name = null
 	var _state = null
 	var anim = null
+	var mod = 1.0
 
 	match new_state:
 		states.idle:
@@ -467,7 +444,11 @@ func _enter_state(new_state, old_state):
 			anim = "Idle"
 			_state = anim_tree['parameters/Grounded/playback']
 			state_label.text = 'disabled'
+		states.hitstun:
+			mod = .5
+			state_label.text = 'hitstun'
 
+	modulate.a = mod
 	if state_name :
 		var playback = anim_tree['parameters/playback']
 		if !playback.is_playing() :
@@ -529,19 +510,19 @@ func set_item(item):
 		right_hand.call_deferred('add_child', item)
 
 func _stop_movement():
-	velocity.x = 0
+	velocity = velocity.project(gravity)
 
 func _handle_jumping():
-	if move_direction.rotated(gravity.angle() - PI/2).y > 0.1 && fall_through_timer.is_stopped() && [states.idle, states.run].has(state):
+	if move_direction_adjusted.y > 0.1 && fall_through_timer.is_stopped() && [states.idle, states.run].has(state):
 		fall_through_timer.start()
-	elif move_direction.rotated(gravity.angle() - PI/2).y < 0.1 :
+	elif move_direction_adjusted.y < 0.1 :
 		fall_through_timer.stop()
 
 	if [states.idle, states.run].has(state) && state != states.wall_slide:
 		#JUMP
 		if Input.is_action_pressed(move_jump):
 
-			if move_direction.rotated(gravity.angle() - PI/2).y > .2 && _is_on_platform():
+			if move_direction_adjusted.y > .2 && _is_on_platform():
 				set_collision_mask_bit(DROP_THRU_BIT, false)
 			elif can_jump:
 				jump()
@@ -557,34 +538,13 @@ func _is_in_platform():
 	for body in fall_through_area.get_overlapping_bodies():
 		if body.get_collision_layer_bit(DROP_THRU_BIT) :
 			return true
-
 	return false
 
 func _is_on_platform():
-	var is_on_platform := false
-	for body in raycasts.get_children():
+	for body in platform_raycasts.get_children():
 		if body.is_colliding() :
 			return true
-
-func _check_is_grounded():
-	if is_instance_valid(raycasts):
-		for raycast in raycasts.get_children():
-			if raycast.is_colliding():
-				return true
-		# If loop completes then raycast was not detected so return false
-		return false
-
-#func _get_h_weight():
-#DOES NOT CURRENTLY WORK
-#	if is_on_floor():
-#		return 0.2
-#	else:
-#		if move_direction.rotated(gravity.angle() - PI / 2).x < 0.1:
-#			return 0.02
-#		elif sign(move_direction.x) == sign(velocity.x) && abs(velocity.x) > move_speed:
-#			return 0.0
-#		else:
-#			return 0.1
+	return false
 
 func _check_is_valid_wall(wall_raycasts : Node):
 	for raycast in wall_raycasts.get_children():
@@ -630,10 +590,6 @@ func _on_TopOfHeadArea_body_entered(affected_player):
 func _on_AttackTimer_timeout():
 	hit_exceptions = []
 	attack_area.monitoring = false
-	is_attacking = false
-
-func _on_AttackCooldown_timeout():
-	can_attack = true
 
 func _on_AttackArea_body_entered(body):
 	if body.has_method("hit") and not hit_exceptions.has(body):
@@ -641,5 +597,5 @@ func _on_AttackArea_body_entered(body):
 		hit_exceptions.append(body)
 
 func _on_HurtCooldownTimer_timeout():
-	modulate.a = 1
-	override_h = 0.0
+	_set_state(states.idle)
+
