@@ -2,7 +2,7 @@ extends Item
 class_name Grenade
 
 onready var fuse_timer := Timer.new()
-var damage = 50
+var damage = 100
 var durability = 20
 var exploding := false
 export var fuse_time := 1.5
@@ -33,7 +33,7 @@ func _fuse_timeout() :
 	mode = RigidBody2D.MODE_STATIC
 	exploding = true
 	fuse_timer.stop()
-	if _owner  && _owner.held_item == self:
+	if is_instance_valid(_owner)  && _owner.held_item == self:
 		_owner.drop()
 	$Obj/Sprite.visible = false
 	yield(get_tree(), "idle_frame")
@@ -52,6 +52,11 @@ func _fuse_timeout() :
 	$Core.emitting = true
 	yield(get_tree().create_timer($Smoke.lifetime + .2), "timeout")
 	queue_free()
+
+func _integrate_forces(state):
+	if exploding :
+		angular_velocity = 0
+		linear_velocity = Vector2.ZERO
 
 
 func hit(by : Node, damage : int, knockback : Vector2, type := Damage.ENVIORMENTAL):

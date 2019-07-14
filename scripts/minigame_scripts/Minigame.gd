@@ -18,6 +18,7 @@ export var visible_name := ''
 export var has_local_score := false
 export var has_map_rotations := false
 export var visible_hp := false
+export var respawn_time := 2.0
 
 var game_active : bool = false
 var game_over : bool = false
@@ -34,30 +35,30 @@ signal game_times_up
 
 func _ready():
 	Players._update_active_players()
-	
+
 	Manager.current_minigame = self
 	if has_map_rotations:
 		_select_a_map()
 	else:
 		map = get_tree().get_nodes_in_group('maps')[0]
-	
+
 	spawn_points = map.get_node('SpawnPoints').get_children()
 	_update_active_spawn_points()
 	spawn_points.shuffle()
-	
+
 	camera.current = true
 	connect('game_times_up', Manager, '_on_game_times_up')
 	Globals.HUD.connect('begin_game', Manager.current_minigame, '_on_begin_game')
-	
+
 	minigame_timer = Timer.new()
 	minigame_timer.connect('timeout', self, '_handle_minigame_time')
 	add_child(minigame_timer)
 	minigame_timer.set_autostart(true)
 	minigame_timer.set_one_shot(false)
 	minigame_timer.start(1)
-	
-	
-	
+
+
+
 	call_deferred('_insert_players')
 	call_deferred('_pregame', has_countdown)
 
@@ -77,16 +78,16 @@ func _select_a_map():
 	#set a map
 	maps.shuffle()
 	map = maps[0].instance()
-	
-	#if map only designed for a certain # of players then 
-	#keep randomly picking until a map is found that supports 
+
+	#if map only designed for a certain # of players then
+	#keep randomly picking until a map is found that supports
 	#the current # of active players
 	if map.optimal_player_count != -1:
 		while map.optimal_player_count != Players.active_players.size():
 			map.free()
 			maps.shuffle()
 			map = maps[0].instance()
-	
+
 	#load map into the world
 	add_child(map)
 
@@ -96,7 +97,7 @@ func _physics_process(delta):
 		forced_to_lobby = true
 		Players.reset_players_data()
 		Manager._start_new_minigame(Manager.lobby)
-	
+
 	_handle_local_scoring()
 
 func _insert_players():
@@ -110,9 +111,9 @@ func _pregame(has_countdown : bool = true):
 	if !['lobby', 'winning_cutscene'].has(Manager.minigame_name):
 		for player in Players.active_players:
 			player.child._set_state(player.child.states.disabled)
-		
+
 		yield(Globals.HUD,'begin_game')
-		
+
 		for player in Players._get_alive_players():
 			player.child._set_state(player.child.states.idle)
 
@@ -139,7 +140,7 @@ func _check_game_win_conditions():
 				_game_won()
 			elif Players._get_alive_players().size() == 0 || game_time == 0:
 				_game_won(true)
-		
+
 		win_conditions.highest_local_score:
 			if game_time == 0 || Players._get_alive_players().size() == 1:
 				_game_won()
@@ -187,7 +188,7 @@ func _game_won(no_winner = false, multi_winner = false):
 		win_conditions.highest_local_score:
 			game_over = true
 			game_active = false
-			
+
 			if no_winner:
 				$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Nobody Won!'
 				return
@@ -215,7 +216,7 @@ func _game_won(no_winner = false, multi_winner = false):
 							player.score += 1
 							$CanvasLayer/HUD/TimeLeft/Instructions.text = $CanvasLayer/HUD/TimeLeft/Instructions.text +  player.display_name + '\n'
 							$CanvasLayer/HUD._update_scores()
-							
+
 					else:
 						winning_player.score += 1
 						$CanvasLayer/HUD._update_scores()

@@ -62,7 +62,7 @@ var states : Dictionary = {}
 var wall_action : Vector2
 
 onready var parent := get_parent()
-#onready var local_score := $LocalScore
+onready var local_score := $LocalScore
 onready var state_label := $StateLabel
 onready var hit_points_label := $HitPoints
 onready var anim_tree := $Rig/AnimationTree
