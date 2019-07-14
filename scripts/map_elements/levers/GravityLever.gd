@@ -17,4 +17,9 @@ func flip():
 		if random :
 			field.set_gravity_vector( Vector2(rand_range(-1,1), rand_range(-1,1)))
 		else :
-			field.set_gravity_vector(field.gravity_vec * -mirror)
+			var out_vec = field.gravity_vec
+			if out_vec.x != 0 :
+				out_vec.x *= -1
+			if out_vec.y != 0 :
+				out_vec.y *= -1
+			field.set_gravity_vector(out_vec)
