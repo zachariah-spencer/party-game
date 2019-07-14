@@ -27,6 +27,10 @@ func _on_throw():
 		fuse_timer.start(fuse_time)
 
 func _fuse_timeout() :
+	angular_velocity = 0
+	linear_velocity = Vector2.ZERO
+	rotation = 0
+	mode = RigidBody2D.MODE_STATIC
 	exploding = true
 	fuse_timer.stop()
 	if _owner  && _owner.held_item == self:
