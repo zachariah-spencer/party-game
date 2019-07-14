@@ -130,7 +130,7 @@ func _input(event : InputEvent):
 		if event.is_action_released(move_jump) && adjusted_velocity.y < min_jump_velocity:
 			velocity = (velocity - velocity.project(gravity)) + (min_jump_velocity * Vector2.DOWN.rotated(gravity.angle() - PI/2))
 
-func hit(by : Node, damage : int, knockback := Vector2.ZERO, type := Damage.ENVIORMENTAL) :
+func hit(by : Node, damage : int, knockback := Vector2.ZERO, type := Damage.ENVIRONMENTAL) :
 	var x = 40* Globals.CELL_SIZE
 	var y = 500
 	if knockback != Vector2.ZERO :
@@ -143,7 +143,7 @@ func hit(by : Node, damage : int, knockback := Vector2.ZERO, type := Damage.ENVI
 	_set_state(states.hitstun)
 	hurt_cooldown_timer.start()
 
-	if type != Damage.ENVIORMENTAL:
+	if type == Damage.PUNCHES:
 		match Manager.current_minigame.attack_mode:
 			Manager.current_minigame.attack_modes.non_lethal:
 				pass

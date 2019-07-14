@@ -51,7 +51,7 @@ func _on_ImpulseTimer_timeout():
 	if !player_near_ball && can_be_hit:
 		_handle_random_motion()
 
-func hit(by : Node, damage : int, knockback :Vector2, type := Damage.ENVIORMENTAL):
+func hit(by : Node, damage : int, knockback :Vector2, type := Damage.ENVIRONMENTAL):
 	if can_be_hit :
 		var knockback_velocity : Vector2 = Vector2.ZERO
 
@@ -87,7 +87,7 @@ func _on_RunawayArea_body_exited(body):
 func _on_PainfulArea_body_entered(body):
 	var player = body as Player
 	if player && painful:
-		player.hit(self, 50, linear_velocity, Damage.ENVIORMENTAL)
+		player.hit(self, 50, linear_velocity, Damage.ENVIRONMENTAL)
 		pain_area.set_collision_mask_bit(player.parent.single_bit, false)
 		player.modulate.a = .5
 		players_hit.append(player)

@@ -62,7 +62,7 @@ func _integrate_forces(state):
 		linear_velocity = Vector2.ZERO
 
 
-func hit(by : Node, damage : int, knockback : Vector2, type := Damage.ENVIORMENTAL):
+func hit(by : Node, damage : int, knockback : Vector2, type := Damage.ENVIRONMENTAL):
 	if type == Damage.EXPLOSION or type == Damage.FIRE :
 		durability -= damage
 		if durability <= 0 and !exploding:

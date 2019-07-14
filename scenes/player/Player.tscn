@@ -508,7 +508,6 @@ wait_time = 0.2
 one_shot = true
 
 [node name="WallSlideStickyTimer" type="Timer" parent="."]
-wait_time = 0.1
 one_shot = true
 
 [node name="AttackCooldown" type="Timer" parent="."]
