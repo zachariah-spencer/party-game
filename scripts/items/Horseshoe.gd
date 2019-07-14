@@ -42,7 +42,7 @@ func _on_ShotLandedArea_area_entered(area):
 		get_parent().remove_child(self)
 		position = Vector2.ZERO
 		rotation = 0
-		target.add_child(self)
+		target.call_deferred("add_child", self)
 
 		emit_signal('made_shot', _owner)
 

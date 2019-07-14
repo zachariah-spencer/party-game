@@ -52,7 +52,7 @@ func _on_ImpulseTimer_timeout():
 		_handle_random_motion()
 
 func hit(by : Node, damage : int, knockback :Vector2, type := Damage.ENVIORMENTAL):
-	if can_be_hit && by.is_attacking:
+	if can_be_hit :
 		var knockback_velocity : Vector2 = Vector2.ZERO
 
 		knockback_velocity.x = knockback.x * knockback_speed

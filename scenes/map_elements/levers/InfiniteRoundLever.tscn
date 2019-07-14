@@ -91,4 +91,3 @@ anims/off = SubResource( 2 )
 anims/on = SubResource( 3 )
 [connection signal="body_entered" from="." to="." method="_on_NearbyArea_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_NearbyArea_body_exited"]
-[connection signal="timeout" from="Cooldown" to="." method="_on_Cooldown_timeout"]

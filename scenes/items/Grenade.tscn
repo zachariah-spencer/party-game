@@ -99,7 +99,7 @@ period = 180.0
 [sub_resource type="NoiseTexture" id=17]
 noise = SubResource( 16 )
 
-[node name="Grenade" index="0" instance=ExtResource( 1 )]
+[node name="Grenade" instance=ExtResource( 1 )]
 mass = 1.25
 linear_damp = 2.5
 script = ExtResource( 2 )
