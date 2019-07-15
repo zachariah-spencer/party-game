@@ -28,6 +28,5 @@ layer = 10
 [node name="PauseMenu" parent="MenuLayer" instance=ExtResource( 5 )]
 
 [node name="Transition" parent="." instance=ExtResource( 6 )]
-layer = 11
 game_opening_fade = true
 

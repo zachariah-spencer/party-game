@@ -107,3 +107,15 @@ position = Vector2( 0, -41.52 )
 stream = SubResource( 7 )
 bus = "Voices"
 
+[node name="Taunts" type="Node2D" parent="Sounds"]
+
+[node name="1" type="AudioStreamPlayer2D" parent="Sounds/Taunts"]
+
+[node name="2" type="AudioStreamPlayer2D" parent="Sounds/Taunts"]
+
+[node name="3" type="AudioStreamPlayer2D" parent="Sounds/Taunts"]
+
+[node name="4" type="AudioStreamPlayer2D" parent="Sounds/Taunts"]
+
+[node name="5" type="AudioStreamPlayer2D" parent="Sounds/Taunts"]
+

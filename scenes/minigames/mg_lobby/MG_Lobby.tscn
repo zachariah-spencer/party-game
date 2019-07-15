@@ -6,9 +6,9 @@
 
 [node name="MG_Lobby" index="0" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-attack_mode = 1
 allow_respawns = true
 visible_name = "Lobby"
 respawn_time = 1.25
 
 [node name="LobbyMap" parent="." index="2" instance=ExtResource( 3 )]
+
