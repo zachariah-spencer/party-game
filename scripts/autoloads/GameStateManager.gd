@@ -45,7 +45,6 @@ func _ready():
 	world_node = get_parent().get_node('World')
 	randomize()
 	_start_new_minigame(lobby)
-	print(minigame_name)
 
 func set_rotation(exclude := []) :
 	for game in GAMES:

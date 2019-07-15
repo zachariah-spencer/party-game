@@ -23,7 +23,6 @@ func _ready():
 	for flag in flags_array:
 		if flag.owned_by:
 			total_owned_flags += 1
-	print(total_owned_flags)
 
 func _on_begin_game():
 	._on_begin_game()

@@ -9,6 +9,7 @@ extents = Vector2( 64, 64 )
 [node name="Flag" type="Area2D" groups=[
 "interactable",
 ]]
+editor/display_folded = true
 collision_layer = 0
 collision_mask = 17344
 script = ExtResource( 1 )

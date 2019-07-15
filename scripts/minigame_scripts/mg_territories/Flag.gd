@@ -29,16 +29,11 @@ func _ready():
 		emit_signal('flag_captured', owned_by, 1)
 
 func interact(by : Player):
-	if player_on_flag && player_on_flag.parent != owned_by && !Manager.current_minigame.game_over && player_on_flag == by:
-		if owned_by:
-			emit_signal('flag_deowned', owned_by, 1)
-		
-		if !owned_by:
-			Manager.current_minigame.total_owned_flags += 1
-		
-		owned_by = by.parent
-		modulate = owned_by.modulate
-		emit_signal('flag_captured', owned_by, 1)
+	if !Manager.current_minigame.game_over:
+		yield(get_tree(), "idle_frame")
+		for body in get_overlapping_bodies() :
+			if body == by:
+				_flag_flip(by.parent)
 
 func _on_InteractArea_body_entered(body):
 	player_on_flag = body as Player
@@ -46,3 +41,15 @@ func _on_InteractArea_body_entered(body):
 
 func _on_InteractArea_body_exited(body):
 	player_on_flag = null
+
+func _flag_flip(by : PlayersManager):
+	if by != owned_by:
+		if owned_by:
+			emit_signal('flag_deowned', owned_by, 1)
+		
+		if !owned_by:
+			Manager.current_minigame.total_owned_flags += 1
+		
+		owned_by = by
+		modulate = owned_by.modulate
+		emit_signal('flag_captured', owned_by, 1)
