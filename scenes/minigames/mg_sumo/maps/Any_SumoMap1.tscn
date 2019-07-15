@@ -27,8 +27,6 @@ position = Vector2( -96, 256 )
 
 [node name="Terrain2" parent="Terrain" index="1" instance=ExtResource( 2 )]
 position = Vector2( -32, 256 )
-mass = 50.0
-gravity_scale = 80.0
 
 [node name="Terrain3" parent="Terrain" index="2" instance=ExtResource( 2 )]
 position = Vector2( 32, 256 )

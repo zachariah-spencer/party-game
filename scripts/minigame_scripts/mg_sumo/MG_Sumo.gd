@@ -37,7 +37,13 @@ func _drop_timeout():
 
 func _drop(blocks := []):
 	for block in blocks:
+		var anims = block.get_node('AnimationPlayer')
+		anims.play('shake')
+		
+		yield(anims, 'animation_finished')
+		
 		block.mode = block.MODE_RIGID
+		block.set_collision_mask_bit(0,false)
 		block.apply_central_impulse(Vector2(0,-80))
 		blocks_array.remove(blocks_array.find(block))
 
