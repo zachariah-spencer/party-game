@@ -22,7 +22,6 @@
 [node name="PlayerFour" parent="Players" instance=ExtResource( 4 )]
 
 [node name="MenuLayer" type="CanvasLayer" parent="."]
-editor/display_folded = true
 layer = 10
 
 [node name="PauseMenu" parent="MenuLayer" instance=ExtResource( 5 )]
