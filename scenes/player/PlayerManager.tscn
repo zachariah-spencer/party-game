@@ -117,5 +117,3 @@ bus = "Voices"
 
 [node name="4" type="AudioStreamPlayer2D" parent="Sounds/Taunts"]
 
-[node name="5" type="AudioStreamPlayer2D" parent="Sounds/Taunts"]
-

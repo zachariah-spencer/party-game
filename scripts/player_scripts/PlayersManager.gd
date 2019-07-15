@@ -177,3 +177,8 @@ func register_player_inputs():
 	child.rs_right = 'player_' + player_string + '_rs_right'
 	child.rs_up = 'player_' + player_string + '_rs_up'
 	child.rs_down = 'player_' + player_string + '_rs_down'
+	
+	child.taunt_input1 = 'player_' + player_string + '_taunt_1'
+	child.taunt_input2 = 'player_' + player_string + '_taunt_2'
+	child.taunt_input3 = 'player_' + player_string + '_taunt_3'
+	child.taunt_input4 = 'player_' + player_string + '_taunt_4'
