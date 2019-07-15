@@ -71,7 +71,7 @@ func _start_new_minigame(new_minigame : PackedScene):
 
 func _on_game_times_up():
 	rounds_played += 1
-	
+
 	if repeats:
 		var next_minigame
 		next_minigame = _select_random_minigame()

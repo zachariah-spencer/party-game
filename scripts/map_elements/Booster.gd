@@ -11,7 +11,7 @@ func _ready():
 func on_body_entered(body):
 	var player = body as Player
 	var item = body as Item
-	
+
 	if player:
 		player.velocity.y = -launch_speed * Globals.CELL_SIZE
 	if item:

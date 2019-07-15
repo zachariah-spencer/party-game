@@ -63,7 +63,7 @@ func _on_CountdownTimer_timeout():
 			else:
 				damage = 100
 
-			player.child.hit(self, damage, Vector2(0,-50), true)
+			player.child.hit(self, damage, Vector2(0,-50), Damage.ENVIRONMENTAL)
 
 
 		countdown_time = 5

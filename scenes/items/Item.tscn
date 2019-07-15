@@ -32,4 +32,3 @@ collision_mask = 16384
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pickup_area"]
 shape = SubResource( 2 )
-

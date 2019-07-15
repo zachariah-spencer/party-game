@@ -4,7 +4,7 @@ class_name GravityField
 
 var mat : ParticlesMaterial
 export var emitting := true
-var particle_speed := 100
+const particle_speed := 100
 
 func _ready():
 	if emitting :

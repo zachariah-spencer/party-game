@@ -87,7 +87,7 @@ func die(respawn := false):
 	_clear_children()
 	_ragdoll()
 	if respawn :
-		_respawn()
+		_respawn(Manager.current_minigame.respawn_time)
 
 func _activate_player(instant := false ):
 	active = true

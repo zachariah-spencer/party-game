@@ -7,7 +7,8 @@
 extents = Vector2( 32, 64 )
 
 [sub_resource type="Gradient" id=2]
-colors = PoolColorArray( 0, 0.540039, 1, 1, 0.627451, 1, 0.972549, 0.478431 )
+offsets = PoolRealArray( 0, 0.961111, 1 )
+colors = PoolColorArray( 0, 0.541176, 1, 0.133333, 0.0156863, 1, 0.976471, 0.0666667, 0.627451, 1, 0.972549, 0.478431 )
 
 [sub_resource type="GradientTexture" id=3]
 gradient = SubResource( 2 )
@@ -18,8 +19,10 @@ emission_sphere_radius = 1400.0
 flag_disable_z = true
 spread = 180.0
 gravity = Vector3( 0, -180000, 0 )
+angular_velocity = 3.50325e-44
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
+scale = 3.0
 color_ramp = SubResource( 3 )
 
 [node name="Booster" type="Node2D"]
@@ -35,11 +38,11 @@ shape = SubResource( 1 )
 
 [node name="Particles2D" type="Particles2D" parent="."]
 scale = Vector2( 0.02, 0.02 )
-amount = 90
+amount = 290
 lifetime = 0.3
 preprocess = 20.0
-visibility_rect = Rect2( -50000, -50000, 5e+006, 500000 )
+explosiveness = 0.1
+visibility_rect = Rect2( -50000, -50000, 5e+06, 500000 )
 draw_order = 1
 process_material = SubResource( 4 )
 texture = ExtResource( 2 )
-

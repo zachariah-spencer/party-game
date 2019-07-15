@@ -24,3 +24,4 @@
 layer = 10
 
 [node name="PauseMenu" parent="MenuLayer" instance=ExtResource( 5 )]
+

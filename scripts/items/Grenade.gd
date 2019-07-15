@@ -27,9 +27,13 @@ func _on_throw():
 		fuse_timer.start(fuse_time)
 
 func _fuse_timeout() :
+	angular_velocity = 0
+	linear_velocity = Vector2.ZERO
+	rotation = 0
+	mode = RigidBody2D.MODE_STATIC
 	exploding = true
 	fuse_timer.stop()
-	if _owner  && _owner.held_item == self:
+	if is_instance_valid(_owner) and _owner is Player and _owner.held_item == self:
 		_owner.drop()
 	$Obj/Sprite.visible = false
 	yield(get_tree(), "idle_frame")
@@ -39,22 +43,30 @@ func _fuse_timeout() :
 		#hits players and bodies
 		if body.is_in_group("player") :
 			if body is Player :
-				body.hit(self, damage, distance.normalized())
+				body.hit(self, damage, distance.normalized(), Damage.EXPLOSION)
 			#add code to interact with ragdolls
 		if body  is Item and body != self :
-			body.hit(self, damage, distance.normalized())
+			body.hit(self, damage, distance.normalized(), Damage.EXPLOSION)
 	$Explosion.emitting = true
-	yield(get_tree().create_timer(.8), "timeout")
+	$Smoke.emitting	= true
+	$Core.emitting = true
+	$ExplosionSFX.play()
+	yield(get_tree().create_timer($Explosion.lifetime), "timeout")
+	$ExplosionArea.collision_mask = 0
+	yield(get_tree().create_timer($Smoke.lifetime - $Explosion.lifetime), "timeout")
 	queue_free()
 
-
 func _integrate_forces(state):
-	if exploding : state.linear_velocity = Vector2.ZERO
+	if exploding :
+		angular_velocity = 0
+		linear_velocity = Vector2.ZERO
 
-func hit(by : Node, damage : int, knockback : Vector2):
-	durability -= damage
-	if durability <= 0 and !exploding:
-		fuse_timer.start(.1)
-	elif !exploding :
-		fuse_timer.start(.5)
-	apply_central_impulse(knockback * 400)
+
+func hit(by : Node, damage : int, knockback : Vector2, type := Damage.ENVIRONMENTAL):
+	if type == Damage.EXPLOSION or type == Damage.FIRE :
+		durability -= damage
+		if durability <= 0 and !exploding:
+			fuse_timer.start(.1)
+		elif !exploding :
+			fuse_timer.start(.5)
+		apply_central_impulse(knockback * 400)
