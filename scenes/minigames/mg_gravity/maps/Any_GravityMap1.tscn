@@ -1,0 +1,112 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/minigames/MapTemplate.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/map_elements/GravityField.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/map_elements/levers/DirectedGravityLever.tscn" type="PackedScene" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 1173.49, 1157.61 )
+
+[node name="Map" index="0" instance=ExtResource( 1 )]
+
+[node name="TerrainTilemap" parent="." index="0"]
+tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 10, 0, 0, 11, 0, 0, 12, 0, 0, 13, 0, 0, 14, 0, 0, 15, 0, 0, 16, 0, 0, 17, 0, 0, 18, 0, 0, 19, 0, 0, 20, 0, 0, 21, 0, 0, 22, 0, 0, 23, 0, 0, 24, 0, 0, 25, 0, 0, 26, 0, 0, 27, 0, 0, 28, 0, 0, 29, 0, 0, 30, 0, 0, 31, 0, 0, 32, 0, 0, 33, 0, 0, 34, 0, 0, 35, 0, 0, 36, 0, 0, 65536, 0, 0, 65572, 0, 0, 131072, 0, 0, 131108, 0, 0, 196608, 0, 0, 196644, 0, 0, 262144, 0, 0, 262180, 0, 0, 327680, 0, 0, 327716, 0, 0, 393216, 0, 0, 393252, 0, 0, 458752, 0, 0, 458788, 0, 0, 524288, 0, 0, 524324, 0, 0, 589824, 0, 0, 589860, 0, 0, 655360, 0, 0, 655396, 0, 0, 720896, 0, 0, 720932, 0, 0, 786432, 0, 0, 786468, 0, 0, 851968, 0, 0, 852004, 0, 0, 917504, 0, 0, 917540, 0, 0, 983040, 0, 0, 983076, 0, 0, 1048576, 0, 0, 1048612, 0, 0, 1114112, 0, 0, 1114148, 0, 0, 1179648, 0, 0, 1179684, 0, 0, 1245184, 0, 0, 1245220, 0, 0, 1310720, 0, 0, 1310756, 0, 0, 1376256, 0, 0, 1376292, 0, 0, 1441792, 0, 0, 1441828, 0, 0, 1507328, 0, 0, 1507364, 0, 0, 1572864, 0, 0, 1572900, 0, 0, 1638400, 0, 0, 1638436, 0, 0, 1703936, 0, 0, 1703972, 0, 0, 1769472, 0, 0, 1769508, 0, 0, 1835008, 0, 0, 1835044, 0, 0, 1900544, 0, 0, 1900580, 0, 0, 1966080, 0, 0, 1966116, 0, 0, 2031616, 0, 0, 2031652, 0, 0, 2097152, 0, 0, 2097188, 0, 0, 2162688, 0, 0, 2162724, 0, 0, 2228224, 0, 0, 2228260, 0, 0, 2293760, 0, 0, 2293796, 0, 0, 2359296, 0, 0, 2359297, 0, 0, 2359298, 0, 0, 2359299, 0, 0, 2359300, 0, 0, 2359301, 0, 0, 2359302, 0, 0, 2359303, 0, 0, 2359304, 0, 0, 2359305, 0, 0, 2359306, 0, 0, 2359307, 0, 0, 2359308, 0, 0, 2359309, 0, 0, 2359310, 0, 0, 2359311, 0, 0, 2359312, 0, 0, 2359313, 0, 0, 2359314, 0, 0, 2359315, 0, 0, 2359316, 0, 0, 2359317, 0, 0, 2359318, 0, 0, 2359319, 0, 0, 2359320, 0, 0, 2359321, 0, 0, 2359322, 0, 0, 2359323, 0, 0, 2359324, 0, 0, 2359325, 0, 0, 2359326, 0, 0, 2359327, 0, 0, 2359328, 0, 0, 2359329, 0, 0, 2359330, 0, 0, 2359331, 0, 0, 2359332, 0, 0 )
+
+[node name="PlayerOneSpawn" parent="SpawnPoints" index="0"]
+position = Vector2( 407.539, 2201.44 )
+
+[node name="PlayerTwoSpawn" parent="SpawnPoints" index="1"]
+position = Vector2( 618.175, 2182.81 )
+
+[node name="PlayerThreeSpawn" parent="SpawnPoints" index="2"]
+position = Vector2( 1301.09, 2178.15 )
+
+[node name="PlayerFourSpawn" parent="SpawnPoints" index="3"]
+position = Vector2( 1749.33, 2234.06 )
+
+[node name="GravityField" parent="." index="6" instance=ExtResource( 2 )]
+position = Vector2( 1181.31, 1185.89 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GravityField" index="1"]
+visible = false
+shape = SubResource( 1 )
+
+[node name="Top" type="Node2D" parent="GravityField" index="2"]
+
+[node name="mid" parent="GravityField/Top" index="0" instance=ExtResource( 3 )]
+position = Vector2( 130.227, -1090 )
+rotation = -3.14159
+path = NodePath("../..")
+
+[node name="left" parent="GravityField/Top" index="1" instance=ExtResource( 3 )]
+position = Vector2( -658.605, -1090 )
+rotation = -3.14159
+new_gravity = Vector2( -1, 0 )
+path = NodePath("../..")
+
+[node name="right" parent="GravityField/Top" index="2" instance=ExtResource( 3 )]
+position = Vector2( 898.686, -1090 )
+rotation = -3.14159
+new_gravity = Vector2( 1, 0 )
+path = NodePath("../..")
+
+[node name="bot" type="Node2D" parent="GravityField" index="3"]
+rotation = -3.14159
+
+[node name="mid" parent="GravityField/bot" index="0" instance=ExtResource( 3 )]
+position = Vector2( 130.227, -1090 )
+rotation = -3.14159
+new_gravity = Vector2( 0, -1 )
+path = NodePath("../..")
+
+[node name="right" parent="GravityField/bot" index="1" instance=ExtResource( 3 )]
+position = Vector2( -658.605, -1090 )
+rotation = -3.14159
+new_gravity = Vector2( 1, 0 )
+path = NodePath("../..")
+
+[node name="left" parent="GravityField/bot" index="2" instance=ExtResource( 3 )]
+position = Vector2( 898.686, -1090 )
+rotation = -3.14159
+new_gravity = Vector2( -1, 0 )
+path = NodePath("../..")
+
+[node name="Right" type="Node2D" parent="GravityField" index="4"]
+rotation = 1.5708
+
+[node name="mid" parent="GravityField/Right" index="0" instance=ExtResource( 3 )]
+position = Vector2( 130.227, -1090 )
+rotation = -3.14159
+new_gravity = Vector2( -1, 0 )
+path = NodePath("../..")
+
+[node name="top" parent="GravityField/Right" index="1" instance=ExtResource( 3 )]
+position = Vector2( -658.605, -1090 )
+rotation = -3.14159
+new_gravity = Vector2( 0, -1 )
+path = NodePath("../..")
+
+[node name="bot" parent="GravityField/Right" index="2" instance=ExtResource( 3 )]
+position = Vector2( 898.686, -1090 )
+rotation = -3.14159
+path = NodePath("../..")
+
+[node name="Left" type="Node2D" parent="GravityField" index="5"]
+rotation = -1.5708
+
+[node name="mid" parent="GravityField/Left" index="0" instance=ExtResource( 3 )]
+position = Vector2( 130.227, -1090 )
+rotation = -3.14159
+new_gravity = Vector2( 1, 0 )
+path = NodePath("../..")
+
+[node name="top" parent="GravityField/Left" index="1" instance=ExtResource( 3 )]
+position = Vector2( 898.686, -1090 )
+rotation = -3.14159
+new_gravity = Vector2( 0, -1 )
+path = NodePath("../..")
+
+[node name="bot" parent="GravityField/Left" index="2" instance=ExtResource( 3 )]
+position = Vector2( -658.605, -1090 )
+rotation = -3.14159
+path = NodePath("../..")
