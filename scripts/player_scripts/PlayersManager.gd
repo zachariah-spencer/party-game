@@ -30,9 +30,6 @@ func _ready():
 	add_child(respawn_timer)
 	respawn_timer.connect('timeout', self, '_on_respawn_timeout')
 
-#	register_player_inputs()
-	for action in InputMap.get_actions() :
-		print(action)
 
 func _process(delta):
 	if !dead :
@@ -165,8 +162,6 @@ func register_player_inputs():
 			bit = Globals.P4_BIT
 			single_bit = 9
 
-	_setup_controller_config(player_string)
-
 	start_button = 'player_' + player_string + '_start'
 	select_button = 'player_' + player_string + '_select'
 
@@ -193,6 +188,8 @@ func register_player_inputs():
 		child.taunt_input2 = 'player_' + player_string + '_taunt_2'
 		child.taunt_input3 = 'player_' + player_string + '_taunt_3'
 		child.taunt_input4 = 'player_' + player_string + '_taunt_4'
+	else :
+		_setup_controller_config(player_string)
 
 func _setup_controller_config(player_string : String):
 	var current_action := ''
