@@ -60,5 +60,4 @@ texture = ExtResource( 3 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/flip_lever = SubResource( 2 )
-[connection signal="body_entered" from="." to="." method="_on_NearbyArea_body_entered"]
-[connection signal="body_exited" from="." to="." method="_on_NearbyArea_body_exited"]
+
