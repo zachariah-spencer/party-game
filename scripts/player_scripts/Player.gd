@@ -324,7 +324,12 @@ func _handle_move_input(h_weight := .2):
 
 
 func _handle_wall_slide_sticking():
-	if sign(move_direction_adjusted.x) == sign(wall_direction) :
+	var rel_move_dir = move_direction_adjusted.x
+	
+	if gravity.project(Vector2.LEFT).length() > 0.1 :
+		rel_move_dir *= -1
+	
+	if sign(rel_move_dir) == sign(wall_direction) :
 		wall_slide_sticky_timer.start()
 
 #statemachine code begins here
