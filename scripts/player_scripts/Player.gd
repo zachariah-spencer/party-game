@@ -624,6 +624,7 @@ func _on_HurtCooldownTimer_timeout():
 func _taunt1():
 	print('taunt1')
 	parent.play_sound('Taunts/1')
+	_manual_move_hand(Vector2(1,-1), 100, 'right')
 
 func _taunt2():
 	print('taunt2')
@@ -636,3 +637,18 @@ func _taunt3():
 func _taunt4():
 	print('taunt4')
 	parent.play_sound('Taunts/4')
+
+func _manual_move_hand(dir := Vector2.ZERO, force := 1, hand := 'right'):
+	var body_part = $Rig/Body
+	var head = $Rig/Head
+	var vel = Vector2.ZERO
+	var hand_ref
+	
+	# change hands for each punch
+	if hand == 'right':
+		hand_ref = right_hand
+	else:
+		hand_ref = left_hand
+	
+	vel = hand_ref.get_gravity_scale() * force * dir.normalized()
+	hand_ref.apply_central_impulse(vel)
