@@ -6,4 +6,5 @@ func _ready():
 	Players._players.append(self)
 	display_name = 'Player Two'
 	player_number = '2'
-
+	controller_index = 1
+	register_player_inputs()

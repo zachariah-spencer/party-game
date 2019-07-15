@@ -8,3 +8,5 @@ func _ready():
 	Players._players.append(self)
 	display_name = 'Player One'
 	player_number = '1'
+	controller_index = 0
+	register_player_inputs()
