@@ -2,6 +2,8 @@ extends Minigame
 
 onready var drop_timer := $DropTimer
 onready var blocks_array := map.get_node('Terrain').get_children()
+onready var terrain_group := map.get_node('Terrain')
+onready var falling_group := map.get_node('FallingTerrain')
 
 func _ready():
 	add_to_group('minigames')
@@ -23,25 +25,36 @@ func _run_minigame_loop():
 
 func _drop_timeout():
 	if !game_over:
-		var rand := randi() % 2
+		var side_to_drop := 1#randi() % 2
+		var num_to_drop := int(rand_range(2,4))
 		var passed_array := []
 		
 		# 0 = left
 		# 1 = right
-		if rand == 0:
-			passed_array.append(blocks_array[0])
+		if side_to_drop == 0:
+			for i in range(0,num_to_drop):
+				passed_array.append(blocks_array[i])
 		else:
-			passed_array.append(blocks_array[blocks_array.size() - 1])
+			for i in range(blocks_array.size() - num_to_drop, blocks_array.size()):
+				passed_array.append(blocks_array[i])
 		
-		_drop(passed_array)
+		if blocks_array.size() - passed_array.size() >= 2:
+			_drop(passed_array)
 
 func _drop(blocks := []):
+	var anims = map.get_node('AnimationPlayer')
+	
 	for block in blocks:
-		var anims = block.get_node('AnimationPlayer')
-		anims.play('shake')
+		terrain_group.remove_child(block)
+		falling_group.add_child(block)
+		block.set_owner(falling_group)
 		
-		yield(anims, 'animation_finished')
-		
+	
+	anims.play('shake')
+	
+	yield(anims, 'animation_finished')
+	
+	for block in blocks:
 		block.mode = block.MODE_RIGID
 		block.set_collision_mask_bit(0,false)
 		block.apply_central_impulse(Vector2(0,-80))
