@@ -157,30 +157,30 @@ func _game_won(no_winner = false, multi_winner = false):
 			if Players._get_alive_players() == Players._update_active_players():
 				for player in Players._get_alive_players():
 					player.score += 1
-				$CanvasLayer/HUD._update_scores()
-				$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Everybody won!'
+				hud._update_scores()
+				hud.instructions.text = 'Everybody won!'
 			elif !no_winner && multi_winner:
 				for player in Players._get_alive_players():
 					player.score += 1
-				$CanvasLayer/HUD._update_scores()
-				$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Winners:\n'
+				hud._update_scores()
+				hud.instructions.text = 'Winners:\n'
 				for player in Players._get_alive_players():
-					$CanvasLayer/HUD/TimeLeft/Instructions.text = $CanvasLayer/HUD/TimeLeft/Instructions.text +  player.display_name + '\n'
+					hud.instructions.text = hud.instructions.text + player.display_name + '\n'
 			elif !no_winner && !multi_winner:
 				Players._get_alive_players()[0].score += 1
-				$CanvasLayer/HUD._update_scores()
-				$CanvasLayer/HUD/TimeLeft/Instructions.text = Players._get_alive_players()[0].display_name + ' Won!'
+				hud._update_scores()
+				hud.instructions.text = Players._get_alive_players()[0].display_name + ' Won!'
 			else:
-				$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Nobody won!'
+				hud.instructions.text = 'Nobody won!'
 		win_conditions.last_alive_allow_no_winners:
 			game_over = true
 			game_active = false
 			if !no_winner:
 				Players._get_alive_players()[0].score += 1
-				$CanvasLayer/HUD._update_scores()
-				$CanvasLayer/HUD/TimeLeft/Instructions.text = Players._get_alive_players()[0].display_name + ' Won!'
+				hud._update_scores()
+				hud.instructions.text = Players._get_alive_players()[0].display_name + ' Won!'
 			else:
-				$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Nobody Won!'
+				hud.instructions.text = 'Nobody Won!'
 		win_conditions.lobby_readied:
 			game_over = true
 			Globals.HUD._update_hud()
@@ -190,12 +190,12 @@ func _game_won(no_winner = false, multi_winner = false):
 			game_active = false
 
 			if no_winner:
-				$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Nobody Won!'
+				hud.instructions.text = 'Nobody Won!'
 				return
 			elif Players._get_alive_players().size() == 1:
 				Players._get_alive_players()[0].score += 1
-				$CanvasLayer/HUD._update_scores()
-				$CanvasLayer/HUD/TimeLeft/Instructions.text = Players._get_alive_players()[0].display_name + ' Won!'
+				hud._update_scores()
+				hud.instructions.text = Players._get_alive_players()[0].display_name + ' Won!'
 			else:
 				var winning_player : PlayersManager = null
 				var winning_players : Array = []
@@ -211,18 +211,18 @@ func _game_won(no_winner = false, multi_winner = false):
 							winning_players.append(player)
 				if highest_score != 0:
 					if winning_players.size() > 1:
-						$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Its a tie!\nWinners:\n'
+						hud.instructions.text = 'Its a tie!\nWinners:\n'
 						for player in winning_players:
 							player.score += 1
-							$CanvasLayer/HUD/TimeLeft/Instructions.text = $CanvasLayer/HUD/TimeLeft/Instructions.text +  player.display_name + '\n'
-							$CanvasLayer/HUD._update_scores()
+							hud.instructions.text = hud.instructions.text +  player.display_name + '\n'
+							hud._update_scores()
 
 					else:
 						winning_player.score += 1
-						$CanvasLayer/HUD._update_scores()
-						$CanvasLayer/HUD/TimeLeft/Instructions.text = winning_player.display_name + ' Won!'
+						hud._update_scores()
+						hud.instructions.text = winning_player.display_name + ' Won!'
 				else:
-					$CanvasLayer/HUD/TimeLeft/Instructions.text = 'Nobody Won!'
+					hud.instructions.text = 'Nobody Won!'
 
 func _end_game():
 	#stop the minigame timer
