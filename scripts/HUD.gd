@@ -4,8 +4,8 @@ extends Control
 #DELETE: signal game_times_up
 
 #reference to time counter display
-onready var time_display : Label = $TimeLeft
-onready var instructions := $TimeLeft/Instructions
+onready var time_display := $TimeLeft
+onready var instructions := $Instructions
 onready var minigame : Minigame = Manager.current_minigame
 signal begin_game
 
@@ -45,21 +45,21 @@ func _update_scores():
 
 
 func _update_game_timer():
+	instructions.text = minigame.game_instructions
+	
 	if minigame.has_timer:
 		if !minigame.game_over:
-			#do this stuff if the current games win conditions HAVE NOT been reached
-			$TimeLeft.text = String(minigame.game_time)
-			$TimeLeft/Instructions.text = minigame.game_instructions
+			time_display.text = String(minigame.game_time)
 		else:
-			$TimeLeft.text = String(minigame.game_time)
+			time_display.text = String(minigame.game_time)
 	else:
-		$TimeLeft.text = ''
-
+		time_display.text = ''
+	
 	if Manager.minigame_name == 'lobby':
 		if !minigame.game_over:
-			$TimeLeft/Instructions.text = minigame.game_instructions
+			instructions.text = minigame.game_instructions
 		else:
-			$TimeLeft/Instructions.text = 'Starting...'
+			instructions.text = 'Starting...'
 
 func _update_hud():
 	#DEV NOTE: still needs work so that when players return to the lobby their statuses re-appear
