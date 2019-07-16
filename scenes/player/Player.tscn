@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=2]
+[gd_scene load_steps=65 format=2]
 
 [ext_resource path="res://scripts/player_scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/player/foot_placeholder.png" type="Texture" id=2]
@@ -17,6 +17,10 @@
 [ext_resource path="res://shaders/magnify.tres" type="Shader" id=15]
 [ext_resource path="res://assets/sphere_soft.png" type="Texture" id=16]
 [ext_resource path="res://monogram.ttf" type="DynamicFontData" id=17]
+[ext_resource path="res://assets/audio/player_voices/taunts/taunt1-1a.wav" type="AudioStream" id=18]
+[ext_resource path="res://assets/audio/player_voices/taunts/taunt1-1b.wav" type="AudioStream" id=19]
+[ext_resource path="res://assets/audio/player_voices/taunts/taunt1-2a.wav" type="AudioStream" id=20]
+[ext_resource path="res://assets/audio/player_voices/taunts/taunt1-2b.wav" type="AudioStream" id=21]
 
 [sub_resource type="Curve" id=1]
 max_value = 0.4
@@ -83,6 +87,9 @@ transitions = [ "Idle", "Run", SubResource( 14 ), "Run", "Idle", SubResource( 15
 start_node = "Idle"
 graph_offset = Vector2( -26, 57 )
 
+[sub_resource type="AnimationNodeAnimation" id=41]
+animation = "taunt1"
+
 [sub_resource type="AnimationNodeAnimation" id=17]
 animation = "wall_slide"
 
@@ -104,20 +111,71 @@ xfade_time = 0.2
 [sub_resource type="AnimationNodeStateMachineTransition" id=23]
 xfade_time = 0.1
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=42]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=43]
+switch_mode = 2
+auto_advance = true
+xfade_time = 0.1
+
 [sub_resource type="AnimationNodeStateMachine" id=24]
 states/Airborne/node = SubResource( 9 )
-states/Airborne/position = Vector2( 723, 137 )
+states/Airborne/position = Vector2( 725, 137 )
 states/Grounded/node = SubResource( 16 )
-states/Grounded/position = Vector2( 533, 137 )
+states/Grounded/position = Vector2( 534, 137 )
+"states/Taunt 1/node" = SubResource( 41 )
+"states/Taunt 1/position" = Vector2( 600.555, 66 )
 "states/Wall Slide/node" = SubResource( 17 )
 "states/Wall Slide/position" = Vector2( 613.555, 211 )
-transitions = [ "Grounded", "Airborne", SubResource( 18 ), "Airborne", "Grounded", SubResource( 19 ), "Airborne", "Wall Slide", SubResource( 20 ), "Wall Slide", "Airborne", SubResource( 21 ), "Wall Slide", "Grounded", SubResource( 22 ), "Grounded", "Wall Slide", SubResource( 23 ) ]
+transitions = [ "Grounded", "Airborne", SubResource( 18 ), "Airborne", "Grounded", SubResource( 19 ), "Airborne", "Wall Slide", SubResource( 20 ), "Wall Slide", "Airborne", SubResource( 21 ), "Wall Slide", "Grounded", SubResource( 22 ), "Grounded", "Wall Slide", SubResource( 23 ), "Grounded", "Taunt 1", SubResource( 42 ), "Taunt 1", "Grounded", SubResource( 43 ) ]
 start_node = "Grounded"
-graph_offset = Vector2( 210.555, 80 )
+graph_offset = Vector2( 114.555, -5 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=25]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=26]
+
+[sub_resource type="Animation" id=37]
+resource_name = "taunt1"
+length = 2.0
+tracks/0/type = "method"
+tracks/0/path = NodePath("..")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ "taunt1-1" ],
+"method": "_voice"
+}, {
+"args": [ "taunt1-2" ],
+"method": "_voice"
+} ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.2, 1.2, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"values": [ {
+"args": [ "taunt1-1" ],
+"method": "_set_face"
+}, {
+"args": [ "taunt1-2" ],
+"method": "_set_face"
+}, {
+"args": [  ],
+"method": "_set_face"
+} ]
+}
 
 [sub_resource type="CapsuleShape2D" id=27]
 radius = 12.0
@@ -149,6 +207,18 @@ font_path = "res://monogram.ttf"
 size = 40
 font_data = SubResource( 34 )
 
+[sub_resource type="AudioStreamRandomPitch" id=36]
+audio_stream = ExtResource( 18 )
+
+[sub_resource type="AudioStreamRandomPitch" id=38]
+audio_stream = ExtResource( 19 )
+
+[sub_resource type="AudioStreamRandomPitch" id=39]
+audio_stream = ExtResource( 20 )
+
+[sub_resource type="AudioStreamRandomPitch" id=40]
+audio_stream = ExtResource( 21 )
+
 [node name="Player" type="KinematicBody2D" groups=[
 "focus",
 "player",
@@ -166,7 +236,8 @@ position = Vector2( 0, 1 )
 rotation = -0.0311069
 
 [node name="Right Foot Sprite" type="Sprite" parent="Rig/Right Foot"]
-position = Vector2( 6, 0 )
+position = Vector2( 6.10899, 0.141566 )
+rotation = -0.0511334
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 2 )
 offset = Vector2( 0, -95 )
@@ -235,7 +306,6 @@ position = Vector2( -0.0100002, 0 )
 shape = SubResource( 2 )
 
 [node name="Body" type="RigidBody2D" parent="Rig"]
-editor/display_folded = true
 modulate = Color( 1, 1, 1, 0.893617 )
 position = Vector2( 0, -16.06 )
 rotation = 0.00837352
@@ -257,7 +327,8 @@ position = Vector2( 0, -6.23 )
 shape = SubResource( 3 )
 
 [node name="Body" type="Sprite" parent="Rig/Body"]
-rotation = 0.00317418
+position = Vector2( -0.106506, 0.109506 )
+rotation = 0.021025
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 5 )
 
@@ -271,7 +342,8 @@ position = Vector2( 0, 1 )
 rotation = -0.0406802
 
 [node name="Left Foot Sprite" type="Sprite" parent="Rig/Left Foot"]
-position = Vector2( -6, 0 )
+position = Vector2( -6.08297, 0.174613 )
+rotation = -0.0634054
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 2 )
 offset = Vector2( 0, -95 )
@@ -376,7 +448,7 @@ tree_root = SubResource( 24 )
 anim_player = NodePath("../AnimationPlayer")
 process_mode = 0
 parameters/playback = SubResource( 25 )
-parameters/Airborne/blend_position = 1.072
+parameters/Airborne/blend_position = -1.20246
 parameters/Grounded/playback = SubResource( 26 )
 parameters/Grounded/Run/speed/scale = 1.5
 
@@ -387,6 +459,7 @@ anims/fall = ExtResource( 10 )
 anims/idle = ExtResource( 11 )
 anims/jump = ExtResource( 12 )
 anims/run = ExtResource( 13 )
+anims/taunt1 = SubResource( 37 )
 anims/wall_slide = ExtResource( 14 )
 
 [node name="PlayerShape" type="CollisionShape2D" parent="."]
@@ -559,6 +632,31 @@ one_shot = true
 [node name="WalkingFeetTimer" type="Timer" parent="."]
 process_mode = 0
 wait_time = 0.21
+
+[node name="Taunts" type="Node2D" parent="."]
+
+[node name="1" type="Node2D" parent="Taunts"]
+
+[node name="A1" type="AudioStreamPlayer2D" parent="Taunts/1"]
+position = Vector2( 0, -39.01 )
+stream = SubResource( 36 )
+bus = "Voices"
+
+[node name="A2" type="AudioStreamPlayer2D" parent="Taunts/1"]
+position = Vector2( 0, -39.01 )
+stream = SubResource( 38 )
+bus = "Voices"
+
+[node name="B1" type="AudioStreamPlayer2D" parent="Taunts/1"]
+position = Vector2( 0, -39.01 )
+stream = SubResource( 39 )
+bus = "Voices"
+
+[node name="B2" type="AudioStreamPlayer2D" parent="Taunts/1"]
+position = Vector2( 0, -39.01 )
+stream = SubResource( 40 )
+pitch_scale = 1.1
+bus = "Voices"
 
 [connection signal="body_entered" from="Rig/Left Hand/Hitbox" to="." method="_on_AttackArea_body_entered"]
 [connection signal="body_entered" from="Rig/Right Hand/Hitbox" to="." method="_on_AttackArea_body_entered"]

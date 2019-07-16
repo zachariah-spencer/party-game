@@ -7,4 +7,3 @@
 editor/display_folded = true
 modulate = Color( 0.796078, 0, 0, 1 )
 script = ExtResource( 2 )
-
