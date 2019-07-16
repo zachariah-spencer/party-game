@@ -24,9 +24,11 @@ func _ready():
 	win_condition = win_conditions.lobby_readied
 	instant_player_insertion = true
 	
-	ambience_sfx.play()
 	fade_tween.interpolate_property(ambience_sfx, 'volume_db', -100, -12, 3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	fade_tween.start()
+	
+	ambience_sfx.play()
+	
 
 	Globals.HUD.get_node('Scorecards/Statuses/P1Ready').text = 'Not Ready'
 	Globals.HUD.get_node('Scorecards/Statuses/P2Ready').text = 'Not Ready'
