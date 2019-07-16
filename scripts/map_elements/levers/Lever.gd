@@ -5,6 +5,7 @@ class_name Lever
 var can_flip := true
 export var switch_cooldown := .25
 
+onready var flip_sound := $Flip
 onready var switch := $Switch
 onready var animation_player := $AnimationPlayer
 onready var cooldown_timer := $Cooldown
@@ -21,6 +22,7 @@ func interact(by : Player):
 				flip()
 
 func  flip():
+	flip_sound.play()
 	animation_player.play('flip_lever')
 	can_flip = false
 	cooldown_timer.start(switch_cooldown)
