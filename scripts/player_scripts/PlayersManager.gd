@@ -8,12 +8,14 @@ var score : int = 0
 var local_score := 0
 var dead := true
 var active := false
-var b_button : String
+var select_button : String
 var start_button : String
 var player_number : String
 var ready = false
 var bit := 0
 var single_bit := 0
+var player_string : String
+var controller_index := 0
 
 onready var RAGDOLL = preload("res://scenes/player/PlayerDead.tscn")
 onready var player_scene : PackedScene = preload('res://scenes/player/Player.tscn')
@@ -27,6 +29,7 @@ func _ready():
 	respawn_timer.one_shot = true
 	add_child(respawn_timer)
 	respawn_timer.connect('timeout', self, '_on_respawn_timeout')
+
 
 func _process(delta):
 	if !dead :
@@ -111,9 +114,10 @@ func _input(event):
 	if event.is_action_pressed(start_button):
 		if !active :
 			_activate_player(Manager.current_minigame.instant_player_insertion)
+
 		elif !ready :
 			ready = true
-	if event.is_action_pressed(b_button):
+	if event.is_action_pressed(select_button):
 		if ready && Manager.current_minigame.readyable :
 			ready = false
 		elif active :
@@ -140,8 +144,6 @@ func spawn(spawn_position : Vector2 = Players.select_spawn_point()):
 
 func register_player_inputs():
 
-	var player_string : String
-
 	match player_number:
 		'1':
 			player_string = 'one'
@@ -160,20 +162,104 @@ func register_player_inputs():
 			bit = Globals.P4_BIT
 			single_bit = 9
 
-	child.collision_layer += bit
-	child.collision_mask += Globals.PLAYER_BITS - bit
-	child.left_hand.get_node("Hitbox").collision_mask += -bit + Globals.ITEM_BIT
-	child.right_hand.get_node("Hitbox").collision_mask += -bit + Globals.ITEM_BIT
-	child.get_node('TopOfHeadArea').collision_mask -= bit
+	start_button = 'player_' + player_string + '_start'
+	select_button = 'player_' + player_string + '_select'
 
-	child.move_left = 'player_' + player_string + '_move_left'
-	child.move_right = 'player_' + player_string + '_move_right'
-	child.move_jump = 'player_' + player_string + '_move_jump'
-	child.move_up = 'player_' + player_string + '_move_up'
-	child.move_down = 'player_' + player_string + '_move_down'
-	child.attack_input = 'player_' + player_string + '_attack'
+	if child:
+		child.collision_layer += bit
+		child.collision_mask += Globals.PLAYER_BITS - bit
+		child.left_hand.get_node("Hitbox").collision_mask += -bit + Globals.ITEM_BIT
+		child.right_hand.get_node("Hitbox").collision_mask += -bit + Globals.ITEM_BIT
+		child.get_node('TopOfHeadArea').collision_mask -= bit
 
-	child.rs_left = 'player_' + player_string + '_rs_left'
-	child.rs_right = 'player_' + player_string + '_rs_right'
-	child.rs_up = 'player_' + player_string + '_rs_up'
-	child.rs_down = 'player_' + player_string + '_rs_down'
+		child.move_left = 'player_' + player_string + '_move_left'
+		child.move_right = 'player_' + player_string + '_move_right'
+		child.move_jump = 'player_' + player_string + '_move_jump'
+		child.move_up = 'player_' + player_string + '_move_up'
+		child.move_down = 'player_' + player_string + '_move_down'
+		child.attack_input = 'player_' + player_string + '_attack'
+
+		child.rs_left = 'player_' + player_string + '_rs_left'
+		child.rs_right = 'player_' + player_string + '_rs_right'
+		child.rs_up = 'player_' + player_string + '_rs_up'
+		child.rs_down = 'player_' + player_string + '_rs_down'
+
+		child.taunt_input1 = 'player_' + player_string + '_taunt_1'
+		child.taunt_input2 = 'player_' + player_string + '_taunt_2'
+		child.taunt_input3 = 'player_' + player_string + '_taunt_3'
+		child.taunt_input4 = 'player_' + player_string + '_taunt_4'
+	else :
+		_setup_controller_config(player_string)
+
+func _setup_controller_config(player_string : String):
+	var current_action := ''
+
+	current_action = _map_controller_action('_move_left', 0.0)
+	_map_controller_event_to_action(current_action, true, JOY_AXIS_0, -1.0)
+
+	current_action = _map_controller_action('_move_right', 0.0)
+	_map_controller_event_to_action(current_action, true, JOY_AXIS_0, 1.0)
+
+	current_action = _map_controller_action('_move_up', 0.0)
+	_map_controller_event_to_action(current_action, true, JOY_AXIS_1, -1.0)
+
+	current_action = _map_controller_action('_move_down', 0.0)
+	_map_controller_event_to_action(current_action, true, JOY_AXIS_1, 1.0)
+
+	current_action = _map_controller_action('_rs_left', 0.0)
+	_map_controller_event_to_action(current_action, true, JOY_AXIS_2, -1.0)
+
+	current_action = _map_controller_action('_rs_right', 0.0)
+	_map_controller_event_to_action(current_action, true, JOY_AXIS_2, 1.0)
+
+	current_action = _map_controller_action('_rs_up', 0.0)
+	_map_controller_event_to_action(current_action, true, JOY_AXIS_3, -1.0)
+
+	current_action = _map_controller_action('_rs_down', 0.0)
+	_map_controller_event_to_action(current_action, true, JOY_AXIS_3, 1.0)
+
+	current_action = _map_controller_action('_move_jump')
+	_map_controller_event_to_action(current_action, false, JOY_BUTTON_0)
+	_map_controller_event_to_action(current_action, false, JOY_BUTTON_6)
+
+	current_action = _map_controller_action('_attack')
+	_map_controller_event_to_action(current_action, false, JOY_BUTTON_2)
+	_map_controller_event_to_action(current_action, false, JOY_BUTTON_7)
+
+	current_action = _map_controller_action('_taunt_1')
+	_map_controller_event_to_action(current_action, false, JOY_DPAD_LEFT)
+
+	current_action = _map_controller_action('_taunt_2')
+	_map_controller_event_to_action(current_action, false, JOY_DPAD_UP)
+
+	current_action = _map_controller_action('_taunt_3')
+	_map_controller_event_to_action(current_action, false, JOY_DPAD_RIGHT)
+
+	current_action = _map_controller_action('_taunt_4')
+	_map_controller_event_to_action(current_action, false, JOY_DPAD_DOWN)
+
+	current_action = _map_controller_action('_start')
+	_map_controller_event_to_action(current_action, false, JOY_START)
+
+	current_action = _map_controller_action('_select')
+	_map_controller_event_to_action(current_action, false, JOY_SELECT)
+
+func _map_controller_action(action_suffix : String, deadzone := 0.5):
+	var action_string := 'player_' + player_string + action_suffix
+	InputMap.add_action(action_string)
+	InputMap.action_set_deadzone(action_string, deadzone)
+	return action_string
+
+func _map_controller_event_to_action(current_action : String, button_or_axis := false, mapping := JOY_BUTTON_0, value := 0.0):
+
+	if button_or_axis:
+		var axis_ev := InputEventJoypadMotion.new()
+		axis_ev.set_axis(mapping)
+		axis_ev.set_axis_value(value)
+		axis_ev.device = controller_index
+		InputMap.action_add_event(current_action, axis_ev)
+	else:
+		var button_ev := InputEventJoypadButton.new()
+		button_ev.set_button_index(mapping)
+		button_ev.device = controller_index
+		InputMap.action_add_event(current_action, button_ev)

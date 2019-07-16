@@ -55,6 +55,10 @@ var rs_left : String
 var rs_right : String
 var rs_down : String
 var rs_up : String
+var taunt_input1 : String
+var taunt_input2 : String
+var taunt_input3 : String
+var taunt_input4 : String
 
 var state = null setget _set_state
 var previous_state = null
@@ -118,6 +122,17 @@ func _physics_process(delta):
 			_set_state(transition)
 
 func _input(event : InputEvent):
+	
+	if state != states.wall_slide:
+		if event.is_action_pressed(taunt_input1):
+			_taunt1()
+		if event.is_action_pressed(taunt_input2):
+			_taunt2()
+		if event.is_action_pressed(taunt_input3):
+			_taunt3()
+		if event.is_action_pressed(taunt_input4):
+			_taunt4()
+	
 	if event.is_action_pressed(attack_input) && attack_cooldown_timer.is_stopped() && state != states.wall_slide:
 		if state == states.disabled :
 			pass
@@ -604,3 +619,20 @@ func _on_AttackArea_body_entered(body):
 func _on_HurtCooldownTimer_timeout():
 	_set_state(states.idle)
 
+
+#handle all taunt a/v fx here
+func _taunt1():
+	print('taunt1')
+	parent.play_sound('Taunts/1')
+
+func _taunt2():
+	print('taunt2')
+	parent.play_sound('Taunts/2')
+
+func _taunt3():
+	print('taunt3')
+	parent.play_sound('Taunts/3')
+
+func _taunt4():
+	print('taunt4')
+	parent.play_sound('Taunts/4')
