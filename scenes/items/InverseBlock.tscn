@@ -8,9 +8,9 @@ extents = Vector2( 45, 50 )
 [node name="DeathBlock" index="0" instance=ExtResource( 1 )]
 collision_layer = 16385
 mass = 50.0
-gravity_scale = 25.0
+gravity_scale = -25.0
 linear_damp = 3.0
-angular_damp = 10.0
+angular_damp = 15.0
 throwable = false
 grabbable = false
 

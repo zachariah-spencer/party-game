@@ -7,6 +7,11 @@
 [node name="MG" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
+[node name="Cam" parent="." index="0"]
+offset = Vector2( 1057, 608 )
+zoom = Vector2( 2, 2 )
+script = null
+
 [node name="CanvasLayer" parent="." index="1"]
 editor/display_folded = false
 

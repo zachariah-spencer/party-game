@@ -9,8 +9,15 @@ onready var switch := $Switch
 onready var animation_player := $AnimationPlayer
 onready var cooldown_timer := $Cooldown
 onready var parent = get_parent()
+onready var flip_delay_timer = Timer.new()
+export var flip_delay := .01
 
 func _ready():
+	flip_delay_timer.wait_time = flip_delay
+	flip_delay_timer.autostart = false
+	flip_delay_timer.one_shot = true
+	add_child(flip_delay_timer)
+	flip_delay_timer.connect("timeout", self, "flop")
 	cooldown_timer.connect("timeout", self, "_on_Cooldown_timeout")
 
 func interact(by : Player):
@@ -23,7 +30,11 @@ func interact(by : Player):
 func  flip():
 	animation_player.play('flip_lever')
 	can_flip = false
+	flip_delay_timer.start(flip_delay)
 	cooldown_timer.start(switch_cooldown)
+
+func flop():
+	animation_player.play('flop')
 
 func _on_Cooldown_timeout():
 	can_flip = true
