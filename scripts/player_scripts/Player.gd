@@ -162,7 +162,7 @@ func hit(by : Node, damage : int, knockback := Vector2.ZERO, type := Damage.ENVI
 	if type == Damage.PUNCHES:
 		match Manager.current_minigame.attack_mode:
 			Manager.current_minigame.attack_modes.non_lethal:
-				pass
+				parent.play_random("Hit")
 			Manager.current_minigame.attack_modes.lethal:
 				hit_points -= damage
 				$Rig/AnimationPlayer.play('hurt')
@@ -194,6 +194,7 @@ func wall_jump():
 
 func throw():
 	if holding_item :
+		parent.play_sound('Throw')
 		holding_item = false
 		var dir
 		var pos = global_position + Vector2.UP * 20

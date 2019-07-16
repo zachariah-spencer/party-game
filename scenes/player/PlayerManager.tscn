@@ -1,18 +1,19 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://scripts/player_scripts/PlayersManager.gd" type="Script" id=1]
 [ext_resource path="res://assets/audio/foot.wav" type="AudioStream" id=2]
 [ext_resource path="res://assets/audio/punch_whiff.wav" type="AudioStream" id=3]
 [ext_resource path="res://assets/audio/sfx/swishes/swish-1.wav" type="AudioStream" id=4]
 [ext_resource path="res://assets/audio/sfx/jumpland.wav" type="AudioStream" id=5]
-[ext_resource path="res://assets/audio/punch/punch_hit1.wav" type="AudioStream" id=6]
-[ext_resource path="res://assets/audio/punch/punch_hit2.wav" type="AudioStream" id=7]
-[ext_resource path="res://assets/audio/player_voices/death/death1.wav" type="AudioStream" id=8]
-[ext_resource path="res://assets/audio/player_voices/death/death2.wav" type="AudioStream" id=9]
-[ext_resource path="res://assets/audio/player_voices/death/death3.wav" type="AudioStream" id=10]
-[ext_resource path="res://assets/audio/player_voices/death/death4.wav" type="AudioStream" id=11]
-[ext_resource path="res://assets/audio/player_voices/death/death5.wav" type="AudioStream" id=12]
-[ext_resource path="res://assets/audio/player_voices/death/death7.wav" type="AudioStream" id=13]
+[ext_resource path="res://assets/audio/sfx/swishes/swish-4.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/audio/punch/punch_hit1.wav" type="AudioStream" id=7]
+[ext_resource path="res://assets/audio/punch/punch_hit2.wav" type="AudioStream" id=8]
+[ext_resource path="res://assets/audio/player_voices/death/death1.wav" type="AudioStream" id=9]
+[ext_resource path="res://assets/audio/player_voices/death/death2.wav" type="AudioStream" id=10]
+[ext_resource path="res://assets/audio/player_voices/death/death3.wav" type="AudioStream" id=11]
+[ext_resource path="res://assets/audio/player_voices/death/death4.wav" type="AudioStream" id=12]
+[ext_resource path="res://assets/audio/player_voices/death/death5.wav" type="AudioStream" id=13]
+[ext_resource path="res://assets/audio/player_voices/death/death7.wav" type="AudioStream" id=14]
 
 [sub_resource type="AudioStreamRandomPitch" id=1]
 audio_stream = ExtResource( 2 )
@@ -23,22 +24,22 @@ audio_stream = ExtResource( 3 )
 random_pitch = 1.02
 
 [sub_resource type="AudioStreamRandomPitch" id=3]
-audio_stream = ExtResource( 8 )
+audio_stream = ExtResource( 9 )
 random_pitch = 1.0
 
 [sub_resource type="AudioStreamRandomPitch" id=4]
-audio_stream = ExtResource( 9 )
+audio_stream = ExtResource( 10 )
 
 [sub_resource type="AudioStreamRandomPitch" id=5]
-audio_stream = ExtResource( 10 )
-random_pitch = 1.0
-
-[sub_resource type="AudioStreamRandomPitch" id=6]
 audio_stream = ExtResource( 11 )
 random_pitch = 1.0
 
+[sub_resource type="AudioStreamRandomPitch" id=6]
+audio_stream = ExtResource( 12 )
+random_pitch = 1.0
+
 [sub_resource type="AudioStreamRandomPitch" id=7]
-audio_stream = ExtResource( 13 )
+audio_stream = ExtResource( 14 )
 
 [node name="Player" type="Node2D"]
 script = ExtResource( 1 )
@@ -51,7 +52,7 @@ area_mask = 0
 
 [node name="Feet" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = SubResource( 1 )
-volume_db = -18.0
+volume_db = -14.0
 pitch_scale = 1.5
 bus = "Sounds"
 area_mask = 0
@@ -62,7 +63,7 @@ area_mask = 0
 
 [node name="Punch" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = SubResource( 2 )
-volume_db = -25.0
+volume_db = -20.0
 bus = "Sounds"
 area_mask = 0
 
@@ -74,22 +75,26 @@ bus = "Sounds"
 
 [node name="Land" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource( 5 )
-volume_db = -12.0
+volume_db = -18.0
 pitch_scale = 3.0
 bus = "Sounds"
+
+[node name="Throw" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 6 )
+volume_db = -15.0
 
 [node name="Hit" type="Node2D" parent="Sounds"]
 editor/display_folded = true
 
 [node name="1" type="AudioStreamPlayer2D" parent="Sounds/Hit"]
-stream = ExtResource( 6 )
+stream = ExtResource( 7 )
 volume_db = -8.0
 pitch_scale = 1.5
 bus = "Sounds"
 area_mask = 0
 
 [node name="2" type="AudioStreamPlayer2D" parent="Sounds/Hit"]
-stream = ExtResource( 7 )
+stream = ExtResource( 8 )
 volume_db = -10.0
 pitch_scale = 1.8
 bus = "Sounds"
@@ -127,7 +132,7 @@ bus = "Voices"
 
 [node name="5" type="AudioStreamPlayer2D" parent="Sounds/Death"]
 position = Vector2( 0, -41.52 )
-stream = ExtResource( 12 )
+stream = ExtResource( 13 )
 volume_db = -10.0
 pitch_scale = 3.0
 bus = "Voices"

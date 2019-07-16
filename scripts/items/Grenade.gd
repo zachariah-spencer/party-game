@@ -70,3 +70,6 @@ func hit(by : Node, damage : int, knockback : Vector2, type := Damage.ENVIRONMEN
 		elif !exploding :
 			fuse_timer.start(.5)
 		apply_central_impulse(knockback * 400)
+
+func _on_Grenade_body_entered(body):
+	$CollisionSFX.play()
