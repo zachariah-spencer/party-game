@@ -5,7 +5,6 @@ func _ready():
 	Players.player_three = self
 	Players._players.append(self)
 	display_name = 'Player Three'
-	start_button = 'player_three_start'
-	b_button = 'player_three_b'
 	player_number = '3'
-
+	controller_index = 2
+	register_player_inputs()

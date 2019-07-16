@@ -35,4 +35,4 @@ func _gen_stage(size := stage_size) :
 		new_plat.position = curr
 		curr.x += int(plat_size) * 64
 		platform.append(new_plat)
-		$Terrain.add_child(new_plat)
+		add_child(new_plat)

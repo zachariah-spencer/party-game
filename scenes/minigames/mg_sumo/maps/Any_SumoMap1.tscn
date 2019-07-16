@@ -20,5 +20,3 @@ position = Vector2( 249.04, -47.6064 )
 
 [node name="DefaultFocus" parent="." index="5"]
 position = Vector2( 153.04, -79.6064 )
-
-[node name="Terrain" type="Node2D" parent="." index="6"]
