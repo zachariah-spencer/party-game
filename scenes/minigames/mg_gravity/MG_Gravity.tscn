@@ -6,6 +6,9 @@
 
 [node name="MG" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+game_time = -1
+game_instructions = "Don't die!"
+visible_name = "Gravity Box"
 
 [node name="Cam" parent="." index="0"]
 offset = Vector2( 1057, 608 )
