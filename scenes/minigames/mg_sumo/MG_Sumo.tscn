@@ -23,5 +23,4 @@ position = Vector2( 192, 748 )
 [node name="DropTimer" type="Timer" parent="." index="4"]
 process_mode = 0
 wait_time = 5.0
-
 [connection signal="timeout" from="DropTimer" to="." method="_drop_timeout"]
