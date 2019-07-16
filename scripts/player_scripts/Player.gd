@@ -122,7 +122,7 @@ func _physics_process(delta):
 			_set_state(transition)
 
 func _input(event : InputEvent):
-	
+
 	if state != states.wall_slide:
 		if event.is_action_pressed(taunt_input1):
 			_taunt1()
@@ -132,7 +132,7 @@ func _input(event : InputEvent):
 			_taunt3()
 		if event.is_action_pressed(taunt_input4):
 			_taunt4()
-	
+
 	if event.is_action_pressed(attack_input) && attack_cooldown_timer.is_stopped() && state != states.wall_slide:
 		if state == states.disabled :
 			pass
@@ -340,10 +340,10 @@ func _handle_move_input(h_weight := .2):
 
 func _handle_wall_slide_sticking():
 	var rel_move_dir = move_direction_adjusted.x
-	
+
 	if gravity.project(Vector2.LEFT).length() > 0.1 :
 		rel_move_dir *= -1
-	
+
 	if sign(rel_move_dir) == sign(wall_direction) :
 		wall_slide_sticky_timer.start()
 
