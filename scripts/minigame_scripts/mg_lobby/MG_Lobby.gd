@@ -20,7 +20,6 @@ func _ready():
 	readyable = true
 	win_condition = win_conditions.lobby_readied
 	instant_player_insertion = true
-#	$Cam.current = true
 
 
 	Globals.HUD.get_node('Scorecards/Statuses/P1Ready').text = 'Not Ready'

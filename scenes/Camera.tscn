@@ -5,7 +5,6 @@
 [node name="Cam" type="Camera2D"]
 drag_margin_h_enabled = false
 drag_margin_v_enabled = false
-smoothing_enabled = true
-smoothing_speed = 8.0
+smoothing_speed = 7.0
 script = ExtResource( 1 )
 
