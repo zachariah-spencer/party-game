@@ -43,7 +43,9 @@ var jump_duration := 0.4
 var face_textures := [['normal',preload("res://assets/player/face_v.png")],
 					 ['punch',preload("res://assets/player/face_punch.png")],
 					 ['ecstasy',preload("res://assets/player/face_ecstasy.png")],
-					 ['dead',preload("res://assets/player/face_dead.png")]]
+					 ['dead',preload("res://assets/player/face_dead.png")],
+					 ['taunt1-1',preload("res://assets/player/face_wacky_1.png")],
+					 ['taunt1-2',preload("res://assets/player/face_wacky_2.png")]]
 
 var move_left : String
 var move_right : String
@@ -495,14 +497,26 @@ func _set_state(new_state):
 	if new_state != null:
 		_enter_state(new_state, previous_state)
 
-func _set_face():
+func _set_face(type='default'):
 	# this function will get called every time we need a new face
 	# used for punching, but can also be used for more personality during the game
 	# just leave this to me - TheMikirog
 	var face = $Rig/Head/Face
-
-	# for now it's just the punching, but I plan to implement more
-	face.set_texture(face_textures[0][1])
+	if type=='taunt1-1': face.set_texture(face_textures[4][1])
+	elif type=='taunt1-2': face.set_texture(face_textures[5][1])
+	else:
+		# for now it's just the punching, but I plan to implement more
+		face.set_texture(face_textures[0][1])
+	
+func _voice(type):
+	# play a certain voice clip, sometimes these could be randomized
+	if type == 'taunt1-1':
+		if randi()%2 == 0: get_node('Taunts/1/A1').play()
+		else: get_node('Taunts/1/A2').play()
+	elif type == 'taunt1-2':
+		if randi()%2 == 0: get_node('Taunts/1/B1').play()
+		else: get_node('Taunts/1/B2').play()
+		pass
 
 func _update_wall_action():
 	if wall_direction > 0 : wall_action = Vector2.LEFT.rotated(gravity.angle() + PI/2)
@@ -623,7 +637,7 @@ func _on_HurtCooldownTimer_timeout():
 #handle all taunt a/v fx here
 func _taunt1():
 	print('taunt1')
-	parent.play_sound('Taunts/1')
+	anim_tree['parameters/playback'].start("Taunt 1")
 
 func _taunt2():
 	print('taunt2')
