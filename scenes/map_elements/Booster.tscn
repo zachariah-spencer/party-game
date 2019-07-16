@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scripts/map_elements/Booster.gd" type="Script" id=1]
 [ext_resource path="res://assets/sphere_soft.png" type="Texture" id=2]
+[ext_resource path="res://assets/audio/sfx/arrowHit01.wav" type="AudioStream" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 64 )
@@ -19,7 +20,7 @@ emission_sphere_radius = 1400.0
 flag_disable_z = true
 spread = 180.0
 gravity = Vector3( 0, -180000, 0 )
-angular_velocity = 3.50325e-44
+angular_velocity = 3.50325e-044
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 3.0
@@ -42,7 +43,14 @@ amount = 290
 lifetime = 0.3
 preprocess = 20.0
 explosiveness = 0.1
-visibility_rect = Rect2( -50000, -50000, 5e+06, 500000 )
+visibility_rect = Rect2( -50000, -50000, 5e+006, 500000 )
 draw_order = 1
 process_material = SubResource( 4 )
 texture = ExtResource( 2 )
+
+[node name="Boost" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+volume_db = -5.0
+pitch_scale = 3.0
+bus = "Sounds"
+

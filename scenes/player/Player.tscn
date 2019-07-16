@@ -557,6 +557,10 @@ process_mode = 0
 wait_time = 0.5
 one_shot = true
 
+[node name="WalkingFeetTimer" type="Timer" parent="."]
+process_mode = 0
+wait_time = 0.21
+
 [connection signal="body_entered" from="Rig/Left Hand/Hitbox" to="." method="_on_AttackArea_body_entered"]
 [connection signal="body_entered" from="Rig/Right Hand/Hitbox" to="." method="_on_AttackArea_body_entered"]
 [connection signal="body_entered" from="TopOfHeadArea" to="." method="_on_TopOfHeadArea_body_entered"]
@@ -565,3 +569,4 @@ one_shot = true
 [connection signal="timeout" from="JumpCooldownTimer" to="." method="_on_JumpCooldownTimer_timeout"]
 [connection signal="timeout" from="FallThroughTimer" to="." method="_on_FallThroughTimer_timeout"]
 [connection signal="timeout" from="HurtCooldownTimer" to="." method="_on_HurtCooldownTimer_timeout"]
+[connection signal="timeout" from="WalkingFeetTimer" to="." method="_on_WalkingFeetTimer_timeout"]
