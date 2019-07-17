@@ -12,7 +12,7 @@ extents = Vector2( 13, 3.2 )
 radius = 18.0
 height = 45.0
 
-[node name="Horseshoe" instance=ExtResource( 1 )]
+[node name="Horseshoe" index="0" instance=ExtResource( 1 )]
 collision_mask = 16385
 mass = 1.5
 continuous_cd = 2
@@ -51,5 +51,14 @@ one_shot = true
 
 [node name="LandedSFX" type="AudioStreamPlayer2D" parent="." index="4"]
 stream = ExtResource( 4 )
+volume_db = -22.0
+pitch_scale = 1.1
+
+[node name="CollisionSFX" type="AudioStreamPlayer2D" parent="." index="5"]
+stream = ExtResource( 4 )
+volume_db = -25.0
+pitch_scale = 3.0
+
+[connection signal="body_entered" from="." to="." method="_on_Horseshoe_body_entered"]
 [connection signal="area_entered" from="ShotLandedArea" to="." method="_on_ShotLandedArea_area_entered"]
 [connection signal="timeout" from="FallTimer" to="." method="_on_FallTimer_timeout"]

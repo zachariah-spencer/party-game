@@ -187,4 +187,5 @@ script = SubResource( 7 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FallingBlocktest" index="1"]
 position = Vector2( 0.270119, -25.3168 )
 shape = SubResource( 8 )
+
 [connection signal="body_entered" from="FallingBlocktest" to="FallingBlocktest" method="_on_FallingBlocktest_body_entered"]
