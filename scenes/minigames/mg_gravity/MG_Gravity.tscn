@@ -19,5 +19,5 @@ script = null
 [node name="CanvasLayer" parent="." index="1"]
 editor/display_folded = false
 
-[node name="Map" parent="." index="2" instance=ExtResource( 3 )]
+[node name="Any_GravityMap1" parent="." index="2" instance=ExtResource( 3 )]
 
