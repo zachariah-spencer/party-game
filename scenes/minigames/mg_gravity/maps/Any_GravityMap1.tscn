@@ -11,7 +11,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 1173.49, 1157.61 )
 
-[node name="Map" instance=ExtResource( 1 )]
+[node name="Any_GravityMap1" index="0" instance=ExtResource( 1 )]
 
 [node name="TerrainTilemap" parent="." index="0"]
 tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 10, 0, 0, 11, 0, 0, 12, 0, 0, 13, 0, 0, 14, 0, 0, 15, 0, 0, 16, 0, 0, 17, 0, 0, 18, 0, 0, 19, 0, 0, 20, 0, 0, 21, 0, 0, 22, 0, 0, 23, 0, 0, 24, 0, 0, 25, 0, 0, 26, 0, 0, 27, 0, 0, 28, 0, 0, 29, 0, 0, 30, 0, 0, 31, 0, 0, 32, 0, 0, 65536, 0, 0, 65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 65540, 0, 0, 65564, 0, 0, 65565, 0, 0, 65566, 0, 0, 65567, 0, 0, 65568, 0, 0, 131072, 0, 0, 131073, 0, 0, 131074, 0, 0, 131102, 0, 0, 131103, 0, 0, 131104, 0, 0, 196608, 0, 0, 196640, 0, 0, 262144, 0, 0, 262176, 0, 0, 327680, 0, 0, 327696, 0, 0, 327712, 0, 0, 393216, 0, 0, 393232, 0, 0, 393248, 0, 0, 458752, 0, 0, 458768, 0, 0, 458784, 0, 0, 524288, 0, 0, 524320, 0, 0, 589824, 0, 0, 589836, 0, 0, 589837, 0, 0, 589838, 0, 0, 589842, 0, 0, 589843, 0, 0, 589844, 0, 0, 589856, 0, 0, 655360, 0, 0, 655392, 0, 0, 720896, 0, 0, 720912, 0, 0, 720928, 0, 0, 786432, 0, 0, 786448, 0, 0, 786464, 0, 0, 851968, 0, 0, 851984, 0, 0, 852000, 0, 0, 917504, 0, 0, 917536, 0, 0, 983040, 0, 0, 983072, 0, 0, 1048576, 0, 0, 1048577, 0, 0, 1048578, 0, 0, 1048606, 0, 0, 1048607, 0, 0, 1048608, 0, 0, 1114112, 0, 0, 1114113, 0, 0, 1114114, 0, 0, 1114115, 0, 0, 1114116, 0, 0, 1114140, 0, 0, 1114141, 0, 0, 1114142, 0, 0, 1114143, 0, 0, 1114144, 0, 0, 1179648, 0, 0, 1179649, 0, 0, 1179650, 0, 0, 1179651, 0, 0, 1179652, 0, 0, 1179653, 0, 0, 1179654, 0, 0, 1179655, 0, 0, 1179656, 0, 0, 1179657, 0, 0, 1179658, 0, 0, 1179659, 0, 0, 1179660, 0, 0, 1179661, 0, 0, 1179662, 0, 0, 1179663, 0, 0, 1179664, 0, 0, 1179665, 0, 0, 1179666, 0, 0, 1179667, 0, 0, 1179668, 0, 0, 1179669, 0, 0, 1179670, 0, 0, 1179671, 0, 0, 1179672, 0, 0, 1179673, 0, 0, 1179674, 0, 0, 1179675, 0, 0, 1179676, 0, 0, 1179677, 0, 0, 1179678, 0, 0, 1179679, 0, 0, 1179680, 0, 0 )
@@ -42,19 +42,19 @@ shape = SubResource( 1 )
 [node name="mid" parent="GravityField/Top" index="0" instance=ExtResource( 3 )]
 position = Vector2( 0, -530 )
 rotation = -3.14159
-path = NodePath("../..")
+path = NodePath("../../../../Any_GravityMap1/GravityField")
 
 [node name="left" parent="GravityField/Top" index="1" instance=ExtResource( 3 )]
 position = Vector2( -650, -530 )
 rotation = -3.14159
 new_gravity = Vector2( 1, 0 )
-path = NodePath("../..")
+path = NodePath("../../../../Any_GravityMap1/GravityField")
 
 [node name="right" parent="GravityField/Top" index="2" instance=ExtResource( 3 )]
 position = Vector2( 650, -530 )
 rotation = -3.14159
 new_gravity = Vector2( -1, 0 )
-path = NodePath("../..")
+path = NodePath("../../../../Any_GravityMap1/GravityField")
 
 [node name="bot" type="Node2D" parent="GravityField" index="3"]
 editor/display_folded = true
@@ -64,19 +64,19 @@ rotation = -3.14159
 position = Vector2( 0, -530 )
 rotation = -3.14159
 new_gravity = Vector2( 0, -1 )
-path = NodePath("../..")
+path = NodePath("../../../../Any_GravityMap1/GravityField")
 
 [node name="right" parent="GravityField/bot" index="1" instance=ExtResource( 3 )]
 position = Vector2( -650, -530 )
 rotation = -3.14159
 new_gravity = Vector2( -1, 0 )
-path = NodePath("../..")
+path = NodePath("../../../../Any_GravityMap1/GravityField")
 
 [node name="left" parent="GravityField/bot" index="2" instance=ExtResource( 3 )]
 position = Vector2( 650, -530 )
 rotation = -3.14159
 new_gravity = Vector2( 1, 0 )
-path = NodePath("../..")
+path = NodePath("../../../../Any_GravityMap1/GravityField")
 
 [node name="Right" type="Node2D" parent="GravityField" index="4"]
 editor/display_folded = true
@@ -86,18 +86,18 @@ rotation = 1.5708
 position = Vector2( 0, -975 )
 rotation = -3.14159
 new_gravity = Vector2( -1, 0 )
-path = NodePath("../..")
+path = NodePath("../../../../Any_GravityMap1/GravityField")
 
 [node name="top" parent="GravityField/Right" index="1" instance=ExtResource( 3 )]
 position = Vector2( -300, -975 )
 rotation = -3.14159
-path = NodePath("../..")
+path = NodePath("../../../../Any_GravityMap1/GravityField")
 
 [node name="bot" parent="GravityField/Right" index="2" instance=ExtResource( 3 )]
 position = Vector2( 300, -975 )
 rotation = -3.14159
 new_gravity = Vector2( 0, -1 )
-path = NodePath("../..")
+path = NodePath("../../../../Any_GravityMap1/GravityField")
 
 [node name="Left" type="Node2D" parent="GravityField" index="5"]
 editor/display_folded = true
@@ -107,18 +107,18 @@ rotation = -1.5708
 position = Vector2( 0, -980 )
 rotation = -3.14159
 new_gravity = Vector2( 1, 0 )
-path = NodePath("../..")
+path = NodePath("../../../../Any_GravityMap1/GravityField")
 
 [node name="bot" parent="GravityField/Left" index="1" instance=ExtResource( 3 )]
 position = Vector2( -300, -980 )
 rotation = -3.14159
 new_gravity = Vector2( 0, -1 )
-path = NodePath("../..")
+path = NodePath("../../../../Any_GravityMap1/GravityField")
 
 [node name="top" parent="GravityField/Left" index="2" instance=ExtResource( 3 )]
 position = Vector2( 300, -980 )
 rotation = -3.14159
-path = NodePath("../..")
+path = NodePath("../../../../Any_GravityMap1/GravityField")
 
 [node name="ItemDispenser" parent="." index="7" instance=ExtResource( 4 )]
 position = Vector2( 1050.9, 634.442 )
