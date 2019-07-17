@@ -7,4 +7,7 @@ export var delay := .2
 
 func flop():
 	.flop()
+	
+	Manager.current_minigame.emit_signal('gravity_flopped')
+	
 	get_node(path).set_gravity_vector(new_gravity)
