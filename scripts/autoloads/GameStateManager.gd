@@ -26,7 +26,7 @@ var minigame_name : String
 #rotation will loop if set to true
 var repeats := false
 
-var shuffle := true
+var shuffle := false
 
 onready var lobby := preload('res://scenes/minigames/mg_lobby/MG_Lobby.tscn')
 onready var winning_cutscene := preload('res://scenes/minigames/mg_winning_cutscene/MG_WinningCutscene.tscn')
