@@ -1,33 +1,32 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scenes/minigames/MapTemplate.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/map_elements/GravityField.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/map_elements/levers/DirectedGravityLever.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scenes/items/ItemDispenser.tscn" type="PackedScene" id=4]
-[ext_resource path="res://scenes/items/ContactGrenade.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scenes/items/CircleDebris.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scenes/items/SquareDebris.tscn" type="PackedScene" id=7]
-[ext_resource path="res://scenes/map_elements/LazarHazard.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/items/CircleDebris.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/items/SquareDebris.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/map_elements/LazarHazard.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/map_elements/ItemSpawner.tscn" type="PackedScene" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 1173.49, 1157.61 )
 
-[node name="Any_GravityMap1" index="0" instance=ExtResource( 1 )]
+[node name="Any_GravityMap1" instance=ExtResource( 1 )]
 
 [node name="TerrainTilemap" parent="." index="0"]
 tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 10, 0, 0, 11, 0, 0, 12, 0, 0, 13, 0, 0, 14, 0, 0, 15, 0, 0, 16, 0, 0, 17, 0, 0, 18, 0, 0, 19, 0, 0, 20, 0, 0, 21, 0, 0, 22, 0, 0, 23, 0, 0, 24, 0, 0, 25, 0, 0, 26, 0, 0, 27, 0, 0, 28, 0, 0, 29, 0, 0, 30, 0, 0, 31, 0, 0, 32, 0, 0, 65536, 0, 0, 65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 65540, 0, 0, 65564, 0, 0, 65565, 0, 0, 65566, 0, 0, 65567, 0, 0, 65568, 0, 0, 131072, 0, 0, 131073, 0, 0, 131074, 0, 0, 131102, 0, 0, 131103, 0, 0, 131104, 0, 0, 196608, 0, 0, 196640, 0, 0, 262144, 0, 0, 262176, 0, 0, 327680, 0, 0, 327688, 0, 0, 327696, 0, 0, 327704, 0, 0, 327712, 0, 0, 393216, 0, 0, 393232, 0, 0, 393248, 0, 0, 458752, 0, 0, 458784, 0, 0, 524288, 0, 0, 524320, 0, 0, 589824, 0, 0, 589835, 0, 0, 589836, 0, 0, 589844, 0, 0, 589845, 0, 0, 589856, 0, 0, 655360, 0, 0, 655392, 0, 0, 720896, 0, 0, 720928, 0, 0, 786432, 0, 0, 786448, 0, 0, 786464, 0, 0, 851968, 0, 0, 851976, 0, 0, 851984, 0, 0, 851992, 0, 0, 852000, 0, 0, 917504, 0, 0, 917536, 0, 0, 983040, 0, 0, 983072, 0, 0, 1048576, 0, 0, 1048577, 0, 0, 1048578, 0, 0, 1048606, 0, 0, 1048607, 0, 0, 1048608, 0, 0, 1114112, 0, 0, 1114113, 0, 0, 1114114, 0, 0, 1114115, 0, 0, 1114116, 0, 0, 1114140, 0, 0, 1114141, 0, 0, 1114142, 0, 0, 1114143, 0, 0, 1114144, 0, 0, 1179648, 0, 0, 1179649, 0, 0, 1179650, 0, 0, 1179651, 0, 0, 1179652, 0, 0, 1179653, 0, 0, 1179654, 0, 0, 1179655, 0, 0, 1179656, 0, 0, 1179657, 0, 0, 1179658, 0, 0, 1179659, 0, 0, 1179660, 0, 0, 1179661, 0, 0, 1179662, 0, 0, 1179663, 0, 0, 1179664, 0, 0, 1179665, 0, 0, 1179666, 0, 0, 1179667, 0, 0, 1179668, 0, 0, 1179669, 0, 0, 1179670, 0, 0, 1179671, 0, 0, 1179672, 0, 0, 1179673, 0, 0, 1179674, 0, 0, 1179675, 0, 0, 1179676, 0, 0, 1179677, 0, 0, 1179678, 0, 0, 1179679, 0, 0, 1179680, 0, 0 )
 
 [node name="PlayerOneSpawn" parent="SpawnPoints" index="0"]
-position = Vector2( 576, 960 )
+position = Vector2( 544, 1128 )
 
 [node name="PlayerTwoSpawn" parent="SpawnPoints" index="1"]
-position = Vector2( 805.841, 986.435 )
+position = Vector2( 864, 1120 )
 
 [node name="PlayerThreeSpawn" parent="SpawnPoints" index="2"]
-position = Vector2( 1430.11, 993.504 )
+position = Vector2( 1568, 1120 )
 
 [node name="PlayerFourSpawn" parent="SpawnPoints" index="3"]
-position = Vector2( 1796.25, 979.04 )
+position = Vector2( 1247.57, 1120 )
 
 [node name="GravityField" parent="." index="6" instance=ExtResource( 2 )]
 editor/display_folded = true
@@ -123,112 +122,102 @@ position = Vector2( 300, -980 )
 rotation = -3.14159
 path = NodePath("../../../../Any_GravityMap1/GravityField")
 
-[node name="ItemDispenser" parent="." index="7" instance=ExtResource( 4 )]
-position = Vector2( 1050.9, 634.442 )
-item = ExtResource( 5 )
-
-[node name="Debris" type="Node2D" parent="." index="8" groups=[
+[node name="Debris" type="Node2D" parent="." index="7" groups=[
 "deathblocks",
 ]]
 editor/display_folded = true
 
-[node name="CircleDebris" parent="Debris" index="0" instance=ExtResource( 6 )]
+[node name="CircleDebris" parent="Debris" index="0" instance=ExtResource( 4 )]
 position = Vector2( 896, 864 )
 
-[node name="CircleDebris2" parent="Debris" index="1" instance=ExtResource( 6 )]
+[node name="CircleDebris2" parent="Debris" index="1" instance=ExtResource( 4 )]
 position = Vector2( 160, 621.642 )
 
-[node name="CircleDebris3" parent="Debris" index="2" instance=ExtResource( 6 )]
+[node name="CircleDebris3" parent="Debris" index="2" instance=ExtResource( 4 )]
 position = Vector2( 1152, 704 )
 
-[node name="CircleDebris4" parent="Debris" index="3" instance=ExtResource( 6 )]
+[node name="CircleDebris4" parent="Debris" index="3" instance=ExtResource( 4 )]
 position = Vector2( 672, 800 )
 
-[node name="CircleDebris5" parent="Debris" index="4" instance=ExtResource( 6 )]
+[node name="CircleDebris5" parent="Debris" index="4" instance=ExtResource( 4 )]
 position = Vector2( 1472, 672 )
 
-[node name="SquareDebris" parent="Debris" index="5" instance=ExtResource( 7 )]
+[node name="SquareDebris" parent="Debris" index="5" instance=ExtResource( 5 )]
 position = Vector2( 384, 512 )
 
-[node name="SquareDebris6" parent="Debris" index="6" instance=ExtResource( 7 )]
+[node name="SquareDebris6" parent="Debris" index="6" instance=ExtResource( 5 )]
 position = Vector2( 1952, 524.634 )
 
-[node name="SquareDebris7" parent="Debris" index="7" instance=ExtResource( 7 )]
+[node name="SquareDebris7" parent="Debris" index="7" instance=ExtResource( 5 )]
 position = Vector2( 1248, 416 )
 
-[node name="SquareDebris2" parent="Debris" index="8" instance=ExtResource( 7 )]
+[node name="SquareDebris2" parent="Debris" index="8" instance=ExtResource( 5 )]
 position = Vector2( 608, 586.414 )
 rotation = 0.523599
 
-[node name="SquareDebris3" parent="Debris" index="9" instance=ExtResource( 7 )]
+[node name="SquareDebris3" parent="Debris" index="9" instance=ExtResource( 5 )]
 position = Vector2( 1504, 634.276 )
 rotation = 1.18682
 
-[node name="SquareDebris4" parent="Debris" index="10" instance=ExtResource( 7 )]
+[node name="SquareDebris4" parent="Debris" index="10" instance=ExtResource( 5 )]
 position = Vector2( 1728, 716.634 )
 rotation = 2.0944
 
-[node name="SquareDebris5" parent="Debris" index="11" instance=ExtResource( 7 )]
+[node name="SquareDebris5" parent="Debris" index="11" instance=ExtResource( 5 )]
 position = Vector2( 800, 799.356 )
 rotation = 2.0944
 
-[node name="Hazards" type="Node2D" parent="." index="9"]
+[node name="Hazards" type="Node2D" parent="." index="8"]
+editor/display_folded = true
 
-[node name="LazarHazard" parent="Hazards" index="0" instance=ExtResource( 8 )]
+[node name="LazarHazard" parent="Hazards" index="0" instance=ExtResource( 6 )]
 position = Vector2( 288, 1072 )
 
-[node name="LazarHazard2" parent="Hazards" index="1" instance=ExtResource( 8 )]
-position = Vector2( 159.571, 1008 )
-
-[node name="LazarHazard15" parent="Hazards" index="2" instance=ExtResource( 8 )]
+[node name="LazarHazard15" parent="Hazards" index="1" instance=ExtResource( 6 )]
 position = Vector2( 80, 736 )
 rotation = 1.5708
 
-[node name="LazarHazard16" parent="Hazards" index="3" instance=ExtResource( 8 )]
+[node name="LazarHazard16" parent="Hazards" index="2" instance=ExtResource( 6 )]
 position = Vector2( 80, 480 )
 rotation = 1.5708
 
-[node name="LazarHazard7" parent="Hazards" index="4" instance=ExtResource( 8 )]
+[node name="LazarHazard7" parent="Hazards" index="3" instance=ExtResource( 6 )]
 position = Vector2( 224, 144 )
 rotation = 3.14159
 
-[node name="LazarHazard9" parent="Hazards" index="5" instance=ExtResource( 8 )]
+[node name="LazarHazard9" parent="Hazards" index="4" instance=ExtResource( 6 )]
 position = Vector2( 736, 80 )
 rotation = 3.14159
 
-[node name="LazarHazard10" parent="Hazards" index="6" instance=ExtResource( 8 )]
+[node name="LazarHazard10" parent="Hazards" index="5" instance=ExtResource( 6 )]
 position = Vector2( 1376, 80 )
 rotation = 3.14159
 
-[node name="LazarHazard11" parent="Hazards" index="7" instance=ExtResource( 8 )]
+[node name="LazarHazard11" parent="Hazards" index="6" instance=ExtResource( 6 )]
 position = Vector2( 1888, 144 )
 rotation = 3.14159
 
-[node name="LazarHazard12" parent="Hazards" index="8" instance=ExtResource( 8 )]
-position = Vector2( 2016, 208 )
-rotation = 3.14159
-
-[node name="LazarHazard13" parent="Hazards" index="9" instance=ExtResource( 8 )]
+[node name="LazarHazard13" parent="Hazards" index="7" instance=ExtResource( 6 )]
 position = Vector2( 2032, 480 )
 rotation = 4.71239
 
-[node name="LazarHazard14" parent="Hazards" index="10" instance=ExtResource( 8 )]
+[node name="LazarHazard14" parent="Hazards" index="8" instance=ExtResource( 6 )]
 position = Vector2( 2032, 736 )
 rotation = 4.71239
 
-[node name="LazarHazard8" parent="Hazards" index="11" instance=ExtResource( 8 )]
-position = Vector2( 96, 208 )
-rotation = 3.14159
-
-[node name="LazarHazard5" parent="Hazards" index="12" instance=ExtResource( 8 )]
+[node name="LazarHazard5" parent="Hazards" index="9" instance=ExtResource( 6 )]
 position = Vector2( 672, 1136 )
 
-[node name="LazarHazard6" parent="Hazards" index="13" instance=ExtResource( 8 )]
+[node name="LazarHazard6" parent="Hazards" index="10" instance=ExtResource( 6 )]
 position = Vector2( 1440, 1136 )
 
-[node name="LazarHazard3" parent="Hazards" index="14" instance=ExtResource( 8 )]
+[node name="LazarHazard3" parent="Hazards" index="11" instance=ExtResource( 6 )]
 position = Vector2( 1824, 1072 )
 
-[node name="LazarHazard4" parent="Hazards" index="15" instance=ExtResource( 8 )]
-position = Vector2( 1951.57, 1008 )
+[node name="ItemSpawner" parent="." index="9" instance=ExtResource( 7 )]
+position = Vector2( 1056, 608.842 )
+item_path = "res://scenes/items/Grenade.tscn"
+repeat_on_timer = true
+rotating = true
+rot_speed = 0.03
 
