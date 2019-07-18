@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/items/Item.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/items/CircleDebris.gd" type="Script" id=2]
+[ext_resource path="res://assets/sphere.png" type="Texture" id=3]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 13.0
+
+[node name="CircleDebris" instance=ExtResource( 1 )]
+collision_layer = 16385
+gravity_scale = 25.0
+linear_damp = 3.0
+angular_damp = 10.0
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="." index="0"]
+modulate = Color( 0.54902, 0.54902, 0.54902, 1 )
+scale = Vector2( 0.05, 0.05 )
+texture = ExtResource( 3 )
+
+[node name="Obj" parent="." index="1"]
+editor/display_folded = true
+shape = SubResource( 1 )
+
+[node name="Sprite" parent="Obj" index="0"]
+visible = false
+
+[node name="Pickup_area" parent="." index="2"]
+editor/display_folded = true
+visible = false
+
+[node name="CollisionShape2D" parent="Pickup_area" index="0"]
+position = Vector2( -0.429276, -0.643917 )
+

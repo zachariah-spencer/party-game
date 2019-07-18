@@ -11,7 +11,7 @@ func _input(event):
 		pause_state = not get_tree().paused
 		get_tree().paused = pause_state
 		visible = pause_state
-		
+
 		if pause_state:
 			settings.visible = false
 			main.visible = true

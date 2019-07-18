@@ -1,14 +1,15 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://scenes/minigames/MapTemplate.tscn" type="PackedScene" id=1]
 [ext_resource path="res://lobbytileset.tres" type="TileSet" id=2]
 [ext_resource path="res://scripts/map_elements/Reset-Boundary.gd" type="Script" id=3]
 [ext_resource path="res://scenes/map_elements/Booster.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/items/ItemDispenser.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scenes/map_elements/GravityField.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scenes/map_elements/RoundSettingApparatus.tscn" type="PackedScene" id=7]
-[ext_resource path="res://scenes/map_elements/levers/GravityLever.tscn" type="PackedScene" id=8]
-[ext_resource path="res://scenes/map_elements/FallingBlocks.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/items/ContactGrenade.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/map_elements/GravityField.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/map_elements/RoundSettingApparatus.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/map_elements/levers/GravityLever.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/map_elements/FallingBlocks.tscn" type="PackedScene" id=10]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 150 )
@@ -40,7 +41,7 @@ func _on_FallingBlocktest_body_entered(body):
 [sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 96, 20 )
 
-[node name="LobbyMap" groups=[
+[node name="LobbyMap" index="0" groups=[
 "maps",
 ] instance=ExtResource( 1 )]
 
@@ -118,31 +119,31 @@ position = Vector2( 1536, 1312 )
 
 [node name="ItemDispenser" parent="." index="7" instance=ExtResource( 5 )]
 position = Vector2( 795.927, 1219.84 )
-item_path = "res://scenes/items/Grenade.tscn"
+item = ExtResource( 6 )
 
 [node name="ItemDispenser2" parent="." index="8" instance=ExtResource( 5 )]
 position = Vector2( 1304.32, 1220.35 )
-item_path = "res://scenes/items/ContactGrenade.tscn"
+item = ExtResource( 6 )
 
 [node name="ItemDispenser3" parent="." index="9" instance=ExtResource( 5 )]
 position = Vector2( 1803.51, 1219.06 )
-item_path = "res://scenes/items/ContactGrenade.tscn"
+item = ExtResource( 6 )
 
 [node name="ItemDispenser4" parent="." index="10" instance=ExtResource( 5 )]
 position = Vector2( 265.585, 1219.46 )
-item_path = "res://scenes/items/ContactGrenade.tscn"
+item = ExtResource( 6 )
 
-[node name="GravityField3" parent="." index="11" instance=ExtResource( 6 )]
+[node name="GravityField3" parent="." index="11" instance=ExtResource( 7 )]
 editor/display_folded = true
 position = Vector2( 2568.42, 891.678 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GravityField3" index="1"]
 shape = SubResource( 3 )
 
-[node name="RoundSettingApparatus" parent="." index="12" instance=ExtResource( 7 )]
+[node name="RoundSettingApparatus" parent="." index="12" instance=ExtResource( 8 )]
 position = Vector2( -448, 1305 )
 
-[node name="GravityField5" parent="." index="13" instance=ExtResource( 6 )]
+[node name="GravityField5" parent="." index="13" instance=ExtResource( 7 )]
 editor/display_folded = true
 position = Vector2( 3344.01, 429.959 )
 gravity_vec = Vector2( -1, 0 )
@@ -150,7 +151,7 @@ gravity_vec = Vector2( -1, 0 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GravityField5" index="1"]
 shape = SubResource( 4 )
 
-[node name="GravityField4" parent="." index="14" instance=ExtResource( 6 )]
+[node name="GravityField4" parent="." index="14" instance=ExtResource( 7 )]
 editor/display_folded = true
 position = Vector2( 3488, 704 )
 gravity_vec = Vector2( 1, 0 )
@@ -161,27 +162,28 @@ shape = SubResource( 5 )
 [node name="DefaultFocus" parent="." index="15"]
 position = Vector2( 1024, 1024 )
 
-[node name="Lever" parent="." index="16" instance=ExtResource( 8 )]
+[node name="SwitchGravityLever" parent="." index="16" instance=ExtResource( 9 )]
+editor/display_folded = true
 position = Vector2( 608.899, 636.017 )
 
-[node name="GravityField" parent="Lever" index="5" instance=ExtResource( 6 )]
+[node name="GravityField" parent="SwitchGravityLever" index="5" instance=ExtResource( 7 )]
 position = Vector2( 609.631, -291.146 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Lever/GravityField" index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SwitchGravityLever/GravityField" index="1"]
 shape = SubResource( 6 )
 
-[node name="GravityField2" parent="Lever" index="6" instance=ExtResource( 6 )]
+[node name="GravityField2" parent="SwitchGravityLever" index="6" instance=ExtResource( 7 )]
 position = Vector2( 278.523, -307.655 )
 gravity_vec = Vector2( 1, 0 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Lever/GravityField2" index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SwitchGravityLever/GravityField2" index="1"]
 shape = SubResource( 6 )
 
 [node name="FallingBlocktest" type="Area2D" parent="." index="17"]
 position = Vector2( 1357.46, 959.652 )
 script = SubResource( 7 )
 
-[node name="FallingBlocks" parent="FallingBlocktest" index="0" instance=ExtResource( 9 )]
+[node name="FallingBlocks" parent="FallingBlocktest" index="0" instance=ExtResource( 10 )]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FallingBlocktest" index="1"]
 position = Vector2( 0.270119, -25.3168 )
