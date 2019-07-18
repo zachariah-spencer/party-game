@@ -13,5 +13,3 @@ func _on_LevelCompleteZone_body_entered(body):
 	if player && !completed_players.has(player.parent):
 		emit_signal('level_completed')
 		completed_players.append(player.parent)
-		print(Manager.current_minigame.completed_level)
-		print((Players._get_alive_players().size() - 1))

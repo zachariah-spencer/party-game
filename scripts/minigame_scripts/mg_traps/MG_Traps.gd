@@ -34,9 +34,9 @@ func _on_level_completed():
 	completed_level += 1
 
 func _check_special_win_conditions():
-	if Players._get_alive_players().size() == 1 && Players._get_alive_players()[0] == trapper || game_time == 0:
+	if Players._get_alive_players().size() == 1 || game_time == 0 && Players._get_alive_players().size() == 1:
 		_special_game_over('trapper')
-	elif completed_level == (Players._get_alive_players().size() - 1) :
+	elif completed_level == (Players._get_alive_players().size() - 1):
 		_special_game_over('runners')
 
 func _special_game_over(winning_team : String):
@@ -44,5 +44,13 @@ func _special_game_over(winning_team : String):
 	game_active = false
 	if winning_team == 'trapper':
 		print('trapper won')
+		trapper.score += 1
+		hud.instructions.text = trapper.display_name + ' Won!'
+		hud._update_scores()
 	elif winning_team == 'runners':
 		print('runners won')
+		hud.instructions.text = 'Winners:\n'
+		for player in runners:
+			player.score += 1
+			hud.instructions.text = hud.instructions.text + player.display_name + '\n'
+		hud._update_scores()
