@@ -15,3 +15,4 @@ visible_name = "Horseshoes"
 visible_hp = true
 
 [node name="Any_HorseshoesMap1" parent="." index="2" instance=ExtResource( 3 )]
+

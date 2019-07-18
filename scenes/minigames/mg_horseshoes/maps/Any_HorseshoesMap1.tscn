@@ -4,7 +4,7 @@
 [ext_resource path="res://scenes/minigames/mg_horseshoes/HorseshoeTarget.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/items/ItemDispenser.tscn" type="PackedScene" id=3]
 
-[node name="Any_HorseshoesMap1" groups=[
+[node name="Any_HorseshoesMap1" index="0" groups=[
 "maps",
 ] instance=ExtResource( 1 )]
 
@@ -43,7 +43,6 @@ position = Vector2( 993.164, 225.66 )
 position = Vector2( 992, 672 )
 
 [node name="Dispensers" type="Node" parent="." index="7"]
-editor/display_folded = true
 
 [node name="ItemDispenser" parent="Dispensers" index="0" instance=ExtResource( 3 )]
 position = Vector2( 221.31, 248.742 )
@@ -60,3 +59,4 @@ item_path = "res://scenes/items/Horseshoe.tscn"
 [node name="ItemDispenser4" parent="Dispensers" index="3" instance=ExtResource( 3 )]
 position = Vector2( 540.101, 699.202 )
 item_path = "res://scenes/items/Horseshoe.tscn"
+

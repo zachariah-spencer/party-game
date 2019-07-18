@@ -8,7 +8,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 35.4193, 58.5543 )
 
-[node name="ItemDispenser" instance=ExtResource( 1 )]
+[node name="ItemDispenser" index="0" instance=ExtResource( 1 )]
 mode = 1
 script = ExtResource( 2 )
 throwable = false

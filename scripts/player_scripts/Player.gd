@@ -35,6 +35,7 @@ var can_attack := true
 var punch_arm := 'left'
 var attack_area
 var hit_exceptions := []
+var invincible := false
 
 var max_jump_height := 8.25 * Globals.CELL_SIZE
 var min_jump_height := 0.8 * Globals.CELL_SIZE
@@ -93,6 +94,7 @@ onready var gravity_magnitude := 2 * max_jump_height / pow(jump_duration, 2)
 onready var gravity = Vector2.DOWN
 onready var max_jump_velocity = -sqrt(2 * gravity_magnitude * max_jump_height)
 onready var min_jump_velocity = -sqrt(2 * gravity_magnitude * min_jump_height)
+onready var visible_onscreen := $VisibilityNotifier2D
 
 signal interacted
 signal dropped
@@ -125,7 +127,7 @@ func _physics_process(delta):
 			_set_state(transition)
 
 func _input(event : InputEvent):
-	
+
 	if state != states.wall_slide:
 		if event.is_action_pressed(taunt_input1):
 			_taunt1()
@@ -135,7 +137,7 @@ func _input(event : InputEvent):
 			_taunt3()
 		if event.is_action_pressed(taunt_input4):
 			_taunt4()
-	
+
 	if event.is_action_pressed(attack_input) && attack_cooldown_timer.is_stopped() && state != states.wall_slide:
 		if state == states.disabled :
 			pass
@@ -149,30 +151,31 @@ func _input(event : InputEvent):
 			velocity = (velocity - velocity.project(gravity)) + (min_jump_velocity * Vector2.DOWN.rotated(gravity.angle() - PI/2))
 
 func hit(by : Node, damage : int, knockback := Vector2.ZERO, type := Damage.ENVIRONMENTAL) :
-	var x = 40* Globals.CELL_SIZE
-	var y = 500
-	if knockback != Vector2.ZERO :
-		velocity = ((Vector2.UP * y) + (x * sign(knockback.x)*Vector2.RIGHT)).rotated(gravity.angle() -PI/2)
-	$Shockwave.set_emitting(true)
-
-	if holding_item :
-		held_item.hit(by, damage, knockback, type)
-	#set a special h weight here
-	_set_state(states.hitstun)
-	hurt_cooldown_timer.start()
-
-	if type == Damage.PUNCHES:
-		match Manager.current_minigame.attack_mode:
-			Manager.current_minigame.attack_modes.non_lethal:
-				parent.play_random("Hit")
-			Manager.current_minigame.attack_modes.lethal:
-				hit_points -= damage
-				$Rig/AnimationPlayer.play('hurt')
-				parent.play_random("Hit")
-	else:
-		hit_points -= damage
-		$Rig/AnimationPlayer.play('hurt')
-		parent.play_random("Hit")
+	if !invincible:
+		var x = 40* Globals.CELL_SIZE
+		var y = 500
+		if knockback != Vector2.ZERO :
+			velocity = ((Vector2.UP * y) + (x * sign(knockback.x)*Vector2.RIGHT)).rotated(gravity.angle() -PI/2)
+		$Shockwave.set_emitting(true)
+	
+		if holding_item :
+			held_item.hit(by, damage, knockback, type)
+		#set a special h weight here
+		_set_state(states.hitstun)
+		hurt_cooldown_timer.start()
+	
+		if type == Damage.PUNCHES:
+			match Manager.current_minigame.attack_mode:
+				Manager.current_minigame.attack_modes.non_lethal:
+					parent.play_random("Hit")
+				Manager.current_minigame.attack_modes.lethal:
+					hit_points -= damage
+					$Rig/AnimationPlayer.play('hurt')
+					parent.play_random("Hit")
+		else:
+			hit_points -= damage
+			$Rig/AnimationPlayer.play('hurt')
+			parent.play_random("Hit")
 
 
 func jump():
@@ -346,10 +349,10 @@ func _handle_move_input(h_weight := .2):
 
 func _handle_wall_slide_sticking():
 	var rel_move_dir = move_direction_adjusted.x
-	
+
 	if gravity.project(Vector2.LEFT).length() > 0.1 :
 		rel_move_dir *= -1
-	
+
 	if sign(rel_move_dir) == sign(wall_direction) :
 		wall_slide_sticky_timer.start()
 

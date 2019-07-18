@@ -1,7 +1,6 @@
 extends Item
 
-
-export var item_path := "res://scenes/items/"
+export var item_path := "res://scenes/items/Grenade.tscn"
 var item : PackedScene
 onready var dispense_sound := $Dispense
 

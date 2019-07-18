@@ -39,7 +39,6 @@ func _ready():
 
 
 func _physics_process(delta):
-	print(ambience_sfx.volume_db)
 	_check_ready_ups()
 
 func _check_ready_ups():
