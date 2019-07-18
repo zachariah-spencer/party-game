@@ -5,6 +5,12 @@ var new_countdown_time := 5
 var cumulative_countdowns := 0
 onready var countdown_timer := $CountdownTimer
 onready var countdown_label := $CanvasLayer/Countdown/CountdownLabel
+onready var barrage_one := get_tree().get_nodes_in_group('barrage_one')
+onready var barrage_two := get_tree().get_nodes_in_group('barrage_two')
+onready var barrage_three := get_tree().get_nodes_in_group('barrage_three')
+onready var barrage_four := get_tree().get_nodes_in_group('barrage_four')
+onready var barrage_five := get_tree().get_nodes_in_group('barrage_five')
+onready var barrage_six := get_tree().get_nodes_in_group('barrage_six')
 
 func _init():
 	maps = [
@@ -49,8 +55,27 @@ func _on_CountdownTimer_timeout():
 			20:
 				new_countdown_time -= 1
 		
+		var barrage_select := int(rand_range(1.0,6.99))
 		#drop grenades
-		
+		match barrage_select:
+			1:
+				for spawner in barrage_one:
+					spawner._spawn_item()
+			2:
+				for spawner in barrage_two:
+					spawner._spawn_item()
+			3:
+				for spawner in barrage_three:
+					spawner._spawn_item()
+			4:
+				for spawner in barrage_four:
+					spawner._spawn_item()
+			5:
+				for spawner in barrage_five:
+					spawner._spawn_item()
+			6:
+				for spawner in barrage_six:
+					spawner._spawn_item()
 		
 		countdown_time = new_countdown_time
 		countdown_label.text = String(countdown_time)
