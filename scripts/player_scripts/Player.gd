@@ -94,6 +94,7 @@ onready var gravity_magnitude := 2 * max_jump_height / pow(jump_duration, 2)
 onready var gravity = Vector2.DOWN
 onready var max_jump_velocity = -sqrt(2 * gravity_magnitude * max_jump_height)
 onready var min_jump_velocity = -sqrt(2 * gravity_magnitude * min_jump_height)
+onready var visible_onscreen := $VisibilityNotifier2D
 
 signal interacted
 signal dropped

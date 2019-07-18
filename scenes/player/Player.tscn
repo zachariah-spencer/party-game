@@ -634,6 +634,7 @@ process_mode = 0
 wait_time = 0.21
 
 [node name="Taunts" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="1" type="Node2D" parent="Taunts"]
 
@@ -657,6 +658,9 @@ position = Vector2( 0, -39.01 )
 stream = SubResource( 43 )
 pitch_scale = 1.1
 bus = "Voices"
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+rect = Rect2( -27, -80, 54, 90 )
 
 [connection signal="body_entered" from="Rig/Left Hand/Hitbox" to="." method="_on_AttackArea_body_entered"]
 [connection signal="body_entered" from="Rig/Right Hand/Hitbox" to="." method="_on_AttackArea_body_entered"]

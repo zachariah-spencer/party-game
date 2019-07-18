@@ -11,5 +11,8 @@ win_condition = 4
 visible_name = "Traps"
 visible_hp = true
 
+[node name="Cam" parent="." index="0"]
+script = null
+
 [node name="Any_TrapsMap1" parent="." index="2" instance=ExtResource( 3 )]
 

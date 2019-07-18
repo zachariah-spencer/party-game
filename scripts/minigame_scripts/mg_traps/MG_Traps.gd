@@ -4,6 +4,8 @@ onready var trapper_spawn := map.get_node('TrapperSpawn')
 var trapper : PlayersManager
 var runners := []
 var completed_level := 0
+onready var custom_cam := map.get_node('CameraFollowPoint/CustomCam')
+onready var custom_cam_follow_point :=  map.get_node('CameraFollowPoint')
 
 func _init():
 	maps = [
@@ -13,6 +15,8 @@ func _init():
 func _ready():
 	Manager.minigame_name = 'traps'
 	game_instructions = 'Trapper: Kill the other players!\nRunners: Make it to the end!'
+	
+	custom_cam.current = true
 
 func _insert_players():
 	._insert_players()
@@ -29,6 +33,13 @@ func _insert_players():
 func _run_minigame_loop():
 	if game_active:
 		_check_special_win_conditions()
+		_check_is_on_screen()
+
+func _check_is_on_screen():
+	for player in Players._get_alive_players():
+		if player != trapper:
+			if !player.child.visible_onscreen.is_on_screen():
+				player.child.hit(self, 100, Vector2.ZERO, Damage.ENVIRONMENTAL)
 
 func _on_level_completed():
 	completed_level += 1
