@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node2D",
+"class": "BeamHazard",
+"language": "GDScript",
+"path": "res://scripts/map_elements/BeamHazard.gd"
+}, {
 "base": "Area2D",
 "class": "GravityField",
 "language": "GDScript",
@@ -70,6 +75,7 @@ _global_script_classes=[ {
 "path": "res://scripts/minigame_scripts/mg_race_tower/TowerChunk.gd"
 } ]
 _global_script_class_icons={
+"BeamHazard": "",
 "GravityField": "",
 "Grenade": "",
 "Item": "",

@@ -1,13 +1,13 @@
 extends Lever
 
-var spikes_hazards := []
+var hazards := []
 
 func _ready():
 	for child in get_children():
-		if child is SpikesHazard :
-			spikes_hazards.append(child)
+		if child is SpikesHazard || child is BeamHazard:
+			hazards.append(child)
 
 func flip():
 	.flip()
-	for hazard in spikes_hazards :
+	for hazard in hazards :
 		hazard._activate()
