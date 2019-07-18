@@ -8,6 +8,7 @@ onready var GAMES = [
 	preload('res://scenes/minigames/mg_punchball/MG_Punchball.tscn'),
 	preload('res://scenes/minigames/mg_territories/MG_Territories.tscn'),
 	preload('res://scenes/minigames/mg_horseshoes/MG_Horseshoes.tscn'),
+	preload('res://scenes/minigames/mg_traps/MG_Traps.tscn'),
 ]
 
 onready var rotation := []
