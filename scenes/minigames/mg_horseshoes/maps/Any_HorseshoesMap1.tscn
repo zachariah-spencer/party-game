@@ -1,11 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scenes/minigames/MapTemplate.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/minigames/mg_horseshoes/HorseshoeTarget.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/items/ItemDispenser.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scenes/items/Horseshoe.tscn" type="PackedScene" id=4]
 
-[node name="Any_HorseshoesMap1" groups=[
+[node name="Any_HorseshoesMap1" index="0" groups=[
 "maps",
 ] instance=ExtResource( 1 )]
 
@@ -47,16 +46,17 @@ position = Vector2( 992, 672 )
 
 [node name="ItemDispenser" parent="Dispensers" index="0" instance=ExtResource( 3 )]
 position = Vector2( 221.31, 248.742 )
-item = ExtResource( 4 )
+item_path = "res://scenes/items/Horseshoe.tscn"
 
 [node name="ItemDispenser2" parent="Dispensers" index="1" instance=ExtResource( 3 )]
 position = Vector2( 220.731, 696.807 )
-item = ExtResource( 4 )
+item_path = "res://scenes/items/Horseshoe.tscn"
 
 [node name="ItemDispenser3" parent="Dispensers" index="2" instance=ExtResource( 3 )]
 position = Vector2( 543.892, 250.538 )
-item = ExtResource( 4 )
+item_path = "res://scenes/items/Horseshoe.tscn"
 
 [node name="ItemDispenser4" parent="Dispensers" index="3" instance=ExtResource( 3 )]
 position = Vector2( 540.101, 699.202 )
-item = ExtResource( 4 )
+item_path = "res://scenes/items/Horseshoe.tscn"
+

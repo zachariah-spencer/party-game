@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node2D",
+"class": "BeamHazard",
+"language": "GDScript",
+"path": "res://scripts/map_elements/BeamHazard.gd"
+}, {
 "base": "Area2D",
 "class": "GravityField",
 "language": "GDScript",
@@ -23,6 +28,11 @@ _global_script_classes=[ {
 "class": "Item",
 "language": "GDScript",
 "path": "res://scripts/items/Item.gd"
+}, {
+"base": "Node2D",
+"class": "ItemSpawner",
+"language": "GDScript",
+"path": "res://scripts/map_elements/ItemSpawner.gd"
 }, {
 "base": "Area2D",
 "class": "Lever",
@@ -49,6 +59,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/player_scripts/PlayersManager.gd"
 }, {
+"base": "Node2D",
+"class": "SpikesHazard",
+"language": "GDScript",
+"path": "res://scripts/map_elements/SpikesHazard.gd"
+}, {
 "base": "Node",
 "class": "StateMachine",
 "language": "GDScript",
@@ -60,14 +75,17 @@ _global_script_classes=[ {
 "path": "res://scripts/minigame_scripts/mg_race_tower/TowerChunk.gd"
 } ]
 _global_script_class_icons={
+"BeamHazard": "",
 "GravityField": "",
 "Grenade": "",
 "Item": "",
+"ItemSpawner": "",
 "Lever": "",
 "Map": "",
 "Minigame": "",
 "Player": "",
 "PlayersManager": "",
+"SpikesHazard": "",
 "StateMachine": "",
 "TowerChunk": ""
 }

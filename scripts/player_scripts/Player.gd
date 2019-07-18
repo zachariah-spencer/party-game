@@ -35,6 +35,7 @@ var can_attack := true
 var punch_arm := 'left'
 var attack_area
 var hit_exceptions := []
+var invincible := false
 
 var max_jump_height := 8.25 * Globals.CELL_SIZE
 var min_jump_height := 0.8 * Globals.CELL_SIZE
@@ -43,7 +44,9 @@ var jump_duration := 0.4
 var face_textures := [['normal',preload("res://assets/player/face_v.png")],
 					 ['punch',preload("res://assets/player/face_punch.png")],
 					 ['ecstasy',preload("res://assets/player/face_ecstasy.png")],
-					 ['dead',preload("res://assets/player/face_dead.png")]]
+					 ['dead',preload("res://assets/player/face_dead.png")],
+					 ['taunt1-1',preload("res://assets/player/face_wacky_1.png")],
+					 ['taunt1-2',preload("res://assets/player/face_wacky_2.png")]]
 
 var move_left : String
 var move_right : String
@@ -79,6 +82,7 @@ onready var wall_slide_sticky_timer := $WallSlideStickyTimer
 onready var attack_timer := $AttackTimer
 onready var attack_cooldown_timer := $AttackCooldown
 onready var hurt_cooldown_timer := $HurtCooldownTimer
+onready var feet_timer := $WalkingFeetTimer
 
 onready var fall_through_area := $FallingThroughPlatformArea
 onready var left_wall_raycasts := $WallRaycasts/LeftWallRaycasts
@@ -90,6 +94,7 @@ onready var gravity_magnitude := 2 * max_jump_height / pow(jump_duration, 2)
 onready var gravity = Vector2.DOWN
 onready var max_jump_velocity = -sqrt(2 * gravity_magnitude * max_jump_height)
 onready var min_jump_velocity = -sqrt(2 * gravity_magnitude * min_jump_height)
+onready var visible_onscreen := $VisibilityNotifier2D
 
 signal interacted
 signal dropped
@@ -146,39 +151,42 @@ func _input(event : InputEvent):
 			velocity = (velocity - velocity.project(gravity)) + (min_jump_velocity * Vector2.DOWN.rotated(gravity.angle() - PI/2))
 
 func hit(by : Node, damage : int, knockback := Vector2.ZERO, type := Damage.ENVIRONMENTAL) :
-	var x = 40* Globals.CELL_SIZE
-	var y = 500
-	if knockback != Vector2.ZERO :
-		velocity = ((Vector2.UP * y) + (x * sign(knockback.x)*Vector2.RIGHT)).rotated(gravity.angle() -PI/2)
-	$Shockwave.set_emitting(true)
-
-	if holding_item :
-		held_item.hit(by, damage, knockback, type)
-	#set a special h weight here
-	_set_state(states.hitstun)
-	hurt_cooldown_timer.start()
-
-	if type == Damage.PUNCHES:
-		match Manager.current_minigame.attack_mode:
-			Manager.current_minigame.attack_modes.non_lethal:
-				pass
-			Manager.current_minigame.attack_modes.lethal:
-				hit_points -= damage
-				$Rig/AnimationPlayer.play('hurt')
-				parent.play_random("Hit")
-	else:
-		hit_points -= damage
-		$Rig/AnimationPlayer.play('hurt')
-		parent.play_random("Hit")
+	if !invincible:
+		var x = 40* Globals.CELL_SIZE
+		var y = 500
+		if knockback != Vector2.ZERO :
+			velocity = ((Vector2.UP * y) + (x * sign(knockback.x)*Vector2.RIGHT)).rotated(gravity.angle() -PI/2)
+		$Shockwave.set_emitting(true)
+	
+		if holding_item :
+			held_item.hit(by, damage, knockback, type)
+		#set a special h weight here
+		_set_state(states.hitstun)
+		hurt_cooldown_timer.start()
+	
+		if type == Damage.PUNCHES:
+			match Manager.current_minigame.attack_mode:
+				Manager.current_minigame.attack_modes.non_lethal:
+					parent.play_random("Hit")
+				Manager.current_minigame.attack_modes.lethal:
+					hit_points -= damage
+					$Rig/AnimationPlayer.play('hurt')
+					parent.play_random("Hit")
+		else:
+			hit_points -= damage
+			$Rig/AnimationPlayer.play('hurt')
+			parent.play_random("Hit")
 
 
 func jump():
 	if !disable_jumping:
+		parent.play_sound('Jump')
 		velocity = max_jump_velocity*gravity
 		can_jump = false
 
 func wall_jump():
 	if !disable_jumping:
+		parent.play_sound('Jump')
 		can_jump = false
 		var wall_jump_velocity : Vector2
 		if sign(facing_direction) == sign(wall_direction):
@@ -191,6 +199,7 @@ func wall_jump():
 
 func throw():
 	if holding_item :
+		parent.play_sound('Throw')
 		holding_item = false
 		var dir
 		var pos = global_position + Vector2.UP * 20
@@ -419,6 +428,7 @@ func _get_transition(delta : float):
 			if wall_direction != 0 && wall_slide_cooldown.is_stopped() && move_direction.project(wall_action).length() > 0 :
 				return states.wall_slide
 			elif is_on_floor():
+				parent.play_sound('Land')
 				return states.idle
 			elif adjusted_velocity.y < 0:
 				return states.jump
@@ -450,6 +460,7 @@ func _enter_state(new_state, old_state):
 				anim = "Run"
 				_state = anim_tree['parameters/Grounded/playback']
 			state_label.text = 'run'
+			feet_timer.start()
 		states.jump:
 			set_collision_mask_bit(DROP_THRU_BIT, false)
 			state_name = "Airborne"
@@ -485,6 +496,8 @@ func _exit_state(old_state, new_state):
 	match old_state:
 		states.wall_slide:
 			wall_slide_cooldown.start()
+		states.run:
+			feet_timer.stop()
 
 func _set_state(new_state):
 	previous_state = state
@@ -495,14 +508,26 @@ func _set_state(new_state):
 	if new_state != null:
 		_enter_state(new_state, previous_state)
 
-func _set_face():
+func _set_face(type='default'):
 	# this function will get called every time we need a new face
 	# used for punching, but can also be used for more personality during the game
 	# just leave this to me - TheMikirog
 	var face = $Rig/Head/Face
-
-	# for now it's just the punching, but I plan to implement more
-	face.set_texture(face_textures[0][1])
+	if type=='taunt1-1': face.set_texture(face_textures[4][1])
+	elif type=='taunt1-2': face.set_texture(face_textures[5][1])
+	else:
+		# for now it's just the punching, but I plan to implement more
+		face.set_texture(face_textures[0][1])
+	
+func _voice(type):
+	# play a certain voice clip, sometimes these could be randomized
+	if type == 'taunt1-1':
+		if randi()%2 == 0: get_node('Taunts/1/A1').play()
+		else: get_node('Taunts/1/A2').play()
+	elif type == 'taunt1-2':
+		if randi()%2 == 0: get_node('Taunts/1/B1').play()
+		else: get_node('Taunts/1/B2').play()
+		pass
 
 func _update_wall_action():
 	if wall_direction > 0 : wall_action = Vector2.LEFT.rotated(gravity.angle() + PI/2)
@@ -623,7 +648,7 @@ func _on_HurtCooldownTimer_timeout():
 #handle all taunt a/v fx here
 func _taunt1():
 	print('taunt1')
-	parent.play_sound('Taunts/1')
+	anim_tree['parameters/playback'].start("Taunt 1")
 
 func _taunt2():
 	print('taunt2')
@@ -636,3 +661,6 @@ func _taunt3():
 func _taunt4():
 	print('taunt4')
 	parent.play_sound('Taunts/4')
+
+func _on_WalkingFeetTimer_timeout():
+	parent.play_sound('Feet')

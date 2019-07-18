@@ -8,6 +8,8 @@ onready var GAMES = [
 	preload('res://scenes/minigames/mg_punchball/MG_Punchball.tscn'),
 	preload('res://scenes/minigames/mg_territories/MG_Territories.tscn'),
 	preload('res://scenes/minigames/mg_horseshoes/MG_Horseshoes.tscn'),
+	preload('res://scenes/minigames/mg_raining_explosives/MG_RainingExplosives.tscn'),
+	preload('res://scenes/minigames/mg_traps/MG_Traps.tscn'),
 	preload('res://scenes/minigames/mg_gravity/MG_Gravity.tscn'),
 ]
 
@@ -24,7 +26,7 @@ var minigame_name : String
 #rotation will loop if set to true
 var repeats := false
 
-var shuffle := true
+var shuffle := false
 
 onready var lobby := preload('res://scenes/minigames/mg_lobby/MG_Lobby.tscn')
 onready var winning_cutscene := preload('res://scenes/minigames/mg_winning_cutscene/MG_WinningCutscene.tscn')

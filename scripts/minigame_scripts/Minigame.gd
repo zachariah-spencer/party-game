@@ -3,7 +3,7 @@ extends Node
 class_name Minigame
 
 enum attack_modes {non_lethal, lethal}
-enum win_conditions {timeout, last_alive_allow_no_winners, lobby_readied, highest_local_score}
+enum win_conditions {timeout, last_alive_allow_no_winners, lobby_readied, highest_local_score, custom}
 
 export var game_time : int
 export var game_instructions : String
@@ -27,6 +27,7 @@ var spawn_points : Array
 var map : Node2D
 var maps : Array = []
 var forced_to_lobby := false
+var spawn_index = {}
 
 onready var hud : Node = $CanvasLayer/HUD
 onready var camera = get_node("Cam")
@@ -92,6 +93,7 @@ func _select_a_map():
 	add_child(map)
 
 func _physics_process(delta):
+	_run_minigame_loop()
 	if Players._update_active_players().size() < 2 && Manager.minigame_name != 'lobby' && !forced_to_lobby:
 		_game_won(true)
 		forced_to_lobby = true
@@ -104,6 +106,7 @@ func _insert_players():
 	var i := 0
 	for player in Players.active_players :
 		player.spawn(spawn_points[i].position)
+		spawn_index[player] = spawn_points[i]
 		i += 1
 
 func _pregame(has_countdown : bool = true):
@@ -121,7 +124,8 @@ func _on_begin_game():
 	game_active = true
 
 func _run_minigame_loop():
-	pass
+	if game_active:
+		_check_game_win_conditions()
 
 func _check_game_win_conditions():
 	match win_condition:
@@ -134,7 +138,6 @@ func _check_game_win_conditions():
 			elif Players._get_alive_players().size() == 0:
 				_game_won(true)
 
-
 		win_conditions.last_alive_allow_no_winners:
 			if Players._get_alive_players().size() == 1:
 				_game_won()
@@ -146,6 +149,9 @@ func _check_game_win_conditions():
 				_game_won()
 			elif Players._get_alive_players().size() == 0:
 				_game_won(true)
+		
+		win_conditions.custom:
+			pass
 
 
 

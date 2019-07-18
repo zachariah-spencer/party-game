@@ -48,3 +48,9 @@ func _on_ShotLandedArea_area_entered(area):
 
 func _on_FallTimer_timeout():
 	mode = RigidBody2D.MODE_KINEMATIC
+
+
+func _on_Horseshoe_body_entered(body):
+	var terrain = body if body.get_collision_layer_bit(0) == true else null
+	if terrain:
+		$CollisionSFX.play()

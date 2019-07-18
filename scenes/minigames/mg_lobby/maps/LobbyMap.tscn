@@ -162,21 +162,21 @@ shape = SubResource( 5 )
 [node name="DefaultFocus" parent="." index="15"]
 position = Vector2( 1024, 1024 )
 
-[node name="Lever" parent="." index="16" instance=ExtResource( 9 )]
+[node name="SwitchGravityLever" parent="." index="16" instance=ExtResource( 9 )]
 editor/display_folded = true
 position = Vector2( 608.899, 636.017 )
 
-[node name="GravityField" parent="Lever" index="5" instance=ExtResource( 7 )]
+[node name="GravityField" parent="SwitchGravityLever" index="5" instance=ExtResource( 7 )]
 position = Vector2( 609.631, -291.146 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Lever/GravityField" index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SwitchGravityLever/GravityField" index="1"]
 shape = SubResource( 6 )
 
-[node name="GravityField2" parent="Lever" index="6" instance=ExtResource( 7 )]
+[node name="GravityField2" parent="SwitchGravityLever" index="6" instance=ExtResource( 7 )]
 position = Vector2( 278.523, -307.655 )
 gravity_vec = Vector2( 1, 0 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Lever/GravityField2" index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SwitchGravityLever/GravityField2" index="1"]
 shape = SubResource( 6 )
 
 [node name="FallingBlocktest" type="Area2D" parent="." index="17"]
@@ -188,4 +188,5 @@ script = SubResource( 7 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FallingBlocktest" index="1"]
 position = Vector2( 0.270119, -25.3168 )
 shape = SubResource( 8 )
+
 [connection signal="body_entered" from="FallingBlocktest" to="FallingBlocktest" method="_on_FallingBlocktest_body_entered"]
