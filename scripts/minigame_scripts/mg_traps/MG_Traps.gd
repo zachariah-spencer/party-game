@@ -15,7 +15,7 @@ func _init():
 func _ready():
 	Manager.minigame_name = 'traps'
 	game_instructions = 'Trapper: Kill the other players!\nRunners: Make it to the end!'
-	
+
 	custom_cam.current = true
 
 func _insert_players():
@@ -25,7 +25,7 @@ func _insert_players():
 	trapper = player_array[0]
 	trapper.spawn(trapper_spawn.position)
 	trapper.child.invincible = true
-	
+
 	for player in Players._get_alive_players() :
 		if player != trapper :
 			runners.append(player)

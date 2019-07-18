@@ -149,7 +149,7 @@ func _check_game_win_conditions():
 				_game_won()
 			elif Players._get_alive_players().size() == 0:
 				_game_won(true)
-		
+
 		win_conditions.custom:
 			pass
 
