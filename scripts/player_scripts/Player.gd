@@ -81,6 +81,7 @@ onready var wall_slide_sticky_timer := $WallSlideStickyTimer
 onready var attack_timer := $AttackTimer
 onready var attack_cooldown_timer := $AttackCooldown
 onready var hurt_cooldown_timer := $HurtCooldownTimer
+onready var feet_timer := $WalkingFeetTimer
 
 onready var fall_through_area := $FallingThroughPlatformArea
 onready var left_wall_raycasts := $WallRaycasts/LeftWallRaycasts
@@ -163,7 +164,7 @@ func hit(by : Node, damage : int, knockback := Vector2.ZERO, type := Damage.ENVI
 	if type == Damage.PUNCHES:
 		match Manager.current_minigame.attack_mode:
 			Manager.current_minigame.attack_modes.non_lethal:
-				pass
+				parent.play_random("Hit")
 			Manager.current_minigame.attack_modes.lethal:
 				hit_points -= damage
 				$Rig/AnimationPlayer.play('hurt')
@@ -176,11 +177,13 @@ func hit(by : Node, damage : int, knockback := Vector2.ZERO, type := Damage.ENVI
 
 func jump():
 	if !disable_jumping:
+		parent.play_sound('Jump')
 		velocity = max_jump_velocity*gravity
 		can_jump = false
 
 func wall_jump():
 	if !disable_jumping:
+		parent.play_sound('Jump')
 		can_jump = false
 		var wall_jump_velocity : Vector2
 		if sign(facing_direction) == sign(wall_direction):
@@ -193,6 +196,7 @@ func wall_jump():
 
 func throw():
 	if holding_item :
+		parent.play_sound('Throw')
 		holding_item = false
 		var dir
 		var pos = global_position + Vector2.UP * 20
@@ -421,6 +425,7 @@ func _get_transition(delta : float):
 			if wall_direction != 0 && wall_slide_cooldown.is_stopped() && move_direction.project(wall_action).length() > 0 :
 				return states.wall_slide
 			elif is_on_floor():
+				parent.play_sound('Land')
 				return states.idle
 			elif adjusted_velocity.y < 0:
 				return states.jump
@@ -452,6 +457,7 @@ func _enter_state(new_state, old_state):
 				anim = "Run"
 				_state = anim_tree['parameters/Grounded/playback']
 			state_label.text = 'run'
+			feet_timer.start()
 		states.jump:
 			set_collision_mask_bit(DROP_THRU_BIT, false)
 			state_name = "Airborne"
@@ -487,6 +493,8 @@ func _exit_state(old_state, new_state):
 	match old_state:
 		states.wall_slide:
 			wall_slide_cooldown.start()
+		states.run:
+			feet_timer.stop()
 
 func _set_state(new_state):
 	previous_state = state
@@ -665,3 +673,6 @@ func _manual_move_hand(dir := Vector2.ZERO, force := 1, hand := 'right'):
 	
 	vel = hand_ref.get_gravity_scale() * force * dir.normalized()
 	hand_ref.apply_central_impulse(vel)
+
+func _on_WalkingFeetTimer_timeout():
+	parent.play_sound('Feet')

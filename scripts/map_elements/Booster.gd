@@ -1,6 +1,7 @@
 extends Node2D
 
 onready var area = $Area
+onready var boost_sfx := $Boost
 
 export var launch_speed = 60
 
@@ -14,5 +15,9 @@ func on_body_entered(body):
 
 	if player:
 		player.velocity.y = -launch_speed * Globals.CELL_SIZE
+		boost_sfx.pitch_scale = 1.5
+		boost_sfx.play()
 	if item:
+		boost_sfx.pitch_scale = 3
+		boost_sfx.play()
 		item.apply_central_impulse(Vector2(0,-launch_speed * Globals.CELL_SIZE))
