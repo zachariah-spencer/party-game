@@ -31,10 +31,8 @@ func _physics_process(delta):
 func _run_minigame_loop():
 	._run_minigame_loop()
 
-	if game_active:
-		_check_game_win_conditions()
-
 func _end_game():
+	._end_game()
 	countdown_timer.stop()
 
 func _on_CountdownTimer_timeout():
