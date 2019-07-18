@@ -87,56 +87,56 @@ transitions = [ "Idle", "Run", SubResource( 14 ), "Run", "Idle", SubResource( 15
 start_node = "Idle"
 graph_offset = Vector2( -26, 57 )
 
-[sub_resource type="AnimationNodeAnimation" id=41]
+[sub_resource type="AnimationNodeAnimation" id=17]
 animation = "taunt1"
 
-[sub_resource type="AnimationNodeAnimation" id=17]
+[sub_resource type="AnimationNodeAnimation" id=18]
 animation = "wall_slide"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=18]
-xfade_time = 0.05
-
 [sub_resource type="AnimationNodeStateMachineTransition" id=19]
-xfade_time = 0.1
+xfade_time = 0.05
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=20]
 xfade_time = 0.1
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=21]
-xfade_time = 0.2
+xfade_time = 0.1
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=22]
 xfade_time = 0.2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=23]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=24]
 xfade_time = 0.1
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=42]
+[sub_resource type="AnimationNodeStateMachineTransition" id=25]
 xfade_time = 0.05
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=43]
+[sub_resource type="AnimationNodeStateMachineTransition" id=26]
 switch_mode = 2
 auto_advance = true
 xfade_time = 0.1
 
-[sub_resource type="AnimationNodeStateMachine" id=24]
+[sub_resource type="AnimationNodeStateMachine" id=27]
 states/Airborne/node = SubResource( 9 )
 states/Airborne/position = Vector2( 725, 137 )
 states/Grounded/node = SubResource( 16 )
 states/Grounded/position = Vector2( 534, 137 )
-"states/Taunt 1/node" = SubResource( 41 )
+"states/Taunt 1/node" = SubResource( 17 )
 "states/Taunt 1/position" = Vector2( 600.555, 66 )
-"states/Wall Slide/node" = SubResource( 17 )
+"states/Wall Slide/node" = SubResource( 18 )
 "states/Wall Slide/position" = Vector2( 613.555, 211 )
-transitions = [ "Grounded", "Airborne", SubResource( 18 ), "Airborne", "Grounded", SubResource( 19 ), "Airborne", "Wall Slide", SubResource( 20 ), "Wall Slide", "Airborne", SubResource( 21 ), "Wall Slide", "Grounded", SubResource( 22 ), "Grounded", "Wall Slide", SubResource( 23 ), "Grounded", "Taunt 1", SubResource( 42 ), "Taunt 1", "Grounded", SubResource( 43 ) ]
+transitions = [ "Grounded", "Airborne", SubResource( 19 ), "Airborne", "Grounded", SubResource( 20 ), "Airborne", "Wall Slide", SubResource( 21 ), "Wall Slide", "Airborne", SubResource( 22 ), "Wall Slide", "Grounded", SubResource( 23 ), "Grounded", "Wall Slide", SubResource( 24 ), "Grounded", "Taunt 1", SubResource( 25 ), "Taunt 1", "Grounded", SubResource( 26 ) ]
 start_node = "Grounded"
 graph_offset = Vector2( 114.555, -5 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=25]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=28]
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=26]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=29]
 
-[sub_resource type="Animation" id=37]
+[sub_resource type="Animation" id=30]
 resource_name = "taunt1"
 length = 2.0
 tracks/0/type = "method"
@@ -177,46 +177,46 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="CapsuleShape2D" id=27]
+[sub_resource type="CapsuleShape2D" id=31]
 radius = 12.0
 height = 61.0
 
-[sub_resource type="RectangleShape2D" id=28]
+[sub_resource type="RectangleShape2D" id=32]
 extents = Vector2( 25, 43 )
 
-[sub_resource type="CapsuleShape2D" id=29]
+[sub_resource type="CapsuleShape2D" id=33]
 height = 60.0
 
-[sub_resource type="ShaderMaterial" id=30]
+[sub_resource type="ShaderMaterial" id=34]
 shader = ExtResource( 15 )
 
-[sub_resource type="Curve" id=31]
+[sub_resource type="Curve" id=35]
 _data = [ Vector2( 0, 0 ), 0.0, 2.94974, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=32]
+[sub_resource type="Gradient" id=36]
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
 
-[sub_resource type="DynamicFont" id=33]
+[sub_resource type="DynamicFont" id=37]
 size = 40
 font_data = ExtResource( 17 )
 
-[sub_resource type="DynamicFontData" id=34]
+[sub_resource type="DynamicFontData" id=38]
 font_path = "res://monogram.ttf"
 
-[sub_resource type="DynamicFont" id=35]
+[sub_resource type="DynamicFont" id=39]
 size = 40
-font_data = SubResource( 34 )
-
-[sub_resource type="AudioStreamRandomPitch" id=36]
-audio_stream = ExtResource( 18 )
-
-[sub_resource type="AudioStreamRandomPitch" id=38]
-audio_stream = ExtResource( 19 )
-
-[sub_resource type="AudioStreamRandomPitch" id=39]
-audio_stream = ExtResource( 20 )
+font_data = SubResource( 38 )
 
 [sub_resource type="AudioStreamRandomPitch" id=40]
+audio_stream = ExtResource( 18 )
+
+[sub_resource type="AudioStreamRandomPitch" id=41]
+audio_stream = ExtResource( 19 )
+
+[sub_resource type="AudioStreamRandomPitch" id=42]
+audio_stream = ExtResource( 20 )
+
+[sub_resource type="AudioStreamRandomPitch" id=43]
 audio_stream = ExtResource( 21 )
 
 [node name="Player" type="KinematicBody2D" groups=[
@@ -444,12 +444,12 @@ collision_mask = 960
 shape = SubResource( 2 )
 
 [node name="AnimationTree" type="AnimationTree" parent="Rig"]
-tree_root = SubResource( 24 )
+tree_root = SubResource( 27 )
 anim_player = NodePath("../AnimationPlayer")
 process_mode = 0
-parameters/playback = SubResource( 25 )
+parameters/playback = SubResource( 28 )
 parameters/Airborne/blend_position = -1.20246
-parameters/Grounded/playback = SubResource( 26 )
+parameters/Grounded/playback = SubResource( 29 )
 parameters/Grounded/Run/speed/scale = 1.5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Rig"]
@@ -459,12 +459,12 @@ anims/fall = ExtResource( 10 )
 anims/idle = ExtResource( 11 )
 anims/jump = ExtResource( 12 )
 anims/run = ExtResource( 13 )
-anims/taunt1 = SubResource( 37 )
+anims/taunt1 = SubResource( 30 )
 anims/wall_slide = ExtResource( 14 )
 
 [node name="PlayerShape" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -36 )
-shape = SubResource( 27 )
+shape = SubResource( 31 )
 
 [node name="GroundRaycasts" type="Node2D" parent="."]
 
@@ -521,7 +521,7 @@ collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FallingThroughPlatformArea"]
 position = Vector2( 0, -0.142395 )
-shape = SubResource( 28 )
+shape = SubResource( 32 )
 
 [node name="TopOfHeadArea" type="Area2D" parent="."]
 editor/display_folded = true
@@ -530,7 +530,7 @@ collision_layer = 2048
 collision_mask = 960
 
 [node name="Shape" type="CollisionShape2D" parent="TopOfHeadArea"]
-shape = SubResource( 29 )
+shape = SubResource( 33 )
 one_way_collision = true
 
 [node name="PickupRange" type="Area2D" parent="."]
@@ -540,7 +540,7 @@ collision_mask = 16384
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickupRange"]
 position = Vector2( -0.315559, -32.6603 )
-shape = SubResource( 27 )
+shape = SubResource( 31 )
 
 [node name="WallSlideCooldown" type="Timer" parent="."]
 process_mode = 0
@@ -570,7 +570,7 @@ wait_time = 0.5
 one_shot = true
 
 [node name="Shockwave" type="CPUParticles2D" parent="."]
-material = SubResource( 30 )
+material = SubResource( 34 )
 position = Vector2( 0, -30.6 )
 emitting = false
 amount = 1
@@ -582,8 +582,8 @@ spread = 0.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 0.0
 scale_amount = 0.2
-scale_amount_curve = SubResource( 31 )
-color_ramp = SubResource( 32 )
+scale_amount_curve = SubResource( 35 )
+color_ramp = SubResource( 36 )
 
 [node name="LocalScore" type="Label" parent="."]
 anchor_left = 0.5
@@ -592,7 +592,7 @@ margin_left = -119.0
 margin_top = -118.0
 margin_right = 121.0
 margin_bottom = -86.0
-custom_fonts/font = SubResource( 33 )
+custom_fonts/font = SubResource( 37 )
 text = "0"
 align = 1
 
@@ -604,7 +604,7 @@ margin_left = -50.0
 margin_top = -184.0
 margin_right = 50.0
 margin_bottom = -152.0
-custom_fonts/font = SubResource( 35 )
+custom_fonts/font = SubResource( 39 )
 align = 1
 
 [node name="HitPoints" type="Label" parent="."]
@@ -615,7 +615,7 @@ margin_left = -64.0
 margin_top = -151.883
 margin_right = 64.0
 margin_bottom = -119.883
-custom_fonts/font = SubResource( 33 )
+custom_fonts/font = SubResource( 37 )
 align = 1
 valign = 1
 
@@ -639,22 +639,22 @@ wait_time = 0.21
 
 [node name="A1" type="AudioStreamPlayer2D" parent="Taunts/1"]
 position = Vector2( 0, -39.01 )
-stream = SubResource( 36 )
+stream = SubResource( 40 )
 bus = "Voices"
 
 [node name="A2" type="AudioStreamPlayer2D" parent="Taunts/1"]
 position = Vector2( 0, -39.01 )
-stream = SubResource( 38 )
+stream = SubResource( 41 )
 bus = "Voices"
 
 [node name="B1" type="AudioStreamPlayer2D" parent="Taunts/1"]
 position = Vector2( 0, -39.01 )
-stream = SubResource( 39 )
+stream = SubResource( 42 )
 bus = "Voices"
 
 [node name="B2" type="AudioStreamPlayer2D" parent="Taunts/1"]
 position = Vector2( 0, -39.01 )
-stream = SubResource( 40 )
+stream = SubResource( 43 )
 pitch_scale = 1.1
 bus = "Voices"
 

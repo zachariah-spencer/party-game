@@ -35,6 +35,7 @@ var can_attack := true
 var punch_arm := 'left'
 var attack_area
 var hit_exceptions := []
+var invincible := false
 
 var max_jump_height := 8.25 * Globals.CELL_SIZE
 var min_jump_height := 0.8 * Globals.CELL_SIZE
@@ -149,30 +150,31 @@ func _input(event : InputEvent):
 			velocity = (velocity - velocity.project(gravity)) + (min_jump_velocity * Vector2.DOWN.rotated(gravity.angle() - PI/2))
 
 func hit(by : Node, damage : int, knockback := Vector2.ZERO, type := Damage.ENVIRONMENTAL) :
-	var x = 40* Globals.CELL_SIZE
-	var y = 500
-	if knockback != Vector2.ZERO :
-		velocity = ((Vector2.UP * y) + (x * sign(knockback.x)*Vector2.RIGHT)).rotated(gravity.angle() -PI/2)
-	$Shockwave.set_emitting(true)
-
-	if holding_item :
-		held_item.hit(by, damage, knockback, type)
-	#set a special h weight here
-	_set_state(states.hitstun)
-	hurt_cooldown_timer.start()
-
-	if type == Damage.PUNCHES:
-		match Manager.current_minigame.attack_mode:
-			Manager.current_minigame.attack_modes.non_lethal:
-				parent.play_random("Hit")
-			Manager.current_minigame.attack_modes.lethal:
-				hit_points -= damage
-				$Rig/AnimationPlayer.play('hurt')
-				parent.play_random("Hit")
-	else:
-		hit_points -= damage
-		$Rig/AnimationPlayer.play('hurt')
-		parent.play_random("Hit")
+	if !invincible:
+		var x = 40* Globals.CELL_SIZE
+		var y = 500
+		if knockback != Vector2.ZERO :
+			velocity = ((Vector2.UP * y) + (x * sign(knockback.x)*Vector2.RIGHT)).rotated(gravity.angle() -PI/2)
+		$Shockwave.set_emitting(true)
+	
+		if holding_item :
+			held_item.hit(by, damage, knockback, type)
+		#set a special h weight here
+		_set_state(states.hitstun)
+		hurt_cooldown_timer.start()
+	
+		if type == Damage.PUNCHES:
+			match Manager.current_minigame.attack_mode:
+				Manager.current_minigame.attack_modes.non_lethal:
+					parent.play_random("Hit")
+				Manager.current_minigame.attack_modes.lethal:
+					hit_points -= damage
+					$Rig/AnimationPlayer.play('hurt')
+					parent.play_random("Hit")
+		else:
+			hit_points -= damage
+			$Rig/AnimationPlayer.play('hurt')
+			parent.play_random("Hit")
 
 
 func jump():

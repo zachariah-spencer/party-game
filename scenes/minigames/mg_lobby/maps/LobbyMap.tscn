@@ -162,7 +162,6 @@ shape = SubResource( 5 )
 position = Vector2( 1024, 1024 )
 
 [node name="Lever" parent="." index="16" instance=ExtResource( 8 )]
-editor/display_folded = true
 position = Vector2( 608.899, 636.017 )
 
 [node name="GravityField" parent="Lever" index="5" instance=ExtResource( 6 )]
