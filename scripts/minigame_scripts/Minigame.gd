@@ -27,6 +27,7 @@ var spawn_points : Array
 var map : Node2D
 var maps : Array = []
 var forced_to_lobby := false
+var spawn_index = {}
 
 onready var hud : Node = $CanvasLayer/HUD
 onready var camera = get_node("Cam")
@@ -104,6 +105,7 @@ func _insert_players():
 	var i := 0
 	for player in Players.active_players :
 		player.spawn(spawn_points[i].position)
+		spawn_index[player] = spawn_points[i]
 		i += 1
 
 func _pregame(has_countdown : bool = true):
