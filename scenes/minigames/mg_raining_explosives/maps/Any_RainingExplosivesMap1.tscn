@@ -48,10 +48,10 @@ rotation = 3.14159
 item = ExtResource( 3 )
 
 [node name="ItemSpawner3" parent="." index="9" groups=[
-"barrage_six",
-"barrage_four",
-"barrage_three",
 "barrage_two",
+"barrage_four",
+"barrage_six",
+"barrage_three",
 ] instance=ExtResource( 2 )]
 position = Vector2( 96, -352 )
 rotation = 3.14159
@@ -82,8 +82,8 @@ rotation = 3.14159
 item = ExtResource( 3 )
 
 [node name="ItemSpawner7" parent="." index="13" groups=[
-"barrage_six",
 "barrage_two",
+"barrage_six",
 ] instance=ExtResource( 2 )]
 position = Vector2( 480, -352 )
 rotation = 3.14159
@@ -106,26 +106,26 @@ rotation = 3.66519
 item = ExtResource( 3 )
 
 [node name="ItemSpawner10" parent="." index="16" groups=[
-"barrage_three",
 "barrage_five",
+"barrage_three",
 ] instance=ExtResource( 2 )]
 position = Vector2( 768, -352 )
 rotation = 2.61799
 item = ExtResource( 3 )
 
 [node name="ItemSpawner11" parent="." index="17" groups=[
+"barrage_two",
+"barrage_five",
 "barrage_six",
 "barrage_three",
-"barrage_five",
-"barrage_two",
 ] instance=ExtResource( 2 )]
 position = Vector2( 864, -352 )
 rotation = 3.14159
 item = ExtResource( 3 )
 
 [node name="ItemSpawner12" parent="." index="18" groups=[
-"barrage_three",
 "barrage_five",
+"barrage_three",
 ] instance=ExtResource( 2 )]
 position = Vector2( 960, -352 )
 rotation = 3.14159
