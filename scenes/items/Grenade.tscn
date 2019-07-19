@@ -1,13 +1,15 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://scenes/items/Item.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/items/Grenade.gd" type="Script" id=2]
-[ext_resource path="res://assets/vfx/explosion.png" type="Texture" id=3]
-[ext_resource path="res://assets/sphere_soft.png" type="Texture" id=4]
-[ext_resource path="res://assets/audio/sfx/explosions/explodemini.wav" type="AudioStream" id=5]
-[ext_resource path="res://assets/audio/sfx/horseshoe_landing.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/items/grenade.png" type="Texture" id=3]
+[ext_resource path="res://assets/vfx/explosion.png" type="Texture" id=4]
+[ext_resource path="res://assets/sphere_soft.png" type="Texture" id=5]
+[ext_resource path="res://assets/audio/sfx/explosions/explodemini.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/audio/sfx/horseshoe_landing.wav" type="AudioStream" id=7]
 
 [sub_resource type="CircleShape2D" id=1]
+radius = 20.0
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 150.0
@@ -105,10 +107,17 @@ mass = 1.25
 linear_damp = 2.5
 script = ExtResource( 2 )
 
+[node name="Sprite" parent="Obj" index="0"]
+position = Vector2( 0, 0 )
+scale = Vector2( 0.4, 0.4 )
+texture = ExtResource( 3 )
+
 [node name="CollisionShape2D" parent="Pickup_area" index="0"]
 shape = SubResource( 1 )
 
 [node name="ExplosionArea" type="Area2D" parent="." index="2"]
+editor/display_folded = true
+visible = false
 monitorable = false
 collision_layer = 0
 collision_mask = 16392
@@ -124,7 +133,7 @@ lifetime = 0.8
 one_shot = true
 explosiveness = 0.7
 process_material = SubResource( 5 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 
 [node name="Explosion" type="Particles2D" parent="." index="4"]
 light_mask = 16384
@@ -135,7 +144,7 @@ one_shot = true
 explosiveness = 0.8
 draw_order = 1
 process_material = SubResource( 10 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 normal_map = SubResource( 12 )
 
 [node name="Core" type="Particles2D" parent="." index="5"]
@@ -145,21 +154,21 @@ lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource( 15 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 normal_map = SubResource( 17 )
 
 [node name="ExplosionLight" type="Light2D" parent="." index="6"]
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 color = Color( 1, 0, 0, 1 )
 range_item_cull_mask = 16384
 
 [node name="ExplosionSFX" type="AudioStreamPlayer2D" parent="." index="7"]
-stream = ExtResource( 5 )
+stream = ExtResource( 6 )
 volume_db = -8.0
 bus = "Sounds"
 
 [node name="CollisionSFX" type="AudioStreamPlayer2D" parent="." index="8"]
-stream = ExtResource( 6 )
+stream = ExtResource( 7 )
 volume_db = -25.0
 pitch_scale = 4.0
 

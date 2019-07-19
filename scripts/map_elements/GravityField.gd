@@ -6,6 +6,8 @@ var mat : ParticlesMaterial
 export var emitting := true
 const particle_speed := 100
 
+signal gravity_changed
+
 func _ready():
 	if emitting :
 		mat = $Particles2D.process_material.duplicate()
@@ -37,6 +39,7 @@ func _physics_process(delta):
 			player._set_gravity(gravity_vec)
 
 func set_gravity_vector(new_gravity : Vector2) :
+	emit_signal('gravity_changed', new_gravity)
 	if emitting :
 		mat.gravity = Vector3(new_gravity.x * particle_speed, new_gravity.y * particle_speed, 0)
 	gravity_vec = new_gravity

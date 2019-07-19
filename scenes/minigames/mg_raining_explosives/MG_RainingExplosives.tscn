@@ -9,7 +9,7 @@
 size = 150
 font_data = ExtResource( 3 )
 
-[node name="MG_RainingExplosives" index="0" instance=ExtResource( 1 )]
+[node name="MG_RainingExplosives" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 game_time = 1000000000
 win_condition = 1

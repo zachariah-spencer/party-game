@@ -157,13 +157,13 @@ func hit(by : Node, damage : int, knockback := Vector2.ZERO, type := Damage.ENVI
 		if knockback != Vector2.ZERO :
 			velocity = ((Vector2.UP * y) + (x * sign(knockback.x)*Vector2.RIGHT)).rotated(gravity.angle() -PI/2)
 		$Shockwave.set_emitting(true)
-	
+
 		if holding_item :
 			held_item.hit(by, damage, knockback, type)
 		#set a special h weight here
 		_set_state(states.hitstun)
 		hurt_cooldown_timer.start()
-	
+
 		if type == Damage.PUNCHES:
 			match Manager.current_minigame.attack_mode:
 				Manager.current_minigame.attack_modes.non_lethal:
@@ -518,7 +518,7 @@ func _set_face(type='default'):
 	else:
 		# for now it's just the punching, but I plan to implement more
 		face.set_texture(face_textures[0][1])
-	
+
 func _voice(type):
 	# play a certain voice clip, sometimes these could be randomized
 	if type == 'taunt1-1':
