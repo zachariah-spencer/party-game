@@ -192,3 +192,4 @@ gravity_scale = -10.0
 [node name="RigidBeamHazard3" parent="." index="11" instance=ExtResource( 8 )]
 position = Vector2( 666.693, 265.003 )
 gravity_scale = -10.0
+
