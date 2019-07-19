@@ -45,18 +45,22 @@ position = Vector2( 992, 672 )
 [node name="Dispensers" type="Node" parent="." index="7"]
 
 [node name="ItemDispenser" parent="Dispensers" index="0" instance=ExtResource( 3 )]
-position = Vector2( 221.31, 248.742 )
+position = Vector2( 224, 0 )
+rotation = -1.5708
 item_path = "res://scenes/items/Horseshoe.tscn"
 
 [node name="ItemDispenser2" parent="Dispensers" index="1" instance=ExtResource( 3 )]
-position = Vector2( 220.731, 696.807 )
+position = Vector2( 224, 464 )
+rotation = -1.5708
 item_path = "res://scenes/items/Horseshoe.tscn"
 
 [node name="ItemDispenser3" parent="Dispensers" index="2" instance=ExtResource( 3 )]
-position = Vector2( 543.892, 250.538 )
+position = Vector2( 544, 0 )
+rotation = 1.5708
 item_path = "res://scenes/items/Horseshoe.tscn"
 
 [node name="ItemDispenser4" parent="Dispensers" index="3" instance=ExtResource( 3 )]
-position = Vector2( 540.101, 699.202 )
+position = Vector2( 544, 464 )
+rotation = 1.5708
 item_path = "res://scenes/items/Horseshoe.tscn"
 

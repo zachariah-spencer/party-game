@@ -13,7 +13,7 @@ func _ready():
 	display_sprite.texture = setup_item.get_node('Obj/Sprite').get_texture()
 	display_sprite.scale = setup_item.get_node('Obj/Sprite').get_scale()
 	original_scale = display_sprite.scale
-	tween.interpolate_property(display_sprite,'scale',display_sprite.scale,display_sprite.scale + Vector2(.08,.08), 3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	tween.interpolate_property(display_sprite,'scale',display_sprite.scale,display_sprite.scale - Vector2(.08,.08), 3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween.start()
 	
 
@@ -23,7 +23,7 @@ func grab(by):
 
 
 func _on_Tween_tween_completed(object, key):
-	if display_sprite.scale == original_scale:
+	if display_sprite.scale < original_scale:
 		tween.interpolate_property(display_sprite,'scale',display_sprite.scale,display_sprite.scale + Vector2(.08,.08), 3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 		tween.start()
 	else:
