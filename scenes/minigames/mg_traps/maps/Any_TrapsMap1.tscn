@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scenes/minigames/MapTemplate.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/minigames/mg_traps/LevelCompleteZone.tscn" type="PackedScene" id=2]
@@ -7,10 +7,11 @@
 [ext_resource path="res://scenes/map_elements/GravityField.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/map_elements/levers/ItemSpawnerLever.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/map_elements/ItemSpawner.tscn" type="PackedScene" id=7]
-[ext_resource path="res://scenes/map_elements/levers/SpikesLever.tscn" type="PackedScene" id=8]
-[ext_resource path="res://scenes/map_elements/SpikesHazard.tscn" type="PackedScene" id=9]
-[ext_resource path="res://scenes/map_elements/BeamHazard.tscn" type="PackedScene" id=10]
-[ext_resource path="res://scenes/map_elements/LazarHazard.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scenes/items/Grenade.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/map_elements/levers/SpikesLever.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/map_elements/SpikesHazard.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/map_elements/BeamHazard.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scenes/map_elements/LazarHazard.tscn" type="PackedScene" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 128, 256 )
@@ -67,112 +68,112 @@ gravity_vec = Vector2( 0, 1 )
 shape = SubResource( 1 )
 
 [node name="ItemSpawnerLever" parent="Traps" index="1" instance=ExtResource( 6 )]
-editor/display_folded = true
 position = Vector2( 1056, 736 )
 switch_cooldown = 1.5
 
 [node name="ItemSpawner" parent="Traps/ItemSpawnerLever" index="6" instance=ExtResource( 7 )]
 position = Vector2( 0, -672 )
 rotation = 3.14159
-item_path = "res://scenes/items/grenade.tscn"
+item = ExtResource( 8 )
 
 [node name="ItemSpawner2" parent="Traps/ItemSpawnerLever" index="7" instance=ExtResource( 7 )]
 position = Vector2( -48, -672 )
 rotation = 3.14159
-item_path = "res://scenes/items/grenade.tscn"
+item = ExtResource( 8 )
 
 [node name="ItemSpawner3" parent="Traps/ItemSpawnerLever" index="8" instance=ExtResource( 7 )]
 position = Vector2( 48, -672 )
 rotation = 3.14159
-item_path = "res://scenes/items/grenade.tscn"
+item = ExtResource( 8 )
 
-[node name="SpikesLever" parent="Traps" index="2" instance=ExtResource( 8 )]
+[node name="SpikesLever" parent="Traps" index="2" instance=ExtResource( 9 )]
 editor/display_folded = true
 position = Vector2( 1696, 736 )
 
-[node name="SpikesHazard" parent="Traps/SpikesLever" index="6" instance=ExtResource( 9 )]
+[node name="SpikesHazard" parent="Traps/SpikesLever" index="6" instance=ExtResource( 10 )]
 position = Vector2( -64, -512 )
 
-[node name="SpikesHazard2" parent="Traps/SpikesLever" index="7" instance=ExtResource( 9 )]
+[node name="SpikesHazard2" parent="Traps/SpikesLever" index="7" instance=ExtResource( 10 )]
 position = Vector2( 64, -512 )
 
-[node name="SpikesHazard3" parent="Traps/SpikesLever" index="8" instance=ExtResource( 9 )]
+[node name="SpikesHazard3" parent="Traps/SpikesLever" index="8" instance=ExtResource( 10 )]
 position = Vector2( 192, -512 )
 
-[node name="SpikesHazard4" parent="Traps/SpikesLever" index="9" instance=ExtResource( 9 )]
+[node name="SpikesHazard4" parent="Traps/SpikesLever" index="9" instance=ExtResource( 10 )]
 position = Vector2( 320, -512 )
 
-[node name="SpikesLever2" parent="Traps" index="3" instance=ExtResource( 8 )]
+[node name="SpikesLever2" parent="Traps" index="3" instance=ExtResource( 9 )]
 editor/display_folded = true
 position = Vector2( 1952, 736 )
 
-[node name="SpikesHazard5" parent="Traps/SpikesLever2" index="6" instance=ExtResource( 9 )]
+[node name="SpikesHazard5" parent="Traps/SpikesLever2" index="6" instance=ExtResource( 10 )]
 position = Vector2( -384, -256 )
 
-[node name="SpikesHazard6" parent="Traps/SpikesLever2" index="7" instance=ExtResource( 9 )]
+[node name="SpikesHazard6" parent="Traps/SpikesLever2" index="7" instance=ExtResource( 10 )]
 position = Vector2( -256, -256 )
 
-[node name="SpikesHazard7" parent="Traps/SpikesLever2" index="8" instance=ExtResource( 9 )]
+[node name="SpikesHazard7" parent="Traps/SpikesLever2" index="8" instance=ExtResource( 10 )]
 position = Vector2( -128, -256 )
 
-[node name="SpikesHazard8" parent="Traps/SpikesLever2" index="9" instance=ExtResource( 9 )]
+[node name="SpikesHazard8" parent="Traps/SpikesLever2" index="9" instance=ExtResource( 10 )]
 position = Vector2( 0, -256 )
 
-[node name="SpikesHazard9" parent="Traps/SpikesLever2" index="10" instance=ExtResource( 9 )]
+[node name="SpikesHazard9" parent="Traps/SpikesLever2" index="10" instance=ExtResource( 10 )]
 position = Vector2( 128, -256 )
 
-[node name="SpikesLever3" parent="Traps" index="4" instance=ExtResource( 8 )]
+[node name="SpikesLever3" parent="Traps" index="4" instance=ExtResource( 9 )]
 editor/display_folded = true
 position = Vector2( 2336, 736 )
 
-[node name="BeamHazard" parent="Traps/SpikesLever3" index="6" instance=ExtResource( 10 )]
+[node name="BeamHazard" parent="Traps/SpikesLever3" index="6" instance=ExtResource( 11 )]
 position = Vector2( 0, -192 )
 
-[node name="BeamHazard3" parent="Traps/SpikesLever3" index="7" instance=ExtResource( 10 )]
+[node name="BeamHazard3" parent="Traps/SpikesLever3" index="7" instance=ExtResource( 11 )]
 position = Vector2( 256, -192 )
 
-[node name="SpikesLever4" parent="Traps" index="5" instance=ExtResource( 8 )]
+[node name="SpikesLever4" parent="Traps" index="5" instance=ExtResource( 9 )]
 editor/display_folded = true
 position = Vector2( 2592, 736 )
 
-[node name="BeamHazard2" parent="Traps/SpikesLever4" index="6" instance=ExtResource( 10 )]
+[node name="BeamHazard2" parent="Traps/SpikesLever4" index="6" instance=ExtResource( 11 )]
 position = Vector2( -128, -192 )
 
-[node name="BeamHazard4" parent="Traps/SpikesLever4" index="7" instance=ExtResource( 10 )]
+[node name="BeamHazard4" parent="Traps/SpikesLever4" index="7" instance=ExtResource( 11 )]
 position = Vector2( 128, -192 )
 
-[node name="SpikesLever5" parent="Traps" index="6" instance=ExtResource( 8 )]
+[node name="SpikesLever5" parent="Traps" index="6" instance=ExtResource( 9 )]
 editor/display_folded = true
 position = Vector2( 2848, 736 )
 
-[node name="BeamHazard5" parent="Traps/SpikesLever5" index="6" instance=ExtResource( 10 )]
+[node name="BeamHazard5" parent="Traps/SpikesLever5" index="6" instance=ExtResource( 11 )]
 position = Vector2( 0, -192 )
 
-[node name="BeamHazard7" parent="Traps/SpikesLever5" index="7" instance=ExtResource( 10 )]
+[node name="BeamHazard7" parent="Traps/SpikesLever5" index="7" instance=ExtResource( 11 )]
 position = Vector2( 256, -192 )
 
-[node name="SpikesLever6" parent="Traps" index="7" instance=ExtResource( 8 )]
+[node name="SpikesLever6" parent="Traps" index="7" instance=ExtResource( 9 )]
+editor/display_folded = true
 position = Vector2( 3104, 736 )
 
-[node name="BeamHazard6" parent="Traps/SpikesLever6" index="6" instance=ExtResource( 10 )]
+[node name="BeamHazard6" parent="Traps/SpikesLever6" index="6" instance=ExtResource( 11 )]
 position = Vector2( -128, -192 )
 
-[node name="BeamHazard8" parent="Traps/SpikesLever6" index="7" instance=ExtResource( 10 )]
+[node name="BeamHazard8" parent="Traps/SpikesLever6" index="7" instance=ExtResource( 11 )]
 position = Vector2( 128, -192 )
 
-[node name="LazarHazard" parent="Traps" index="8" instance=ExtResource( 11 )]
+[node name="LazarHazard" parent="Traps" index="8" instance=ExtResource( 12 )]
 position = Vector2( 416, 80 )
 rotation = -3.14159
 
-[node name="LazarHazard2" parent="Traps" index="9" instance=ExtResource( 11 )]
+[node name="LazarHazard2" parent="Traps" index="9" instance=ExtResource( 12 )]
 position = Vector2( 480, 80 )
 rotation = -3.14159
 
-[node name="LazarHazard3" parent="Traps" index="10" instance=ExtResource( 11 )]
+[node name="LazarHazard3" parent="Traps" index="10" instance=ExtResource( 12 )]
 position = Vector2( 544, 80 )
 rotation = -3.14159
 
-[node name="LazarHazard4" parent="Traps" index="11" instance=ExtResource( 11 )]
+[node name="LazarHazard4" parent="Traps" index="11" instance=ExtResource( 12 )]
 position = Vector2( 608, 80 )
 rotation = -3.14159
 
