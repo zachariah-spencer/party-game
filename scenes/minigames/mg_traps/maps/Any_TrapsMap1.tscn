@@ -52,7 +52,6 @@ smoothing_enabled = true
 smoothing_speed = 3.0
 
 [node name="Traps" type="Node2D" parent="." index="9"]
-editor/display_folded = true
 
 [node name="GravityLever" parent="Traps" index="0" instance=ExtResource( 4 )]
 editor/display_folded = true
@@ -153,7 +152,6 @@ position = Vector2( 0, -192 )
 position = Vector2( 256, -192 )
 
 [node name="SpikesLever6" parent="Traps" index="7" instance=ExtResource( 8 )]
-editor/display_folded = true
 position = Vector2( 3104, 736 )
 
 [node name="BeamHazard6" parent="Traps/SpikesLever6" index="6" instance=ExtResource( 10 )]
