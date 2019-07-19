@@ -14,6 +14,8 @@ onready var cast = $ray
 onready var sprite = $sprite
 onready var hitParticles = $HitParticles
 onready var preParticles = $PreParticles
+onready var hurtbox = $Hurtbox
+var has_hit = []
 
 onready var delay_timer = Timer.new()
 onready var active_timer = Timer.new()
@@ -37,23 +39,30 @@ func _ready():
 	preParticles.emitting = true
 
 func _process(delta):
-
 	if cast.is_colliding() :
-		var contact_distance = cast.get_collision_point().distance_to(position)
+		var contact_distance = cast.get_collision_point().distance_to(global_position)
 		sprite.rect_size.y = contact_distance
 		preParticles.process_material.emission_box_extents.x = contact_distance/2
 		preParticles.position.y = contact_distance/2
 		hitParticles.position.y = contact_distance
+#		hurtbox.position.y = contact_distance/2
+		$Hurtbox/CollisionShape2D.shape.extents.y = contact_distance
+
 		if not active_timer.is_stopped() :
-			var hit = cast.get_collider()
-			if hit.has_method('hit'):
-				hit.hit(self, 100, Vector2.ZERO, Damage.FIRE)
+			for body in hurtbox.get_overlapping_bodies() :
+				if not body in has_hit and body.has_method('hit'):
+					body.hit(self, 100, Vector2.ZERO, Damage.FIRE)
+					has_hit.append(body)
+#			var hit = cast.get_collider()
+#			if hit.has_method('hit'):
+#				hit.hit(self, 100, Vector2.ZERO, Damage.FIRE)
 
 
 func _fire() :
+	print($Hurtbox/CollisionShape2D.shape.extents)
 	preParticles.emitting = false
 	preParticles.visible = false
-
+	hurtbox.monitoring = true
 	cast.cast_to.y = MAX_RANGE
 	if cast.is_colliding() :
 		var contact = cast.get_collision_point()
@@ -64,7 +73,7 @@ func _fire() :
 		sprite.rect_size.y = position.distance_to(cast.cast_to)
 
 	active_timer.start(duration)
-	sprite.visible = true
+#	sprite.visible = true
 	hitParticles.emitting = true
 
 
