@@ -2,13 +2,12 @@ extends Node2D
 
 
 var direction = Vector2.DOWN
-var delay = 1
-var duration = 0
+var delay := 1.0
+var duration := 0.0
 var sound
 
 const MAX_RANGE = 10000
-var DURATION_TIME = 1
-var DAMAGE = 1
+var damage = 100
 
 onready var cast = $ray
 onready var sprite = $sprite
@@ -47,7 +46,7 @@ func _process(delta):
 		if not active_timer.is_stopped() :
 			for body in hurtbox.get_overlapping_bodies() :
 				if not body in has_hit and body.has_method('hit'):
-					body.hit(self, 100, Vector2.ZERO, Damage.FIRE)
+					body.hit(self, damage, Vector2.ZERO, Damage.FIRE)
 					has_hit.append(body)
 
 	sprite.rect_size.y = dist
