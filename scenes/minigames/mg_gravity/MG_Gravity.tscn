@@ -21,3 +21,9 @@ editor/display_folded = false
 
 [node name="Any_GravityMap1" parent="." index="2" instance=ExtResource( 3 )]
 
+[node name="SpikeTimer" type="Timer" parent="." index="3"]
+process_mode = 0
+wait_time = 0.4
+autostart = true
+
+[connection signal="timeout" from="SpikeTimer" to="." method="_on_SpikeTimer_timeout"]
