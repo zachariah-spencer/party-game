@@ -363,7 +363,13 @@ func _handle_wall_slide_sticking():
 		wall_slide_sticky_timer.start()
 
 func _handle_crouching():
-	if move_direction_adjusted.y > .2:
+	var rel_move_dir = move_direction_adjusted.y
+	
+	if gravity.project(Vector2.LEFT).length() > 0.1 :
+		rel_move_dir *= -1
+	
+	
+	if rel_move_dir > .2:
 		if !crouch_set:
 			_crouch()
 		is_crouching = true
@@ -497,6 +503,8 @@ func _enter_state(new_state, old_state):
 		states.fall:
 			state_name = "Airborne"
 			state_label.text = 'fall'
+			if crouch_set:
+				_decrouch()
 		states.wall_slide:
 			state_label.text = 'wall_slide'
 		states.disabled:
@@ -507,6 +515,8 @@ func _enter_state(new_state, old_state):
 		states.hitstun:
 			mod = .5
 			state_label.text = 'hitstun'
+			if crouch_set:
+				_decrouch()
 
 	modulate.a = mod
 	if state_name :
