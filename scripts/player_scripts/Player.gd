@@ -365,15 +365,22 @@ func _handle_wall_slide_sticking():
 func _handle_crouching():
 	if move_direction_adjusted.y > .2:
 		if !crouch_set:
-			player_rig.get_node('Body').mode = RigidBody2D.MODE_KINEMATIC
-			player_rig.get_node('Body').position.y += 12
-			crouch_set = true
+			_crouch()
 		is_crouching = true
 	else:
 		if crouch_set:
-			player_rig.get_node('Body').mode = RigidBody2D.MODE_RIGID
-			player_rig.get_node('Body').position.y -= 12
+			_decrouch()
 		is_crouching = false
+
+func _crouch():
+	player_rig.get_node('Body').mode = RigidBody2D.MODE_KINEMATIC
+	player_rig.get_node('Body').position.y += 15
+	crouch_set = true
+
+func _decrouch():
+	player_rig.get_node('Body').mode = RigidBody2D.MODE_RIGID
+	player_rig.get_node('Body').position.y = -16.06
+	crouch_set = false
 
 #statemachine code begins here
 func _state_machine_ready():
@@ -485,6 +492,8 @@ func _enter_state(new_state, old_state):
 			set_collision_mask_bit(DROP_THRU_BIT, false)
 			state_name = "Airborne"
 			state_label.text = 'jump'
+			if crouch_set:
+				_decrouch()
 		states.fall:
 			state_name = "Airborne"
 			state_label.text = 'fall'
