@@ -21,6 +21,15 @@ func _fire():
 		var laser_add = Laser.instance()
 		laser_add.direction = dir
 		laser_add.position = dir * size
+		match dir:
+			Vector2.LEFT:
+				laser_add.position.x -= 1
+			Vector2.RIGHT:
+				laser_add.position.x += 1
+			Vector2.DOWN:
+				laser_add.position.y += 1
+			Vector2.UP:
+				laser_add.position.y -= 1
 		laser_add.duration = duration
 		laser_add.delay = laser_delay
 		add_child(laser_add)

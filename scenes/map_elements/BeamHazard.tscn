@@ -20,6 +20,7 @@ emission_sphere_radius = 15.0
 flag_disable_z = true
 spread = 50.0
 gravity = Vector3( 0, -100, 0 )
+angular_velocity = -6.37841e+035
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 0.02

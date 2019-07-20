@@ -42,7 +42,7 @@ func _on_FallingBlocktest_body_entered(body):
 [sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 96, 20 )
 
-[node name="LobbyMap" index="0" groups=[
+[node name="LobbyMap" groups=[
 "maps",
 ] instance=ExtResource( 1 )]
 
