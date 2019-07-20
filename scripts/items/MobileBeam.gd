@@ -3,6 +3,9 @@ extends "res://scripts/items/Item.gd"
 var Laser = preload("res://scenes/map_elements/Laser.tscn")
 onready var fire_timer = Timer.new()
 onready var impulse_timer := $ImpulseTimer
+onready var shoot_timer := $ShootDelayTimer
+onready var beam_sfx := $Beam
+onready var charging_sfx := $Charging
 export var start_delay := 5
 export var frequency := 5
 export var duration := .25
@@ -19,6 +22,7 @@ func _ready():
 	fire_timer.start(start_delay)
 
 func _fire():
+	charging_sfx.play()
 	for dir in directions :
 		var laser_add = Laser.instance()
 		laser_add.direction = dir
@@ -37,6 +41,7 @@ func _fire():
 		add_child(laser_add)
 		fire_timer.start(frequency)
 	impulse_timer.start()
+	shoot_timer.start()
 
 func _handle_random_motion():
 	var impulse_vector : Vector2
@@ -56,3 +61,8 @@ func _handle_random_motion():
 
 func _on_ImpulseTimer_timeout():
 	_handle_random_motion()
+
+
+func _on_ShootDelayTimer_timeout():
+	if !beam_sfx.playing:
+		beam_sfx.play()
