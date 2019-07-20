@@ -10,8 +10,10 @@ export var laser_delay := 1.5
 export var directions = [ Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN]
 export var size := 30
 export var random_speed := 200
+var rng := RandomNumberGenerator.new()
 
 func _ready():
+	rng.randomize()
 	add_child(fire_timer)
 	fire_timer.connect("timeout", self, "_fire")
 	fire_timer.start(start_delay)
@@ -39,11 +41,11 @@ func _fire():
 func _handle_random_motion():
 	var impulse_vector : Vector2
 	var torque_force := 250 * 10
-	var do_flip_x := randi() % 2
-	var do_flip_y := randi() % 2
+	var do_flip_x := rng.randi() % 2
+	var do_flip_y := rng.randi() % 2
 
-	impulse_vector.x = rand_range(random_speed, random_speed * 2)
-	impulse_vector.y = rand_range(random_speed, random_speed * 2)
+	impulse_vector.x = rng.randf_range(random_speed, random_speed * 2)
+	impulse_vector.y = rng.randf_range(random_speed, random_speed * 2)
 
 	if do_flip_x:
 		impulse_vector.x *= -1

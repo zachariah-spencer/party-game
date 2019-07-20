@@ -4,12 +4,13 @@
 [ext_resource path="res://scripts/minigame_scripts/mg_gravity/MG_Gravity.gd" type="Script" id=2]
 [ext_resource path="res://scenes/minigames/mg_gravity/maps/Any_GravityMap1.tscn" type="PackedScene" id=3]
 
-[node name="MG_Gravity" instance=ExtResource( 1 )]
+[node name="MG_Gravity" index="0" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 game_time = 100000000
 win_condition = 1
 has_timer = false
 visible_name = "Lethal Gravity"
+visible_hp = true
 
 [node name="Cam" parent="." index="0"]
 offset = Vector2( 1057, 608 )
