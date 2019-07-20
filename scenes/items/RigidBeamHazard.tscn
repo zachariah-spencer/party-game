@@ -7,9 +7,11 @@
 extents = Vector2( 30, 30 )
 
 [node name="RigidBeamHazard" index="0" instance=ExtResource( 1 )]
-linear_damp = 10.0
-angular_damp = 100.0
+mass = 10.0
+gravity_scale = 0.0
 script = ExtResource( 2 )
+start_delay = 1
+random_speed = 300
 
 [node name="Obj" parent="." index="0"]
 shape = SubResource( 1 )
@@ -21,3 +23,9 @@ margin_top = -30.0
 margin_right = 30.0
 margin_bottom = 30.0
 
+[node name="ImpulseTimer" type="Timer" parent="." index="3"]
+process_mode = 0
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="ImpulseTimer" to="." method="_on_ImpulseTimer_timeout"]
