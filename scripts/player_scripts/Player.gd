@@ -18,6 +18,8 @@ var spawn_point : Node2D
 
 var can_wall_jump := true
 var can_jump := true
+var is_crouching := false
+var crouch_set := false
 var velocity : Vector2
 var adjusted_velocity : Vector2
 var target_velocity : float
@@ -95,6 +97,7 @@ onready var gravity = Vector2.DOWN
 onready var max_jump_velocity = -sqrt(2 * gravity_magnitude * max_jump_height)
 onready var min_jump_velocity = -sqrt(2 * gravity_magnitude * min_jump_height)
 onready var visible_onscreen := $VisibilityNotifier2D
+onready var player_rig := $Rig
 
 signal interacted
 signal dropped
@@ -344,6 +347,9 @@ func _handle_move_input(h_weight := .2):
 	if !disable_movement:
 		var y_comp = velocity.project(gravity)
 		var x_comp = (move_direction - move_direction.project(gravity)) * move_speed
+		
+		if is_crouching:
+			x_comp /= 3
 		velocity = velocity.linear_interpolate(x_comp + y_comp, h_weight)
 
 
@@ -355,6 +361,32 @@ func _handle_wall_slide_sticking():
 
 	if sign(rel_move_dir) == sign(wall_direction) :
 		wall_slide_sticky_timer.start()
+
+func _handle_crouching():
+	var rel_move_dir = move_direction_adjusted.y
+	
+	if gravity.project(Vector2.LEFT).length() > 0.1 :
+		rel_move_dir *= -1
+	
+	
+	if rel_move_dir > .2:
+		if !crouch_set:
+			_crouch()
+		is_crouching = true
+	else:
+		if crouch_set:
+			_decrouch()
+		is_crouching = false
+
+func _crouch():
+	player_rig.get_node('Body').mode = RigidBody2D.MODE_KINEMATIC
+	player_rig.get_node('Body').position.y += 15
+	crouch_set = true
+
+func _decrouch():
+	player_rig.get_node('Body').mode = RigidBody2D.MODE_RIGID
+	player_rig.get_node('Body').position.y = -16.06
+	crouch_set = false
 
 #statemachine code begins here
 func _state_machine_ready():
@@ -385,8 +417,9 @@ func _state_logic(delta : float):
 			_handle_move_input(.02)
 		elif state == states.jump or state == states.fall :
 			_handle_move_input(.1)
-		else :
-			 _handle_move_input()
+		elif state != states.wall_slide :
+			_handle_crouching()
+			_handle_move_input()
 	if state == states.disabled:
 		_stop_movement()
 	if state == states.wall_slide:
@@ -465,9 +498,13 @@ func _enter_state(new_state, old_state):
 			set_collision_mask_bit(DROP_THRU_BIT, false)
 			state_name = "Airborne"
 			state_label.text = 'jump'
+			if crouch_set:
+				_decrouch()
 		states.fall:
 			state_name = "Airborne"
 			state_label.text = 'fall'
+			if crouch_set:
+				_decrouch()
 		states.wall_slide:
 			state_label.text = 'wall_slide'
 		states.disabled:
@@ -478,6 +515,8 @@ func _enter_state(new_state, old_state):
 		states.hitstun:
 			mod = .5
 			state_label.text = 'hitstun'
+			if crouch_set:
+				_decrouch()
 
 	modulate.a = mod
 	if state_name :
