@@ -347,7 +347,7 @@ func _handle_move_input(h_weight := .2):
 	if !disable_movement:
 		var y_comp = velocity.project(gravity)
 		var x_comp = (move_direction - move_direction.project(gravity)) * move_speed
-		
+
 		if is_crouching:
 			x_comp /= 3
 		velocity = velocity.linear_interpolate(x_comp + y_comp, h_weight)
@@ -364,11 +364,11 @@ func _handle_wall_slide_sticking():
 
 func _handle_crouching():
 	var rel_move_dir = move_direction_adjusted.y
-	
+
 	if gravity.project(Vector2.LEFT).length() > 0.1 :
 		rel_move_dir *= -1
-	
-	
+
+
 	if rel_move_dir > .2:
 		if !crouch_set:
 			_crouch()
@@ -381,11 +381,15 @@ func _handle_crouching():
 func _crouch():
 	player_rig.get_node('Body').mode = RigidBody2D.MODE_KINEMATIC
 	player_rig.get_node('Body').position.y += 15
+	$PlayerShape.position.y += 12
+	$PlayerShape.shape.height = 46
 	crouch_set = true
 
 func _decrouch():
 	player_rig.get_node('Body').mode = RigidBody2D.MODE_RIGID
 	player_rig.get_node('Body').position.y = -16.06
+	$PlayerShape.position.y -= 12
+	$PlayerShape.shape.height = 61
 	crouch_set = false
 
 #statemachine code begins here
@@ -460,7 +464,7 @@ func _get_transition(delta : float):
 				set_collision_mask_bit(DROP_THRU_BIT, true)
 			if wall_direction != 0 && wall_slide_cooldown.is_stopped() && move_direction.project(wall_action).length() > 0 :
 				return states.wall_slide
-			elif is_on_floor():
+			elif is_on_floor() :
 				parent.play_sound('Land')
 				return states.idle
 			elif adjusted_velocity.y < 0:
