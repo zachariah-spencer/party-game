@@ -1,10 +1,9 @@
 extends Node2D
 
-
+onready var beam_sfx := $Beam
 var direction = Vector2.DOWN
 var delay := 1.0
 var duration := 0.0
-var sound
 
 const MAX_RANGE = 10000
 var damage = 100
@@ -79,4 +78,3 @@ func _fire() :
 
 func _fade():
 	self.queue_free()
-#	some outro sounds/fade effect? scale down?

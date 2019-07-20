@@ -57,7 +57,7 @@ script = ExtResource( 1 )
 
 [node name="ray" type="RayCast2D" parent="."]
 enabled = true
-collision_mask = 17
+collision_mask = 65553
 
 [node name="sprite" type="ColorRect" parent="."]
 visible = false
@@ -94,3 +94,4 @@ collision_mask = 960
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource( 5 )
+

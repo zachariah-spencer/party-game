@@ -32,8 +32,4 @@ pitch_scale = 0.7
 [node name="Display" type="Sprite" parent="." index="3"]
 position = Vector2( 0, -26 )
 scale = Vector2( 0.1, 0.1 )
-
-[node name="Tween" type="Tween" parent="." index="4"]
-playback_process_mode = 0
-
-[connection signal="tween_completed" from="Tween" to="." method="_on_Tween_tween_completed"]
+z_index = -1

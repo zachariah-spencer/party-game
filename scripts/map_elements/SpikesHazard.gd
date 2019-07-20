@@ -5,10 +5,12 @@ class_name SpikesHazard
 onready var anim := $AnimatedSprite
 onready var area := $Area2D
 var active := false
+onready var spike_sfx := $Spike
 
 func _activate():
 	active = true
 	anim.play('active')
+	spike_sfx.play()
 
 func _on_AnimatedSprite_animation_finished():
 	active = false

@@ -272,6 +272,7 @@ player_four_select={
 2d_physics/layer_14="horseshoe_target"
 2d_physics/layer_15="items"
 2d_physics/layer_16="lever_switch"
+2d_physics/layer_17="beam_emitters"
 
 [physics]
 
