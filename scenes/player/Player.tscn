@@ -306,6 +306,7 @@ position = Vector2( -0.0100002, 0 )
 shape = SubResource( 2 )
 
 [node name="Body" type="RigidBody2D" parent="Rig"]
+editor/display_folded = true
 modulate = Color( 1, 1, 1, 0.893617 )
 position = Vector2( 0, -16.06 )
 rotation = 0.00837352
