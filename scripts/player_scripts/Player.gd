@@ -18,6 +18,8 @@ var spawn_point : Node2D
 
 var can_wall_jump := true
 var can_jump := true
+var is_crouching := false
+var crouch_set := false
 var velocity : Vector2
 var adjusted_velocity : Vector2
 var target_velocity : float
@@ -95,6 +97,7 @@ onready var gravity = Vector2.DOWN
 onready var max_jump_velocity = -sqrt(2 * gravity_magnitude * max_jump_height)
 onready var min_jump_velocity = -sqrt(2 * gravity_magnitude * min_jump_height)
 onready var visible_onscreen := $VisibilityNotifier2D
+onready var player_rig := $Rig
 
 signal interacted
 signal dropped
@@ -344,6 +347,9 @@ func _handle_move_input(h_weight := .2):
 	if !disable_movement:
 		var y_comp = velocity.project(gravity)
 		var x_comp = (move_direction - move_direction.project(gravity)) * move_speed
+		
+		if is_crouching:
+			x_comp /= 3
 		velocity = velocity.linear_interpolate(x_comp + y_comp, h_weight)
 
 
@@ -355,6 +361,19 @@ func _handle_wall_slide_sticking():
 
 	if sign(rel_move_dir) == sign(wall_direction) :
 		wall_slide_sticky_timer.start()
+
+func _handle_crouching():
+	if move_direction_adjusted.y > .2:
+		if !crouch_set:
+			player_rig.get_node('Body').mode = RigidBody2D.MODE_KINEMATIC
+			player_rig.get_node('Body').position.y += 12
+			crouch_set = true
+		is_crouching = true
+	else:
+		if crouch_set:
+			player_rig.get_node('Body').mode = RigidBody2D.MODE_RIGID
+			player_rig.get_node('Body').position.y -= 12
+		is_crouching = false
 
 #statemachine code begins here
 func _state_machine_ready():
@@ -385,8 +404,9 @@ func _state_logic(delta : float):
 			_handle_move_input(.02)
 		elif state == states.jump or state == states.fall :
 			_handle_move_input(.1)
-		else :
-			 _handle_move_input()
+		elif state != states.wall_slide :
+			_handle_crouching()
+			_handle_move_input()
 	if state == states.disabled:
 		_stop_movement()
 	if state == states.wall_slide:
