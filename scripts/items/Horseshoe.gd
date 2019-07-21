@@ -3,6 +3,7 @@ extends Item
 onready var shot_landed_area := $ShotLandedArea
 onready var fall_timer := $FallTimer
 onready var grenade = preload('res://scenes/items/ContactGrenade.tscn')
+onready var anim := $AnimatedSprite
 var landed := false
 var target
 var frame_count := 0
@@ -14,6 +15,17 @@ signal made_shot
 func _ready():
 	connect('made_shot', Manager.current_minigame, 'on_made_shot')
 	_weight = 4
+	if _owner == null:
+		anim.play('landed')
+	else:
+		anim.play('held')
+
+func _on_grab():
+	if anim:
+		anim.play('held')
+
+func _on_throw():
+	anim.play('airborne')
 
 func _integrate_forces(state):
 
@@ -25,8 +37,9 @@ func _integrate_forces(state):
 
 func _on_ShotLandedArea_area_entered(area):
 	target = area.get_parent()
-
+	
 	if !landed:
+		anim.play('landed')
 		$LandedSFX.play()
 		landed = true
 		fall_timer.start()
@@ -53,4 +66,5 @@ func _on_FallTimer_timeout():
 func _on_Horseshoe_body_entered(body):
 	var terrain = body if body.get_collision_layer_bit(0) == true else null
 	if terrain:
+		anim.play('landed')
 		$CollisionSFX.play()

@@ -1,9 +1,13 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scenes/items/Item.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/items/Horseshoe.gd" type="Script" id=2]
-[ext_resource path="res://assets/icon.png" type="Texture" id=3]
-[ext_resource path="res://assets/audio/sfx/horseshoe_landing.wav" type="AudioStream" id=4]
+[ext_resource path="res://assets/audio/sfx/horseshoe_landing.wav" type="AudioStream" id=3]
+[ext_resource path="res://assets/items/horseshoe/horseshoe3.png" type="Texture" id=4]
+[ext_resource path="res://assets/items/horseshoe/horseshoe1.png" type="Texture" id=5]
+[ext_resource path="res://assets/items/horseshoe/horseshoe2.png" type="Texture" id=6]
+[ext_resource path="res://assets/items/horseshoe/horseshoe4.png" type="Texture" id=7]
+[ext_resource path="res://assets/items/horseshoe/heldhorseshoe.png" type="Texture" id=8]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 13, 3.2 )
@@ -11,6 +15,24 @@ extents = Vector2( 13, 3.2 )
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 18.0
 height = 45.0
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 4 ) ],
+"loop": true,
+"name": "landed",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 6 ), ExtResource( 4 ), ExtResource( 7 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "airborne",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 8 ) ],
+"loop": true,
+"name": "held",
+"speed": 5.0
+} ]
 
 [node name="Horseshoe" index="0" instance=ExtResource( 1 )]
 collision_mask = 16385
@@ -27,7 +49,7 @@ shape = SubResource( 1 )
 [node name="Sprite" parent="Obj" index="0"]
 position = Vector2( 0, 0 )
 scale = Vector2( 0.4, 0.1 )
-texture = ExtResource( 3 )
+texture = null
 
 [node name="Pickup_area" parent="." index="1"]
 visible = false
@@ -50,14 +72,20 @@ wait_time = 0.3
 one_shot = true
 
 [node name="LandedSFX" type="AudioStreamPlayer2D" parent="." index="4"]
-stream = ExtResource( 4 )
+stream = ExtResource( 3 )
 volume_db = -22.0
 pitch_scale = 1.1
 
 [node name="CollisionSFX" type="AudioStreamPlayer2D" parent="." index="5"]
-stream = ExtResource( 4 )
+stream = ExtResource( 3 )
 volume_db = -25.0
 pitch_scale = 3.0
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="." index="6"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 3 )
+animation = "held"
+playing = true
 
 [connection signal="body_entered" from="." to="." method="_on_Horseshoe_body_entered"]
 [connection signal="area_entered" from="ShotLandedArea" to="." method="_on_ShotLandedArea_area_entered"]
