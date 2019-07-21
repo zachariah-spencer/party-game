@@ -24,4 +24,3 @@ margin_right = 768.0
 margin_bottom = 448.0
 
 [node name="Debug menu" parent="CanvasLayer" instance=ExtResource( 3 )]
-

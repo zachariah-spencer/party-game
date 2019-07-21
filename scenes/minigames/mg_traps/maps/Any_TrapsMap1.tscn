@@ -24,6 +24,9 @@ tile_data = PoolIntArray( 65535, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0,
 [node name="PlatformTilemap" parent="." index="2"]
 tile_data = PoolIntArray( 262165, 1, 0, 262166, 1, 0, 262167, 1, 0, 458788, 1, 0, 458789, 1, 0, 458790, 1, 0, 458791, 1, 0, 458792, 1, 0, 458793, 1, 0, 458794, 1, 0, 458795, 1, 0, 458796, 1, 0, 458797, 1, 0, 458798, 1, 0, 458799, 1, 0, 458800, 1, 0, 458801, 1, 0, 458802, 1, 0, 524323, 1, 0, 524339, 1, 0 )
 
+[node name="SpawnPoints" parent="." index="4"]
+editor/display_folded = true
+
 [node name="PlayerOneSpawn" parent="SpawnPoints" index="0"]
 position = Vector2( 32, 544 )
 
@@ -43,6 +46,7 @@ position = Vector2( 64, 736 )
 position = Vector2( 3776, 64 )
 
 [node name="CameraFollowPoint" type="Position2D" parent="." index="8"]
+editor/display_folded = true
 position = Vector2( 640, 416 )
 script = ExtResource( 3 )
 
@@ -69,7 +73,6 @@ shape = SubResource( 1 )
 
 [node name="ItemSpawnerLever" parent="Traps" index="1" instance=ExtResource( 6 )]
 position = Vector2( 1056, 736 )
-switch_cooldown = 1.5
 
 [node name="ItemSpawner" parent="Traps/ItemSpawnerLever" index="6" instance=ExtResource( 7 )]
 position = Vector2( 0, -672 )
@@ -176,3 +179,6 @@ rotation = -3.14159
 [node name="LazarHazard4" parent="Traps" index="11" instance=ExtResource( 12 )]
 position = Vector2( 608, 80 )
 rotation = -3.14159
+[connection signal="flip" from="Traps/ItemSpawnerLever" to="Traps/ItemSpawnerLever/ItemSpawner" method="spawn_item"]
+[connection signal="flip" from="Traps/ItemSpawnerLever" to="Traps/ItemSpawnerLever/ItemSpawner2" method="spawn_item"]
+[connection signal="flip" from="Traps/ItemSpawnerLever" to="Traps/ItemSpawnerLever/ItemSpawner3" method="spawn_item"]

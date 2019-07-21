@@ -91,4 +91,3 @@ anims/off = SubResource( 2 )
 anims/on = SubResource( 3 )
 
 [node name="Flip" type="AudioStreamPlayer2D" parent="."]
-
