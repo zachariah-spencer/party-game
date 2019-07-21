@@ -17,11 +17,6 @@ has_timer = false
 visible_name = "Raining Explosives"
 visible_hp = true
 
-[node name="Cam" parent="." index="0"]
-position = Vector2( 480, -64 )
-zoom = Vector2( 1.32, 1.32 )
-script = null
-
 [node name="Countdown" type="Control" parent="CanvasLayer" index="2"]
 editor/display_folded = true
 anchor_right = 1.0

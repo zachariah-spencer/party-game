@@ -12,9 +12,6 @@ win_condition = 1
 has_timer = false
 visible_name = "Sumo"
 
-[node name="Cam" parent="." index="0"]
-smoothing_enabled = false
-
 [node name="Any_SumoMap1" parent="." index="2" instance=ExtResource( 3 )]
 
 [node name="DeathBoundary" parent="." index="3" instance=ExtResource( 4 )]
