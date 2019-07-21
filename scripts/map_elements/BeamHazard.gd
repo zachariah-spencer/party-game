@@ -10,7 +10,7 @@ onready var active_timer := $ActiveTimer
 onready var charging_timer := $ChargingTimer
 onready var particles := $Particles2D
 
-func _activate():
+func activate():
 	if !active:
 		particles.emitting = true
 		charging_timer.start()

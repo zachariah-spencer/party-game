@@ -347,7 +347,7 @@ func _handle_move_input(h_weight := .2):
 	if !disable_movement:
 		var y_comp = velocity.project(gravity)
 		var x_comp = (move_direction - move_direction.project(gravity)) * move_speed
-		
+
 		if is_crouching:
 			x_comp /= 3
 		velocity = velocity.linear_interpolate(x_comp + y_comp, h_weight)
@@ -364,11 +364,11 @@ func _handle_wall_slide_sticking():
 
 func _handle_crouching():
 	var rel_move_dir = move_direction_adjusted.y
-	
+
 	if gravity.project(Vector2.LEFT).length() > 0.1 :
 		rel_move_dir *= -1
-	
-	
+
+
 	if rel_move_dir > .2:
 		if !crouch_set:
 			_crouch()

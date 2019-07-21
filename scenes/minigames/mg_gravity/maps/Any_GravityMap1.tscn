@@ -1,27 +1,35 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scenes/minigames/MapTemplate.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/tilesets/GravGameTileset.tres" type="TileSet" id=2]
 [ext_resource path="res://scenes/map_elements/GravityField.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scenes/map_elements/levers/DirectedGravityLever.tscn" type="PackedScene" id=4]
-[ext_resource path="res://scenes/map_elements/GravityCompass.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scenes/map_elements/ItemSpawner.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scenes/items/Grenade.tscn" type="PackedScene" id=7]
-[ext_resource path="res://scenes/map_elements/SpikesHazard.tscn" type="PackedScene" id=8]
-[ext_resource path="res://scenes/items/RigidBeamHazard.tscn" type="PackedScene" id=9]
+[ext_resource path="res://assets/audio/JBM_Sfxr_pack_1/samples/powerup/powerup07.wav" type="AudioStream" id=4]
+[ext_resource path="res://assets/audio/JBM_Sfxr_pack_1/samples/alarms/alarm-5.wav" type="AudioStream" id=5]
+[ext_resource path="res://scenes/map_elements/levers/Lever.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/map_elements/GravityCompass.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/map_elements/ItemSpawner.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/items/Grenade.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scripts/minigame_scripts/mg_gravity/SpikeTimer.gd" type="Script" id=10]
+[ext_resource path="res://scenes/map_elements/SpikesHazard.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scenes/items/RigidBeamHazard.tscn" type="PackedScene" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 1173.49, 1157.61 )
 
 [node name="Any_GravityMap1" index="0" instance=ExtResource( 1 )]
 
-[node name="TerrainTilemap" parent="." index="0"]
+[node name="Cam" parent="." index="0"]
+position = Vector2( 1058, 608 )
+zoom = Vector2( 2, 2 )
+script = null
+
+[node name="TerrainTilemap" parent="." index="1"]
 scale = Vector2( 0.5, 0.5 )
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 128, 128 )
 tile_data = PoolIntArray( 0, 1, 0, 1, 1, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 8, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 10, 0, 0, 11, 0, 0, 12, 0, 0, 13, 0, 0, 14, 0, 0, 15, 0, 0, 16, 6, 0, 17, 0, 0, 18, 0, 0, 19, 0, 0, 20, 0, 0, 21, 0, 0, 22, 0, 0, 23, 0, 0, 24, 0, 0, 25, 0, 0, 26, 7, 0, 27, 0, 0, 28, 0, 0, 29, 0, 0, 30, 0, 0, 31, 3, 0, 32, 3, 0, 65536, 1, 0, 65537, 1, 0, 65538, 0, 0, 65539, 0, 0, 65540, 0, 0, 65564, 0, 0, 65565, 0, 0, 65566, 0, 0, 65567, 3, 0, 65568, 3, 0, 131072, 1, 0, 131073, 1, 0, 131074, 1, 0, 131102, 3, 0, 131103, 3, 0, 131104, 3, 0, 196608, 1, 0, 196640, 3, 0, 262144, 6, 0, 262176, 6, 0, 327680, 1, 0, 327712, 3, 0, 393216, 1, 0, 393224, 4, 0, 393231, 4, 0, 393232, 4, 0, 393233, 4, 0, 393240, 4, 0, 393248, 3, 0, 458752, 1, 0, 458784, 3, 0, 524288, 1, 0, 524320, 3, 0, 589824, 8, 0, 589856, 7, 0, 655360, 1, 0, 655392, 3, 0, 720896, 1, 0, 720928, 3, 0, 786432, 1, 0, 786440, 4, 0, 786447, 4, 0, 786448, 4, 0, 786449, 4, 0, 786456, 4, 0, 786464, 3, 0, 851968, 1, 0, 852000, 3, 0, 917504, 5, 0, 917536, 5, 0, 983040, 1, 0, 983072, 3, 0, 1048576, 1, 0, 1048577, 1, 0, 1048578, 1, 0, 1048606, 3, 0, 1048607, 3, 0, 1048608, 3, 0, 1114112, 1, 0, 1114113, 1, 0, 1114114, 2, 0, 1114115, 2, 0, 1114116, 2, 0, 1114140, 2, 0, 1114141, 2, 0, 1114142, 2, 0, 1114143, 3, 0, 1114144, 3, 0, 1179648, 1, 0, 1179649, 1, 0, 1179650, 2, 0, 1179651, 2, 0, 1179652, 2, 0, 1179653, 2, 0, 1179654, 8, 0, 1179655, 2, 0, 1179656, 2, 0, 1179657, 2, 0, 1179658, 2, 0, 1179659, 2, 0, 1179660, 2, 0, 1179661, 2, 0, 1179662, 2, 0, 1179663, 2, 0, 1179664, 5, 0, 1179665, 2, 0, 1179666, 2, 0, 1179667, 2, 0, 1179668, 2, 0, 1179669, 2, 0, 1179670, 2, 0, 1179671, 2, 0, 1179672, 2, 0, 1179673, 2, 0, 1179674, 7, 0, 1179675, 2, 0, 1179676, 2, 0, 1179677, 2, 0, 1179678, 2, 0, 1179679, 3, 0, 1179680, 3, 0 )
 
-[node name="SpawnPoints" parent="." index="4"]
+[node name="SpawnPoints" parent="." index="5"]
 editor/display_folded = true
 
 [node name="PlayerOneSpawn" parent="SpawnPoints" index="0"]
@@ -41,197 +49,275 @@ position = Vector2( 1057, 608 )
 gravity_vec = Vector2( 0, 1 )
 emitting = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GravityField" index="1"]
+[node name="Charge" type="AudioStreamPlayer2D" parent="GravityField" index="0"]
+stream = ExtResource( 4 )
+volume_db = -22.0
+pitch_scale = 0.8
+
+[node name="GravityChange" type="AudioStreamPlayer2D" parent="GravityField" index="1"]
+stream = ExtResource( 5 )
+volume_db = -20.0
+pitch_scale = 3.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GravityField" index="3"]
 visible = false
 shape = SubResource( 1 )
 
-[node name="Top" type="Node2D" parent="GravityField" index="2"]
-editor/display_folded = true
+[node name="Top" type="Node2D" parent="GravityField" index="4"]
 
-[node name="mid" parent="GravityField/Top" index="0" instance=ExtResource( 4 )]
+[node name="Mid" parent="GravityField/Top" index="0" instance=ExtResource( 6 )]
 position = Vector2( 0, -514 )
 rotation = -3.14159
-path = NodePath("../../../../Any_GravityMap1/GravityField")
+flip_delay = 0.4
 
-[node name="left" parent="GravityField/Top" index="1" instance=ExtResource( 4 )]
+[node name="Left" parent="GravityField/Top" index="1" instance=ExtResource( 6 )]
 position = Vector2( -641, -514 )
 rotation = -3.14159
-new_gravity = Vector2( 1, 0 )
-path = NodePath("../../../../Any_GravityMap1/GravityField")
+flip_delay = 0.4
 
-[node name="right" parent="GravityField/Top" index="2" instance=ExtResource( 4 )]
+[node name="Right" parent="GravityField/Top" index="2" instance=ExtResource( 6 )]
 position = Vector2( 639, -514 )
 rotation = -3.14159
-new_gravity = Vector2( -1, 0 )
-path = NodePath("../../../../Any_GravityMap1/GravityField")
+flip_delay = 0.4
 
-[node name="bot" type="Node2D" parent="GravityField" index="3"]
-editor/display_folded = true
+[node name="Bot" type="Node2D" parent="GravityField" index="5"]
 rotation = -3.14159
 
-[node name="mid" parent="GravityField/bot" index="0" instance=ExtResource( 4 )]
-position = Vector2( 0, -514 )
+[node name="Mid" parent="GravityField/Bot" index="0" instance=ExtResource( 6 )]
+position = Vector2( 0.00012207, -514 )
 rotation = -3.14159
-new_gravity = Vector2( 0, -1 )
-path = NodePath("../../../../Any_GravityMap1/GravityField")
+flip_delay = 0.4
 
-[node name="right" parent="GravityField/bot" index="1" instance=ExtResource( 4 )]
+[node name="Right" parent="GravityField/Bot" index="1" instance=ExtResource( 6 )]
 position = Vector2( -639, -514 )
 rotation = -3.14159
-new_gravity = Vector2( -1, 0 )
-path = NodePath("../../../../Any_GravityMap1/GravityField")
+flip_delay = 0.4
 
-[node name="left" parent="GravityField/bot" index="2" instance=ExtResource( 4 )]
+[node name="Left" parent="GravityField/Bot" index="2" instance=ExtResource( 6 )]
 position = Vector2( 641, -514 )
 rotation = -3.14159
-new_gravity = Vector2( 1, 0 )
-path = NodePath("../../../../Any_GravityMap1/GravityField")
+flip_delay = 0.4
 
-[node name="Right" type="Node2D" parent="GravityField" index="4"]
+[node name="Right" type="Node2D" parent="GravityField" index="6"]
 rotation = 1.5708
 
-[node name="mid" parent="GravityField/Right" index="0" instance=ExtResource( 4 )]
+[node name="Mid" parent="GravityField/Right" index="0" instance=ExtResource( 6 )]
 position = Vector2( 0, -960 )
 rotation = -3.14159
-new_gravity = Vector2( -1, 0 )
-path = NodePath("../../../../Any_GravityMap1/GravityField")
+flip_delay = 0.4
 
-[node name="top" parent="GravityField/Right" index="1" instance=ExtResource( 4 )]
+[node name="Top" parent="GravityField/Right" index="1" instance=ExtResource( 6 )]
 position = Vector2( -319, -960 )
 rotation = -3.14159
-path = NodePath("../../../../Any_GravityMap1/GravityField")
+flip_delay = 0.4
 
-[node name="bot" parent="GravityField/Right" index="2" instance=ExtResource( 4 )]
+[node name="Bot" parent="GravityField/Right" index="2" instance=ExtResource( 6 )]
 position = Vector2( 320, -960 )
 rotation = -3.14159
-new_gravity = Vector2( 0, -1 )
-path = NodePath("../../../../Any_GravityMap1/GravityField")
+flip_delay = 0.4
 
-[node name="Left" type="Node2D" parent="GravityField" index="5"]
+[node name="Left" type="Node2D" parent="GravityField" index="7"]
 rotation = -1.5708
 
-[node name="mid" parent="GravityField/Left" index="0" instance=ExtResource( 4 )]
+[node name="Mid" parent="GravityField/Left" index="0" instance=ExtResource( 6 )]
 position = Vector2( 0, -960 )
 rotation = -3.14159
-new_gravity = Vector2( 1, 0 )
-path = NodePath("../../../../Any_GravityMap1/GravityField")
+flip_delay = 0.4
 
-[node name="bot" parent="GravityField/Left" index="1" instance=ExtResource( 4 )]
+[node name="Bot" parent="GravityField/Left" index="1" instance=ExtResource( 6 )]
 position = Vector2( -320, -960 )
 rotation = -3.14159
-new_gravity = Vector2( 0, -1 )
-path = NodePath("../../../../Any_GravityMap1/GravityField")
+flip_delay = 0.4
 
-[node name="top" parent="GravityField/Left" index="2" instance=ExtResource( 4 )]
+[node name="Top" parent="GravityField/Left" index="2" instance=ExtResource( 6 )]
 position = Vector2( 319, -960 )
 rotation = -3.14159
-path = NodePath("../../../../Any_GravityMap1/GravityField")
+flip_delay = 0.4
 
-[node name="GravityCompass" parent="GravityField" index="6" instance=ExtResource( 5 )]
+[node name="GravityCompass" parent="GravityField" index="8" instance=ExtResource( 7 )]
 offset = Vector2( 512, 300 )
 transform = Transform2D( 1, 0, 0, 1, 512, 300 )
 
-[node name="ItemSpawner" parent="." index="7" instance=ExtResource( 6 )]
+[node name="ItemSpawner" parent="." index="7" instance=ExtResource( 8 )]
 position = Vector2( 1056, 608.842 )
 repeat_on_timer = true
 rotating = true
 rot_speed = 0.03
-item = ExtResource( 7 )
+item = ExtResource( 9 )
 
 [node name="Spikes" type="Node2D" parent="." index="8"]
 editor/display_folded = true
 
-[node name="SpikesHazard10" parent="Spikes" index="0" instance=ExtResource( 8 )]
-position = Vector2( 928, 96 )
-rotation = -3.14159
+[node name="SpikeTimer" type="Timer" parent="Spikes" index="0"]
+process_mode = 0
+wait_time = 3.0
+autostart = true
+script = ExtResource( 10 )
+use_walls = true
 
-[node name="SpikesHazard14" parent="Spikes" index="1" instance=ExtResource( 8 )]
-position = Vector2( 800, 96 )
-rotation = -3.14159
+[node name="Top" type="Node2D" parent="Spikes" index="1"]
+editor/display_folded = true
 
-[node name="SpikesHazard9" parent="Spikes" index="2" instance=ExtResource( 8 )]
-position = Vector2( 608, 96 )
-rotation = -3.14159
-
-[node name="SpikesHazard16" parent="Spikes" index="3" instance=ExtResource( 8 )]
-position = Vector2( 285, 160 )
-rotation = -3.14159
-
-[node name="SpikesHazard17" parent="Spikes" index="4" instance=ExtResource( 8 )]
-position = Vector2( 96, 416 )
-rotation = 1.5708
-
-[node name="SpikesHazard18" parent="Spikes" index="5" instance=ExtResource( 8 )]
-position = Vector2( 96, 544 )
-rotation = 1.5708
-
-[node name="SpikesHazard20" parent="Spikes" index="6" instance=ExtResource( 8 )]
-position = Vector2( 96, 671.356 )
-rotation = 1.5708
-
-[node name="SpikesHazard19" parent="Spikes" index="7" instance=ExtResource( 8 )]
-position = Vector2( 96, 799.356 )
-rotation = 1.5708
-
-[node name="SpikesHazard8" parent="Spikes" index="8" instance=ExtResource( 8 )]
-position = Vector2( 288, 1056 )
-
-[node name="SpikesHazard" parent="Spikes" index="9" instance=ExtResource( 8 )]
-position = Vector2( 608, 1120 )
-
-[node name="SpikesHazard2" parent="Spikes" index="10" instance=ExtResource( 8 )]
-position = Vector2( 800, 1120 )
-
-[node name="SpikesHazard3" parent="Spikes" index="11" instance=ExtResource( 8 )]
-position = Vector2( 928, 1120 )
-
-[node name="SpikesHazard4" parent="Spikes" index="12" instance=ExtResource( 8 )]
-position = Vector2( 1184, 1120 )
-
-[node name="SpikesHazard5" parent="Spikes" index="13" instance=ExtResource( 8 )]
-position = Vector2( 1312, 1120 )
-
-[node name="SpikesHazard6" parent="Spikes" index="14" instance=ExtResource( 8 )]
-position = Vector2( 1504, 1120 )
-
-[node name="SpikesHazard7" parent="Spikes" index="15" instance=ExtResource( 8 )]
-position = Vector2( 1824, 1056 )
-
-[node name="SpikesHazard21" parent="Spikes" index="16" instance=ExtResource( 8 )]
-position = Vector2( 2016, 799.356 )
-rotation = -1.5708
-
-[node name="SpikesHazard22" parent="Spikes" index="17" instance=ExtResource( 8 )]
-position = Vector2( 2016, 671.356 )
-rotation = -1.5708
-
-[node name="SpikesHazard24" parent="Spikes" index="18" instance=ExtResource( 8 )]
-position = Vector2( 2016, 544 )
-rotation = -1.5708
-
-[node name="SpikesHazard23" parent="Spikes" index="19" instance=ExtResource( 8 )]
-position = Vector2( 2016, 416 )
-rotation = -1.5708
-
-[node name="SpikesHazard15" parent="Spikes" index="20" instance=ExtResource( 8 )]
+[node name="SpikesHazard15" parent="Spikes/Top" index="0" instance=ExtResource( 11 )]
 position = Vector2( 1824, 160 )
 rotation = -3.14159
+active_time = 1.0
 
-[node name="SpikesHazard13" parent="Spikes" index="21" instance=ExtResource( 8 )]
+[node name="SpikesHazard13" parent="Spikes/Top" index="1" instance=ExtResource( 11 )]
 position = Vector2( 1504, 96 )
 rotation = -3.14159
+active_time = 1.0
 
-[node name="SpikesHazard12" parent="Spikes" index="22" instance=ExtResource( 8 )]
+[node name="SpikesHazard12" parent="Spikes/Top" index="2" instance=ExtResource( 11 )]
 position = Vector2( 1312, 96 )
 rotation = -3.14159
+active_time = 1.0
 
-[node name="SpikesHazard11" parent="Spikes" index="23" instance=ExtResource( 8 )]
+[node name="SpikesHazard11" parent="Spikes/Top" index="3" instance=ExtResource( 11 )]
 position = Vector2( 1184, 96 )
 rotation = 3.14159
+active_time = 1.0
 
-[node name="RigidBeamHazard" parent="." index="9" instance=ExtResource( 9 )]
+[node name="SpikesHazard10" parent="Spikes/Top" index="4" instance=ExtResource( 11 )]
+position = Vector2( 928, 96 )
+rotation = -3.14159
+active_time = 1.0
+
+[node name="SpikesHazard14" parent="Spikes/Top" index="5" instance=ExtResource( 11 )]
+position = Vector2( 800, 96 )
+rotation = -3.14159
+active_time = 1.0
+
+[node name="SpikesHazard9" parent="Spikes/Top" index="6" instance=ExtResource( 11 )]
+position = Vector2( 608, 96 )
+rotation = -3.14159
+active_time = 1.0
+
+[node name="SpikesHazard16" parent="Spikes/Top" index="7" instance=ExtResource( 11 )]
+position = Vector2( 285, 160 )
+rotation = -3.14159
+active_time = 1.0
+
+[node name="Left" type="Node2D" parent="Spikes" index="2"]
+editor/display_folded = true
+
+[node name="SpikesHazard17" parent="Spikes/Left" index="0" instance=ExtResource( 11 )]
+position = Vector2( 96, 416 )
+rotation = 1.5708
+active_time = 1.0
+
+[node name="SpikesHazard18" parent="Spikes/Left" index="1" instance=ExtResource( 11 )]
+position = Vector2( 96, 544 )
+rotation = 1.5708
+active_time = 1.0
+
+[node name="SpikesHazard20" parent="Spikes/Left" index="2" instance=ExtResource( 11 )]
+position = Vector2( 96, 671.356 )
+rotation = 1.5708
+active_time = 1.0
+
+[node name="SpikesHazard19" parent="Spikes/Left" index="3" instance=ExtResource( 11 )]
+position = Vector2( 96, 799.356 )
+rotation = 1.5708
+active_time = 1.0
+
+[node name="Bot" type="Node2D" parent="Spikes" index="3"]
+editor/display_folded = true
+
+[node name="SpikesHazard8" parent="Spikes/Bot" index="0" instance=ExtResource( 11 )]
+position = Vector2( 288, 1056 )
+active_time = 1.0
+
+[node name="SpikesHazard" parent="Spikes/Bot" index="1" instance=ExtResource( 11 )]
+position = Vector2( 608, 1120 )
+active_time = 1.0
+
+[node name="SpikesHazard2" parent="Spikes/Bot" index="2" instance=ExtResource( 11 )]
+position = Vector2( 800, 1120 )
+active_time = 1.0
+
+[node name="SpikesHazard3" parent="Spikes/Bot" index="3" instance=ExtResource( 11 )]
+position = Vector2( 928, 1120 )
+active_time = 1.0
+
+[node name="SpikesHazard4" parent="Spikes/Bot" index="4" instance=ExtResource( 11 )]
+position = Vector2( 1184, 1120 )
+active_time = 1.0
+
+[node name="SpikesHazard5" parent="Spikes/Bot" index="5" instance=ExtResource( 11 )]
+position = Vector2( 1312, 1120 )
+active_time = 1.0
+
+[node name="SpikesHazard6" parent="Spikes/Bot" index="6" instance=ExtResource( 11 )]
+position = Vector2( 1504, 1120 )
+active_time = 1.0
+
+[node name="SpikesHazard7" parent="Spikes/Bot" index="7" instance=ExtResource( 11 )]
+position = Vector2( 1824, 1056 )
+active_time = 1.0
+
+[node name="Right" type="Node2D" parent="Spikes" index="4"]
+editor/display_folded = true
+
+[node name="SpikesHazard21" parent="Spikes/Right" index="0" instance=ExtResource( 11 )]
+position = Vector2( 2016, 799.356 )
+rotation = -1.5708
+active_time = 1.0
+
+[node name="SpikesHazard22" parent="Spikes/Right" index="1" instance=ExtResource( 11 )]
+position = Vector2( 2016, 671.356 )
+rotation = -1.5708
+active_time = 1.0
+
+[node name="SpikesHazard24" parent="Spikes/Right" index="2" instance=ExtResource( 11 )]
+position = Vector2( 2016, 544 )
+rotation = -1.5708
+active_time = 1.0
+
+[node name="SpikesHazard23" parent="Spikes/Right" index="3" instance=ExtResource( 11 )]
+position = Vector2( 2016, 416 )
+rotation = -1.5708
+active_time = 1.0
+
+[node name="RigidBeamHazard" parent="." index="9" instance=ExtResource( 12 )]
 position = Vector2( 544, 608 )
 
-[node name="RigidBeamHazard2" parent="." index="10" instance=ExtResource( 9 )]
+[node name="RigidBeamHazard2" parent="." index="10" instance=ExtResource( 12 )]
 position = Vector2( 1568, 608 )
-
+[connection signal="gravity_changed" from="GravityField" to="GravityField/GravityChange" method="play"]
+[connection signal="flip" from="GravityField/Top/Mid" to="GravityField/GravityChange" method="play"]
+[connection signal="flop" from="GravityField/Top/Mid" to="GravityField" method="set_gravity_vector" binds= [ Vector2( 0, 1 ) ]]
+[connection signal="tree_exiting" from="GravityField/Top/Mid" to="." method="set_gravity_vector" binds= [ Vector2( -1, 0 ) ]]
+[connection signal="flip" from="GravityField/Top/Left" to="GravityField/GravityChange" method="play"]
+[connection signal="flop" from="GravityField/Top/Left" to="GravityField" method="set_gravity_vector" binds= [ Vector2( -1, 0 ) ]]
+[connection signal="tree_exiting" from="GravityField/Top/Left" to="." method="set_gravity_vector" binds= [ Vector2( -1, 0 ) ]]
+[connection signal="flip" from="GravityField/Top/Right" to="GravityField/GravityChange" method="play"]
+[connection signal="flop" from="GravityField/Top/Right" to="GravityField" method="set_gravity_vector" binds= [ Vector2( -1, 0 ) ]]
+[connection signal="tree_exiting" from="GravityField/Top/Right" to="." method="set_gravity_vector" binds= [ Vector2( -1, 0 ) ]]
+[connection signal="flip" from="GravityField/Bot/Mid" to="GravityField/GravityChange" method="play"]
+[connection signal="flop" from="GravityField/Bot/Mid" to="GravityField" method="set_gravity_vector" binds= [ Vector2( 0, -1 ) ]]
+[connection signal="tree_exiting" from="GravityField/Bot/Mid" to="." method="set_gravity_vector" binds= [ Vector2( -1, 0 ) ]]
+[connection signal="flip" from="GravityField/Bot/Right" to="GravityField/GravityChange" method="play"]
+[connection signal="flop" from="GravityField/Bot/Right" to="GravityField" method="set_gravity_vector" binds= [ Vector2( -1, 0 ) ]]
+[connection signal="tree_exiting" from="GravityField/Bot/Right" to="." method="set_gravity_vector" binds= [ Vector2( -1, 0 ) ]]
+[connection signal="flip" from="GravityField/Bot/Left" to="GravityField/GravityChange" method="play"]
+[connection signal="flop" from="GravityField/Bot/Left" to="GravityField" method="set_gravity_vector" binds= [ Vector2( 1, 0 ) ]]
+[connection signal="tree_exiting" from="GravityField/Bot/Left" to="." method="set_gravity_vector" binds= [ Vector2( -1, 0 ) ]]
+[connection signal="flip" from="GravityField/Right/Mid" to="GravityField/GravityChange" method="play"]
+[connection signal="flop" from="GravityField/Right/Mid" to="GravityField" method="set_gravity_vector" binds= [ Vector2( -1, 0 ) ]]
+[connection signal="tree_exiting" from="GravityField/Right/Mid" to="." method="set_gravity_vector" binds= [ Vector2( -1, 0 ) ]]
+[connection signal="flip" from="GravityField/Right/Top" to="GravityField/GravityChange" method="play"]
+[connection signal="flop" from="GravityField/Right/Top" to="GravityField" method="set_gravity_vector" binds= [ Vector2( 0, 1 ) ]]
+[connection signal="tree_exiting" from="GravityField/Right/Top" to="." method="set_gravity_vector" binds= [ Vector2( -1, 0 ) ]]
+[connection signal="flip" from="GravityField/Right/Bot" to="GravityField/GravityChange" method="play"]
+[connection signal="flop" from="GravityField/Right/Bot" to="GravityField" method="set_gravity_vector" binds= [ Vector2( 0, -1 ) ]]
+[connection signal="tree_exiting" from="GravityField/Right/Bot" to="." method="set_gravity_vector" binds= [ Vector2( -1, 0 ) ]]
+[connection signal="flip" from="GravityField/Left/Mid" to="GravityField/GravityChange" method="play"]
+[connection signal="flop" from="GravityField/Left/Mid" to="GravityField" method="set_gravity_vector" binds= [ Vector2( 1, 0 ) ]]
+[connection signal="tree_exiting" from="GravityField/Left/Mid" to="." method="set_gravity_vector" binds= [ Vector2( -1, 0 ) ]]
+[connection signal="flip" from="GravityField/Left/Bot" to="GravityField/GravityChange" method="play"]
+[connection signal="flop" from="GravityField/Left/Bot" to="GravityField" method="set_gravity_vector" binds= [ Vector2( 0, -1 ) ]]
+[connection signal="tree_exiting" from="GravityField/Left/Bot" to="." method="set_gravity_vector" binds= [ Vector2( -1, 0 ) ]]
+[connection signal="flip" from="GravityField/Left/Top" to="GravityField/GravityChange" method="play"]
+[connection signal="flop" from="GravityField/Left/Top" to="GravityField" method="set_gravity_vector" binds= [ Vector2( 0, -1 ) ]]
+[connection signal="tree_exiting" from="GravityField/Left/Top" to="." method="set_gravity_vector" binds= [ Vector2( -1, 0 ) ]]

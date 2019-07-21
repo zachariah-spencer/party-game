@@ -1,29 +1,16 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://scripts/map_elements/levers/RoundSettingApparatus.gd" type="Script" id=1]
-[ext_resource path="res://scenes/map_elements/levers/Lever.tscn" type="PackedScene" id=2]
-[ext_resource path="res://scripts/map_elements/RoundLever.gd" type="Script" id=3]
-[ext_resource path="res://scenes/map_elements/levers/InfiniteRoundLever.tscn" type="PackedScene" id=4]
-[ext_resource path="res://assets/monogram.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://scripts/map_elements/RoundSettingApparatus.gd" type="Script" id=1]
+[ext_resource path="res://assets/monogram.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://scenes/map_elements/levers/Lever.tscn" type="PackedScene" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 50
-font_data = ExtResource( 5 )
+font_data = ExtResource( 2 )
 
 [node name="RoundSettingApparatus" type="Node2D"]
 script = ExtResource( 1 )
 max_rounds = 50
-
-[node name="Decrement" parent="." instance=ExtResource( 2 )]
-position = Vector2( -100, 0 )
-script = ExtResource( 3 )
-
-[node name="Increment" parent="." instance=ExtResource( 2 )]
-position = Vector2( 100, 0 )
-script = ExtResource( 3 )
-increment_amount = -1
-
-[node name="InfiniteRoundLever" parent="." instance=ExtResource( 4 )]
 
 [node name="DescLabel" type="Label" parent="."]
 margin_left = -73.0
@@ -54,3 +41,16 @@ custom_fonts/font = SubResource( 1 )
 text = "10"
 align = 1
 valign = 1
+
+[node name="RoundUp" parent="." instance=ExtResource( 3 )]
+position = Vector2( -100, 0 )
+switch_cooldown = 0.1
+
+[node name="RoundDown" parent="." instance=ExtResource( 3 )]
+position = Vector2( 100, 0 )
+switch_cooldown = 0.1
+
+[node name="InfiniteToggle" parent="." instance=ExtResource( 3 )]
+[connection signal="flip" from="RoundUp" to="." method="increment" binds= [ 1 ]]
+[connection signal="flip" from="RoundDown" to="." method="increment" binds= [ -1 ]]
+[connection signal="flip" from="InfiniteToggle" to="." method="toggle_infinite"]

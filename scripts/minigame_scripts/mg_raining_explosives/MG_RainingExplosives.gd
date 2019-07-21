@@ -58,22 +58,22 @@ func _on_CountdownTimer_timeout():
 		match barrage_select:
 			1:
 				for spawner in barrage_one:
-					spawner._spawn_item()
+					spawner.spawn_item()
 			2:
 				for spawner in barrage_two:
-					spawner._spawn_item()
+					spawner.spawn_item()
 			3:
 				for spawner in barrage_three:
-					spawner._spawn_item()
+					spawner.spawn_item()
 			4:
 				for spawner in barrage_four:
-					spawner._spawn_item()
+					spawner.spawn_item()
 			5:
 				for spawner in barrage_five:
-					spawner._spawn_item()
+					spawner.spawn_item()
 			6:
 				for spawner in barrage_six:
-					spawner._spawn_item()
+					spawner.spawn_item()
 		
 		countdown_time = new_countdown_time
 		countdown_label.text = String(countdown_time)
