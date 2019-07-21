@@ -56,6 +56,3 @@ func on_body_exited(body):
 
 	if player:
 		player._set_gravity(Vector2.DOWN)
-
-func change_gravity_vector(extra_arg_0):
-	pass # Replace with function body.
