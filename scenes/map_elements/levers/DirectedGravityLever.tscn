@@ -18,4 +18,5 @@ pitch_scale = 0.8
 stream = ExtResource( 4 )
 volume_db = -20.0
 pitch_scale = 3.0
-
+[connection signal="flip" from="." to="Charge" method="play"]
+[connection signal="flop" from="." to="GravityChange" method="play"]

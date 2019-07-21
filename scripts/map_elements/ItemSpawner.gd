@@ -19,10 +19,10 @@ func _ready():
 	if repeat_on_timer:
 		timer.start()
 
-func _spawn_item():
+func spawn_item():
 	dispense_sound.play()
 	var item_inst = item.instance()
-	item_inst.global_position = spawn_pos.global_position
+	item_inst.position = position
 	if item_inst is Grenade:
 		var variable_fuse_time := rand_range(2.2,2.8)
 		item_inst.prelit_fuse_time = variable_fuse_time
@@ -35,4 +35,5 @@ func _physics_process(delta):
 		rotation += rot_speed
 
 func _on_Timer_timeout():
-	_spawn_item()
+	spawn_item()
+
