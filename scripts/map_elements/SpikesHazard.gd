@@ -24,6 +24,7 @@ func _activate():
 
 func retract():
 	anim.play('retract')
+	spike_sfx.play()
 	active = false
 
 func _physics_process(delta):
