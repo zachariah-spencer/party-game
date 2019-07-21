@@ -4,7 +4,7 @@
 [ext_resource path="res://scenes/minigames/mg_horseshoes/HorseshoeTarget.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/items/ItemDispenser.tscn" type="PackedScene" id=3]
 
-[node name="Any_HorseshoesMap1" index="0" groups=[
+[node name="Any_HorseshoesMap1" groups=[
 "maps",
 ] instance=ExtResource( 1 )]
 
@@ -21,10 +21,10 @@ collision_mask = 8
 tile_data = PoolIntArray( -65536, 3, 0, -65525, 3, 0, 0, 3, 0, 11, 3, 0, 65536, 3, 0, 65547, 3, 0, 131072, 3, 0, 131083, 3, 0, 196608, 3, 0, 196619, 3, 0, 393216, 3, 0, 393227, 3, 0, 458752, 3, 0, 458763, 3, 0, 524288, 3, 0, 524299, 3, 0, 589824, 3, 0, 589835, 3, 0, 655360, 3, 0, 655371, 3, 0 )
 
 [node name="PlayerOneSpawn" parent="SpawnPoints" index="0"]
-position = Vector2( 134.894, 174.265 )
+position = Vector2( 160, 160.317 )
 
 [node name="PlayerTwoSpawn" parent="SpawnPoints" index="1"]
-position = Vector2( 638.685, 160.317 )
+position = Vector2( 608, 160.317 )
 
 [node name="PlayerThreeSpawn" parent="SpawnPoints" index="2"]
 position = Vector2( 160, 608 )
@@ -68,3 +68,4 @@ item_path = "res://scenes/items/Horseshoe.tscn"
 position = Vector2( 544, 464 )
 rotation = 1.5708
 item_path = "res://scenes/items/Horseshoe.tscn"
+

@@ -104,10 +104,10 @@ position = Vector2( 1024, 1312 )
 position = Vector2( 1536, 1312 )
 
 [node name="ItemDispenser" parent="." index="7" instance=ExtResource( 5 )]
-position = Vector2( -192, 1280 )
+position = Vector2( 512, 840 )
 
 [node name="ItemDispenser2" parent="." index="8" instance=ExtResource( 5 )]
-position = Vector2( 2240, 1280 )
+position = Vector2( 2048, 736 )
 
 [node name="GravityField3" parent="." index="9" instance=ExtResource( 6 )]
 editor/display_folded = true
