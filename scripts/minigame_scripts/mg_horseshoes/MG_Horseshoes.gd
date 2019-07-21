@@ -16,7 +16,7 @@ func _ready():
 func on_made_shot(player):
 	for p in Players.active_players :
 		if p != player.parent :
-			var rand = Vector2(rand_range(-100, 100), rand_range(-100, 100))
+			var rand = Vector2(rand_range(-50, 50), rand_range(-50, 50))
 			_spawn_grenade(p.position + rand)
 
 func _spawn_grenade(spawn_pos):

@@ -11,7 +11,7 @@ onready var animation_player := $AnimationPlayer
 onready var cooldown_timer := $Cooldown
 onready var parent = get_parent()
 onready var flip_delay_timer = Timer.new()
-export var flip_delay := .01
+export var flip_delay := .2
 
 signal flip
 signal flop

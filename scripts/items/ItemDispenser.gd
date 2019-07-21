@@ -11,7 +11,7 @@ func _ready():
 	var setup_item = item.instance()
 	display_sprite.texture = setup_item.get_node('Obj/Sprite').get_texture()
 	display_sprite.scale = setup_item.get_node('Obj/Sprite').get_scale()
-	original_scale = display_sprite.scale
+	original_scale = display_sprite.scale - Vector2(.2,.2)
 
 var t := 0.0
 
