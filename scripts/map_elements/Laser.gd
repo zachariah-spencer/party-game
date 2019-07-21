@@ -1,6 +1,5 @@
 extends Node2D
 
-onready var beam_sfx := $Beam
 var direction = Vector2.DOWN
 var delay := 1.0
 var duration := 0.0
