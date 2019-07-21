@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://scripts/map_elements/levers/RoundSettingApparatus.gd" type="Script" id=1]
+[ext_resource path="res://scripts/map_elements/RoundSettingApparatus.gd" type="Script" id=1]
 [ext_resource path="res://assets/monogram.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://scenes/map_elements/levers/Lever.tscn" type="PackedScene" id=3]
 
