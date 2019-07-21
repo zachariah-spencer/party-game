@@ -23,12 +23,8 @@ func _activate():
 	spike_sfx.play()
 
 func retract():
-	anim.play('extend', true)
+	anim.play('retract')
 	active = false
-#
-#func _on_AnimatedSprite_animation_finished():
-#	active = false
-#	anim.play('idle')
 
 func _physics_process(delta):
 	if active:
