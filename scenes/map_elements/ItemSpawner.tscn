@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scripts/map_elements/ItemSpawner.gd" type="Script" id=1]
-[ext_resource path="res://assets/bucket.png" type="Texture" id=2]
+[ext_resource path="res://assets/map_elements/itemspawner.png" type="Texture" id=2]
 [ext_resource path="res://assets/audio/UI_SFX_Set/click5.wav" type="AudioStream" id=3]
 
 [node name="ItemSpawner" type="Node2D" groups=[
@@ -13,8 +13,8 @@ script = ExtResource( 1 )
 position = Vector2( 0, -25 )
 
 [node name="Sprite" type="Sprite" parent="."]
-modulate = Color( 1, 0, 0, 1 )
-scale = Vector2( 0.4, 0.4 )
+modulate = Color( 0.764706, 0.764706, 0.764706, 1 )
+scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 2 )
 
 [node name="Dispense" type="AudioStreamPlayer2D" parent="."]

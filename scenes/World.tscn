@@ -28,3 +28,4 @@ layer = 10
 
 [node name="Transition" parent="." instance=ExtResource( 6 )]
 game_opening_fade = true
+
