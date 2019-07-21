@@ -16,8 +16,6 @@ func _ready():
 	Manager.minigame_name = 'traps'
 	game_instructions = 'Trapper: Kill the other players!\nRunners: Make it to the end!'
 
-	custom_cam.current = true
-
 func _insert_players():
 	._insert_players()
 	var player_array = Players._update_active_players()

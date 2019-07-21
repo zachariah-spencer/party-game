@@ -30,7 +30,6 @@ var forced_to_lobby := false
 var spawn_index = {}
 
 onready var hud : Node = $CanvasLayer/HUD
-onready var camera = get_node("Cam")
 
 signal game_times_up
 
@@ -47,7 +46,6 @@ func _ready():
 	_update_active_spawn_points()
 	spawn_points.shuffle()
 
-	camera.current = true
 	connect('game_times_up', Manager, '_on_game_times_up')
 	Globals.HUD.connect('begin_game', Manager.current_minigame, '_on_begin_game')
 
@@ -57,8 +55,6 @@ func _ready():
 	minigame_timer.set_autostart(true)
 	minigame_timer.set_one_shot(false)
 	minigame_timer.start(1)
-
-
 
 	call_deferred('_insert_players')
 	call_deferred('_pregame', has_countdown)
