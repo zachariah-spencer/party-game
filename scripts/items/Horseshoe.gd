@@ -50,12 +50,16 @@ func _on_ShotLandedArea_area_entered(area):
 		set_collision_mask_bit(4, true)
 
 		if target.stack.size() > 4:
-			target.item_spawn_pos.position.y -= 20
-			target.area_shape.position.y -= 12
-			target.sprite.position.y -= 14
+#			target.item_spawn_pos.position.y -= 20
+#			target.area_shape.position.y -= 12
+#			target.sprite.position.y -= 14
+			target.stack[0].queue_free()
+			target.stack.pop_front()
+			for i in target.stack:
+				i.position.y += 3
 
 		get_parent().remove_child(self)
-		position = Vector2.ZERO
+		position = Vector2.ZERO + Vector2(0,-20)
 		rotation = 0
 		target.call_deferred("add_child", self)
 

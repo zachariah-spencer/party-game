@@ -23,15 +23,15 @@ animations = [ {
 "name": "landed",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 3 ) ],
-"loop": true,
-"name": "held",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 7 ), ExtResource( 5 ), ExtResource( 8 ), ExtResource( 8 ) ],
 "loop": true,
 "name": "airborne",
 "speed": 30.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "held",
+"speed": 5.0
 } ]
 
 [node name="Horseshoe" index="0" instance=ExtResource( 1 )]
