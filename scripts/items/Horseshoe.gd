@@ -22,10 +22,12 @@ func _ready():
 
 func _on_grab():
 	if anim:
+		sprite.visible = false
 		anim.play('held')
 
 func _on_throw():
 	anim.play('airborne')
+	sprite.visible = false
 
 func _integrate_forces(state):
 
