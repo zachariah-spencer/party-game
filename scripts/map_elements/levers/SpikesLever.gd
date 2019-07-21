@@ -10,4 +10,4 @@ func _ready():
 func flip():
 	.flip()
 	for hazard in hazards :
-		hazard._activate()
+		hazard.activate()

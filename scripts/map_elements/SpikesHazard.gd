@@ -15,7 +15,7 @@ func _ready():
 	add_child(active_timer)
 	active_timer.connect("timeout", self, "retract")
 
-func _activate():
+func activate():
 	active_timer.start(active_time)
 	active = true
 	anim.play('extend')

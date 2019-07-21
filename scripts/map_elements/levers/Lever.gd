@@ -13,6 +13,9 @@ onready var parent = get_parent()
 onready var flip_delay_timer = Timer.new()
 export var flip_delay := .01
 
+signal flip
+signal flop
+
 func _ready():
 	flip_delay_timer.wait_time = flip_delay
 	flip_delay_timer.autostart = false
@@ -29,6 +32,7 @@ func interact(by : Player):
 				flip()
 
 func  flip():
+	emit_signal("flip")
 	flip_sound.play()
 	animation_player.play('flip_lever')
 	can_flip = false
@@ -36,6 +40,7 @@ func  flip():
 	cooldown_timer.start(switch_cooldown)
 
 func flop():
+	emit_signal("flop")
 	animation_player.play('flop')
 
 func _on_Cooldown_timeout():

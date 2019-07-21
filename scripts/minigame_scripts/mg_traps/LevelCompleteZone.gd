@@ -9,7 +9,7 @@ func _ready():
 
 func _on_LevelCompleteZone_body_entered(body):
 	var player = body as Player
-	
+
 	if player && !completed_players.has(player.parent):
 		emit_signal('level_completed')
 		completed_players.append(player.parent)

@@ -11,7 +11,7 @@ func flop():
 	.flop()
 	Manager.current_minigame.emit_signal('gravity_flopped')
 	gravity_change_sfx.play()
-	
+
 	get_node(path).set_gravity_vector(new_gravity)
 
 func flip():

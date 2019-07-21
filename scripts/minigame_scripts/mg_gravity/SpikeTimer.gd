@@ -18,13 +18,13 @@ func _timeout():
 	if use_walls :
 		var wall = walls[curr_wall]
 		for child in wall.get_children() :
-			child._activate()
+			child.activate()
 		if curr_wall >= 3 :
 			curr_wall = 0
 		else :
 			curr_wall += 1
 	else :
-		spikes[curr_spike]._activate()
+		spikes[curr_spike].activate()
 		curr_spike += 1
 		if curr_spike == spikes.size():
 			curr_spike = 0
