@@ -42,7 +42,7 @@ func _on_FallingBlocktest_body_entered(body):
 [sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 96, 20 )
 
-[node name="LobbyMap" index="0" groups=[
+[node name="LobbyMap" groups=[
 "maps",
 ] instance=ExtResource( 1 )]
 
@@ -151,6 +151,7 @@ position = Vector2( 1275.68, 1161.38 )
 position = Vector2( 1792, 1156.68 )
 
 [node name="GravityField" parent="." index="14" instance=ExtResource( 6 )]
+editor/display_folded = true
 position = Vector2( 1218.53, 344.871 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GravityField" index="1"]
@@ -159,6 +160,7 @@ shape = SubResource( 6 )
 [node name="Lever" parent="." index="15" instance=ExtResource( 8 )]
 
 [node name="GravityField2" parent="." index="16" instance=ExtResource( 6 )]
+editor/display_folded = true
 position = Vector2( 887.422, 328.362 )
 gravity_vec = Vector2( 1, 0 )
 
@@ -166,6 +168,7 @@ gravity_vec = Vector2( 1, 0 )
 shape = SubResource( 6 )
 
 [node name="FallingBlocktest" type="Area2D" parent="." index="17"]
+editor/display_folded = true
 position = Vector2( 1357.46, 959.652 )
 script = SubResource( 7 )
 
@@ -178,6 +181,7 @@ shape = SubResource( 8 )
 [node name="GravityCompass" parent="." index="18" instance=ExtResource( 10 )]
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="." index="19"]
+editor/display_folded = true
 layer = -5
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground" index="0"]

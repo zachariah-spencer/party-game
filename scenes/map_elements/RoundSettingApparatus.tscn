@@ -43,14 +43,15 @@ align = 1
 valign = 1
 
 [node name="RoundUp" parent="." instance=ExtResource( 3 )]
-position = Vector2( -100, 0 )
+position = Vector2( 96, 0 )
 switch_cooldown = 0.1
 
 [node name="RoundDown" parent="." instance=ExtResource( 3 )]
-position = Vector2( 100, 0 )
+position = Vector2( -96, 0 )
 switch_cooldown = 0.1
 
 [node name="InfiniteToggle" parent="." instance=ExtResource( 3 )]
+
 [connection signal="flip" from="RoundUp" to="." method="increment" binds= [ 1 ]]
 [connection signal="flip" from="RoundDown" to="." method="increment" binds= [ -1 ]]
 [connection signal="flip" from="InfiniteToggle" to="." method="toggle_infinite"]
