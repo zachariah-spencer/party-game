@@ -7,6 +7,8 @@ var blocks = []
 var falling = false
 var can_fall = true
 
+signal fallen
+
 func _ready():
 	fall_timer.one_shot = true
 	fall_timer.autostart = false
@@ -35,6 +37,7 @@ func _process(delta):
 			block.position.y = clamp(block.position.y, -10, 10)
 
 func end_fall() :
+	emit_signal("fallen")
 	$RumbleSFX.stop()
 	can_fall = false
 	for block in blocks :
