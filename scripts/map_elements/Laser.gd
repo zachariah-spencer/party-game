@@ -13,6 +13,7 @@ onready var hitParticles = $HitParticles
 onready var preParticles = $PreParticles
 onready var hurtbox = $Hurtbox
 var has_hit = []
+var ray_mask = Globals.TERRAIN_BIT + Globals.PLATFORM_BIT + Globals.BEAM_BIT
 
 onready var delay_timer = Timer.new()
 onready var active_timer = Timer.new()
@@ -24,6 +25,7 @@ func _ready():
 	preParticles.process_material = preParticles.process_material.duplicate()
 	$Hurtbox/CollisionShape2D.shape = $Hurtbox/CollisionShape2D.shape.duplicate()
 
+	$ray.collision_mask = ray_mask
 
 	active_timer.autostart = false
 	active_timer.one_shot = true

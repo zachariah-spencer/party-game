@@ -19,6 +19,7 @@ const P4_BIT = 512
 const CORPSE_BIT = 1024
 const NO_PLAYER_WALL_BIT = 2048
 const ITEM_BIT = 16384
+const BEAM_BIT = 65536
 
 const PLAYER_BITS = 960
 

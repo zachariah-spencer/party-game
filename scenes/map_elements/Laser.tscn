@@ -89,8 +89,8 @@ process_material = SubResource( 4 )
 [node name="Hurtbox" type="Area2D" parent="."]
 monitoring = false
 monitorable = false
-collision_layer = 0
-collision_mask = 960
+collision_layer = 65536
+collision_mask = 17344
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource( 5 )

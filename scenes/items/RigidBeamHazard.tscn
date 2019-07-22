@@ -48,6 +48,5 @@ stream = ExtResource( 5 )
 volume_db = -24.0
 pitch_scale = 0.5
 attenuation = 0.757858
-
 [connection signal="timeout" from="ImpulseTimer" to="." method="_on_ImpulseTimer_timeout"]
 [connection signal="timeout" from="ShootDelayTimer" to="." method="_on_ShootDelayTimer_timeout"]
