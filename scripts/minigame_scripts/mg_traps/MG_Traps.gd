@@ -4,8 +4,6 @@ onready var trapper_spawn := map.get_node('TrapperSpawn')
 var trapper : PlayersManager
 var runners := []
 var completed_level := 0
-onready var custom_cam := map.get_node('CameraFollowPoint/CustomCam')
-onready var custom_cam_follow_point :=  map.get_node('CameraFollowPoint')
 
 func _init():
 	maps = [
@@ -22,7 +20,7 @@ func _insert_players():
 	player_array.shuffle()
 	trapper = player_array[0]
 	trapper.spawn(trapper_spawn.position)
-	trapper.child.invincible = true
+#	trapper.child.invincible = true
 
 	for player in Players._get_alive_players() :
 		if player != trapper :
