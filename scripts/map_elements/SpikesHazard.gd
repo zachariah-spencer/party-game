@@ -1,9 +1,9 @@
-extends Node2D
+extends Hazard
 
 class_name SpikesHazard
 
 onready var anim := $AnimatedSprite
-onready var area := $Area2D
+onready var area := $Hurtbox
 var active := false
 onready var spike_sfx := $Spike
 onready var active_timer := Timer.new()
@@ -19,7 +19,6 @@ func activate():
 	active_timer.start(active_time)
 	active = true
 	anim.play('extend')
-#	anim.play('active')
 	spike_sfx.play()
 
 func retract():
