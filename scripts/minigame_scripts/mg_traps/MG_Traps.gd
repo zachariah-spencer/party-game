@@ -41,7 +41,7 @@ func _on_level_completed():
 	completed_level += 1
 
 func _check_special_win_conditions():
-	if Players._get_alive_players().size() == 1 || game_time == 0 && Players._get_alive_players().size() == 1:
+	if Players._get_alive_players().size() == 1 || game_time == 0:
 		_special_game_over('trapper')
 	elif completed_level == (Players._get_alive_players().size() - 1):
 		_special_game_over('runners')

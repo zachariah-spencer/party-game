@@ -37,11 +37,11 @@ func  flip():
 	animation_player.play('flip_lever')
 	can_flip = false
 	flip_delay_timer.start(flip_delay)
-	cooldown_timer.start(switch_cooldown)
 
 func flop():
 	emit_signal("flop")
 	animation_player.play('flop')
+	cooldown_timer.start(switch_cooldown)
 
 func _on_Cooldown_timeout():
 	can_flip = true
