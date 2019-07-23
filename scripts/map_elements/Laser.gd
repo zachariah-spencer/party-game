@@ -9,7 +9,7 @@ var damage = 100
 
 onready var cast = $ray
 onready var sprite = $sprite
-onready var hitParticles = $HitParticles
+onready var hitParticles = $StaticEffect/HitParticles
 onready var preParticles = $PreParticles
 onready var hurtbox = $Hurtbox
 var has_hit = []
@@ -17,6 +17,7 @@ var ray_mask = Globals.TERRAIN_BIT + Globals.PLATFORM_BIT + Globals.BEAM_BIT
 
 onready var delay_timer = Timer.new()
 onready var active_timer = Timer.new()
+onready var hit_timer = $HitTimer
 
 func _ready():
 	sprite.visible = false
@@ -26,6 +27,9 @@ func _ready():
 	$Hurtbox/CollisionShape2D.shape = $Hurtbox/CollisionShape2D.shape.duplicate()
 
 	$ray.collision_mask = ray_mask
+	hitParticles.position.y = MAX_RANGE
+	hitParticles.lifetime = duration
+	hitParticles.emitting = false
 
 	active_timer.autostart = false
 	active_timer.one_shot = true
@@ -39,6 +43,8 @@ func _ready():
 	delay_timer.connect("timeout", self, "_fire")
 	preParticles.emitting = true
 
+	hit_timer.connect("timeout", self, "queue_free")
+
 func _process(delta):
 	var dist = MAX_RANGE
 	if cast.is_colliding() :
@@ -48,14 +54,16 @@ func _process(delta):
 				if not body in has_hit and body.has_method('hit'):
 					body.hit(self, damage, Vector2.ZERO, Damage.FIRE)
 					has_hit.append(body)
+		hitParticles.position = cast.get_collision_point()
+		hitParticles.rotation = global_rotation - PI/2
 
 	sprite.rect_size.y = dist
 	preParticles.process_material.emission_box_extents.x = dist/2
 	preParticles.position.y = dist/2
-	hitParticles.position.y = dist
 
 	hurtbox.position.y = dist/2
 	$Hurtbox/CollisionShape2D.shape.extents.y = dist/2
+	hitParticles.self_modulate.a = hit_timer.time_left
 
 
 func _fire() :
@@ -66,16 +74,19 @@ func _fire() :
 	if cast.is_colliding() :
 		var contact = cast.get_collision_point()
 		sprite.rect_size.y = position.distance_to(contact)
-		hitParticles.position = contact
+		hitParticles.global_position = contact
 		hitParticles.emitting = true
+		hitParticles.visible = true
 	else :
 		sprite.rect_size.y = position.distance_to(cast.cast_to)
 
+	hit_timer.start(duration + hitParticles.lifetime)
 	active_timer.start(duration)
 	sprite.visible = true
-	hitParticles.emitting = true
-
 
 
 func _fade():
-	self.queue_free()
+	cast.enabled = false
+	sprite.visible = false
+	preParticles.visible = false
+	hurtbox.monitoring = false
