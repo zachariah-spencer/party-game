@@ -45,9 +45,9 @@ var player_spawns : Array = [0,1,2,3]
 
 func _ready():
 	set_rotation()
-	world_node = get_parent().get_node('World')
 	randomize()
-	_start_new_minigame(lobby)
+#	world_node = get_parent().get_node('World')
+#	_start_new_minigame(lobby)
 
 func set_rotation(exclude := []) :
 	for game in GAMES:
