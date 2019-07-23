@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scenes/player/PlayerOne.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/player/PlayerTwo.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://scenes/player/PlayerFour.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/ui/PauseMenu.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/Transition.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/audio/minigame-music-loop.wav" type="AudioStream" id=7]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node
@@ -37,4 +38,10 @@ layer = 10
 
 [node name="Transition" parent="." instance=ExtResource( 6 )]
 game_opening_fade = true
+
+[node name="GameMusic" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 7 )
+volume_db = -12.0
+attenuation = 0.00328474
+bus = "Music"
 

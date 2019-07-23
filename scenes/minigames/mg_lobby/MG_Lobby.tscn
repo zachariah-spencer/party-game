@@ -12,9 +12,9 @@ allow_respawns = true
 visible_name = "Lobby"
 respawn_time = 1.25
 
-[node name="LobbyMap" parent="." index="2" instance=ExtResource( 3 )]
+[node name="LobbyMap" parent="." index="1" instance=ExtResource( 3 )]
 
-[node name="AmbienceSFX" type="AudioStreamPlayer2D" parent="." index="3"]
+[node name="AmbienceSFX" type="AudioStreamPlayer2D" parent="." index="2"]
 stream = ExtResource( 4 )
 volume_db = -80.0
 pitch_scale = 2.5
@@ -22,5 +22,5 @@ max_distance = 1e+007
 attenuation = 0.00158643
 bus = "Ambience"
 
-[node name="Tween" type="Tween" parent="." index="4"]
+[node name="Tween" type="Tween" parent="." index="3"]
 
