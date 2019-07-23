@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/laserhazard.png" type="Texture" id=2]
 [ext_resource path="res://assets/sphere.png" type="Texture" id=3]
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 30.9896, 15.1208 )
 
 [sub_resource type="Gradient" id=2]
@@ -29,7 +29,7 @@ color_ramp = SubResource( 3 )
 base_damage = 100
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurboxes/Base" index="0"]
-shape = SubResource( 5 )
+shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="." index="1"]
 texture = ExtResource( 2 )
@@ -42,3 +42,4 @@ amount = 30
 lifetime = 0.5
 process_material = SubResource( 4 )
 texture = ExtResource( 3 )
+

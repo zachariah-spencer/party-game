@@ -25,17 +25,18 @@ func _insert_players():
 	for player in Players._get_alive_players() :
 		if player != trapper :
 			runners.append(player)
+	print(runners)
 
 func _run_minigame_loop():
 	if game_active:
 		_check_special_win_conditions()
-		_check_is_on_screen()
+#		_check_is_on_screen()
 
-func _check_is_on_screen():
-	for player in Players._get_alive_players():
-		if player != trapper:
-			if !player.child.visible_onscreen.is_on_screen():
-				player.child.hit(self, 100, Vector2.ZERO, Damage.ENVIRONMENTAL)
+#func _check_is_on_screen():
+#	for player in Players._get_alive_players():
+#		if player != trapper:
+#			if !player.child.visible_onscreen.is_on_screen():
+#				player.child.hit(self, 100, Vector2.ZERO, Damage.ENVIRONMENTAL)
 
 func _on_level_completed():
 	completed_level += 1
