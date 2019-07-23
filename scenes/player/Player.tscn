@@ -180,13 +180,13 @@ tracks/1/keys = {
 [sub_resource type="CapsuleShape2D" id=31]
 resource_local_to_scene = true
 radius = 12.0
-height = 61.0
+height = 64.0
 
 [sub_resource type="RectangleShape2D" id=32]
 extents = Vector2( 25, 43 )
 
-[sub_resource type="CapsuleShape2D" id=33]
-height = 60.0
+[sub_resource type="CapsuleShape2D" id=44]
+height = 0.0
 
 [sub_resource type="ShaderMaterial" id=34]
 shader = ExtResource( 15 )
@@ -529,12 +529,12 @@ shape = SubResource( 32 )
 
 [node name="TopOfHeadArea" type="Area2D" parent="."]
 editor/display_folded = true
-position = Vector2( 0, -84 )
-collision_layer = 2048
+position = Vector2( 0, -95 )
+collision_layer = 0
 collision_mask = 960
 
 [node name="Shape" type="CollisionShape2D" parent="TopOfHeadArea"]
-shape = SubResource( 33 )
+shape = SubResource( 44 )
 one_way_collision = true
 
 [node name="PickupRange" type="Area2D" parent="."]
@@ -574,6 +574,7 @@ wait_time = 0.5
 one_shot = true
 
 [node name="Shockwave" type="CPUParticles2D" parent="."]
+visible = false
 material = SubResource( 34 )
 position = Vector2( 0, -30.6 )
 emitting = false
@@ -590,6 +591,7 @@ scale_amount_curve = SubResource( 35 )
 color_ramp = SubResource( 36 )
 
 [node name="LocalScore" type="Label" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -119.0
@@ -601,6 +603,7 @@ text = "0"
 align = 1
 
 [node name="StateLabel" type="Label" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 1.0
@@ -624,6 +627,7 @@ align = 1
 valign = 1
 
 [node name="Cast" type="RayCast2D" parent="."]
+visible = false
 enabled = true
 cast_to = Vector2( 0, 128 )
 collision_mask = 0
@@ -639,6 +643,7 @@ wait_time = 0.21
 
 [node name="Taunts" type="Node2D" parent="."]
 editor/display_folded = true
+visible = false
 
 [node name="1" type="Node2D" parent="Taunts"]
 
@@ -664,7 +669,9 @@ pitch_scale = 1.1
 bus = "Voices"
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+visible = false
 rect = Rect2( -27, -80, 54, 90 )
+
 [connection signal="body_entered" from="Rig/Left Hand/Hitbox" to="." method="_on_AttackArea_body_entered"]
 [connection signal="body_entered" from="Rig/Right Hand/Hitbox" to="." method="_on_AttackArea_body_entered"]
 [connection signal="body_entered" from="TopOfHeadArea" to="." method="_on_TopOfHeadArea_body_entered"]
