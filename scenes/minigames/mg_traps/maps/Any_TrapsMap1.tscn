@@ -178,18 +178,16 @@ position = Vector2( 608, 80 )
 rotation = -3.14159
 
 [node name="CameraFollowPoint" type="Position2D" parent="." index="10"]
-editor/display_folded = true
 position = Vector2( 640, 416 )
 script = ExtResource( 10 )
 
 [node name="CustomCam" type="Camera2D" parent="CameraFollowPoint" index="0"]
 current = true
 zoom = Vector2( 1.35, 1.35 )
-smoothing_enabled = true
-smoothing_speed = 3.0
+drag_margin_h_enabled = false
 
 [node name="ScreenEdgeHazard" parent="CameraFollowPoint" index="1" instance=ExtResource( 9 )]
-position = Vector2( -864, -96 )
+position = Vector2( -688, -96 )
 rotation = 1.5708
 scale = Vector2( 8, 1 )
 base_damage = 10
