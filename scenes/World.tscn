@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scenes/player/PlayerOne.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/player/PlayerTwo.tscn" type="PackedScene" id=2]
@@ -7,7 +7,16 @@
 [ext_resource path="res://scenes/ui/PauseMenu.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/Transition.tscn" type="PackedScene" id=6]
 
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node
+
+
+func _ready() :
+	Manager.world_node = self
+	Manager._start_new_minigame(Manager.lobby)"
+
 [node name="World" type="Node"]
+script = SubResource( 1 )
 
 [node name="Viewport" type="Viewport" parent="."]
 
