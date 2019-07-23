@@ -1,32 +1,12 @@
 extends Hazard
 
-var num_of_focuses := 0
-var center := Vector2.ZERO
-var focal_points := []
-var no_players := true
-var has_centered := false
+var playerpos
+var start = 0 #distance from left side when the player is at the far left
+var travel = 500 #how far it moves as the player goes to the far right
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	center = Vector2.ZERO
-
-	focal_points = get_parent().get_parent().runners
-
-	num_of_focuses = 0
-
-	if focal_points.size() != 1 :
-		for focal_point in focal_points:
-			if focal_point.is_in_group('default_focus'):
-				focal_points.remove(focal_points.find(focal_point))
-
-	for focal_point in focal_points:
-		center += focal_point.global_position
-		num_of_focuses += 1
-	if num_of_focuses > 0 : center = center / num_of_focuses
-
-	var dist = 0
-
-	for focal_point in focal_points:
-		dist += center.distance_to(focal_point.global_position)
-
-	global_position.x = lerp(global_position.x, center.x - 384, .1)
+    playerpos = Players.player_one.get_global_transform().origin
+    var farleft = get_viewport().get_visible_rect().abs().position.x #get the x position of the left edge of the screen
+    var farright = get_viewport().get_visible_rect().abs().end.x #get the x position of the right edge of the screen
+    var player_fraction = (playerpos.x-farleft)/(farright-farleft) #position of the player, 0 being on the far left and 1 being far right
+    transform.origin = get_parent().to_local(Vector2(farleft+start+(travel*player_fraction), playerpos.y)) #based on that, find a spot to put the hazardtor2(farleft+start+(travel*player_fraction), playerpos.y) #based on that, find a spot to put the hazard
