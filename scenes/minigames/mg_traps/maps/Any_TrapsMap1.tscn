@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://scenes/minigames/MapTemplate.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/minigames/mg_traps/LevelCompleteZone.tscn" type="PackedScene" id=2]
@@ -34,7 +34,6 @@ emission_box_extents = Vector3( 10, 250, 1 )
 flag_disable_z = true
 gravity = Vector3( 0, -90, 0 )
 initial_velocity = 100.0
-angular_velocity = 0.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 0.1
@@ -46,6 +45,9 @@ color_ramp = SubResource( 3 )
 [sub_resource type="NoiseTexture" id=8]
 seamless = true
 noise = SubResource( 7 )
+
+[sub_resource type="RectangleShape2D" id=9]
+extents = Vector2( 100, 500 )
 
 [node name="Any_TrapsMap1" index="0" instance=ExtResource( 1 )]
 
@@ -232,16 +234,23 @@ draw_order = 1
 process_material = SubResource( 6 )
 texture = ExtResource( 11 )
 normal_map = SubResource( 8 )
+
+[node name="FasterScrollArea" type="Area2D" parent="CameraFollowPoint" index="3"]
+position = Vector2( 331.259, -85.128 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CameraFollowPoint/FasterScrollArea" index="0"]
+position = Vector2( -55.5182, -5.55182 )
+shape = SubResource( 9 )
 [connection signal="level_completed" from="LevelCompleteZone" to="LevelCompleteZone/BeamHazard" method="activate"]
 [connection signal="flip" from="Traps/GravityLever" to="Traps/GravityLever/GravityField" method="invert_gravity"]
 [connection signal="flop" from="Traps/GravityLever" to="Traps/GravityLever/GravityField" method="invert_gravity"]
 [connection signal="flip" from="Traps/Lever" to="Traps/Lever/ItemSpawner" method="spawn_item"]
 [connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard4" method="activate"]
-[connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard3" method="activate"]
-[connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard2" method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard" method="activate"]
-[connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard5" method="activate"]
+[connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard2" method="activate"]
+[connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard3" method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard6" method="activate"]
+[connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard5" method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard7" method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard8" method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard9" method="activate"]
