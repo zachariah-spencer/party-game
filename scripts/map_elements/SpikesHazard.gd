@@ -17,17 +17,13 @@ func _ready():
 
 func activate():
 	active_timer.start(active_time)
+	$Hurtbox.monitoring = true
 	active = true
 	anim.play('extend')
 	spike_sfx.play()
 
 func retract():
+	$Hurtbox.monitoring = false
 	anim.play('retract')
 	spike_sfx.play()
 	active = false
-
-func _physics_process(delta):
-	if active:
-		for body in area.get_overlapping_bodies():
-			if body is Player:
-				body.hit(self,100,Vector2(0,-100),Damage.ENVIRONMENTAL)
