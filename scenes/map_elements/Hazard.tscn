@@ -8,4 +8,4 @@ script = ExtResource( 1 )
 [node name="Hurboxes" type="Node2D" parent="."]
 
 [node name="Base" type="Area2D" parent="Hurboxes"]
-[connection signal="body_entered" from="Hurboxes/Base" to="." method="_hurtbox_entered" binds= [ 50 ]]
+[connection signal="body_entered" from="Hurboxes/Base" to="." method="_hurtbox_entered"]
