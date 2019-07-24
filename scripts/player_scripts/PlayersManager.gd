@@ -246,8 +246,9 @@ func _setup_controller_config(player_string : String):
 
 func _map_controller_action(action_suffix : String, deadzone := 0.5):
 	var action_string := 'player_' + player_string + action_suffix
-	InputMap.add_action(action_string)
-	InputMap.action_set_deadzone(action_string, deadzone)
+	if not InputMap.has_action(action_string) :
+		InputMap.add_action(action_string)
+		InputMap.action_set_deadzone(action_string, deadzone)
 	return action_string
 
 func _map_controller_event_to_action(current_action : String, button_or_axis := false, mapping := JOY_BUTTON_0, value := 0.0):

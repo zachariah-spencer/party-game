@@ -12,19 +12,8 @@ has_timer = false
 visible_name = "Lethal Gravity"
 visible_hp = true
 
-[node name="Cam" parent="." index="0"]
-offset = Vector2( 1057, 608 )
-zoom = Vector2( 2, 2 )
-script = null
-
-[node name="CanvasLayer" parent="." index="1"]
+[node name="CanvasLayer" parent="." index="0"]
 editor/display_folded = false
 
-[node name="Any_GravityMap1" parent="." index="2" instance=ExtResource( 3 )]
+[node name="Any_GravityMap1" parent="." index="1" instance=ExtResource( 3 )]
 
-[node name="SpikeTimer" type="Timer" parent="." index="3"]
-process_mode = 0
-wait_time = 0.4
-autostart = true
-
-[connection signal="timeout" from="SpikeTimer" to="." method="_on_SpikeTimer_timeout"]

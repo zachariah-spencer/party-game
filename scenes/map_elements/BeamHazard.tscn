@@ -20,7 +20,7 @@ emission_sphere_radius = 15.0
 flag_disable_z = true
 spread = 50.0
 gravity = Vector3( 0, -100, 0 )
-angular_velocity = -6.37841e+035
+angular_velocity = -6.37841e+35
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 0.02
@@ -70,6 +70,5 @@ speed_scale = 4.0
 visibility_rect = Rect2( -1500, -1500, 10000, 10000 )
 process_material = SubResource( 4 )
 texture = ExtResource( 3 )
-
 [connection signal="timeout" from="ActiveTimer" to="." method="_on_ActiveTimer_timeout"]
 [connection signal="timeout" from="ChargingTimer" to="." method="_on_ChargingTimer_timeout"]

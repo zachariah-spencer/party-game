@@ -6,15 +6,26 @@ onready var anim := $AnimatedSprite
 onready var area := $Area2D
 var active := false
 onready var spike_sfx := $Spike
+onready var active_timer := Timer.new()
+export var active_time := .5
 
-func _activate():
+func _ready():
+	active_timer.autostart = false
+	active_timer.one_shot = true
+	add_child(active_timer)
+	active_timer.connect("timeout", self, "retract")
+
+func activate():
+	active_timer.start(active_time)
 	active = true
-	anim.play('active')
+	anim.play('extend')
+#	anim.play('active')
 	spike_sfx.play()
 
-func _on_AnimatedSprite_animation_finished():
+func retract():
+	anim.play('retract')
+	spike_sfx.play()
 	active = false
-	anim.play('idle')
 
 func _physics_process(delta):
 	if active:

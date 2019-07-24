@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scripts/map_elements/levers/Lever.gd" type="Script" id=1]
-[ext_resource path="res://assets/switchbase.png" type="Texture" id=2]
-[ext_resource path="res://assets/switchhead.png" type="Texture" id=3]
+[ext_resource path="res://assets/map_elements/leverbase.png" type="Texture" id=2]
+[ext_resource path="res://assets/map_elements/leverswitch.png" type="Texture" id=3]
 [ext_resource path="res://assets/audio/UI_SFX_Set/switch38.wav" type="AudioStream" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
@@ -10,34 +10,6 @@ radius = 40.0
 
 [sub_resource type="Animation" id=2]
 resource_name = "flip_lever"
-length = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("Switch:rotation_degrees")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.3 ),
-"transitions": PoolRealArray( 1, 1.51572, 7.46426 ),
-"update": 0,
-"values": [ -30.0, 30.0, -30.0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Switch:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.3 ),
-"transitions": PoolRealArray( 1, 1.51572, 7.46426 ),
-"update": 0,
-"values": [ Vector2( -5, 0 ), Vector2( 5, 0 ), Vector2( -5, 0 ) ]
-}
-
-[sub_resource type="Animation" id=3]
-resource_name = "flop"
 length = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("Switch:rotation_degrees")
@@ -47,9 +19,9 @@ tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1.51572, 7.46426 ),
+"transitions": PoolRealArray( 3.24901, 3.86376 ),
 "update": 0,
-"values": [ 30.0, -30.0 ]
+"values": [ -35.0, 35.0 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Switch:position")
@@ -59,9 +31,37 @@ tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
 "times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1.51572, 7.46426 ),
+"transitions": PoolRealArray( 3.4822, 3.13834 ),
 "update": 0,
-"values": [ Vector2( 5, 0 ), Vector2( -5, 0 ) ]
+"values": [ Vector2( -10, 0 ), Vector2( 10, 0 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "flop"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Switch:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 7.46426 ),
+"update": 0,
+"values": [ 35.0, -35.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Switch:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 7.46426 ),
+"update": 0,
+"values": [ Vector2( 10, 0 ), Vector2( -10, 0 ) ]
 }
 
 [node name="Lever" type="Area2D" groups=[
@@ -80,15 +80,18 @@ one_shot = true
 
 [node name="Base" type="Sprite" parent="."]
 modulate = Color( 0.172549, 0.172549, 0.172549, 1 )
+scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 2 )
 
 [node name="Switch" type="Sprite" parent="."]
-position = Vector2( -5, 0 )
-rotation = -0.523599
+position = Vector2( -10, 0 )
+rotation = -0.610865
+scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 3 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/flip_lever = SubResource( 2 )
+anims/flop = SubResource( 3 )
 
 [node name="Flip" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 4 )
@@ -96,4 +99,3 @@ volume_db = -12.0
 pitch_scale = 0.55
 bus = "Sounds"
 
-anims/flop = SubResource( 3 )
