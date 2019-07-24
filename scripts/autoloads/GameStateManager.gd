@@ -11,6 +11,7 @@ onready var GAMES = [
 	preload('res://scenes/minigames/mg_raining_explosives/MG_RainingExplosives.tscn'),
 	preload('res://scenes/minigames/mg_traps/MG_Traps.tscn'),
 	preload('res://scenes/minigames/mg_gravity/MG_Gravity.tscn'),
+	preload('res://scenes/minigames/mg_mirrored_paths/MG_MirroredPaths.tscn'),
 ]
 
 onready var rotation := []
