@@ -16,6 +16,8 @@ var disable_movement := false
 var disable_fists := false
 var spawn_point : Node2D
 
+var punch_knockback = Vector2(40* Globals.CELL_SIZE, 500)
+
 var can_wall_jump := true
 var can_jump := true
 var is_crouching := false
@@ -156,12 +158,18 @@ func _input(event : InputEvent):
 		if event.is_action_released(move_jump) && adjusted_velocity.y < min_jump_velocity:
 			velocity = (velocity - velocity.project(gravity)) + (min_jump_velocity * Vector2.DOWN.rotated(gravity.angle() - PI/2))
 
-func hit(by : Node, damage : int, knockback := Vector2.ZERO, type := Damage.ENVIRONMENTAL) :
+
+func hit(by : Node2D, damage : int, knockback := Vector2.ZERO, type := Damage.ENVIRONMENTAL) :
 	if !invincible:
-		var x = 40* Globals.CELL_SIZE
-		var y = 500
+		var dist =  global_position - by.global_position
+#		var x = 40* Globals.CELL_SIZE
+#		var y = 500
 		if knockback != Vector2.ZERO :
-			velocity = ((Vector2.UP * y) + (x * sign(knockback.x)*Vector2.RIGHT)).rotated(gravity.angle() -PI/2)
+			var temp_v = Vector2(knockback.x * sign(dist.x), -knockback.y)
+			print(temp_v)
+			print(dist)
+			velocity = temp_v.rotated(gravity.angle() - PI/2)
+			print(velocity)
 		$Shockwave.set_emitting(true)
 
 		if holding_item :
@@ -710,7 +718,7 @@ func _on_AttackTimer_timeout():
 
 func _on_AttackArea_body_entered(body):
 	if body.has_method("hit") and not hit_exceptions.has(body):
-		body.hit(self, 20, (body.global_position - global_position).normalized(), Damage.PUNCHES)
+		body.hit(self, 20, punch_knockback, Damage.PUNCHES)
 		hit_exceptions.append(body)
 
 func _on_HurtCooldownTimer_timeout():

@@ -20,10 +20,14 @@ func start_game():
 
 func drop():
 	if platform.size() == 1 : return
+	var temp_plat
 	if randi() % 2 == 0 :
-		platform.pop_back().fall()
+		temp_plat = platform.pop_back()
 	else :
-		platform.pop_front().fall()
+		temp_plat = platform.pop_front()
+	temp_plat.fall()
+	yield(temp_plat, "fallen")
+	temp_plat.remove_from_group("focus")
 
 
 func _gen_stage(size := stage_size) :
@@ -34,5 +38,6 @@ func _gen_stage(size := stage_size) :
 		new_plat.platform_size = int(plat_size)
 		new_plat.position = curr
 		curr.x += int(plat_size) * 64
+		new_plat.add_to_group("focus")
 		platform.append(new_plat)
 		add_child(new_plat)

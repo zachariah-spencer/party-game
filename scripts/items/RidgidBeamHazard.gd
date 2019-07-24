@@ -1,4 +1,4 @@
-extends "res://scripts/items/Item.gd"
+extends Item
 
 var Laser = preload("res://scenes/map_elements/Laser.tscn")
 onready var fire_timer = Timer.new()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scenes/minigames/MapTemplate.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/tilesets/GravGameTileset.tres" type="TileSet" id=2]
@@ -7,11 +7,9 @@
 [ext_resource path="res://assets/audio/JBM_Sfxr_pack_1/samples/alarms/alarm-5.wav" type="AudioStream" id=5]
 [ext_resource path="res://scenes/map_elements/levers/Lever.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/map_elements/GravityCompass.tscn" type="PackedScene" id=7]
-[ext_resource path="res://scenes/map_elements/ItemSpawner.tscn" type="PackedScene" id=8]
-[ext_resource path="res://scenes/items/Grenade.tscn" type="PackedScene" id=9]
-[ext_resource path="res://scripts/minigame_scripts/mg_gravity/SpikeTimer.gd" type="Script" id=10]
-[ext_resource path="res://scenes/map_elements/SpikesHazard.tscn" type="PackedScene" id=11]
-[ext_resource path="res://scenes/items/RigidBeamHazard.tscn" type="PackedScene" id=12]
+[ext_resource path="res://scripts/minigame_scripts/mg_gravity/SpikeTimer.gd" type="Script" id=8]
+[ext_resource path="res://scenes/map_elements/SpikesHazard.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/items/RigidBeamHazard.tscn" type="PackedScene" id=10]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 1173.49, 1157.61 )
@@ -47,6 +45,7 @@ position = Vector2( 1247.57, 1120 )
 [node name="GravityField" parent="." index="6" instance=ExtResource( 3 )]
 position = Vector2( 1057, 608 )
 gravity_vec = Vector2( 0, 1 )
+collision_mask = 131073
 emitting = false
 
 [node name="Charge" type="AudioStreamPlayer2D" parent="GravityField" index="0"]
@@ -64,6 +63,7 @@ visible = false
 shape = SubResource( 1 )
 
 [node name="Top" type="Node2D" parent="GravityField" index="4"]
+editor/display_folded = true
 
 [node name="Mid" parent="GravityField/Top" index="0" instance=ExtResource( 6 )]
 position = Vector2( 0, -514 )
@@ -138,62 +138,55 @@ flip_delay = 0.4
 offset = Vector2( 512, 300 )
 transform = Transform2D( 1, 0, 0, 1, 512, 300 )
 
-[node name="ItemSpawner" parent="." index="7" instance=ExtResource( 8 )]
-position = Vector2( 1056, 608.842 )
-repeat_on_timer = true
-rotating = true
-rot_speed = 0.03
-item = ExtResource( 9 )
-
-[node name="Spikes" type="Node2D" parent="." index="8"]
+[node name="Spikes" type="Node2D" parent="." index="7"]
 editor/display_folded = true
 
 [node name="SpikeTimer" type="Timer" parent="Spikes" index="0"]
 process_mode = 0
 wait_time = 3.0
 autostart = true
-script = ExtResource( 10 )
+script = ExtResource( 8 )
 use_walls = true
 
 [node name="Top" type="Node2D" parent="Spikes" index="1"]
 editor/display_folded = true
 
-[node name="SpikesHazard15" parent="Spikes/Top" index="0" instance=ExtResource( 11 )]
+[node name="SpikesHazard15" parent="Spikes/Top" index="0" instance=ExtResource( 9 )]
 position = Vector2( 1824, 160 )
 rotation = -3.14159
 active_time = 1.0
 
-[node name="SpikesHazard13" parent="Spikes/Top" index="1" instance=ExtResource( 11 )]
+[node name="SpikesHazard13" parent="Spikes/Top" index="1" instance=ExtResource( 9 )]
 position = Vector2( 1504, 96 )
 rotation = -3.14159
 active_time = 1.0
 
-[node name="SpikesHazard12" parent="Spikes/Top" index="2" instance=ExtResource( 11 )]
+[node name="SpikesHazard12" parent="Spikes/Top" index="2" instance=ExtResource( 9 )]
 position = Vector2( 1312, 96 )
 rotation = -3.14159
 active_time = 1.0
 
-[node name="SpikesHazard11" parent="Spikes/Top" index="3" instance=ExtResource( 11 )]
+[node name="SpikesHazard11" parent="Spikes/Top" index="3" instance=ExtResource( 9 )]
 position = Vector2( 1184, 96 )
 rotation = 3.14159
 active_time = 1.0
 
-[node name="SpikesHazard10" parent="Spikes/Top" index="4" instance=ExtResource( 11 )]
+[node name="SpikesHazard10" parent="Spikes/Top" index="4" instance=ExtResource( 9 )]
 position = Vector2( 928, 96 )
 rotation = -3.14159
 active_time = 1.0
 
-[node name="SpikesHazard14" parent="Spikes/Top" index="5" instance=ExtResource( 11 )]
+[node name="SpikesHazard14" parent="Spikes/Top" index="5" instance=ExtResource( 9 )]
 position = Vector2( 800, 96 )
 rotation = -3.14159
 active_time = 1.0
 
-[node name="SpikesHazard9" parent="Spikes/Top" index="6" instance=ExtResource( 11 )]
+[node name="SpikesHazard9" parent="Spikes/Top" index="6" instance=ExtResource( 9 )]
 position = Vector2( 608, 96 )
 rotation = -3.14159
 active_time = 1.0
 
-[node name="SpikesHazard16" parent="Spikes/Top" index="7" instance=ExtResource( 11 )]
+[node name="SpikesHazard16" parent="Spikes/Top" index="7" instance=ExtResource( 9 )]
 position = Vector2( 285, 160 )
 rotation = -3.14159
 active_time = 1.0
@@ -201,22 +194,22 @@ active_time = 1.0
 [node name="Left" type="Node2D" parent="Spikes" index="2"]
 editor/display_folded = true
 
-[node name="SpikesHazard17" parent="Spikes/Left" index="0" instance=ExtResource( 11 )]
+[node name="SpikesHazard17" parent="Spikes/Left" index="0" instance=ExtResource( 9 )]
 position = Vector2( 96, 416 )
 rotation = 1.5708
 active_time = 1.0
 
-[node name="SpikesHazard18" parent="Spikes/Left" index="1" instance=ExtResource( 11 )]
+[node name="SpikesHazard18" parent="Spikes/Left" index="1" instance=ExtResource( 9 )]
 position = Vector2( 96, 544 )
 rotation = 1.5708
 active_time = 1.0
 
-[node name="SpikesHazard20" parent="Spikes/Left" index="2" instance=ExtResource( 11 )]
+[node name="SpikesHazard20" parent="Spikes/Left" index="2" instance=ExtResource( 9 )]
 position = Vector2( 96, 671.356 )
 rotation = 1.5708
 active_time = 1.0
 
-[node name="SpikesHazard19" parent="Spikes/Left" index="3" instance=ExtResource( 11 )]
+[node name="SpikesHazard19" parent="Spikes/Left" index="3" instance=ExtResource( 9 )]
 position = Vector2( 96, 799.356 )
 rotation = 1.5708
 active_time = 1.0
@@ -224,65 +217,65 @@ active_time = 1.0
 [node name="Bot" type="Node2D" parent="Spikes" index="3"]
 editor/display_folded = true
 
-[node name="SpikesHazard8" parent="Spikes/Bot" index="0" instance=ExtResource( 11 )]
+[node name="SpikesHazard8" parent="Spikes/Bot" index="0" instance=ExtResource( 9 )]
 position = Vector2( 288, 1056 )
 active_time = 1.0
 
-[node name="SpikesHazard" parent="Spikes/Bot" index="1" instance=ExtResource( 11 )]
+[node name="SpikesHazard" parent="Spikes/Bot" index="1" instance=ExtResource( 9 )]
 position = Vector2( 608, 1120 )
 active_time = 1.0
 
-[node name="SpikesHazard2" parent="Spikes/Bot" index="2" instance=ExtResource( 11 )]
+[node name="SpikesHazard2" parent="Spikes/Bot" index="2" instance=ExtResource( 9 )]
 position = Vector2( 800, 1120 )
 active_time = 1.0
 
-[node name="SpikesHazard3" parent="Spikes/Bot" index="3" instance=ExtResource( 11 )]
+[node name="SpikesHazard3" parent="Spikes/Bot" index="3" instance=ExtResource( 9 )]
 position = Vector2( 928, 1120 )
 active_time = 1.0
 
-[node name="SpikesHazard4" parent="Spikes/Bot" index="4" instance=ExtResource( 11 )]
+[node name="SpikesHazard4" parent="Spikes/Bot" index="4" instance=ExtResource( 9 )]
 position = Vector2( 1184, 1120 )
 active_time = 1.0
 
-[node name="SpikesHazard5" parent="Spikes/Bot" index="5" instance=ExtResource( 11 )]
+[node name="SpikesHazard5" parent="Spikes/Bot" index="5" instance=ExtResource( 9 )]
 position = Vector2( 1312, 1120 )
 active_time = 1.0
 
-[node name="SpikesHazard6" parent="Spikes/Bot" index="6" instance=ExtResource( 11 )]
+[node name="SpikesHazard6" parent="Spikes/Bot" index="6" instance=ExtResource( 9 )]
 position = Vector2( 1504, 1120 )
 active_time = 1.0
 
-[node name="SpikesHazard7" parent="Spikes/Bot" index="7" instance=ExtResource( 11 )]
+[node name="SpikesHazard7" parent="Spikes/Bot" index="7" instance=ExtResource( 9 )]
 position = Vector2( 1824, 1056 )
 active_time = 1.0
 
 [node name="Right" type="Node2D" parent="Spikes" index="4"]
 editor/display_folded = true
 
-[node name="SpikesHazard21" parent="Spikes/Right" index="0" instance=ExtResource( 11 )]
+[node name="SpikesHazard21" parent="Spikes/Right" index="0" instance=ExtResource( 9 )]
 position = Vector2( 2016, 799.356 )
 rotation = -1.5708
 active_time = 1.0
 
-[node name="SpikesHazard22" parent="Spikes/Right" index="1" instance=ExtResource( 11 )]
+[node name="SpikesHazard22" parent="Spikes/Right" index="1" instance=ExtResource( 9 )]
 position = Vector2( 2016, 671.356 )
 rotation = -1.5708
 active_time = 1.0
 
-[node name="SpikesHazard24" parent="Spikes/Right" index="2" instance=ExtResource( 11 )]
+[node name="SpikesHazard24" parent="Spikes/Right" index="2" instance=ExtResource( 9 )]
 position = Vector2( 2016, 544 )
 rotation = -1.5708
 active_time = 1.0
 
-[node name="SpikesHazard23" parent="Spikes/Right" index="3" instance=ExtResource( 11 )]
+[node name="SpikesHazard23" parent="Spikes/Right" index="3" instance=ExtResource( 9 )]
 position = Vector2( 2016, 416 )
 rotation = -1.5708
 active_time = 1.0
 
-[node name="RigidBeamHazard" parent="." index="9" instance=ExtResource( 12 )]
+[node name="RigidBeamHazard" parent="." index="8" instance=ExtResource( 10 )]
 position = Vector2( 544, 608 )
 
-[node name="RigidBeamHazard2" parent="." index="10" instance=ExtResource( 12 )]
+[node name="RigidBeamHazard2" parent="." index="9" instance=ExtResource( 10 )]
 position = Vector2( 1568, 608 )
 [connection signal="gravity_changed" from="GravityField" to="GravityField/GravityCompass" method="on_gravity_changed"]
 [connection signal="gravity_changed" from="GravityField" to="GravityField/GravityChange" method="play"]

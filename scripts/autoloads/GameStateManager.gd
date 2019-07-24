@@ -45,9 +45,9 @@ var player_spawns : Array = [0,1,2,3]
 
 func _ready():
 	set_rotation()
-	world_node = get_parent().get_node('World')
 	randomize()
-	_start_new_minigame(lobby)
+#	world_node = get_parent().get_node('World')
+#	_start_new_minigame(lobby)
 
 func set_rotation(exclude := []) :
 	for game in GAMES:
@@ -84,6 +84,7 @@ func _on_game_times_up():
 			next_minigame = _select_random_minigame()
 			_start_new_minigame(next_minigame)
 		else:
+			Globals.game_music.stop()
 			_start_new_minigame(winning_cutscene)
 
 

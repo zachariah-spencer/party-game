@@ -19,6 +19,7 @@ const P4_BIT = 512
 const CORPSE_BIT = 1024
 const NO_PLAYER_WALL_BIT = 2048
 const ITEM_BIT = 16384
+const BEAM_BIT = 65536
 
 const PLAYER_BITS = 960
 
@@ -26,6 +27,8 @@ var player_one : Node
 var player_two : Node
 var player_three : Node
 var player_four : Node
+
+onready var game_music := get_tree().get_root().get_node('World/GameMusic')
 
 var players : Array = [player_one, player_two, player_three, player_four]
 

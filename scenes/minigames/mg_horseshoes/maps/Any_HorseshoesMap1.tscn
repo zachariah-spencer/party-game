@@ -68,4 +68,3 @@ item_path = "res://scenes/items/Horseshoe.tscn"
 position = Vector2( 544, 464 )
 rotation = 1.5708
 item_path = "res://scenes/items/Horseshoe.tscn"
-

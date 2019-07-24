@@ -24,6 +24,8 @@ func _ready():
 	win_condition = win_conditions.lobby_readied
 	instant_player_insertion = true
 	
+	Globals.game_music.stop()
+	
 	fade_tween.interpolate_property(ambience_sfx, 'volume_db', -100, -12, 3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	fade_tween.start()
 	
@@ -64,5 +66,7 @@ func _check_ready_ups():
 			
 			fade_tween.interpolate_property(ambience_sfx, 'volume_db', -12, -100, 2, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 			fade_tween.start()
+			
+			Globals.game_music.play()
 			
 			is_starting = true
