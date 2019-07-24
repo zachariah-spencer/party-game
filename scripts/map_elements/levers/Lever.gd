@@ -18,7 +18,7 @@ signal flip
 signal flop
 
 func _ready():
-	
+	$Switch.material.set_shader_param("outline_color", connection_color)
 	flip_delay_timer.wait_time = flip_delay
 	flip_delay_timer.autostart = false
 	flip_delay_timer.one_shot = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scripts/map_elements/SpikesHazard.gd" type="Script" id=1]
 [ext_resource path="res://assets/map_elements/spikes/idlespikes.png" type="Texture" id=2]
@@ -6,11 +6,18 @@
 [ext_resource path="res://assets/map_elements/spikes/spikehalf2.png" type="Texture" id=4]
 [ext_resource path="res://assets/map_elements/spikes/spikefull.png" type="Texture" id=5]
 [ext_resource path="res://assets/audio/sfx/rumble.wav" type="AudioStream" id=6]
+[ext_resource path="res://shaders/outline.shader" type="Shader" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 32 )
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = ExtResource( 7 )
+shader_param/width = 3.0
+shader_param/outline_color = Color( 0.772549, 0.772549, 0.772549, 0 )
+
+[sub_resource type="SpriteFrames" id=3]
 animations = [ {
 "frames": [ ExtResource( 2 ) ],
 "loop": true,
@@ -41,8 +48,9 @@ collision_mask = 0
 shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+material = SubResource( 2 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 2 )
+frames = SubResource( 3 )
 animation = "idle"
 
 [node name="Spike" type="AudioStreamPlayer2D" parent="."]

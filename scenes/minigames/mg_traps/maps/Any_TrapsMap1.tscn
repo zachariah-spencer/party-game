@@ -46,7 +46,7 @@ noise = SubResource( 6 )
 [sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 100, 500 )
 
-[node name="Any_TrapsMap1" index="0" instance=ExtResource( 1 )]
+[node name="Any_TrapsMap1" instance=ExtResource( 1 )]
 
 [node name="Cam" parent="." index="0"]
 current = false
@@ -56,9 +56,6 @@ tile_data = PoolIntArray( 65535, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0,
 
 [node name="PlatformTilemap" parent="." index="3"]
 tile_data = PoolIntArray( 262165, 1, 0, 262166, 1, 0, 262167, 1, 0, 458788, 1, 0, 458789, 1, 0, 458790, 1, 0, 458791, 1, 0, 458792, 1, 0, 458793, 1, 0, 458794, 1, 0, 458795, 1, 0, 458796, 1, 0, 458797, 1, 0, 458798, 1, 0, 458799, 1, 0, 458800, 1, 0, 458801, 1, 0, 458802, 1, 0, 524323, 1, 0, 524339, 1, 0 )
-
-[node name="SpawnPoints" parent="." index="5"]
-editor/display_folded = true
 
 [node name="PlayerOneSpawn" parent="SpawnPoints" index="0"]
 position = Vector2( 32, 544 )
@@ -76,7 +73,6 @@ position = Vector2( 320, 544 )
 position = Vector2( 64, 800 )
 
 [node name="LevelCompleteZone" parent="." index="7" instance=ExtResource( 2 )]
-editor/display_folded = true
 position = Vector2( 3776, 64 )
 
 [node name="BeamHazard" parent="LevelCompleteZone" index="2" instance=ExtResource( 3 )]
@@ -110,7 +106,6 @@ position = Vector2( 96, -240 )
 active = false
 
 [node name="Lever" parent="Traps" index="1" instance=ExtResource( 4 )]
-editor/display_folded = true
 position = Vector2( 1056, 800 )
 
 [node name="ItemSpawner" parent="Traps/Lever" index="6" instance=ExtResource( 6 )]
@@ -119,53 +114,61 @@ rotation = 3.14159
 item = ExtResource( 7 )
 
 [node name="SpikeLeverTop" parent="Traps" index="2" instance=ExtResource( 4 )]
-editor/display_folded = true
 position = Vector2( 1760, 800 )
+connection_color = Color( 1, 0, 0, 1 )
 flip_delay = 0.4
 
 [node name="SpikesHazard" parent="Traps/SpikeLeverTop" index="6" instance=ExtResource( 8 )]
 position = Vector2( -127.999, -576 )
+outline_color = Color( 1, 0, 0, 0 )
 active_time = 0.2
 
 [node name="SpikesHazard2" parent="Traps/SpikeLeverTop" index="7" instance=ExtResource( 8 )]
 position = Vector2( 0.000610352, -576 )
+outline_color = Color( 1, 0, 0, 0 )
 active_time = 0.2
 
 [node name="SpikesHazard3" parent="Traps/SpikeLeverTop" index="8" instance=ExtResource( 8 )]
 position = Vector2( 128.001, -576 )
+outline_color = Color( 1, 0, 0, 0 )
 active_time = 0.2
 
 [node name="SpikesHazard4" parent="Traps/SpikeLeverTop" index="9" instance=ExtResource( 8 )]
 position = Vector2( 256.001, -576 )
+outline_color = Color( 1, 0, 0, 0 )
 active_time = 0.2
 
 [node name="SpikeLeverBottom" parent="Traps" index="3" instance=ExtResource( 4 )]
-editor/display_folded = true
 position = Vector2( 1952.83, 800 )
+connection_color = Color( 0, 0.109804, 1, 0 )
 flip_delay = 0.4
 
 [node name="SpikesHazard5" parent="Traps/SpikeLeverBottom" index="6" instance=ExtResource( 8 )]
 position = Vector2( -384.829, -320 )
+outline_color = Color( 0, 0.109804, 1, 0 )
 active_time = 0.2
 
 [node name="SpikesHazard6" parent="Traps/SpikeLeverBottom" index="7" instance=ExtResource( 8 )]
 position = Vector2( -256.829, -320 )
+outline_color = Color( 0, 0.109804, 1, 0 )
 active_time = 0.2
 
 [node name="SpikesHazard7" parent="Traps/SpikeLeverBottom" index="8" instance=ExtResource( 8 )]
 position = Vector2( -128.829, -320 )
+outline_color = Color( 0, 0.109804, 1, 0 )
 active_time = 0.2
 
 [node name="SpikesHazard8" parent="Traps/SpikeLeverBottom" index="9" instance=ExtResource( 8 )]
 position = Vector2( -0.828735, -320 )
+outline_color = Color( 0, 0.109804, 1, 0 )
 active_time = 0.2
 
 [node name="SpikesHazard9" parent="Traps/SpikeLeverBottom" index="10" instance=ExtResource( 8 )]
 position = Vector2( 127.171, -320 )
+outline_color = Color( 0, 0.109804, 1, 0 )
 active_time = 0.2
 
 [node name="BeamLever" parent="Traps" index="4" instance=ExtResource( 4 )]
-editor/display_folded = true
 position = Vector2( 2334.59, 800 )
 
 [node name="BeamHazard" parent="Traps/BeamLever" index="6" instance=ExtResource( 3 )]
@@ -175,7 +178,6 @@ position = Vector2( 1.41455, -256 )
 position = Vector2( 257.415, -256 )
 
 [node name="BeamLever2" parent="Traps" index="5" instance=ExtResource( 4 )]
-editor/display_folded = true
 position = Vector2( 2592, 800 )
 
 [node name="BeamHazard2" parent="Traps/BeamLever2" index="6" instance=ExtResource( 3 )]
@@ -185,7 +187,6 @@ position = Vector2( -128, -256 )
 position = Vector2( 128, -256 )
 
 [node name="BeamLever3" parent="Traps" index="6" instance=ExtResource( 4 )]
-editor/display_folded = true
 position = Vector2( 2848.11, 800 )
 
 [node name="BeamHazard5" parent="Traps/BeamLever3" index="6" instance=ExtResource( 3 )]
@@ -195,7 +196,6 @@ position = Vector2( -0.106445, -256 )
 position = Vector2( 255.894, -256 )
 
 [node name="BeamLever4" parent="Traps" index="7" instance=ExtResource( 4 )]
-editor/display_folded = true
 position = Vector2( 3105.32, 800 )
 
 [node name="BeamHazard6" parent="Traps/BeamLever4" index="6" instance=ExtResource( 3 )]
@@ -221,7 +221,6 @@ position = Vector2( 608, 80 )
 rotation = -3.14159
 
 [node name="CameraFollowPoint" type="Position2D" parent="." index="10"]
-editor/display_folded = true
 position = Vector2( 640, 416 )
 script = ExtResource( 10 )
 
@@ -250,32 +249,31 @@ position = Vector2( 331.259, -85.128 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CameraFollowPoint/FasterScrollArea" index="0"]
 position = Vector2( -55.5182, -5.55182 )
 shape = SubResource( 8 )
-
 [connection signal="level_completed" from="LevelCompleteZone" to="LevelCompleteZone/BeamHazard" method="activate"]
-[connection signal="flip" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster" method="_invert_state"]
 [connection signal="flip" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster3" method="_invert_state"]
-[connection signal="flip" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster2" method="_invert_state"]
+[connection signal="flip" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster" method="_invert_state"]
 [connection signal="flip" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster4" method="_invert_state"]
-[connection signal="flop" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster" method="_invert_state"]
+[connection signal="flip" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster2" method="_invert_state"]
 [connection signal="flop" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster3" method="_invert_state"]
-[connection signal="flop" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster2" method="_invert_state"]
+[connection signal="flop" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster" method="_invert_state"]
 [connection signal="flop" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster4" method="_invert_state"]
+[connection signal="flop" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster2" method="_invert_state"]
 [connection signal="flip" from="Traps/Lever" to="Traps/Lever/ItemSpawner" method="spawn_item"]
 [connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard4" method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard" method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard2" method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard3" method="activate"]
-[connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard8" method="activate"]
-[connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard9" method="activate"]
+[connection signal="flip" from="Traps/SpikeLeverBottom" to="." method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard5" method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard6" method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard7" method="activate"]
-[connection signal="flip" from="Traps/SpikeLeverBottom" to="." method="activate"]
+[connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard8" method="activate"]
+[connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard9" method="activate"]
 [connection signal="flip" from="Traps/BeamLever" to="Traps/BeamLever/BeamHazard" method="activate"]
 [connection signal="flip" from="Traps/BeamLever" to="Traps/BeamLever/BeamHazard3" method="activate"]
-[connection signal="flip" from="Traps/BeamLever2" to="Traps/BeamLever2/BeamHazard4" method="activate"]
 [connection signal="flip" from="Traps/BeamLever2" to="Traps/BeamLever2/BeamHazard2" method="activate"]
-[connection signal="flip" from="Traps/BeamLever3" to="Traps/BeamLever3/BeamHazard7" method="activate"]
+[connection signal="flip" from="Traps/BeamLever2" to="Traps/BeamLever2/BeamHazard4" method="activate"]
 [connection signal="flip" from="Traps/BeamLever3" to="Traps/BeamLever3/BeamHazard5" method="activate"]
-[connection signal="flip" from="Traps/BeamLever4" to="Traps/BeamLever4/BeamHazard8" method="activate"]
+[connection signal="flip" from="Traps/BeamLever3" to="Traps/BeamLever3/BeamHazard7" method="activate"]
 [connection signal="flip" from="Traps/BeamLever4" to="Traps/BeamLever4/BeamHazard6" method="activate"]
+[connection signal="flip" from="Traps/BeamLever4" to="Traps/BeamLever4/BeamHazard8" method="activate"]
