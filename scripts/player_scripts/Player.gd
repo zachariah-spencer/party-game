@@ -98,6 +98,9 @@ onready var max_jump_velocity = -sqrt(2 * gravity_magnitude * max_jump_height)
 onready var min_jump_velocity = -sqrt(2 * gravity_magnitude * min_jump_height)
 onready var visible_onscreen := $VisibilityNotifier2D
 onready var player_rig := $Rig
+onready var top_of_head_area := $TopOfHeadArea
+
+onready var footstool_particles := preload('res://assets/vfx/FootstoolDust.tscn')
 
 signal interacted
 signal dropped
@@ -348,7 +351,7 @@ func _handle_move_input(h_weight := .2):
 		var y_comp = velocity.project(gravity)
 		var x_comp = (move_direction - move_direction.project(gravity)) * move_speed
 
-		if is_crouching:
+		if is_crouching && ![states.jump, states.fall].has(state):
 			x_comp /= 3
 		velocity = velocity.linear_interpolate(x_comp + y_comp, h_weight)
 
@@ -381,12 +384,24 @@ func _handle_crouching():
 func _crouch():
 	player_rig.get_node('Body').mode = RigidBody2D.MODE_KINEMATIC
 	player_rig.get_node('Body').position.y += 15
+	_set_crouching_collisions(true)
 	crouch_set = true
 
 func _decrouch():
 	player_rig.get_node('Body').mode = RigidBody2D.MODE_RIGID
 	player_rig.get_node('Body').position.y = -16.06
+	_set_crouching_collisions(false)
 	crouch_set = false
+
+func _set_crouching_collisions(crouched : bool):
+	if crouched:
+		$PlayerShape.position.y += 19
+		$PlayerShape.shape.height = 25
+		top_of_head_area.position.y += 16
+	else:
+		$PlayerShape.position.y -= 19
+		$PlayerShape.shape.height = 63
+		top_of_head_area.position.y -= 16
 
 #statemachine code begins here
 func _state_machine_ready():
@@ -408,6 +423,7 @@ func _add_state(state_name):
 
 func _state_logic(delta : float):
 	_update_player_stats()
+	_handle_top_of_head()
 	_update_move_direction()
 	_update_wall_direction()
 	_update_wall_action()
@@ -460,7 +476,7 @@ func _get_transition(delta : float):
 				set_collision_mask_bit(DROP_THRU_BIT, true)
 			if wall_direction != 0 && wall_slide_cooldown.is_stopped() && move_direction.project(wall_action).length() > 0 :
 				return states.wall_slide
-			elif is_on_floor():
+			elif is_on_floor() :
 				parent.play_sound('Land')
 				return states.idle
 			elif adjusted_velocity.y < 0:
@@ -661,15 +677,32 @@ func _on_WallSlideStickyTimer_timeout():
 	if state == states.wall_slide:
 		_set_state(states.fall)
 
-func _on_TopOfHeadArea_body_entered(affected_player):
+var i = 0
+
+func _footstool(affected_player):
 	if not affected_player.is_in_group("player") :
 		return
 	var affected_player_feet = affected_player.get_node('Rig/Feet/CollisionShape2D')
+	
 	if affected_player.state == affected_player.states.fall:
+		
+		var dust = footstool_particles.instance()
+		parent.get_parent().add_child(dust)
+		dust.global_position = global_position
+		dust.global_position.y -= 75
+		
+		parent.play_sound('Footstool')
+		
 		affected_player._set_state(affected_player.states.jump)
 		affected_player.velocity.y = -30 * Globals.CELL_SIZE
 		_set_state(states.fall)
 		velocity.y = 25 * Globals.CELL_SIZE
+
+func _handle_top_of_head():
+	var bodies = top_of_head_area.get_overlapping_bodies()
+	
+	for body in bodies:
+		_footstool(body)
 
 func _on_AttackTimer_timeout():
 	hit_exceptions = []
@@ -703,3 +736,11 @@ func _taunt4():
 
 func _on_WalkingFeetTimer_timeout():
 	parent.play_sound('Feet')
+
+
+func _on_TopOfHeadArea_body_entered(affected_player):
+	if not affected_player.is_in_group("player") :
+		return
+	
+	if affected_player.state == affected_player.states.fall:
+		pass
