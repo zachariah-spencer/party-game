@@ -14,13 +14,14 @@ func _physics_process(delta):
 		particles.process_material.gravity = Vector3(0,-180000,0)
 		particles.process_material.emission_sphere_radius = 1400
 		particles.modulate.a = 1
+		area.monitoring = true
 	else:
 		particles.process_material.gravity = Vector3(0,-80000,0)
 		particles.process_material.emission_sphere_radius = 400
 		particles.modulate.a = .08
+		area.monitoring = false
 
 func on_body_entered(body):
-	if active:
 		var player = body as Player
 		var item = body as Item
 	
