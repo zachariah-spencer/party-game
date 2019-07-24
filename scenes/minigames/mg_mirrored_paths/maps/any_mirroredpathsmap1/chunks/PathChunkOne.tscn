@@ -48,9 +48,11 @@ shape = SubResource( 2 )
 
 [node name="GravLever1" parent="Top" index="1" instance=ExtResource( 5 )]
 position = Vector2( 736, 800 )
+type = 2
 
 [node name="GravLever2" parent="Top" index="2" instance=ExtResource( 5 )]
 position = Vector2( 736, 1184 )
+type = 2
 
 [node name="SpikesHazard" parent="Top" index="3" instance=ExtResource( 6 )]
 position = Vector2( 288, 160 )
@@ -64,6 +66,7 @@ active_time = 0.1
 position = Vector2( 480, 928 )
 rotation = -1.5708
 switch_cooldown = 1.5
+type = 1
 
 [node name="BeamHazard" parent="Top" index="6" instance=ExtResource( 7 )]
 position = Vector2( 96, 512 )
@@ -73,8 +76,10 @@ scale = Vector2( 2, 1 )
 [node name="BeamLever" parent="Top" index="7" instance=ExtResource( 5 )]
 position = Vector2( 224, 1184 )
 switch_cooldown = 3.0
+type = 0
 
 [node name="Bottom" type="Node2D" parent="." index="4"]
+editor/display_folded = true
 
 [node name="GravityField" parent="Bottom" index="0" instance=ExtResource( 4 )]
 editor/display_folded = true
@@ -85,14 +90,17 @@ shape = SubResource( 2 )
 
 [node name="GravLever1" parent="Bottom" index="1" instance=ExtResource( 5 )]
 position = Vector2( 736, 160 )
+type = 2
 
 [node name="GravLever2" parent="Bottom" index="2" instance=ExtResource( 5 )]
 position = Vector2( 736, 544 )
+type = 2
 
 [node name="SpikesLever" parent="Bottom" index="3" instance=ExtResource( 5 )]
 position = Vector2( 480, 288 )
 rotation = -1.5708
 switch_cooldown = 1.5
+type = 1
 
 [node name="SpikesHazard" parent="Bottom" index="4" instance=ExtResource( 6 )]
 position = Vector2( 288, 800 )
@@ -110,6 +118,7 @@ scale = Vector2( 2, 1 )
 [node name="BeamLever" parent="Bottom" index="7" instance=ExtResource( 5 )]
 position = Vector2( 224, 544 )
 switch_cooldown = 3.0
+type = 0
 
 [connection signal="flip" from="Top/GravLever1" to="Top/GravityField" method="invert_gravity"]
 [connection signal="flip" from="Top/GravLever2" to="Top/GravityField" method="invert_gravity"]
