@@ -1,10 +1,10 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://scenes/minigames/MapTemplate.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/minigames/mg_traps/LevelCompleteZone.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/map_elements/BeamHazard.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/map_elements/levers/Lever.tscn" type="PackedScene" id=4]
-[ext_resource path="res://scenes/map_elements/GravityField.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/map_elements/Booster.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/map_elements/ItemSpawner.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/items/Grenade.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scenes/map_elements/SpikesHazard.tscn" type="PackedScene" id=8]
@@ -12,23 +12,20 @@
 [ext_resource path="res://scripts/minigame_scripts/mg_traps/CameraFollowPoint.gd" type="Script" id=10]
 [ext_resource path="res://assets/sphere_soft.png" type="Texture" id=11]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 128, 256 )
-
-[sub_resource type="Gradient" id=2]
+[sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0.025974, 0.448052, 1 )
 colors = PoolColorArray( 0.992157, 1, 0, 0, 1, 0, 0, 0.247059, 0.00784314, 0.00784314, 0.00784314, 0 )
 
-[sub_resource type="GradientTexture" id=3]
-gradient = SubResource( 2 )
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
 
-[sub_resource type="Curve" id=4]
+[sub_resource type="Curve" id=3]
 _data = [ Vector2( 0.0244643, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=5]
-curve = SubResource( 4 )
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
 
-[sub_resource type="ParticlesMaterial" id=6]
+[sub_resource type="ParticlesMaterial" id=5]
 emission_shape = 2
 emission_box_extents = Vector3( 10, 250, 1 )
 flag_disable_z = true
@@ -37,19 +34,19 @@ initial_velocity = 100.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 0.1
-scale_curve = SubResource( 5 )
-color_ramp = SubResource( 3 )
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 2 )
 
-[sub_resource type="OpenSimplexNoise" id=7]
+[sub_resource type="OpenSimplexNoise" id=6]
 
-[sub_resource type="NoiseTexture" id=8]
+[sub_resource type="NoiseTexture" id=7]
 seamless = true
-noise = SubResource( 7 )
+noise = SubResource( 6 )
 
-[sub_resource type="RectangleShape2D" id=9]
+[sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 100, 500 )
 
-[node name="Any_TrapsMap1" index="0" instance=ExtResource( 1 )]
+[node name="Any_TrapsMap1" instance=ExtResource( 1 )]
 
 [node name="Cam" parent="." index="0"]
 current = false
@@ -90,20 +87,26 @@ beam_duration = 5.0
 beam_delay = 0.4
 
 [node name="Traps" type="Node2D" parent="." index="8"]
-editor/display_folded = true
 
-[node name="GravityLever" parent="Traps" index="0" instance=ExtResource( 4 )]
-editor/display_folded = true
+[node name="BoosterLevers" parent="Traps" index="0" instance=ExtResource( 4 )]
 position = Vector2( 512, 800 )
 flip_delay = 0.8
 
-[node name="GravityField" parent="Traps/GravityLever" index="6" instance=ExtResource( 5 )]
-editor/display_folded = true
-position = Vector2( -0.000183105, -472.463 )
-gravity_vec = Vector2( 0, 1 )
+[node name="Booster" parent="Traps/BoosterLevers" index="6" instance=ExtResource( 5 )]
+position = Vector2( -96, -240 )
+active = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Traps/GravityLever/GravityField" index="1"]
-shape = SubResource( 1 )
+[node name="Booster2" parent="Traps/BoosterLevers" index="7" instance=ExtResource( 5 )]
+position = Vector2( -32, -240 )
+active = false
+
+[node name="Booster3" parent="Traps/BoosterLevers" index="8" instance=ExtResource( 5 )]
+position = Vector2( 32, -240 )
+active = false
+
+[node name="Booster4" parent="Traps/BoosterLevers" index="9" instance=ExtResource( 5 )]
+position = Vector2( 96, -240 )
+active = false
 
 [node name="Lever" parent="Traps" index="1" instance=ExtResource( 4 )]
 editor/display_folded = true
@@ -161,6 +164,7 @@ position = Vector2( 127.171, -320 )
 active_time = 0.2
 
 [node name="BeamLever" parent="Traps" index="4" instance=ExtResource( 4 )]
+editor/display_folded = true
 position = Vector2( 2334.59, 800 )
 
 [node name="BeamHazard" parent="Traps/BeamLever" index="6" instance=ExtResource( 3 )]
@@ -170,6 +174,7 @@ position = Vector2( 1.41455, -256 )
 position = Vector2( 257.415, -256 )
 
 [node name="BeamLever2" parent="Traps" index="5" instance=ExtResource( 4 )]
+editor/display_folded = true
 position = Vector2( 2592, 800 )
 
 [node name="BeamHazard2" parent="Traps/BeamLever2" index="6" instance=ExtResource( 3 )]
@@ -179,6 +184,7 @@ position = Vector2( -128, -256 )
 position = Vector2( 128, -256 )
 
 [node name="BeamLever3" parent="Traps" index="6" instance=ExtResource( 4 )]
+editor/display_folded = true
 position = Vector2( 2848.11, 800 )
 
 [node name="BeamHazard5" parent="Traps/BeamLever3" index="6" instance=ExtResource( 3 )]
@@ -188,6 +194,7 @@ position = Vector2( -0.106445, -256 )
 position = Vector2( 255.894, -256 )
 
 [node name="BeamLever4" parent="Traps" index="7" instance=ExtResource( 4 )]
+editor/display_folded = true
 position = Vector2( 3105.32, 800 )
 
 [node name="BeamHazard6" parent="Traps/BeamLever4" index="6" instance=ExtResource( 3 )]
@@ -213,6 +220,7 @@ position = Vector2( 608, 80 )
 rotation = -3.14159
 
 [node name="CameraFollowPoint" type="Position2D" parent="." index="10"]
+editor/display_folded = true
 position = Vector2( 640, 416 )
 script = ExtResource( 10 )
 
@@ -231,35 +239,42 @@ scale = Vector2( 8, 1 )
 position = Vector2( -700, -96 )
 amount = 1000
 draw_order = 1
-process_material = SubResource( 6 )
+process_material = SubResource( 5 )
 texture = ExtResource( 11 )
-normal_map = SubResource( 8 )
+normal_map = SubResource( 7 )
 
 [node name="FasterScrollArea" type="Area2D" parent="CameraFollowPoint" index="3"]
 position = Vector2( 331.259, -85.128 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CameraFollowPoint/FasterScrollArea" index="0"]
 position = Vector2( -55.5182, -5.55182 )
-shape = SubResource( 9 )
+shape = SubResource( 8 )
+
 [connection signal="level_completed" from="LevelCompleteZone" to="LevelCompleteZone/BeamHazard" method="activate"]
-[connection signal="flip" from="Traps/GravityLever" to="Traps/GravityLever/GravityField" method="invert_gravity"]
-[connection signal="flop" from="Traps/GravityLever" to="Traps/GravityLever/GravityField" method="invert_gravity"]
+[connection signal="flip" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster2" method="_invert_state"]
+[connection signal="flip" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster4" method="_invert_state"]
+[connection signal="flip" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster" method="_invert_state"]
+[connection signal="flip" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster3" method="_invert_state"]
+[connection signal="flop" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster2" method="_invert_state"]
+[connection signal="flop" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster4" method="_invert_state"]
+[connection signal="flop" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster" method="_invert_state"]
+[connection signal="flop" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster3" method="_invert_state"]
 [connection signal="flip" from="Traps/Lever" to="Traps/Lever/ItemSpawner" method="spawn_item"]
-[connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard4" method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard" method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard2" method="activate"]
+[connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard4" method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard3" method="activate"]
-[connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard6" method="activate"]
-[connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard5" method="activate"]
+[connection signal="flip" from="Traps/SpikeLeverBottom" to="." method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard7" method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard8" method="activate"]
+[connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard5" method="activate"]
+[connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard6" method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard9" method="activate"]
-[connection signal="flip" from="Traps/SpikeLeverBottom" to="." method="activate"]
 [connection signal="flip" from="Traps/BeamLever" to="Traps/BeamLever/BeamHazard" method="activate"]
 [connection signal="flip" from="Traps/BeamLever" to="Traps/BeamLever/BeamHazard3" method="activate"]
-[connection signal="flip" from="Traps/BeamLever2" to="Traps/BeamLever2/BeamHazard2" method="activate"]
 [connection signal="flip" from="Traps/BeamLever2" to="Traps/BeamLever2/BeamHazard4" method="activate"]
+[connection signal="flip" from="Traps/BeamLever2" to="Traps/BeamLever2/BeamHazard2" method="activate"]
 [connection signal="flip" from="Traps/BeamLever3" to="Traps/BeamLever3/BeamHazard5" method="activate"]
 [connection signal="flip" from="Traps/BeamLever3" to="Traps/BeamLever3/BeamHazard7" method="activate"]
-[connection signal="flip" from="Traps/BeamLever4" to="Traps/BeamLever4/BeamHazard6" method="activate"]
 [connection signal="flip" from="Traps/BeamLever4" to="Traps/BeamLever4/BeamHazard8" method="activate"]
+[connection signal="flip" from="Traps/BeamLever4" to="Traps/BeamLever4/BeamHazard6" method="activate"]
