@@ -185,7 +185,7 @@ height = 64.0
 [sub_resource type="RectangleShape2D" id=32]
 extents = Vector2( 25, 43 )
 
-[sub_resource type="CapsuleShape2D" id=44]
+[sub_resource type="CapsuleShape2D" id=33]
 height = 0.0
 
 [sub_resource type="ShaderMaterial" id=34]
@@ -534,7 +534,7 @@ collision_layer = 0
 collision_mask = 960
 
 [node name="Shape" type="CollisionShape2D" parent="TopOfHeadArea"]
-shape = SubResource( 44 )
+shape = SubResource( 33 )
 one_way_collision = true
 
 [node name="PickupRange" type="Area2D" parent="."]
