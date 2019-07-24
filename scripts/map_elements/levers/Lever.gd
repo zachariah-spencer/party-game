@@ -4,8 +4,7 @@ class_name Lever
 
 var can_flip := true
 export var switch_cooldown := .25
-enum lever_type {beams, spikes, gravity, default}
-export(lever_type) var type = lever_type.default
+export(Color, RGBA) var connection_color := Color.white
 onready var flip_sound := $Flip
 onready var switch := $Switch
 onready var animation_player := $AnimationPlayer
@@ -19,15 +18,6 @@ signal flip
 signal flop
 
 func _ready():
-	match type:
-		lever_type.gravity:
-			base.modulate = Color.purple
-		lever_type.spikes:
-			base.modulate = Color.red
-		lever_type.beams:
-			base.modulate = Color.cyan
-		_:
-			pass
 	
 	flip_delay_timer.wait_time = flip_delay
 	flip_delay_timer.autostart = false
