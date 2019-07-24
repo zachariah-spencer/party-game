@@ -12,3 +12,4 @@ has_timer = false
 visible_name = "Mirrored Paths"
 
 [node name="Any_MirroredPathsMap1" parent="." index="1" instance=ExtResource( 3 )]
+

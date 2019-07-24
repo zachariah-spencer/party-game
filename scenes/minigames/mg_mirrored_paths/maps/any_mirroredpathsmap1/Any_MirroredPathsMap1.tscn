@@ -41,7 +41,7 @@ noise = SubResource( 6 )
 [sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 500, 800 )
 
-[node name="Any_MirroredPathsMap1" index="0" instance=ExtResource( 1 )]
+[node name="Any_MirroredPathsMap1" instance=ExtResource( 1 )]
 position = Vector2( 64, 0 )
 script = ExtResource( 2 )
 
@@ -67,6 +67,7 @@ position = Vector2( 160, 1184 )
 position = Vector2( 256, 1184 )
 
 [node name="CameraFollowPoint" type="Position2D" parent="." index="7"]
+editor/display_folded = true
 position = Vector2( 640, 416 )
 script = ExtResource( 3 )
 scroll_accel = 0.01
@@ -92,6 +93,7 @@ texture = ExtResource( 5 )
 normal_map = SubResource( 7 )
 
 [node name="FasterScrollArea" type="Area2D" parent="CameraFollowPoint" index="3"]
+editor/display_folded = true
 position = Vector2( 1152, 192 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CameraFollowPoint/FasterScrollArea" index="0"]
@@ -99,4 +101,6 @@ position = Vector2( 110.192, -60.8273 )
 shape = SubResource( 8 )
 
 [node name="PathChunkOne" parent="." index="8" instance=ExtResource( 6 )]
-position = Vector2( 1900, 0 )
+position = Vector2( 1984, 0 )
+size = 1024
+

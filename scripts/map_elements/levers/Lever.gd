@@ -45,3 +45,7 @@ func flop():
 
 func _on_Cooldown_timeout():
 	can_flip = true
+
+
+func _invert_gravity():
+	pass # Replace with function body.
