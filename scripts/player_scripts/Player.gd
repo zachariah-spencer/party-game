@@ -691,16 +691,16 @@ func _footstool(affected_player):
 	if not affected_player.is_in_group("player") :
 		return
 	var affected_player_feet = affected_player.get_node('Rig/Feet/CollisionShape2D')
-	
+
 	if affected_player.state == affected_player.states.fall:
-		
+
 		var dust = footstool_particles.instance()
 		parent.get_parent().add_child(dust)
 		dust.global_position = global_position
 		dust.global_position.y -= 75
-		
+
 		parent.play_sound('Footstool')
-		
+
 		affected_player._set_state(affected_player.states.jump)
 		affected_player.velocity.y = -30 * Globals.CELL_SIZE
 		_set_state(states.fall)
@@ -708,7 +708,7 @@ func _footstool(affected_player):
 
 func _handle_top_of_head():
 	var bodies = top_of_head_area.get_overlapping_bodies()
-	
+
 	for body in bodies:
 		_footstool(body)
 
@@ -749,6 +749,6 @@ func _on_WalkingFeetTimer_timeout():
 func _on_TopOfHeadArea_body_entered(affected_player):
 	if not affected_player.is_in_group("player") :
 		return
-	
+
 	if affected_player.state == affected_player.states.fall:
 		pass

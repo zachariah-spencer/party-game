@@ -49,7 +49,7 @@ func update_chunk(old_chunk : Node2D):
 	emit_signal('updated_chunks')
 	CHUNKS.shuffle()
 	var new_chunk = CHUNKS[0].instance()
-	
+
 	while new_chunk.chunk_id == old_chunk.chunk_id:
 		CHUNKS.shuffle()
 		new_chunk = CHUNKS[0].instance()

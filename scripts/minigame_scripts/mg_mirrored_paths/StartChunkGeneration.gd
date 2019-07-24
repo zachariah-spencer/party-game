@@ -1,4 +1,5 @@
 extends Area2D
 
 func _ready():
-	connect('body_entered', get_parent().get_parent(), 'update_chunk')
+	pass
+#	connect('body_entered', get_parent().get_parent(), 'update_chunk')
