@@ -7,6 +7,8 @@ var duration := 0.0
 const MAX_RANGE = 10000
 var damage = 100
 
+var width_scale := 1
+
 onready var cast = $ray
 onready var sprite = $sprite
 onready var hitParticles = $StaticEffect/HitParticles
@@ -20,6 +22,9 @@ onready var active_timer = Timer.new()
 onready var hit_timer = $HitTimer
 
 func _ready():
+	$Hurtbox/CollisionShape2D.shape.extents.x = 32 * width_scale
+	sprite.rect_size.x = 64 * width_scale
+	sprite.rect_position.x = (-1 * sprite.rect_size.x) / 2
 	sprite.visible = false
 	cast.cast_to.y = MAX_RANGE
 	rotation = direction.angle() - PI/2

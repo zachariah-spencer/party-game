@@ -8,3 +8,4 @@ script = ExtResource( 1 )
 
 [node name="Base" type="Sprite" parent="."]
 texture = ExtResource( 2 )
+

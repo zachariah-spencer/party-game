@@ -3,7 +3,9 @@ extends Map
 
 const CHUNKS  = [
 	preload('res://scenes/minigames/mg_mirrored_paths/maps/any_mirroredpathsmap1/chunks/PathChunkOne.tscn'),
-	preload('res://scenes/minigames/mg_mirrored_paths/maps/any_mirroredpathsmap1/chunks/PathChunkTwo.tscn')
+	preload('res://scenes/minigames/mg_mirrored_paths/maps/any_mirroredpathsmap1/chunks/PathChunkTwo.tscn'),
+	#pathchunkthree is the starting chunk
+	preload('res://scenes/minigames/mg_mirrored_paths/maps/any_mirroredpathsmap1/chunks/PathChunkFour.tscn')
 ]
 
 func update_chunk(old_chunk : Node2D):
