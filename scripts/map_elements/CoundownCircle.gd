@@ -2,7 +2,7 @@ extends Node2D
 
 export var size := 100
 export var resolution := 200
-export var countdown_time := 1
+export var countdown_time := 1.0
 export var draw_gradient : Gradient
 onready var countdown_timer = $Timer
 

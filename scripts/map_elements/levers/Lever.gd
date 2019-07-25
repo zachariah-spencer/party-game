@@ -12,12 +12,14 @@ onready var base := $Base
 onready var cooldown_timer := $Cooldown
 onready var parent = get_parent()
 onready var flip_delay_timer = Timer.new()
+onready var countdown_circle := $CoundownCircle
 export var flip_delay := .2
 
 signal flip
 signal flop
 
 func _ready():
+	countdown_circle.countdown_time = switch_cooldown
 	$Base.modulate = connection_color
 	$Switch.material.set_shader_param("outline_color", connection_color)
 	flip_delay_timer.wait_time = flip_delay
@@ -41,6 +43,7 @@ func  flip():
 	animation_player.play('flip_lever')
 	can_flip = false
 	flip_delay_timer.start(flip_delay)
+	countdown_circle.start()
 
 func flop():
 	emit_signal("flop")

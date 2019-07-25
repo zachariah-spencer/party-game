@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scripts/map_elements/levers/Lever.gd" type="Script" id=1]
 [ext_resource path="res://shaders/outline.shader" type="Shader" id=2]
 [ext_resource path="res://assets/map_elements/leverswitch.png" type="Texture" id=3]
 [ext_resource path="res://assets/map_elements/leverbase.png" type="Texture" id=4]
 [ext_resource path="res://assets/audio/UI_SFX_Set/switch38.wav" type="AudioStream" id=5]
+[ext_resource path="res://scenes/map_elements/CoundownCircle.tscn" type="PackedScene" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 40.0
@@ -14,7 +15,6 @@ resource_local_to_scene = true
 shader = ExtResource( 2 )
 shader_param/width = null
 shader_param/outline_color = null
-shader_param/lod = 0.6
 
 [sub_resource type="Animation" id=3]
 length = 0.2
@@ -106,3 +106,8 @@ stream = ExtResource( 5 )
 volume_db = -12.0
 pitch_scale = 0.55
 bus = "Sounds"
+
+[node name="CoundownCircle" parent="." instance=ExtResource( 6 )]
+position = Vector2( 0, -40 )
+size = 20
+
