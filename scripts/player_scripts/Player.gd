@@ -89,6 +89,7 @@ onready var hurt_cooldown_timer := $HurtCooldownTimer
 onready var feet_timer := $WalkingFeetTimer
 
 onready var fall_through_area := $FallingThroughPlatformArea
+onready var standing_area := $StandingArea
 onready var left_wall_raycasts := $WallRaycasts/LeftWallRaycasts
 onready var right_wall_raycasts := $WallRaycasts/RightWallRaycasts
 onready var platform_raycasts := $GroundRaycasts
@@ -384,11 +385,11 @@ func _handle_crouching():
 	if rel_move_dir > .2:
 		if !crouch_set:
 			_crouch()
-		is_crouching = true
+			is_crouching = true
 	else:
-		if crouch_set:
+		if crouch_set && _can_standup():
 			_decrouch()
-		is_crouching = false
+			is_crouching = false
 
 func _crouch():
 	player_rig.get_node('Body').mode = RigidBody2D.MODE_KINEMATIC
@@ -644,6 +645,12 @@ func _is_in_platform():
 		if body.get_collision_layer_bit(DROP_THRU_BIT) :
 			return true
 	return false
+
+func _can_standup():
+	if standing_area.get_overlapping_bodies().size() == 0:
+		return true
+	else:
+		return false
 
 func _is_on_platform():
 	for body in platform_raycasts.get_children():
