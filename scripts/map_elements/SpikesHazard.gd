@@ -10,7 +10,8 @@ onready var active_timer := Timer.new()
 export var active_time := .5
 
 func _ready():
-	$AnimatedSprite.material.set_shader_param("outline_color", outline_color)
+#	$AnimatedSprite.material.set_shader_param("outline_color", outline_color)
+	$Base.modulate = outline_color
 	active_timer.autostart = false
 	active_timer.one_shot = true
 	add_child(active_timer)

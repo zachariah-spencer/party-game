@@ -46,7 +46,7 @@ noise = SubResource( 6 )
 [sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 100, 500 )
 
-[node name="Any_TrapsMap1" instance=ExtResource( 1 )]
+[node name="Any_TrapsMap1" index="0" instance=ExtResource( 1 )]
 
 [node name="Cam" parent="." index="0"]
 current = false
@@ -170,12 +170,15 @@ active_time = 0.2
 
 [node name="BeamLever" parent="Traps" index="4" instance=ExtResource( 4 )]
 position = Vector2( 2334.59, 800 )
+connection_color = Color( 0, 0.0156863, 1, 1 )
 
 [node name="BeamHazard" parent="Traps/BeamLever" index="6" instance=ExtResource( 3 )]
 position = Vector2( 1.41455, -256 )
+outline_color = Color( 0.321569, 0.364706, 0.8, 1 )
 
 [node name="BeamHazard3" parent="Traps/BeamLever" index="7" instance=ExtResource( 3 )]
 position = Vector2( 257.415, -256 )
+outline_color = Color( 0.321569, 0.364706, 0.8, 1 )
 
 [node name="BeamLever2" parent="Traps" index="5" instance=ExtResource( 4 )]
 position = Vector2( 2592, 800 )
@@ -250,19 +253,19 @@ position = Vector2( 331.259, -85.128 )
 position = Vector2( -55.5182, -5.55182 )
 shape = SubResource( 8 )
 [connection signal="level_completed" from="LevelCompleteZone" to="LevelCompleteZone/BeamHazard" method="activate"]
-[connection signal="flip" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster3" method="_invert_state"]
 [connection signal="flip" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster" method="_invert_state"]
-[connection signal="flip" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster4" method="_invert_state"]
+[connection signal="flip" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster3" method="_invert_state"]
 [connection signal="flip" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster2" method="_invert_state"]
-[connection signal="flop" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster3" method="_invert_state"]
+[connection signal="flip" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster4" method="_invert_state"]
 [connection signal="flop" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster" method="_invert_state"]
-[connection signal="flop" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster4" method="_invert_state"]
+[connection signal="flop" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster3" method="_invert_state"]
 [connection signal="flop" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster2" method="_invert_state"]
+[connection signal="flop" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster4" method="_invert_state"]
 [connection signal="flip" from="Traps/Lever" to="Traps/Lever/ItemSpawner" method="spawn_item"]
-[connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard4" method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard" method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard2" method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard3" method="activate"]
+[connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard4" method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverBottom" to="." method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard5" method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard6" method="activate"]

@@ -2,7 +2,7 @@ extends Node2D
 
 class_name Hazard
 
-export var outline_color := Color(255,255,255,0)
+export var outline_color := Color(255,255,255, 255)
 export var base_damage := 10
 export var base_type := 4
 export var base_knockback := Vector2.ONE * 100

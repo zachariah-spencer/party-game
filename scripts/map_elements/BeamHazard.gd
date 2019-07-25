@@ -5,6 +5,7 @@ export var beam_duration := .7
 export var beam_delay := 1.25
 
 func activate():
+	$Base.modulate = outline_color
 	var laser = Laser.instance()
 	laser.duration = beam_duration
 	laser.delay = beam_delay
