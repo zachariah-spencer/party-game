@@ -54,9 +54,10 @@ func set_rotation(exclude := []) :
 	var temp : Minigame
 	for game in GAMES:
 		temp = game.instance()
-		if temp.even_only and Players.active_players.size() % 2 != 0 :
-			if not exclude.has(game) :
-				rotation.append(game)
+		if not exclude.has(game) :
+			if temp.even_only and Players.active_players.size() % 2 != 0 :
+				continue;
+			rotation.append(game)
 		temp.free()
 
 
