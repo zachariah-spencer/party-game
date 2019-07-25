@@ -8,7 +8,6 @@ const CHUNKS  = [
 
 func update_chunk(old_chunk : Node2D):
 	#let all active chunks know that more are being loaded
-	emit_signal('updated_chunks')
 	CHUNKS.shuffle()
 	var new_chunk = CHUNKS[0].instance()
 
