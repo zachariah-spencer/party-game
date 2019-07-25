@@ -22,6 +22,7 @@ onready var active_timer = Timer.new()
 onready var hit_timer = $HitTimer
 
 func _ready():
+	damage = get_parent().base_damage
 	$Hurtbox/CollisionShape2D.shape.extents.x = 32 * width_scale
 	sprite.rect_size.x = 64 * width_scale
 	sprite.rect_position.x = (-1 * sprite.rect_size.x) / 2

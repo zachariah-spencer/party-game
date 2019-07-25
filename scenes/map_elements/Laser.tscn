@@ -121,3 +121,4 @@ local_coords = false
 draw_order = 1
 process_material = SubResource( 9 )
 texture = ExtResource( 2 )
+
