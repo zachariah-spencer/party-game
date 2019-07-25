@@ -3,10 +3,13 @@ extends Node2D
 onready var area = $Area
 onready var particles := $Particles2D
 onready var boost_sfx := $Boost
+onready var base := $Base
+export(Color, RGBA) var outline_color := Color.white
 export var launch_speed = 60
 export var active := true
 
 func _ready():
+	base.modulate = outline_color
 	area.connect('body_entered', self, 'on_body_entered')
 
 func _physics_process(delta):
