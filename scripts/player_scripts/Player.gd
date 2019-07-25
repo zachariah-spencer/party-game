@@ -359,8 +359,11 @@ func _handle_move_input(h_weight := .2):
 		var y_comp = velocity.project(gravity)
 		var x_comp = (move_direction - move_direction.project(gravity)) * move_speed
 
-		if is_crouching && ![states.jump, states.fall].has(state):
-			x_comp /= 3
+		if is_crouching:
+			if [states.jump, states.fall].has(state):
+				x_comp /= 2
+			else:
+				x_comp /= 3
 		velocity = velocity.linear_interpolate(x_comp + y_comp, h_weight)
 
 
@@ -437,12 +440,12 @@ func _state_logic(delta : float):
 	_update_wall_action()
 	_apply_gravity(delta)
 	if state != states.wall_slide and state != states.disabled:
+		_handle_crouching()
 		if state == states.hitstun :
 			_handle_move_input(.02)
 		elif state == states.jump or state == states.fall :
 			_handle_move_input(.1)
 		elif state != states.wall_slide :
-			_handle_crouching()
 			_handle_move_input()
 	if state == states.disabled:
 		_stop_movement()
@@ -522,13 +525,9 @@ func _enter_state(new_state, old_state):
 			set_collision_mask_bit(DROP_THRU_BIT, false)
 			state_name = "Airborne"
 			state_label.text = 'jump'
-			if crouch_set:
-				_decrouch()
 		states.fall:
 			state_name = "Airborne"
 			state_label.text = 'fall'
-			if crouch_set:
-				_decrouch()
 		states.wall_slide:
 			state_label.text = 'wall_slide'
 		states.disabled:
