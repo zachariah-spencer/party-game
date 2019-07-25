@@ -27,19 +27,16 @@ func _physics_process(delta):
 func on_body_entered(body):
 		var player = body as Player
 		var item = body as Item
-	
+		var launch_dir := Vector2.UP.rotated(rotation)
+		
 		if player:
-			player.velocity.y = -launch_speed * Globals.CELL_SIZE
+			player.velocity = launch_dir * (launch_speed * Globals.CELL_SIZE)
 			boost_sfx.pitch_scale = 1.5
 			boost_sfx.play()
 		if item:
 			boost_sfx.pitch_scale = 3
 			boost_sfx.play()
-			item.apply_central_impulse(Vector2(0,-launch_speed * Globals.CELL_SIZE))
+			item.apply_central_impulse(launch_dir * (launch_speed * Globals.CELL_SIZE))
 
 func _invert_state():
 	active = !active
-
-
-func activate():
-	pass # Replace with function body.
