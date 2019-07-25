@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scripts/map_elements/CoundownCircle.gd" type="Script" id=1]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0, 0.384211, 1 )
+colors = PoolColorArray( 0.954112, 0.0473684, 0, 1, 1, 0.703125, 0, 1, 0.03125, 1, 0, 1 )
+
+[node name="CoundownCircle" type="Node2D"]
+position = Vector2( 233.505, 180.132 )
+script = ExtResource( 1 )
+draw_gradient = SubResource( 1 )
+
+[node name="Timer" type="Timer" parent="."]
+process_mode = 0
+one_shot = true
