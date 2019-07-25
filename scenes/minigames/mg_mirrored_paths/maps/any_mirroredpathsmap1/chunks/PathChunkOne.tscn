@@ -49,12 +49,12 @@ shape = SubResource( 2 )
 [node name="SpikesHazard" parent="Top" index="1" instance=ExtResource( 5 )]
 position = Vector2( 416, 352 )
 outline_color = Color( 1, 0, 0, 1 )
-active_time = 0.1
+active_time = 0.8
 
 [node name="SpikesHazard2" parent="Top" index="2" instance=ExtResource( 5 )]
 position = Vector2( 480, 352 )
 outline_color = Color( 1, 0, 0, 1 )
-active_time = 0.1
+active_time = 0.8
 
 [node name="BeamHazard" parent="Top" index="3" instance=ExtResource( 6 )]
 position = Vector2( 832, 512 )
@@ -64,13 +64,13 @@ outline_color = Color( 0.160784, 0.819608, 0, 1 )
 [node name="BeamLever" parent="Top" index="4" instance=ExtResource( 7 )]
 position = Vector2( 96, 1120 )
 rotation = 1.5708
-switch_cooldown = 3.0
+switch_cooldown = 5.0
 connection_color = Color( 0.160784, 0.819608, 0, 1 )
 
 [node name="SpikesLever" parent="Top" index="5" instance=ExtResource( 7 )]
 position = Vector2( 96, 864 )
 rotation = -1.5708
-switch_cooldown = 1.5
+switch_cooldown = 5.0
 connection_color = Color( 1, 0, 0, 1 )
 
 [node name="Bottom" type="Node2D" parent="." index="4"]
@@ -85,18 +85,18 @@ shape = SubResource( 2 )
 [node name="SpikesLever" parent="Bottom" index="1" instance=ExtResource( 7 )]
 position = Vector2( 96, 224 )
 rotation = -1.5708
-switch_cooldown = 1.5
+switch_cooldown = 5.0
 connection_color = Color( 0, 0.109804, 1, 1 )
 
 [node name="SpikesHazard" parent="Bottom" index="2" instance=ExtResource( 5 )]
 position = Vector2( 416, 992 )
 outline_color = Color( 0, 0.109804, 1, 1 )
-active_time = 0.1
+active_time = 0.8
 
 [node name="SpikesHazard2" parent="Bottom" index="3" instance=ExtResource( 5 )]
 position = Vector2( 480, 992 )
 outline_color = Color( 0, 0.109804, 1, 1 )
-active_time = 0.1
+active_time = 0.8
 
 [node name="BeamHazard" parent="Bottom" index="4" instance=ExtResource( 6 )]
 position = Vector2( 832, 1152 )
@@ -106,7 +106,7 @@ outline_color = Color( 0.968627, 0.929412, 0, 1 )
 [node name="BeamLever" parent="Bottom" index="5" instance=ExtResource( 7 )]
 position = Vector2( 96, 480 )
 rotation = 1.5708
-switch_cooldown = 3.0
+switch_cooldown = 5.0
 connection_color = Color( 0.968627, 0.929412, 0, 1 )
 
 [connection signal="flip" from="Top/BeamLever" to="Top/BeamHazard" method="activate"]
