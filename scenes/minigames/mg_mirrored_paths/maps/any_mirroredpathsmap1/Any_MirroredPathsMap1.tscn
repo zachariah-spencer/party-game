@@ -79,6 +79,7 @@ zoom = Vector2( 2, 2 )
 drag_margin_h_enabled = false
 
 [node name="ScreenEdgeHazard" parent="CameraFollowPoint" index="1" instance=ExtResource( 4 )]
+visible = false
 position = Vector2( -700, 224 )
 rotation = 1.5708
 scale = Vector2( 20, 1 )
