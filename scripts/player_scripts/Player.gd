@@ -105,7 +105,6 @@ onready var top_of_head_area := $TopOfHeadArea
 
 onready var footstool_particles := preload('res://assets/vfx/FootstoolDust.tscn')
 
-signal interacted
 signal dropped
 
 func _set_gravity(new_gravity := Vector2.DOWN ):
@@ -122,11 +121,11 @@ func _ready():
 	#set idle facial expression
 	_set_face()
 
-	var interactables = get_tree().get_nodes_in_group('interactable')
-
-	if interactables.size() != 0:
-		for interactable in interactables:
-			connect('interacted',interactable, 'interact')
+#	var interactables = get_tree().get_nodes_in_group('interactable')
+#
+#	if interactables.size() != 0:
+#		for interactable in interactables:
+#			connect('interacted',interactable, 'interact')
 
 func _physics_process(delta):
 	if state != null:
@@ -168,7 +167,7 @@ func hit(by : Node2D, damage : int, knockback := Vector2.ZERO, type := Damage.EN
 		if knockback != Vector2.ZERO :
 			var temp_v = Vector2(knockback.x * sign(dist.x), -knockback.y)
 			velocity = temp_v.rotated(gravity.angle() - PI/2)
-		
+
 		$Shockwave.set_emitting(true)
 
 		if holding_item :
@@ -235,9 +234,14 @@ func drop():
 		holding_item = false
 		held_item.throw(velocity, global_position+Vector2.DOWN*10 ,self)
 
+func _interact():
+	for area in $PickupRange.get_overlapping_areas() :
+		if area.has_method("interact") :
+			area.interact(self)
+
 func attack():
 	if !disable_fists:
-		emit_signal('interacted', self)
+		_interact()
 		var hand = null
 		var vel = Vector2(0,0)
 		var body_part = $Rig/Body

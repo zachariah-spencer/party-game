@@ -28,11 +28,12 @@ func _ready():
 	cooldown_timer.connect("timeout", self, "_on_Cooldown_timeout")
 
 func interact(by : Player):
-	yield(get_tree(), "idle_frame")
-	if can_flip :
-		for body in get_overlapping_bodies() :
-			if body == by :
-				flip()
+	flip()
+#	yield(get_tree(), "idle_frame")
+#	if can_flip :
+#		for body in get_overlapping_bodies() :
+#			if body == by :
+#				flip()
 
 func  flip():
 	emit_signal("flip")
