@@ -3,11 +3,11 @@ render_mode unshaded;
  
 uniform float width : hint_range(0.0, 16.0);
 uniform vec4 outline_color : hint_color;
-const float lod = .6;
 //uniform sampler2D noise;
  
 void fragment()
 {
+    float lod = .6;
     vec2 size = vec2(width) / vec2(textureSize(TEXTURE, 0));
 	vec2 edge = UV - vec2(.5);
    
