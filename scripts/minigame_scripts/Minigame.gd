@@ -19,6 +19,7 @@ export var has_local_score := false
 export var has_map_rotations := false
 export var visible_hp := false
 export var respawn_time := 2.0
+export var even_only := false
 
 var game_active : bool = false
 var game_over : bool = false
