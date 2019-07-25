@@ -25,6 +25,7 @@ func _fire():
 	charging_sfx.play()
 	for dir in directions :
 		var laser_add = Laser.instance()
+		laser_add.scale.x *= .5
 		laser_add.direction = dir
 		laser_add.position = dir * size
 		laser_add.duration = duration

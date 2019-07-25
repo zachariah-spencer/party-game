@@ -27,7 +27,7 @@ shader_param/baseColor = null
 
 [sub_resource type="ParticlesMaterial" id=3]
 emission_shape = 2
-emission_box_extents = Vector3( 1000, 10, 1 )
+emission_box_extents = Vector3( 1000, 40, 1 )
 flag_disable_z = true
 spread = 30.0
 flatness = 1.0
@@ -43,7 +43,7 @@ scale_random = 1.0
 color = Color( 0.835294, 0.811765, 1, 1 )
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 32, 0 )
+extents = Vector2( 64, 10 )
 
 [sub_resource type="Gradient" id=5]
 offsets = PoolRealArray( 0, 0.519481, 1 )
@@ -82,13 +82,15 @@ enabled = true
 collision_mask = 65553
 
 [node name="sprite" type="ColorRect" parent="."]
-visible = false
 use_parent_material = true
-margin_left = -32.0
-margin_right = 32.0
+margin_left = -64.0
+margin_right = 64.0
 margin_bottom = 230.0
 rect_pivot_offset = Vector2( 32, 32 )
 color = Color( 0, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="PreParticles" type="Particles2D" parent="."]
 position = Vector2( 0, 1000 )
@@ -119,4 +121,3 @@ local_coords = false
 draw_order = 1
 process_material = SubResource( 9 )
 texture = ExtResource( 2 )
-
