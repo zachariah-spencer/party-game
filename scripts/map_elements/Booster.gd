@@ -39,3 +39,7 @@ func on_body_entered(body):
 
 func _invert_state():
 	active = !active
+
+
+func activate():
+	pass # Replace with function body.

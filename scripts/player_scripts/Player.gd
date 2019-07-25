@@ -166,10 +166,8 @@ func hit(by : Node2D, damage : int, knockback := Vector2.ZERO, type := Damage.EN
 #		var y = 500
 		if knockback != Vector2.ZERO :
 			var temp_v = Vector2(knockback.x * sign(dist.x), -knockback.y)
-			print(temp_v)
-			print(dist)
 			velocity = temp_v.rotated(gravity.angle() - PI/2)
-			print(velocity)
+		
 		$Shockwave.set_emitting(true)
 
 		if holding_item :

@@ -15,6 +15,6 @@ func _physics_process(delta):
 		if far_players == 0 :
 			position.x += scroll_speed * .8
 		elif far_players == 1 :
-			position.x +=  scroll_speed * 1.2
+			position.x +=  scroll_speed * 1
 		else :
-			position.x += scroll_speed * 1.8
+			position.x += scroll_speed * 1.5
