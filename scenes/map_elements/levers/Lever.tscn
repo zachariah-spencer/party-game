@@ -109,5 +109,4 @@ bus = "Sounds"
 
 [node name="CoundownCircle" parent="." instance=ExtResource( 6 )]
 position = Vector2( 0, -40 )
-size = 20
 
