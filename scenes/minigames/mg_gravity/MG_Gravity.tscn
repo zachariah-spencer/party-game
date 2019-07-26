@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/minigames/MGTemplate.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/minigame_scripts/mg_gravity/MG_Gravity.gd" type="Script" id=2]
+[ext_resource path="res://scenes/minigames/mg_gravity/maps/Any_GravityMap1.tscn" type="PackedScene" id=3]
+
+[node name="MG_Gravity" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+game_time = 100000000
+win_condition = 1
+has_timer = false
+visible_name = "Lethal Gravity"
+visible_hp = true
+
+[node name="CanvasLayer" parent="." index="0"]
+editor/display_folded = false
+
+[node name="Any_GravityMap1" parent="." index="1" instance=ExtResource( 3 )]
+

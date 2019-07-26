@@ -1,11 +1,15 @@
 extends CanvasLayer
 
 signal covered
+export var game_opening_fade := false
 
 func _ready():
-	$AnimationPlayer.play("fade_in")
-	yield($AnimationPlayer, "animation_finished")
-	emit_signal("covered")
+	if game_opening_fade:
+		$AnimationPlayer.play("fade_out")
+	else:
+		$AnimationPlayer.play("fade_in")
+		yield($AnimationPlayer, "animation_finished")
+		emit_signal("covered")
 
 func fade_out():
 	$AnimationPlayer.play("fade_out")

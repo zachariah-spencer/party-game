@@ -1,0 +1,117 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://scenes/items/Item.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/items/Punchball.gd" type="Script" id=2]
+[ext_resource path="res://assets/sphere.png" type="Texture" id=3]
+[ext_resource path="res://assets/audio/launches/slimeball.wav" type="AudioStream" id=4]
+[ext_resource path="res://assets/audio/launches/slimeballnonloop.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/audio/sfx/horseshoe_landing.wav" type="AudioStream" id=6]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0, 0.0615385, 1 )
+colors = PoolColorArray( 1, 1, 1, 0.521569, 1, 1, 1, 0.4654, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=5]
+trail_size_modifier = SubResource( 4 )
+flag_disable_z = true
+spread = 0.0
+gravity = Vector3( 0, 0, 0 )
+angular_velocity = 4.20047e-005
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 0.15
+color_ramp = SubResource( 2 )
+
+[sub_resource type="CircleShape2D" id=6]
+radius = 200.0
+
+[sub_resource type="CircleShape2D" id=7]
+radius = 65.0
+
+[node name="Punchball" groups=[
+"punchball",
+] instance=ExtResource( 1 )]
+collision_layer = 16385
+collision_mask = 17351
+mass = 4.0
+gravity_scale = 0.0
+continuous_cd = 2
+contacts_reported = 6
+linear_damp = 0.5
+angular_damp = 128.0
+script = ExtResource( 2 )
+throwable = false
+grabbable = false
+knockback_speed = 4000
+
+[node name="Trail" type="Particles2D" parent="." index="0"]
+speed_scale = 2.0
+local_coords = false
+process_material = SubResource( 5 )
+texture = ExtResource( 3 )
+
+[node name="Obj" parent="." index="1"]
+scale = Vector2( 5, 5 )
+
+[node name="Pickup_area" parent="." index="2"]
+editor/display_folded = true
+visible = false
+scale = Vector2( 3, 3 )
+
+[node name="CollisionShape2D" parent="Pickup_area" index="0"]
+position = Vector2( 0, -0.214638 )
+
+[node name="ImpulseTimer" type="Timer" parent="." index="3"]
+wait_time = 1.8
+
+[node name="HitCooldownTimer" type="Timer" parent="." index="4"]
+one_shot = true
+
+[node name="RunawayArea" type="Area2D" parent="." index="5"]
+editor/display_folded = true
+collision_layer = 0
+collision_mask = 960
+
+[node name="Shape" type="CollisionShape2D" parent="RunawayArea" index="0"]
+shape = SubResource( 6 )
+
+[node name="PainfulArea" type="Area2D" parent="." index="6"]
+editor/display_folded = true
+collision_layer = 0
+collision_mask = 960
+
+[node name="Shape" type="CollisionShape2D" parent="PainfulArea" index="0"]
+shape = SubResource( 7 )
+
+[node name="Hover" type="AudioStreamPlayer2D" parent="." index="7"]
+stream = ExtResource( 4 )
+volume_db = -30.0
+pitch_scale = 6.0
+attenuation = 1.27456
+bus = "Sounds"
+
+[node name="Hit" type="AudioStreamPlayer2D" parent="." index="8"]
+stream = ExtResource( 5 )
+volume_db = -15.0
+pitch_scale = 2.5
+
+[node name="Collision" type="AudioStreamPlayer2D" parent="." index="9"]
+stream = ExtResource( 6 )
+volume_db = -25.0
+pitch_scale = 4.0
+
+[connection signal="body_entered" from="." to="." method="_on_Punchball_body_entered"]
+[connection signal="timeout" from="ImpulseTimer" to="." method="_on_ImpulseTimer_timeout"]
+[connection signal="timeout" from="HitCooldownTimer" to="." method="_on_HitCooldownTimer_timeout"]
+[connection signal="body_entered" from="RunawayArea" to="." method="_on_RunawayArea_body_entered"]
+[connection signal="body_exited" from="RunawayArea" to="." method="_on_RunawayArea_body_exited"]
+[connection signal="body_entered" from="PainfulArea" to="." method="_on_PainfulArea_body_entered"]

@@ -1,51 +1,171 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://scenes/items/Item.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/items/Grenade.gd" type="Script" id=2]
+[ext_resource path="res://assets/items/grenade.png" type="Texture" id=3]
+[ext_resource path="res://assets/vfx/explosion.png" type="Texture" id=4]
+[ext_resource path="res://assets/audio/sfx/explosions/explodemini.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/audio/sfx/horseshoe_landing.wav" type="AudioStream" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 190.34
+radius = 20.0
 
-[sub_resource type="Gradient" id=2]
-offsets = PoolRealArray( 0.0104167, 0.161458, 0.479167, 1 )
-colors = PoolColorArray( 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1 )
+[sub_resource type="CircleShape2D" id=2]
+radius = 150.0
 
-[sub_resource type="GradientTexture" id=3]
-gradient = SubResource( 2 )
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0, 0.685484 )
+colors = PoolColorArray( 0.537255, 0.537255, 0.537255, 0.231373, 1, 1, 1, 0 )
 
-[sub_resource type="Curve" id=4]
-_data = [ Vector2( 0.0363552, 0.7651 ), 0.0, 0.741916, 0, 0, Vector2( 0.996263, 0.4747 ), -2.36064, 0.0, 0, 0 ]
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
 
-[sub_resource type="CurveTexture" id=5]
-curve = SubResource( 4 )
-
-[sub_resource type="ParticlesMaterial" id=6]
+[sub_resource type="ParticlesMaterial" id=5]
+emission_shape = 1
+emission_sphere_radius = 80.0
 flag_disable_z = true
 spread = 180.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 500.0
+gravity = Vector3( 0, -800, 0 )
+initial_velocity = 300.0
 initial_velocity_random = 1.0
+angular_velocity = 1.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
+angle = 180.0
 angle_random = 1.0
-scale_curve = SubResource( 5 )
-color_ramp = SubResource( 3 )
+color_ramp = SubResource( 4 )
 
-[node name="Grenade" instance=ExtResource( 1 )]
+[sub_resource type="Gradient" id=6]
+offsets = PoolRealArray( 0, 0.415584, 0.584416, 0.87013, 0.983871, 0.987903, 1 )
+colors = PoolColorArray( 0.788235, 0.721569, 0.160784, 0.866667, 0.835937, 0.560225, 0.124661, 0.662018, 1, 0, 0, 0.388235, 0.253906, 0, 0, 0.488809, 0.870907, 0.866986, 0.835055, 0.158192, 0.960531, 0.960531, 0.960531, 0.0259077, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=7]
+gradient = SubResource( 6 )
+
+[sub_resource type="Curve" id=8]
+_data = [ Vector2( 0.00195375, 0.0545 ), 0.0, 3.23295, 0, 0, Vector2( 1, 0.7761 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=9]
+curve = SubResource( 8 )
+
+[sub_resource type="ParticlesMaterial" id=10]
+emission_shape = 1
+emission_sphere_radius = 50.0
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, -100, 0 )
+initial_velocity = 200.0
+angular_velocity = 1.05
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 100.0
+angle = 180.0
+angle_random = 1.0
+scale_curve = SubResource( 9 )
+color_ramp = SubResource( 7 )
+
+[sub_resource type="OpenSimplexNoise" id=11]
+octaves = 1
+period = 84.0
+
+[sub_resource type="NoiseTexture" id=12]
+as_normalmap = true
+bump_strength = 32.0
+noise = SubResource( 11 )
+
+[sub_resource type="Gradient" id=13]
+offsets = PoolRealArray( 0, 0.25974, 0.532468, 0.909091 )
+colors = PoolColorArray( 1, 1, 1, 0.678662, 1, 0.914062, 0, 0.219608, 1, 0.678431, 0, 0.494118, 0.223529, 0.00392157, 0.00392157, 0 )
+
+[sub_resource type="GradientTexture" id=14]
+gradient = SubResource( 13 )
+
+[sub_resource type="ParticlesMaterial" id=15]
+emission_shape = 1
+emission_sphere_radius = 30.0
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, -100, 0 )
+initial_velocity = 40.0
+initial_velocity_random = 1.0
+angular_velocity = -0.733291
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle = 180.0
+angle_random = 1.0
+scale_curve = SubResource( 9 )
+color_ramp = SubResource( 14 )
+
+[sub_resource type="OpenSimplexNoise" id=16]
+
+[sub_resource type="NoiseTexture" id=17]
+seamless = true
+as_normalmap = true
+bump_strength = 13.4
+noise = SubResource( 16 )
+
+[node name="Grenade" index="0" instance=ExtResource( 1 )]
+mass = 1.25
+linear_damp = 2.5
 script = ExtResource( 2 )
 
+[node name="Sprite" parent="Obj" index="0"]
+position = Vector2( 0, 0 )
+scale = Vector2( 0.4, 0.4 )
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" parent="Pickup_area" index="0"]
+shape = SubResource( 1 )
+
 [node name="ExplosionArea" type="Area2D" parent="." index="2"]
+editor/display_folded = true
+visible = false
 monitorable = false
 collision_layer = 0
 collision_mask = 16392
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionArea" index="0"]
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
-[node name="Explosion" type="Particles2D" parent="." index="3"]
+[node name="Smoke" type="Particles2D" parent="." index="3"]
+light_mask = 0
 emitting = false
-amount = 8000
-lifetime = 0.4
+amount = 50
+lifetime = 0.8
 one_shot = true
 explosiveness = 0.7
-process_material = SubResource( 6 )
+process_material = SubResource( 5 )
+texture = ExtResource( 4 )
+
+[node name="Explosion" type="Particles2D" parent="." index="4"]
+light_mask = 0
+emitting = false
+amount = 15
+lifetime = 0.6
+one_shot = true
+explosiveness = 0.8
+draw_order = 1
+process_material = SubResource( 10 )
+texture = ExtResource( 4 )
+normal_map = SubResource( 12 )
+
+[node name="Core" type="Particles2D" parent="." index="5"]
+light_mask = 16384
+emitting = false
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource( 15 )
+texture = ExtResource( 4 )
+normal_map = SubResource( 17 )
+
+[node name="ExplosionSFX" type="AudioStreamPlayer2D" parent="." index="6"]
+stream = ExtResource( 5 )
+volume_db = -8.0
+bus = "Sounds"
+
+[node name="CollisionSFX" type="AudioStreamPlayer2D" parent="." index="7"]
+stream = ExtResource( 6 )
+volume_db = -25.0
+pitch_scale = 4.0
+[connection signal="body_entered" from="." to="." method="_on_Grenade_body_entered"]

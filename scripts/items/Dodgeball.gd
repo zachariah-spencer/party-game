@@ -7,12 +7,7 @@ func _ready():
 	_weight = 4
 
 func _on_throw():
-	$Hurtbox.collision_mask = _owner.collision_mask
-	$Hurtbox.set_collision_mask_bit(3, false)
-	$Hurtbox.set_collision_mask_bit(0, true)
-	$Hurtbox.set_collision_mask_bit(4, true)
-
-
+	$Hurtbox.collision_mask = get_hit_mask(hit_types.opponents) + get_hit_mask(hit_types.terrain_no_platforms)
 
 func _hurtbox_entered(body):
 	var player = body as Player

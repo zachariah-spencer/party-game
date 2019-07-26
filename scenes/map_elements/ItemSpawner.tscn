@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scripts/map_elements/ItemSpawner.gd" type="Script" id=1]
+[ext_resource path="res://assets/map_elements/itemspawner.png" type="Texture" id=2]
+[ext_resource path="res://assets/audio/UI_SFX_Set/click5.wav" type="AudioStream" id=3]
+
+[node name="ItemSpawner" type="Node2D" groups=[
+"item_spawner",
+]]
+script = ExtResource( 1 )
+
+[node name="Position2D" type="Position2D" parent="."]
+position = Vector2( 0, -25 )
+
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 0.764706, 0.764706, 0.764706, 1 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )
+
+[node name="Dispense" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+volume_db = -15.0
+pitch_scale = 0.7
+
+[node name="Timer" type="Timer" parent="."]
+process_mode = 0
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

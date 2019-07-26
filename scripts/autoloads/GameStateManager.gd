@@ -1,15 +1,20 @@
 extends Node
 
 #a list of all the minigames that can be played
-const GAMES : Dictionary = {
+onready var GAMES = [
+	preload('res://scenes/minigames/mg_sumo/MG_Sumo.tscn'),
+	preload('res://scenes/minigames/mg_goafk/MG_GoAFK.tscn'),
+	preload('res://scenes/minigames/mg_race_tower/MG_RaceTower.tscn'),
+	preload('res://scenes/minigames/mg_punchball/MG_Punchball.tscn'),
+	preload('res://scenes/minigames/mg_territories/MG_Territories.tscn'),
+	preload('res://scenes/minigames/mg_horseshoes/MG_Horseshoes.tscn'),
+	preload('res://scenes/minigames/mg_raining_explosives/MG_RainingExplosives.tscn'),
+	preload('res://scenes/minigames/mg_traps/MG_Traps.tscn'),
+	preload('res://scenes/minigames/mg_gravity/MG_Gravity.tscn'),
+	preload('res://scenes/minigames/mg_mirrored_paths/MG_MirroredPaths.tscn'),
+]
 
-	'lobby' : preload('res://scenes/minigames/MG_Lobby.tscn'),
-	'sumo' : preload('res://scenes/minigames/MG_Sumo.tscn'),
-	'goafk' : preload('res://scenes/minigames/MG_GoAFK.tscn'),
-	'race_tower' : preload('res://scenes/minigames/mg_race_tower/MG_Race_Tower.tscn'),
-	#not ready 'dodgeball' : preload('res://scenes/minigames/MG_Dodgeball.tscn')
-
-}
+onready var rotation := []
 #the world node under the root
 var world_node : Node
 #the canvaslayer instance that will move in front of the playarea while the minigames switch
@@ -19,6 +24,19 @@ var transition_scene : PackedScene = preload('res://scenes/Transition.tscn')
 #this differs from the node name
 var minigame_name : String
 
+#rotation will loop if set to true
+var repeats := false
+
+var shuffle := true
+
+onready var lobby := preload('res://scenes/minigames/mg_lobby/MG_Lobby.tscn')
+onready var winning_cutscene := preload('res://scenes/minigames/mg_winning_cutscene/MG_WinningCutscene.tscn')
+
+#manages how many minigames will be rotated before declaring a winner and going back to lobby
+var rounds_to_play := 10
+
+var rounds_played := 0
+
 #the current minigame at any given playtime
 var current_minigame : Minigame
 
@@ -27,11 +45,21 @@ signal minigame_change
 var player_spawns : Array = [0,1,2,3]
 
 func _ready():
-
-	world_node = get_parent().get_node('World')
+#	set_rotation()
 	randomize()
-	_start_new_minigame(GAMES['lobby'])
-	print(minigame_name)
+#	world_node = get_parent().get_node('World')
+#	_start_new_minigame(lobby)
+
+func set_rotation(exclude := []) :
+	var temp : Minigame
+	for game in GAMES:
+		temp = game.instance()
+		if not exclude.has(game) :
+			if temp.even_only and Players.active_players.size() % 2 != 0 :
+				continue;
+			rotation.append(game)
+		temp.free()
+
 
 #warning-ignore:unused_argument
 func _start_new_minigame(new_minigame : PackedScene):
@@ -50,25 +78,29 @@ func _start_new_minigame(new_minigame : PackedScene):
 		world_node.add_child(current_minigame)
 
 func _on_game_times_up():
-	var next_minigame
-	next_minigame = _select_random_minigame()
+	rounds_played += 1
 
-	_start_new_minigame(next_minigame)
+	if repeats:
+		var next_minigame
+		next_minigame = _select_random_minigame()
+		_start_new_minigame(next_minigame)
+	else:
+		if rounds_played <= rounds_to_play:
+			var next_minigame
+			next_minigame = _select_random_minigame()
+			_start_new_minigame(next_minigame)
+		else:
+			Globals.game_music.stop()
+			_start_new_minigame(winning_cutscene)
 
 
 func _select_random_minigame():
-	#DO
-	var selected_num : int = int(rand_range(0, GAMES.size()))
-	#WHILE
-	while GAMES.keys()[selected_num] == minigame_name || GAMES.keys()[selected_num] == 'lobby':
-		selected_num = int(rand_range(0, GAMES.size()))
-
-	var selected_game : PackedScene = GAMES.values()[selected_num]
-
-	return selected_game
-
-func _force_back_to_lobby():
-	Players._update_active_players()
-	if Players.active_players.size() < 2:
-		_start_new_minigame(GAMES['lobby'])
-
+	if rotation.empty():
+		if rounds_played <= rounds_to_play:
+			set_rotation()
+	#mixes up the order, this means a possiblity of the same game back to back with repeats
+	if shuffle : rotation.shuffle()
+	else :
+		#cycles through for if not shuffling
+		rotation.push_back(rotation.pop_front())
+	return rotation.front()

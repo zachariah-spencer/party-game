@@ -4,52 +4,29 @@ extends Control
 #DELETE: signal game_times_up
 
 #reference to time counter display
-onready var time_display : Label = $TimeLeft
+onready var time_display := $TimeLeft
+onready var instructions := $Instructions
 onready var minigame : Minigame = Manager.current_minigame
 signal begin_game
 
 func _ready():
 	#register to singleton
 	Globals.HUD = self
-	
+
 	#connect the game_times_up signal upon readying in the tree
 	#warning-ignore:return_value_discarded
 	#DELETE: connect('game_times_up', Manager, '_on_game_times_up')
-	
+
 	#update the hud with new information
 	call_deferred('_update_hud')
 
 func _update_active_players():
 	#check which players are activated and make their hud elements visible,
 	#else make them not visible
-	if Players.player_one.active:
-		$Scorecards/P1Score.visible = true
-		$Scorecards/Statuses/P1Ready.visible = true
-	else:
-		$Scorecards/P1Score.visible = false
-		$Scorecards/Statuses/P1Ready.visible = false
-	
-	if Players.player_two.active:
-		$Scorecards/P2Score.visible = true
-		$Scorecards/Statuses/P2Ready.visible = true
-	else:
-		$Scorecards/P2Score.visible = false
-		$Scorecards/Statuses/P2Ready.visible = false
-	
-	if Players.player_three.active:
-		$Scorecards/P3Score.visible = true
-		$Scorecards/Statuses/P3Ready.visible = true
-	else:
-		$Scorecards/P3Score.visible = false
-		$Scorecards/Statuses/P3Ready.visible = false
-	
-	if Players.player_four.active:
-		$Scorecards/P4Score.visible = true
-		$Scorecards/Statuses/P4Ready.visible = true
-	else:
-		$Scorecards/P4Score.visible = false
-		$Scorecards/Statuses/P4Ready.visible = false
-	
+	for player in Players._players :
+		get_node("Scorecards/P"+ player.player_number +"Score").visible  = player.active
+		get_node("Scorecards/Statuses/P"+ player.player_number +"Ready").visible  = player.active
+
 	#remove the 'Ready/Not Ready' system from the hud UI unless players are in the lobby
 	if Manager.minigame_name != 'lobby':
 		for status in $Scorecards/Statuses.get_children():
@@ -68,21 +45,21 @@ func _update_scores():
 
 
 func _update_game_timer():
+	instructions.text = minigame.game_instructions
+	
 	if minigame.has_timer:
 		if !minigame.game_over:
-			#do this stuff if the current games win conditions HAVE NOT been reached
-			$TimeLeft.text = String(minigame.game_time)
-			$TimeLeft/Instructions.text = minigame.game_instructions
+			time_display.text = String(minigame.game_time)
 		else:
-			$TimeLeft.text = String(minigame.game_time)
+			time_display.text = String(minigame.game_time)
 	else:
-		$TimeLeft.text = ''
-		
+		time_display.text = ''
+	
 	if Manager.minigame_name == 'lobby':
 		if !minigame.game_over:
-			$TimeLeft/Instructions.text = minigame.game_instructions
+			instructions.text = minigame.game_instructions
 		else:
-			$TimeLeft/Instructions.text = 'Starting...'
+			instructions.text = 'Starting...'
 
 func _update_hud():
 	#DEV NOTE: still needs work so that when players return to the lobby their statuses re-appear
@@ -95,19 +72,20 @@ func _update_hud():
 	_update_game_timer()
 
 func _process(delta):
-	if minigame.has_timer:
-		if minigame.game_active:
+	if minigame.has_timer && minigame.game_active:
 			_update_game_timer()
-		elif !minigame.game_active && !minigame.game_over && minigame.has_countdown:
-			if $Countdown/CountdownTimer.is_stopped():
-				$Countdown/CountdownTimer.start()
-				$Countdown.visible = true
-		elif !minigame.game_active && !minigame.game_over && !minigame.has_countdown:
-			if $Countdown/CountdownTimer.is_stopped():
-				$Countdown.text = 'Begin!'
-				$Countdown.modulate = Color(1,1,1,1)
-				$Countdown/CountdownTimer.start()
-				$Countdown.visible = true
+	
+	
+	if !minigame.game_active && !minigame.game_over && minigame.has_countdown:
+		if $Countdown/CountdownTimer.is_stopped():
+			$Countdown/CountdownTimer.start()
+			$Countdown.visible = true
+	elif !minigame.game_active && !minigame.game_over && !minigame.has_countdown && !['lobby', 'winning_cutscene'].has(Manager.minigame_name):
+		if $Countdown/CountdownTimer.is_stopped():
+			$Countdown.text = 'Begin!'
+			$Countdown.modulate = Color(1,1,1,1)
+			$Countdown/CountdownTimer.start()
+			$Countdown.visible = true
 
 func _on_CountdownTimer_timeout():
 	if minigame.has_countdown:

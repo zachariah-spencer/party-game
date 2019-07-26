@@ -1,0 +1,127 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://scenes/minigames/MGTemplate.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/minigame_scripts/mg_race_tower/MG_RaceTower.gd" type="Script" id=2]
+[ext_resource path="res://scenes/minigames/mg_race_tower/maps/any_racetowermap1/Any_RaceTowerMap1.tscn" type="PackedScene" id=3]
+[ext_resource path="res://icon.png" type="Texture" id=4]
+[ext_resource path="res://assets/sphere_soft.png" type="Texture" id=5]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform sampler2D grad_tex;
+uniform sampler2D noise_tex;
+uniform float wave_speed;
+
+void fragment()
+{
+	vec4 noise = texture(noise_tex, UV);
+	COLOR = texture(grad_tex, noise.rg) + vec4(cos(TIME)*.1);
+}"
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0.25974, 0.655844, 0.896104, 1 )
+colors = PoolColorArray( 1, 0.890625, 0, 1, 0.464844, 0.018158, 0.018158, 1, 0.667969, 0.101761, 0.101761, 1, 0.96875, 1, 0, 1 )
+
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
+
+[sub_resource type="OpenSimplexNoise" id=4]
+period = 15.6
+persistence = 1.0
+
+[sub_resource type="NoiseTexture" id=5]
+seamless = true
+noise = SubResource( 4 )
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = SubResource( 1 )
+shader_param/wave_speed = 0.0
+shader_param/grad_tex = SubResource( 3 )
+shader_param/noise_tex = SubResource( 5 )
+
+[sub_resource type="SpriteFrames" id=7]
+animations = [ {
+"frames": [ ExtResource( 4 ) ],
+"loop": true,
+"name": "flow",
+"speed": 5.0
+} ]
+
+[sub_resource type="Gradient" id=8]
+offsets = PoolRealArray( 0.025974, 0.194805, 0.448052, 0.935065, 1 )
+colors = PoolColorArray( 0.992157, 1, 0, 0, 0.996078, 0.6, 0, 0.0784314, 1, 0, 0, 0.341176, 0.12549, 0.00784314, 0.00784314, 0.662745, 0.00784314, 0.00784314, 0.00784314, 0 )
+
+[sub_resource type="GradientTexture" id=9]
+gradient = SubResource( 8 )
+
+[sub_resource type="Curve" id=10]
+_data = [ Vector2( 0.013209, 0.951 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=11]
+curve = SubResource( 10 )
+
+[sub_resource type="ParticlesMaterial" id=12]
+resource_local_to_scene = true
+emission_shape = 2
+emission_box_extents = Vector3( 1000, 10, 1 )
+flag_disable_z = true
+spread = 0.0
+gravity = Vector3( 0, -500, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 0.1
+scale_curve = SubResource( 11 )
+color_ramp = SubResource( 9 )
+
+[sub_resource type="OpenSimplexNoise" id=13]
+
+[sub_resource type="NoiseTexture" id=14]
+seamless = true
+noise = SubResource( 13 )
+
+[sub_resource type="RectangleShape2D" id=15]
+extents = Vector2( 960, 32 )
+
+[node name="MG_RaceTower" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+game_time = 1410065408
+win_condition = 1
+has_timer = false
+visible_name = "Race Tower"
+max_lava_speed = 2.6
+
+[node name="CanvasLayer" parent="." index="0"]
+editor/display_folded = false
+
+[node name="Any_RaceTowerMap1" parent="." index="1" instance=ExtResource( 3 )]
+
+[node name="Lava" type="Area2D" parent="." index="2"]
+position = Vector2( 448, 200 )
+collision_layer = 0
+collision_mask = 960
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Lava" index="0"]
+material = SubResource( 6 )
+position = Vector2( 0, 422.442 )
+scale = Vector2( 30, 14.2013 )
+frames = SubResource( 7 )
+animation = "flow"
+
+[node name="FlameEffect" type="Particles2D" parent="Lava" index="1"]
+position = Vector2( 11.5388, -14.2737 )
+amount = 6000
+lifetime = 0.75
+draw_order = 1
+process_material = SubResource( 12 )
+texture = ExtResource( 5 )
+normal_map = SubResource( 14 )
+
+[node name="Shape" type="CollisionShape2D" parent="Lava" index="2"]
+visible = false
+position = Vector2( -2.86395, -34.3673 )
+shape = SubResource( 15 )
+
