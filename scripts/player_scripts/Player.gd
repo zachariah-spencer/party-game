@@ -182,11 +182,9 @@ func hit(by : Node2D, damage : int, knockback := Vector2.ZERO, type := Damage.EN
 					parent.play_random("Hit")
 				Manager.current_minigame.attack_modes.lethal:
 					hit_points -= damage
-					$Rig/AnimationPlayer.play('hurt')
 					parent.play_random("Hit")
 		else:
 			hit_points -= damage
-			$Rig/AnimationPlayer.play('hurt')
 			parent.play_random("Hit")
 
 
