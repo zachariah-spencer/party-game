@@ -13,7 +13,7 @@ func _init():
 
 func _ready():
 	Manager.minigame_name = 'mirrored_paths'
-	game_instructions = 'Work together to kill\nthe other path!'
+	game_instructions = 'Kill the other path!'
 
 func _insert_players():
 	._insert_players()
@@ -49,9 +49,9 @@ func _check_empty_paths():
 	
 	if top_players.empty() && !map.top_empty:
 		map.top_empty = true
-		game_instructions = 'Now betray your friend!'
+		game_instructions = 'Now betray your friend...'
 		hud._update_game_timer()
 	if bottom_players.empty() && !map.bottom_empty:
 		map.bottom_empty = true
-		game_instructions = 'Now betray your friend!'
+		game_instructions = 'Now betray your friend...'
 		hud._update_game_timer()
