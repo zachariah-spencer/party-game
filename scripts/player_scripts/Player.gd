@@ -89,6 +89,7 @@ onready var hurt_cooldown_timer := $HurtCooldownTimer
 onready var feet_timer := $WalkingFeetTimer
 
 onready var fall_through_area := $FallingThroughPlatformArea
+onready var standing_area := $StandingArea
 onready var left_wall_raycasts := $WallRaycasts/LeftWallRaycasts
 onready var right_wall_raycasts := $WallRaycasts/RightWallRaycasts
 onready var platform_raycasts := $GroundRaycasts
@@ -104,7 +105,6 @@ onready var top_of_head_area := $TopOfHeadArea
 
 onready var footstool_particles := preload('res://assets/vfx/FootstoolDust.tscn')
 
-signal interacted
 signal dropped
 
 func _set_gravity(new_gravity := Vector2.DOWN ):
@@ -121,11 +121,11 @@ func _ready():
 	#set idle facial expression
 	_set_face()
 
-	var interactables = get_tree().get_nodes_in_group('interactable')
-
-	if interactables.size() != 0:
-		for interactable in interactables:
-			connect('interacted',interactable, 'interact')
+#	var interactables = get_tree().get_nodes_in_group('interactable')
+#
+#	if interactables.size() != 0:
+#		for interactable in interactables:
+#			connect('interacted',interactable, 'interact')
 
 func _physics_process(delta):
 	if state != null:
@@ -166,10 +166,8 @@ func hit(by : Node2D, damage : int, knockback := Vector2.ZERO, type := Damage.EN
 #		var y = 500
 		if knockback != Vector2.ZERO :
 			var temp_v = Vector2(knockback.x * sign(dist.x), -knockback.y)
-			print(temp_v)
-			print(dist)
 			velocity = temp_v.rotated(gravity.angle() - PI/2)
-			print(velocity)
+
 		$Shockwave.set_emitting(true)
 
 		if holding_item :
@@ -236,9 +234,14 @@ func drop():
 		holding_item = false
 		held_item.throw(velocity, global_position+Vector2.DOWN*10 ,self)
 
+func _interact():
+	for area in $PickupRange.get_overlapping_areas() :
+		if area.has_method("interact") :
+			area.interact(self)
+
 func attack():
 	if !disable_fists:
-		emit_signal('interacted', self)
+		_interact()
 		var hand = null
 		var vel = Vector2(0,0)
 		var body_part = $Rig/Body
@@ -359,8 +362,11 @@ func _handle_move_input(h_weight := .2):
 		var y_comp = velocity.project(gravity)
 		var x_comp = (move_direction - move_direction.project(gravity)) * move_speed
 
-		if is_crouching && ![states.jump, states.fall].has(state):
-			x_comp /= 3
+		if is_crouching:
+			if [states.jump, states.fall].has(state):
+				x_comp /= 2
+			else:
+				x_comp /= 3
 		velocity = velocity.linear_interpolate(x_comp + y_comp, h_weight)
 
 
@@ -383,11 +389,11 @@ func _handle_crouching():
 	if rel_move_dir > .2:
 		if !crouch_set:
 			_crouch()
-		is_crouching = true
+			is_crouching = true
 	else:
-		if crouch_set:
+		if crouch_set && _can_standup():
 			_decrouch()
-		is_crouching = false
+			is_crouching = false
 
 func _crouch():
 	player_rig.get_node('Body').mode = RigidBody2D.MODE_KINEMATIC
@@ -437,12 +443,12 @@ func _state_logic(delta : float):
 	_update_wall_action()
 	_apply_gravity(delta)
 	if state != states.wall_slide and state != states.disabled:
+		_handle_crouching()
 		if state == states.hitstun :
 			_handle_move_input(.02)
 		elif state == states.jump or state == states.fall :
 			_handle_move_input(.1)
 		elif state != states.wall_slide :
-			_handle_crouching()
 			_handle_move_input()
 	if state == states.disabled:
 		_stop_movement()
@@ -522,13 +528,9 @@ func _enter_state(new_state, old_state):
 			set_collision_mask_bit(DROP_THRU_BIT, false)
 			state_name = "Airborne"
 			state_label.text = 'jump'
-			if crouch_set:
-				_decrouch()
 		states.fall:
 			state_name = "Airborne"
 			state_label.text = 'fall'
-			if crouch_set:
-				_decrouch()
 		states.wall_slide:
 			state_label.text = 'wall_slide'
 		states.disabled:
@@ -648,6 +650,12 @@ func _is_in_platform():
 			return true
 	return false
 
+func _can_standup():
+	if standing_area.get_overlapping_bodies().size() == 0:
+		return true
+	else:
+		return false
+
 func _is_on_platform():
 	for body in platform_raycasts.get_children():
 		if body.is_colliding() :
@@ -691,16 +699,16 @@ func _footstool(affected_player):
 	if not affected_player.is_in_group("player") :
 		return
 	var affected_player_feet = affected_player.get_node('Rig/Feet/CollisionShape2D')
-	
+
 	if affected_player.state == affected_player.states.fall:
-		
+
 		var dust = footstool_particles.instance()
 		parent.get_parent().add_child(dust)
 		dust.global_position = global_position
 		dust.global_position.y -= 75
-		
+
 		parent.play_sound('Footstool')
-		
+
 		affected_player._set_state(affected_player.states.jump)
 		affected_player.velocity.y = -30 * Globals.CELL_SIZE
 		_set_state(states.fall)
@@ -708,7 +716,7 @@ func _footstool(affected_player):
 
 func _handle_top_of_head():
 	var bodies = top_of_head_area.get_overlapping_bodies()
-	
+
 	for body in bodies:
 		_footstool(body)
 
@@ -749,6 +757,6 @@ func _on_WalkingFeetTimer_timeout():
 func _on_TopOfHeadArea_body_entered(affected_player):
 	if not affected_player.is_in_group("player") :
 		return
-	
+
 	if affected_player.state == affected_player.states.fall:
 		pass

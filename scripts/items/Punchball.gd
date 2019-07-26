@@ -58,7 +58,7 @@ func hit(by : Node2D, damage : int, knockback := Vector2.ZERO, type := Damage.EN
 		$Hover.pitch_scale += 2
 		var knockback_velocity : Vector2 = Vector2.ZERO
 		var dist = global_position - by.global_position
-		print(dist)
+		
 		knockback_velocity.x = sign(dist.x)  * knockback_speed
 		knockback_velocity.y = sign(dist.y) * knockback_speed
 		apply_central_impulse(knockback_velocity)

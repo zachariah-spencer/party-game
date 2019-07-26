@@ -19,6 +19,7 @@ export var has_local_score := false
 export var has_map_rotations := false
 export var visible_hp := false
 export var respawn_time := 2.0
+export var even_only := false
 
 var game_active : bool = false
 var game_over : bool = false
@@ -102,7 +103,7 @@ func _insert_players():
 	var i := 0
 	for player in Players.active_players :
 		player.spawn(spawn_points[i].position)
-		spawn_index[player] = spawn_points[i]
+		spawn_index[spawn_points[i]] = player
 		i += 1
 
 func _pregame(has_countdown : bool = true):

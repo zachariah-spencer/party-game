@@ -12,9 +12,11 @@ onready var dispense_sound := $Dispense
 onready var spawn_pos := $Position2D
 onready var parent := get_parent()
 onready var timer := $Timer
+onready var sprite := $Sprite
+export(Color, RGBA) var outline_color := Color.white
 
 func _ready():
-#	item = load(item_path)
+	sprite.modulate = outline_color
 	timer.wait_time = timer_duration
 	if repeat_on_timer:
 		timer.start()

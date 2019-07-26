@@ -45,8 +45,13 @@ scale = Vector2( 0.5, 0.5 )
 frames = SubResource( 2 )
 animation = "idle"
 
+[node name="Base" type="Sprite" parent="."]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )
+
 [node name="Spike" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 6 )
 volume_db = -18.0
 pitch_scale = 28.0
+
 [connection signal="body_entered" from="Hurtbox" to="." method="_hurtbox_entered"]

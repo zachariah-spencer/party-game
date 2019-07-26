@@ -49,19 +49,10 @@ func update_chunk(old_chunk : Node2D):
 	emit_signal('updated_chunks')
 	CHUNKS.shuffle()
 	var new_chunk = CHUNKS[0].instance()
-	#add a field unique to each chunk for this work.
-	#We could have entrances and exits to each chunk and match them here
-	#To address the bottom chunk, just instance it in the scene
-	#and don't add it to the array.
+
 	while new_chunk.chunk_id == old_chunk.chunk_id:
 		CHUNKS.shuffle()
 		new_chunk = CHUNKS[0].instance()
-
-	#do-while to randomize the pieces of map that are loading and ensure you never get the same piece twice
-	#also an edge case that stops the 'bottom tower' map chunk from being randomly selected
-#	new_chunk = CHUNKS[CHUNKS.keys()[int(rand_range(1,CHUNKS.size()))]]
-#	while new_chunk == old_chunk:
-#		new_chunk = CHUNKS[CHUNKS.keys()[int(rand_range(1,CHUNKS.size()))]]
 
 	#instance and set new chunk above players on the top of the tower
 	new_chunk.position = old_chunk.position

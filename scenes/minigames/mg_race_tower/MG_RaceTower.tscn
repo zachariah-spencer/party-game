@@ -48,20 +48,20 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="Gradient" id=9]
+[sub_resource type="Gradient" id=8]
 offsets = PoolRealArray( 0.025974, 0.194805, 0.448052, 0.935065, 1 )
 colors = PoolColorArray( 0.992157, 1, 0, 0, 0.996078, 0.6, 0, 0.0784314, 1, 0, 0, 0.341176, 0.12549, 0.00784314, 0.00784314, 0.662745, 0.00784314, 0.00784314, 0.00784314, 0 )
 
-[sub_resource type="GradientTexture" id=10]
-gradient = SubResource( 9 )
+[sub_resource type="GradientTexture" id=9]
+gradient = SubResource( 8 )
 
-[sub_resource type="Curve" id=11]
+[sub_resource type="Curve" id=10]
 _data = [ Vector2( 0.013209, 0.951 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=12]
-curve = SubResource( 11 )
+[sub_resource type="CurveTexture" id=11]
+curve = SubResource( 10 )
 
-[sub_resource type="ParticlesMaterial" id=13]
+[sub_resource type="ParticlesMaterial" id=12]
 resource_local_to_scene = true
 emission_shape = 2
 emission_box_extents = Vector3( 1000, 10, 1 )
@@ -71,19 +71,19 @@ gravity = Vector3( 0, -500, 0 )
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 0.1
-scale_curve = SubResource( 12 )
-color_ramp = SubResource( 10 )
+scale_curve = SubResource( 11 )
+color_ramp = SubResource( 9 )
 
-[sub_resource type="OpenSimplexNoise" id=14]
+[sub_resource type="OpenSimplexNoise" id=13]
 
-[sub_resource type="NoiseTexture" id=15]
+[sub_resource type="NoiseTexture" id=14]
 seamless = true
-noise = SubResource( 14 )
+noise = SubResource( 13 )
 
-[sub_resource type="RectangleShape2D" id=8]
+[sub_resource type="RectangleShape2D" id=15]
 extents = Vector2( 960, 32 )
 
-[node name="MG_RaceTower" index="0" instance=ExtResource( 1 )]
+[node name="MG_RaceTower" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 game_time = 1410065408
 win_condition = 1
@@ -116,11 +116,12 @@ position = Vector2( 11.5388, -14.2737 )
 amount = 6000
 lifetime = 0.75
 draw_order = 1
-process_material = SubResource( 13 )
+process_material = SubResource( 12 )
 texture = ExtResource( 5 )
-normal_map = SubResource( 15 )
+normal_map = SubResource( 14 )
 
 [node name="Shape" type="CollisionShape2D" parent="Lava" index="2"]
 visible = false
 position = Vector2( -2.86395, -34.3673 )
-shape = SubResource( 8 )
+shape = SubResource( 15 )
+

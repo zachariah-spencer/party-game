@@ -11,6 +11,7 @@ onready var GAMES = [
 	preload('res://scenes/minigames/mg_raining_explosives/MG_RainingExplosives.tscn'),
 	preload('res://scenes/minigames/mg_traps/MG_Traps.tscn'),
 	preload('res://scenes/minigames/mg_gravity/MG_Gravity.tscn'),
+	preload('res://scenes/minigames/mg_mirrored_paths/MG_MirroredPaths.tscn'),
 ]
 
 onready var rotation := []
@@ -26,7 +27,7 @@ var minigame_name : String
 #rotation will loop if set to true
 var repeats := false
 
-var shuffle := false
+var shuffle := true
 
 onready var lobby := preload('res://scenes/minigames/mg_lobby/MG_Lobby.tscn')
 onready var winning_cutscene := preload('res://scenes/minigames/mg_winning_cutscene/MG_WinningCutscene.tscn')
@@ -44,15 +45,20 @@ signal minigame_change
 var player_spawns : Array = [0,1,2,3]
 
 func _ready():
-	set_rotation()
+#	set_rotation()
 	randomize()
 #	world_node = get_parent().get_node('World')
 #	_start_new_minigame(lobby)
 
 func set_rotation(exclude := []) :
+	var temp : Minigame
 	for game in GAMES:
+		temp = game.instance()
 		if not exclude.has(game) :
+			if temp.even_only and Players.active_players.size() % 2 != 0 :
+				continue;
 			rotation.append(game)
+		temp.free()
 
 
 #warning-ignore:unused_argument
@@ -94,7 +100,7 @@ func _select_random_minigame():
 			set_rotation()
 	#mixes up the order, this means a possiblity of the same game back to back with repeats
 	if shuffle : rotation.shuffle()
-
-	#cycles through for if not shuffling
-	rotation.push_back(rotation.pop_front())
+	else :
+		#cycles through for if not shuffling
+		rotation.push_back(rotation.pop_front())
 	return rotation.front()

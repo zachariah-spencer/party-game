@@ -86,7 +86,6 @@ position = Vector2( -1750, 350 )
 shape = SubResource( 2 )
 
 [node name="Boosters" type="Node2D" parent="." index="6"]
-editor/display_folded = true
 
 [node name="Booster" parent="Boosters" index="0" instance=ExtResource( 4 )]
 position = Vector2( 512, 1312 )
@@ -197,6 +196,6 @@ texture = ExtResource( 11 )
 [node name="DefaultFocus" parent="." index="20"]
 position = Vector2( 1024, 1024 )
 
-[connection signal="flip" from="Lever" to="." method="invert_gravity"]
 [connection signal="flip" from="Lever" to="GravityField2" method="invert_gravity"]
+[connection signal="flip" from="Lever" to="." method="invert_gravity"]
 [connection signal="body_entered" from="FallingBlocktest" to="FallingBlocktest" method="_on_FallingBlocktest_body_entered"]

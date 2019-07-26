@@ -14,7 +14,8 @@ script/source = "extends Node
 
 func _ready() :
 	Manager.world_node = self
-	Manager._start_new_minigame(Manager.lobby)"
+	Manager._start_new_minigame(Manager.lobby)
+"
 
 [node name="World" type="Node"]
 script = SubResource( 1 )
