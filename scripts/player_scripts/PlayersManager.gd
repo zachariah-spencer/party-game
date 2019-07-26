@@ -124,7 +124,7 @@ func _input(event):
 			_deactivate_player()
 		Globals.HUD._update_hud()
 
-func spawn(spawn_position : Vector2 = Players.select_spawn_point()):
+func spawn(spawn_position : Vector2 = Players.select_spawn_point(), init_hp := Manager.current_minigame.initial_hp):
 #	if there is a player or ragdoll, ensures it's freed before a new instance is created
 	_clear_children()
 
@@ -135,7 +135,7 @@ func spawn(spawn_position : Vector2 = Players.select_spawn_point()):
 	var add = player_scene.instance()
 	add.position = Vector2.ZERO
 	position = spawn_position
-	add.hit_points = 100
+	add.hit_points = init_hp
 	child = add
 	add_child(add)
 	dead = false
