@@ -5,7 +5,7 @@ var delay := 1.0
 var duration := 0.0
 
 const MAX_RANGE = 10000
-var damage = 100
+var damage = 1
 
 var width_scale := 1
 

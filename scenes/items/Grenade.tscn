@@ -168,4 +168,5 @@ bus = "Sounds"
 stream = ExtResource( 6 )
 volume_db = -25.0
 pitch_scale = 4.0
+
 [connection signal="body_entered" from="." to="." method="_on_Grenade_body_entered"]

@@ -11,6 +11,7 @@ export var frequency := 5
 export var duration := .25
 export var laser_delay := 1.5
 export var directions = [ Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN]
+export var base_damage := 1
 export var size := 31
 export var random_speed := 200
 var rng := RandomNumberGenerator.new()

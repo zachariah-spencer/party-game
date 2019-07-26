@@ -39,7 +39,6 @@ tile_data = PoolIntArray( 393233, 2, 0, 393234, 2, 0, 1048593, 2, 0, 1048594, 2,
 position = Vector2( 1152, 128 )
 rotation = -1.5708
 outline_color = Color( 0, 0.0627451, 1, 1 )
-base_damage = 50
 
 [node name="Lever" parent="Top" index="1" instance=ExtResource( 5 )]
 position = Vector2( 96, 1184 )
@@ -52,7 +51,6 @@ connection_color = Color( 0, 0.0627451, 1, 1 )
 position = Vector2( 768, 1152 )
 rotation = 1.5708
 outline_color = Color( 1, 0, 0, 1 )
-base_damage = 50
 
 [node name="Lever" parent="Bottom" index="1" instance=ExtResource( 5 )]
 position = Vector2( 800, 544 )
