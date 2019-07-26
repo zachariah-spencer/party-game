@@ -10,7 +10,6 @@ func _ready():
 
 func activate():
 	var laser = Laser.instance()
-	laser.width_scale
 	laser.duration = beam_duration
 	laser.delay = beam_delay
 	laser.position.y += 10
