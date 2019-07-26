@@ -745,6 +745,7 @@ scale_amount_curve = SubResource( 36 )
 color_ramp = SubResource( 37 )
 
 [node name="LocalScore" type="Label" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -118.0

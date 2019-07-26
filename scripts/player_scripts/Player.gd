@@ -104,6 +104,8 @@ onready var top_of_head_area := $TopOfHeadArea
 
 onready var footstool_particles := preload('res://assets/vfx/FootstoolDust.tscn')
 onready var health_anims := $Health/HealthAnims
+onready var health_ui := $Health
+var visible_hp := true
 
 signal dropped
 
@@ -295,6 +297,11 @@ func _update_player_stats():
 			parent.die(Manager.current_minigame.allow_respawns)
 
 func _set_hp():
+	if visible_hp:
+		health_ui.visible = true
+	else:
+		health_ui.visible = false
+	
 	match hit_points:
 		1:
 			health_anims.play('set-1')
@@ -738,7 +745,7 @@ func _on_AttackTimer_timeout():
 
 func _on_AttackArea_body_entered(body):
 	if body.has_method("hit") and not hit_exceptions.has(body):
-		body.hit(self, 20, punch_knockback, Damage.PUNCHES)
+		body.hit(self, 1, punch_knockback, Damage.PUNCHES)
 		hit_exceptions.append(body)
 
 func _on_HurtCooldownTimer_timeout():
