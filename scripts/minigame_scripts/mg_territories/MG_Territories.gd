@@ -1,7 +1,7 @@
 extends Minigame
 
-export var damage_multiplier := 5
-var total_owned_flags := 0
+export var damage_multiplier := 5.0
+var total_owned_flags := 0.0
 var countdown_time := 5
 onready var flags_array := map.get_node('Flags').get_children()
 onready var countdown_timer := $CountdownTimer
@@ -50,8 +50,8 @@ func _on_CountdownTimer_timeout():
 		#Damage players
 
 		for player in Players._get_alive_players():
-			var flags_owned := 0
-			var damage := 0
+			var flags_owned := 0.0
+			var damage := 0.0
 
 			for flag in flags_array:
 				if flag.owned_by == player:
@@ -62,7 +62,7 @@ func _on_CountdownTimer_timeout():
 			else:
 				damage = 100
 
-			player.child.hit(self, damage, Vector2(0, 500), Damage.ENVIRONMENTAL)
+			player.child.hit(self, int(damage), Vector2(0, 500), Damage.ENVIRONMENTAL)
 
 
 		countdown_time = 5
