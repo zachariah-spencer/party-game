@@ -12,7 +12,7 @@ func _init():
 
 func _ready():
 	Manager.minigame_name = 'mirrored_paths'
-	game_instructions = 'MIRRORED PATHS TEST'
+	game_instructions = 'Work together to kill\nthe other path!'
 
 func _insert_players():
 	._insert_players()
@@ -22,6 +22,16 @@ func _insert_players():
 		for player in Players.active_players:
 			player.spawn(spawns_unshuffled[j].position)
 			j += 2
+	
+	for point in spawn_index.keys():
+		if [spawns_unshuffled[0], spawns_unshuffled[1]].has(point):
+			top_players.append(spawn_index[point])
+		elif [spawns_unshuffled[2], spawns_unshuffled[3]].has(point):
+			bottom_players.append(spawn_index[point])
+	
+	for p in top_players:
+		print(p.name)
+	
 
 func _run_minigame_loop():
 	if game_active:
