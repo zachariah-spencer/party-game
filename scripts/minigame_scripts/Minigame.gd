@@ -25,6 +25,7 @@ var game_active : bool = false
 var game_over : bool = false
 var minigame_timer : Timer
 var spawn_points : Array
+var spawns_unshuffled : Array
 var map : Node2D
 var maps : Array = []
 var forced_to_lobby := false
@@ -44,6 +45,7 @@ func _ready():
 		map = get_tree().get_nodes_in_group('maps')[0]
 
 	spawn_points = map.get_node('SpawnPoints').get_children()
+	spawns_unshuffled = map.get_node('SpawnPoints').get_children()
 	_update_active_spawn_points()
 	spawn_points.shuffle()
 
@@ -103,7 +105,7 @@ func _insert_players():
 	var i := 0
 	for player in Players.active_players :
 		player.spawn(spawn_points[i].position)
-		spawn_index[player] = spawn_points[i]
+		spawn_index[spawn_points[i]] = player
 		i += 1
 
 func _pregame(has_countdown : bool = true):
