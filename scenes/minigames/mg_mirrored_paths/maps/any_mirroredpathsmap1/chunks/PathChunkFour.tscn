@@ -9,7 +9,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 300, 1000 )
 
-[node name="PathChunkFour" index="0" instance=ExtResource( 1 )]
+[node name="PathChunkFour" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 size = 1536
 chunk_id = 4
@@ -80,9 +80,9 @@ position = Vector2( 864, 544 )
 switch_cooldown = 5.0
 connection_color = Color( 0, 0.0392157, 1, 1 )
 
+[connection signal="flip" from="Top/Lever" to="Top/SpikesHazard3" method="activate"]
 [connection signal="flip" from="Top/Lever" to="Top/SpikesHazard" method="activate"]
 [connection signal="flip" from="Top/Lever" to="Top/SpikesHazard2" method="activate"]
-[connection signal="flip" from="Top/Lever" to="Top/SpikesHazard3" method="activate"]
-[connection signal="flip" from="Bottom/Lever" to="Bottom/SpikesHazard" method="activate"]
-[connection signal="flip" from="Bottom/Lever" to="Bottom/SpikesHazard2" method="activate"]
 [connection signal="flip" from="Bottom/Lever" to="Bottom/SpikesHazard3" method="activate"]
+[connection signal="flip" from="Bottom/Lever" to="Bottom/SpikesHazard2" method="activate"]
+[connection signal="flip" from="Bottom/Lever" to="Bottom/SpikesHazard" method="activate"]

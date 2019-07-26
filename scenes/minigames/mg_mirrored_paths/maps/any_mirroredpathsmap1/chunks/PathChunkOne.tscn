@@ -9,7 +9,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 100, 700 )
 
-[node name="PathChunkOne" index="0" instance=ExtResource( 1 )]
+[node name="PathChunkOne" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 size = 2048
 chunk_id = 1

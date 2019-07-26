@@ -5,6 +5,7 @@ onready var bottom_spawn := map.get_node('Bottom')
 var top_players := []
 var bottom_players := []
 
+
 func _init():
 	maps = [
 	preload('res://scenes/minigames/mg_mirrored_paths/maps/any_mirroredpathsmap1/Any_MirroredPathsMap1.tscn'),
@@ -17,22 +18,40 @@ func _ready():
 func _insert_players():
 	._insert_players()
 	
-	var j := 0
 	if Players.active_players.size() == 2:
-		for player in Players.active_players:
-			player.spawn(spawns_unshuffled[j].position)
-			j += 2
+		Players.active_players[0].spawn(map.spawn_one.position)
+		Players.active_players[1].spawn(map.spawn_three.position)
 	
-	for point in spawn_index.keys():
-		if [spawns_unshuffled[0], spawns_unshuffled[1]].has(point):
-			top_players.append(spawn_index[point])
-		elif [spawns_unshuffled[2], spawns_unshuffled[3]].has(point):
-			bottom_players.append(spawn_index[point])
-	
-	for p in top_players:
-		print(p.name)
-	
+	for p in Players.active_players:
+		match p.position:
+			map.spawn_one.position:
+				top_players.append(p)
+			map.spawn_two.position:
+				top_players.append(p)
+			map.spawn_three.position:
+				bottom_players.append(p)
+			map.spawn_four.position:
+				bottom_players.append(p)
 
 func _run_minigame_loop():
 	if game_active:
+		_check_empty_paths()
 		_check_game_win_conditions()
+
+func _check_empty_paths():
+	for p in top_players:
+		if p.dead == true:
+			top_players.remove(top_players.find(p))
+	
+	for p in bottom_players:
+		if p.dead == true:
+			bottom_players.remove(bottom_players.find(p))
+	
+	if top_players.empty() && !map.top_empty:
+		map.top_empty = true
+		game_instructions = 'Now betray your friend!'
+		hud._update_game_timer()
+	if bottom_players.empty() && !map.bottom_empty:
+		map.bottom_empty = true
+		game_instructions = 'Now betray your friend!'
+		hud._update_game_timer()

@@ -2,10 +2,12 @@ extends Node2D
 class_name PathChunk
 
 onready var parent : Minigame = get_parent()
+enum paths {top, bottom, both}
 var entered := false
 var memory_counter := 0
 export var size := 1280
 export var chunk_id := 3
+export(paths) var path := paths.both
 
 func _ready():
 	$Area.connect('body_entered', self, 'chunk_entered')
