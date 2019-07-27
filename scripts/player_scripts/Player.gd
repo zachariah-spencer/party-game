@@ -208,7 +208,7 @@ func wall_jump():
 		velocity = rotated.project(gravity) + ((rotated - rotated.project(gravity)) * wall_direction)
 
 func throw():
-	if holding_item :
+	if holding_item and is_instance_valid(held_item) :
 		parent.play_sound('Throw')
 		holding_item = false
 		var dir
