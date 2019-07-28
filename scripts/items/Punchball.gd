@@ -92,7 +92,7 @@ func _on_RunawayArea_body_exited(body):
 func _on_PainfulArea_body_entered(body):
 	var player = body as Player
 	if player && painful:
-		player.hit(self, 50, linear_velocity.length() * Vector2.ONE, Damage.ENVIRONMENTAL)
+		player.hit(self, 1, linear_velocity.length() * Vector2.ONE, Damage.ENVIRONMENTAL)
 		pain_area.set_collision_mask_bit(player.parent.single_bit, false)
 		player.modulate.a = .5
 		players_hit.append(player)

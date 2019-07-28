@@ -48,22 +48,25 @@ func _on_CountdownTimer_timeout():
 		countdown_label.text = String(countdown_time)
 	else:
 		#Damage players
-
-		for player in Players._get_alive_players():
-			var flags_owned := 0.0
-			var damage := 0.0
-
+		#Damage players
+		var most_flags_player : PlayersManager
+		var most_flags := 0
+		for p in Players._get_alive_players():
+			var flags_owned := 0
+			
 			for flag in flags_array:
-				if flag.owned_by == player:
+				if p == flag.owned_by:
 					flags_owned += 1
-
-			if flags_owned != 0:
-				damage = ( total_owned_flags / flags_owned ) * damage_multiplier
-			else:
-				damage = 100
-
-			player.child.hit(self, int(damage), Vector2(0, 500), Damage.ENVIRONMENTAL)
-
-
+			
+			if flags_owned > most_flags:
+				most_flags_player = p
+				most_flags = flags_owned
+			elif flags_owned == most_flags:
+				most_flags_player = null
+		
+		for p in Players._get_alive_players():
+			if p != most_flags_player:
+				p.child.hit(self, int(1), Vector2(0, 500), Damage.ENVIRONMENTAL)
+		
 		countdown_time = 5
 		countdown_label.text = String(countdown_time)

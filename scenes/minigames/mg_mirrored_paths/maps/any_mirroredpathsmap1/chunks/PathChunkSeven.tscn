@@ -36,19 +36,16 @@ format = 1
 [node name="SpikesHazard" parent="Top" index="0" instance=ExtResource( 4 )]
 position = Vector2( 544, 992 )
 outline_color = Color( 1, 0, 0, 1 )
-base_damage = 50
 active_time = 2.5
 
 [node name="SpikesHazard2" parent="Top" index="1" instance=ExtResource( 4 )]
 position = Vector2( 416, 928 )
 outline_color = Color( 1, 0, 0, 1 )
-base_damage = 50
 active_time = 2.5
 
 [node name="SpikesHazard3" parent="Top" index="2" instance=ExtResource( 4 )]
 position = Vector2( 672, 1120 )
 outline_color = Color( 1, 0, 0, 1 )
-base_damage = 50
 active_time = 2.5
 
 [node name="Lever" parent="Top" index="3" instance=ExtResource( 5 )]
@@ -61,19 +58,16 @@ connection_color = Color( 1, 0, 0, 1 )
 [node name="SpikesHazard" parent="Bottom" index="0" instance=ExtResource( 4 )]
 position = Vector2( 1056, 1120 )
 outline_color = Color( 0, 0.0392157, 1, 1 )
-base_damage = 50
 active_time = 2.5
 
 [node name="SpikesHazard2" parent="Bottom" index="1" instance=ExtResource( 4 )]
 position = Vector2( 1184, 992 )
 outline_color = Color( 0, 0.0392157, 1, 1 )
-base_damage = 50
 active_time = 2.5
 
 [node name="SpikesHazard3" parent="Bottom" index="2" instance=ExtResource( 4 )]
 position = Vector2( 1312, 928 )
 outline_color = Color( 0, 0.0392157, 1, 1 )
-base_damage = 50
 active_time = 2.5
 
 [node name="Lever" parent="Bottom" index="3" instance=ExtResource( 5 )]
@@ -81,9 +75,9 @@ position = Vector2( 864, 1184 )
 switch_cooldown = 5.0
 connection_color = Color( 0, 0.0392157, 1, 1 )
 
-[connection signal="flip" from="Top/Lever" to="Top/SpikesHazard2" method="activate"]
 [connection signal="flip" from="Top/Lever" to="Top/SpikesHazard" method="activate"]
 [connection signal="flip" from="Top/Lever" to="Top/SpikesHazard3" method="activate"]
-[connection signal="flip" from="Bottom/Lever" to="Bottom/SpikesHazard2" method="activate"]
+[connection signal="flip" from="Top/Lever" to="Top/SpikesHazard2" method="activate"]
 [connection signal="flip" from="Bottom/Lever" to="Bottom/SpikesHazard3" method="activate"]
+[connection signal="flip" from="Bottom/Lever" to="Bottom/SpikesHazard2" method="activate"]
 [connection signal="flip" from="Bottom/Lever" to="Bottom/SpikesHazard" method="activate"]

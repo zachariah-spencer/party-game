@@ -20,6 +20,7 @@ export var has_map_rotations := false
 export var visible_hp := false
 export var respawn_time := 2.0
 export var even_only := false
+export var initial_hp := 3
 
 var game_active : bool = false
 var game_over : bool = false

@@ -9,7 +9,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 100, 700 )
 
-[node name="PathChunkEight" instance=ExtResource( 1 )]
+[node name="PathChunkEight" index="0" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 size = 2048
 chunk_id = 8
@@ -40,7 +40,6 @@ tile_data = PoolIntArray( 1048593, 2, 0, 1048594, 2, 0 )
 position = Vector2( 1152, 768 )
 rotation = -1.5708
 outline_color = Color( 0, 0.0627451, 1, 1 )
-base_damage = 50
 
 [node name="Lever" parent="Top" index="1" instance=ExtResource( 5 )]
 position = Vector2( 96, 1184 )
@@ -53,7 +52,6 @@ connection_color = Color( 0, 0.0627451, 1, 1 )
 position = Vector2( 768, 1152 )
 rotation = 1.5708
 outline_color = Color( 1, 0, 0, 1 )
-base_damage = 50
 
 [node name="Lever" parent="Bottom" index="1" instance=ExtResource( 5 )]
 position = Vector2( 672, 800 )

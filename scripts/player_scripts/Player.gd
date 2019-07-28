@@ -31,7 +31,7 @@ var aim_direction := Vector2.ZERO
 var facing_direction := 1.0
 var wall_direction := 1.0
 var move_speed := 14.0 * Globals.CELL_SIZE
-var hit_points := 100
+var hit_points := 3
 var held_item
 var holding_item := false
 
@@ -75,7 +75,6 @@ var wall_action : Vector2
 onready var parent := get_parent()
 onready var local_score := $LocalScore
 onready var state_label := $StateLabel
-onready var hit_points_label := $HitPoints
 onready var anim_tree := $Rig/AnimationTree
 
 onready var jump_cooldown := $JumpCooldownTimer
@@ -104,6 +103,9 @@ onready var player_rig := $Rig
 onready var top_of_head_area := $TopOfHeadArea
 
 onready var footstool_particles := preload('res://assets/vfx/FootstoolDust.tscn')
+onready var health_anims := $Health/HealthAnims
+onready var health_ui := $Health
+var visible_hp := true
 
 signal dropped
 
@@ -116,8 +118,8 @@ func _ready():
 	_set_gravity(Vector2.DOWN)
 	#call state machines ready function
 	_state_machine_ready()
-	#set players hitpoints box equal to his health
-	_update_player_stats()
+	#set starting hp
+	_set_hp()
 	#set idle facial expression
 	_set_face()
 
@@ -182,9 +184,11 @@ func hit(by : Node2D, damage : int, knockback := Vector2.ZERO, type := Damage.EN
 					parent.play_random("Hit")
 				Manager.current_minigame.attack_modes.lethal:
 					hit_points -= damage
+					_update_player_stats()
 					parent.play_random("Hit")
 		else:
 			hit_points -= damage
+			_update_player_stats()
 			parent.play_random("Hit")
 
 
@@ -280,13 +284,37 @@ func attack():
 		attack_cooldown_timer.start()
 
 func _update_player_stats():
-	if Manager.current_minigame.visible_hp:
-		hit_points_label.visible = true
-
-	hit_points_label.text = String(hit_points)
+	match hit_points:
+		2:
+			if health_anims.is_playing():
+				yield(health_anims, 'animation_finished')
+			health_anims.play('3-2')
+		1:
+			if health_anims.is_playing():
+				yield(health_anims, 'animation_finished')
+			health_anims.play('2-1')
+		0:
+			if health_anims.is_playing():
+				yield(health_anims, 'animation_finished')
+			health_anims.play('1-0')
+	
 	if hit_points <= 0:
 		if !parent.is_dead():
 			parent.die(Manager.current_minigame.allow_respawns)
+
+func _set_hp():
+	if visible_hp:
+		health_ui.visible = true
+	else:
+		health_ui.visible = false
+	
+	match hit_points:
+		1:
+			health_anims.play('set-1')
+		2:
+			health_anims.play('set-2')
+		3:
+			health_anims.play('set-3')
 
 func _apply_gravity(delta : float):
 	if rotation != gravity.angle() - PI/2 :
@@ -434,7 +462,6 @@ func _add_state(state_name):
 	states[state_name] = states.size()
 
 func _state_logic(delta : float):
-	_update_player_stats()
 	_handle_top_of_head()
 	_update_move_direction()
 	_update_wall_direction()
@@ -724,7 +751,7 @@ func _on_AttackTimer_timeout():
 
 func _on_AttackArea_body_entered(body):
 	if body.has_method("hit") and not hit_exceptions.has(body):
-		body.hit(self, 20, punch_knockback, Damage.PUNCHES)
+		body.hit(self, 1, punch_knockback, Damage.PUNCHES)
 		hit_exceptions.append(body)
 
 func _on_HurtCooldownTimer_timeout():
