@@ -46,7 +46,7 @@ noise = SubResource( 6 )
 [sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 100, 500 )
 
-[node name="Any_TrapsMap1" instance=ExtResource( 1 )]
+[node name="Any_TrapsMap1" index="0" instance=ExtResource( 1 )]
 
 [node name="Cam" parent="." index="0"]
 current = false
@@ -253,6 +253,7 @@ visible = false
 position = Vector2( -688, -96 )
 rotation = 1.5708
 scale = Vector2( 8, 1 )
+base_damage = 3
 
 [node name="FlameEffect" type="Particles2D" parent="CameraFollowPoint" index="2"]
 position = Vector2( -700, -96 )
@@ -272,28 +273,28 @@ shape = SubResource( 8 )
 [connection signal="level_completed" from="LevelCompleteZone" to="LevelCompleteZone/BeamHazard" method="activate"]
 [connection signal="flip" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster2" method="_invert_state"]
 [connection signal="flip" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster3" method="_invert_state"]
-[connection signal="flip" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster" method="_invert_state"]
 [connection signal="flip" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster4" method="_invert_state"]
+[connection signal="flip" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster" method="_invert_state"]
 [connection signal="flop" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster2" method="_invert_state"]
 [connection signal="flop" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster3" method="_invert_state"]
-[connection signal="flop" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster" method="_invert_state"]
 [connection signal="flop" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster4" method="_invert_state"]
+[connection signal="flop" from="Traps/BoosterLevers" to="Traps/BoosterLevers/Booster" method="_invert_state"]
 [connection signal="flip" from="Traps/Lever" to="Traps/Lever/ItemSpawner" method="spawn_item"]
-[connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard2" method="activate"]
+[connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard3" method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard4" method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard" method="activate"]
-[connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard3" method="activate"]
+[connection signal="flip" from="Traps/SpikeLeverTop" to="Traps/SpikeLeverTop/SpikesHazard2" method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverBottom" to="." method="activate"]
-[connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard9" method="activate"]
-[connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard8" method="activate"]
-[connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard7" method="activate"]
-[connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard5" method="activate"]
 [connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard6" method="activate"]
+[connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard7" method="activate"]
+[connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard8" method="activate"]
+[connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard9" method="activate"]
+[connection signal="flip" from="Traps/SpikeLeverBottom" to="Traps/SpikeLeverBottom/SpikesHazard5" method="activate"]
 [connection signal="flip" from="Traps/BeamLever" to="Traps/BeamLever/BeamHazard" method="activate"]
 [connection signal="flip" from="Traps/BeamLever" to="Traps/BeamLever/BeamHazard3" method="activate"]
 [connection signal="flip" from="Traps/BeamLever2" to="Traps/BeamLever2/BeamHazard4" method="activate"]
 [connection signal="flip" from="Traps/BeamLever2" to="Traps/BeamLever2/BeamHazard2" method="activate"]
 [connection signal="flip" from="Traps/BeamLever3" to="Traps/BeamLever3/BeamHazard5" method="activate"]
 [connection signal="flip" from="Traps/BeamLever3" to="Traps/BeamLever3/BeamHazard7" method="activate"]
-[connection signal="flip" from="Traps/BeamLever4" to="Traps/BeamLever4/BeamHazard8" method="activate"]
 [connection signal="flip" from="Traps/BeamLever4" to="Traps/BeamLever4/BeamHazard6" method="activate"]
+[connection signal="flip" from="Traps/BeamLever4" to="Traps/BeamLever4/BeamHazard8" method="activate"]

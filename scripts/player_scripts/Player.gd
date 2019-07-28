@@ -286,10 +286,16 @@ func attack():
 func _update_player_stats():
 	match hit_points:
 		2:
+			if health_anims.is_playing():
+				yield(health_anims, 'animation_finished')
 			health_anims.play('3-2')
 		1:
+			if health_anims.is_playing():
+				yield(health_anims, 'animation_finished')
 			health_anims.play('2-1')
 		0:
+			if health_anims.is_playing():
+				yield(health_anims, 'animation_finished')
 			health_anims.play('1-0')
 	
 	if hit_points <= 0:
