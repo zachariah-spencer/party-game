@@ -14,6 +14,7 @@ const PUNCH_DISTANCE := 800
 var disable_jumping := false
 var disable_movement := false
 var disable_fists := false
+var disable_knockback := false
 var spawn_point : Node2D
 
 var punch_knockback = Vector2(40* Globals.CELL_SIZE, 500)
@@ -166,7 +167,7 @@ func hit(by : Node2D, damage : int, knockback := Vector2.ZERO, type := Damage.EN
 		var dist =  global_position - by.global_position
 #		var x = 40* Globals.CELL_SIZE
 #		var y = 500
-		if knockback != Vector2.ZERO :
+		if knockback != Vector2.ZERO && !disable_knockback:
 			var temp_v = Vector2(knockback.x * sign(dist.x), -knockback.y)
 			velocity = temp_v.rotated(gravity.angle() - PI/2)
 

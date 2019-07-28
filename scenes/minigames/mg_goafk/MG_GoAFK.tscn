@@ -6,7 +6,12 @@
 
 [node name="MG_GoAFK" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+game_time = 1215752192
+game_instructions = "Kill the other players!"
+win_condition = 1
+has_timer = false
 visible_name = "Go AFK"
+visible_hp = true
 
-[node name="Any_GoAFKMap1" parent="." index="2" instance=ExtResource( 3 )]
+[node name="Any_GoAFKMap1" parent="." index="1" instance=ExtResource( 3 )]
 
