@@ -21,6 +21,8 @@ onready var RAGDOLL = preload("res://scenes/player/PlayerDead.tscn")
 onready var player_scene : PackedScene = preload('res://scenes/player/Player.tscn')
 onready var respawn_timer : Node = Timer.new()
 
+signal paused_game
+
 func _ready():
 	set_process_input(true)
 	Manager.connect('minigame_change', self, "_minigame_change")
@@ -29,6 +31,9 @@ func _ready():
 	respawn_timer.one_shot = true
 	add_child(respawn_timer)
 	respawn_timer.connect('timeout', self, '_on_respawn_timeout')
+	
+	yield(get_tree().get_root(), 'ready')
+	connect('paused_game', Globals.pause_menu, 'toggle_pause_game')
 
 
 func _process(delta):
@@ -114,7 +119,8 @@ func _input(event):
 	if event.is_action_pressed(start_button):
 		if !active :
 			_activate_player(Manager.current_minigame.instant_player_insertion)
-
+		elif active && Manager.minigame_name != 'lobby' && Globals.pause_menu.can_pause:
+			emit_signal('paused_game', self)
 		elif !ready :
 			ready = true
 	if event.is_action_pressed(select_button):

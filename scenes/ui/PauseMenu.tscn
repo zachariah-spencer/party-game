@@ -28,7 +28,6 @@ anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0.756863 )
 
 [node name="MainPause" type="VBoxContainer" parent="."]
-editor/display_folded = true
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
@@ -152,6 +151,10 @@ text = "Back"
 flat = true
 align = 0
 
+[node name="CanPauseTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
 [connection signal="pressed" from="MainPause/Return To Lobby" to="." method="_on_Return_To_Lobby_pressed"]
 [connection signal="pressed" from="MainPause/SettingsButton" to="." method="_on_SettingsButton_pressed"]
 [connection signal="pressed" from="MainPause/QuitGameButton" to="." method="_on_QuitGameButton_pressed"]
@@ -159,3 +162,4 @@ align = 0
 [connection signal="pressed" from="Settings/MuteSoundsButton" to="." method="_on_MuteSoundsButton_pressed"]
 [connection signal="pressed" from="Settings/MuteMusicButton" to="." method="_on_MuteMusicButton_pressed"]
 [connection signal="pressed" from="Settings/BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="timeout" from="CanPauseTimer" to="." method="_on_CanPauseTimer_timeout"]

@@ -1,20 +1,29 @@
 extends Control
 
 var pause_state := false
-
+var can_pause := true
 onready var main := $MainPause
 onready var settings := $Settings
 
+func _ready():
+	Globals.pause_menu = self
 
 func _input(event):
-	if event.is_action_pressed('player_one_start') && Players.player_one.active && Manager.minigame_name != 'lobby':
+	if pause_state:
+		if event.is_action_pressed('player_one_start'):
+			toggle_pause_game()
+			can_pause = false
+			$CanPauseTimer.start()
+
+func toggle_pause_game(player = null):
+	if can_pause:
 		pause_state = not get_tree().paused
 		get_tree().paused = pause_state
 		visible = pause_state
-
-		if pause_state:
-			settings.visible = false
-			main.visible = true
+	
+	if pause_state:
+		settings.visible = false
+		main.visible = true
 
 func _on_Return_To_Lobby_pressed():
 	if pause_state:
@@ -51,3 +60,7 @@ func _on_BackButton_pressed():
 func _on_CheckBox_pressed():
 	var new_state = not OS.window_fullscreen
 	OS.window_fullscreen = new_state
+
+
+func _on_CanPauseTimer_timeout():
+	can_pause = true
