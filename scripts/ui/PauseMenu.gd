@@ -21,7 +21,7 @@ func _on_Return_To_Lobby_pressed():
 		get_tree().paused = !pause_state
 		visible = false
 		Players.reset_players_data()
-		Manager._start_new_minigame(Manager.GAMES[0])
+		Manager._start_new_minigame(Manager.lobby)
 
 func _on_SettingsButton_pressed():
 	if pause_state:
