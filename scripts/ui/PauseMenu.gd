@@ -7,6 +7,16 @@ onready var settings := $Settings
 func _ready():
 	Globals.pause_menu = self
 
+func _input(event):
+	if pause_state:
+		if event.is_action_pressed('ui_cancel'):
+			if main.visible:
+				toggle_pause_game()
+			elif settings.visible:
+				main.get_node('SettingsButton').grab_focus()
+				settings.visible = false
+				main.visible = true
+
 func toggle_pause_game(player = null):
 	if pause_state:
 		pause_state = not get_tree().paused
@@ -44,12 +54,18 @@ func _register_controls(_device : int):
 	button_ev.set_button_index(JOY_BUTTON_0)
 	button_ev.device = _device
 	InputMap.action_add_event('ui_accept', button_ev)
+	
+	button_ev = InputEventJoypadButton.new()
+	button_ev.set_button_index(JOY_BUTTON_1)
+	button_ev.device = _device
+	InputMap.action_add_event('ui_cancel', button_ev)
 
 
 func _deregister_controls():
 	InputMap.action_erase_events('ui_up')
 	InputMap.action_erase_events('ui_down')
 	InputMap.action_erase_events('ui_accept')
+	InputMap.action_erase_events('ui_cancel')
 
 
 func _on_Return_To_Lobby_pressed():
