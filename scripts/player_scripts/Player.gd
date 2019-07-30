@@ -660,6 +660,8 @@ func _manual_move_hand(dir := Vector2.ZERO, force := 1, hand := 'right'):
 	# change hands for each punch
 	if hand == 'right':
 		hand_ref = right_hand
+	elif hand == 'head':
+		hand_ref = head
 	else:
 		hand_ref = left_hand
 	
