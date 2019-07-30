@@ -14,7 +14,7 @@ const CHUNKS  = [
 ]
 
 var update_timer : int
-export var lava_speed := 0.8
+export var lava_speed := 0.3
 export var max_lava_speed := 3.0
 export var lava_speed_increment := 0.05
 export var lava_speed_incrementing_time := 1
@@ -42,26 +42,17 @@ func _run_minigame_loop():
 		_check_game_win_conditions()
 
 func _on_Lava_body_entered(player):
-	player.hit(self, 100, Vector2.ZERO, Damage.FIRE)
+	player.hit(self, 3, Vector2.ZERO, Damage.FIRE)
 
 func update_chunk(old_chunk : Node2D):
 	#let all active chunks know that more are being loaded
 	emit_signal('updated_chunks')
 	CHUNKS.shuffle()
 	var new_chunk = CHUNKS[0].instance()
-	#add a field unique to each chunk for this work.
-	#We could have entrances and exits to each chunk and match them here
-	#To address the bottom chunk, just instance it in the scene
-	#and don't add it to the array.
+
 	while new_chunk.chunk_id == old_chunk.chunk_id:
 		CHUNKS.shuffle()
 		new_chunk = CHUNKS[0].instance()
-
-	#do-while to randomize the pieces of map that are loading and ensure you never get the same piece twice
-	#also an edge case that stops the 'bottom tower' map chunk from being randomly selected
-#	new_chunk = CHUNKS[CHUNKS.keys()[int(rand_range(1,CHUNKS.size()))]]
-#	while new_chunk == old_chunk:
-#		new_chunk = CHUNKS[CHUNKS.keys()[int(rand_range(1,CHUNKS.size()))]]
 
 	#instance and set new chunk above players on the top of the tower
 	new_chunk.position = old_chunk.position

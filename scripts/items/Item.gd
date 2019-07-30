@@ -73,5 +73,5 @@ func _deown():
 	sprite.modulate = Color.white
 	_owner = null
 
-func hit(by : Node, damage : int, knockback :Vector2, type := Damage.ENVIRONMENTAL) :
+func hit(by : Node2D, damage : int, knockback := Vector2.ZERO, type := Damage.ENVIRONMENTAL) :
 	pass

@@ -2,12 +2,13 @@ extends Item
 class_name Grenade
 
 onready var fuse_timer := Timer.new()
-var damage = 50
+var damage = 1
 var durability = 20
 var exploding := false
 export var fuse_time := 1.5
 export var prelit_fuse_time := 2.5
 var prelit := false
+var knockback = Vector2(500, 250)
 
 func _ready():
 	bounce = 1
@@ -43,10 +44,10 @@ func _fuse_timeout() :
 		#hits players and bodies
 		if body.is_in_group("player") :
 			if body is Player :
-				body.hit(self, damage, distance.normalized(), Damage.EXPLOSION)
+				body.hit(self, damage, knockback, Damage.EXPLOSION)
 			#add code to interact with ragdolls
 		if body  is Item and body != self :
-			body.hit(self, damage, distance.normalized(), Damage.EXPLOSION)
+			body.hit(self, damage, knockback, Damage.EXPLOSION)
 	$Explosion.emitting = true
 	$Smoke.emitting	= true
 	$Core.emitting = true
@@ -62,14 +63,15 @@ func _integrate_forces(state):
 		linear_velocity = Vector2.ZERO
 
 
-func hit(by : Node, damage : int, knockback : Vector2, type := Damage.ENVIRONMENTAL):
+func hit(by : Node2D, damage : int, knockback := Vector2.ZERO, type := Damage.ENVIRONMENTAL):
 	if type == Damage.EXPLOSION or type == Damage.FIRE :
 		durability -= damage
 		if durability <= 0 and !exploding:
 			fuse_timer.start(.1)
 		elif !exploding :
 			fuse_timer.start(.5)
-		apply_central_impulse(knockback * 400)
+		if knockback != Vector2.ZERO :
+			apply_central_impulse((global_position - by.global_position).normalized() * 400)
 
 func _on_Grenade_body_entered(body):
 	$CollisionSFX.play()

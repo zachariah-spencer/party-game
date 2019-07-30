@@ -21,6 +21,8 @@ onready var RAGDOLL = preload("res://scenes/player/PlayerDead.tscn")
 onready var player_scene : PackedScene = preload('res://scenes/player/Player.tscn')
 onready var respawn_timer : Node = Timer.new()
 
+signal paused_game
+
 func _ready():
 	set_process_input(true)
 	Manager.connect('minigame_change', self, "_minigame_change")
@@ -29,6 +31,9 @@ func _ready():
 	respawn_timer.one_shot = true
 	add_child(respawn_timer)
 	respawn_timer.connect('timeout', self, '_on_respawn_timeout')
+	
+	yield(get_tree().get_root(), 'ready')
+	connect('paused_game', Globals.pause_menu, 'toggle_pause_game')
 
 
 func _process(delta):
@@ -114,7 +119,8 @@ func _input(event):
 	if event.is_action_pressed(start_button):
 		if !active :
 			_activate_player(Manager.current_minigame.instant_player_insertion)
-
+		elif active && Manager.minigame_name != 'lobby':
+			emit_signal('paused_game', self)
 		elif !ready :
 			ready = true
 	if event.is_action_pressed(select_button):
@@ -124,7 +130,7 @@ func _input(event):
 			_deactivate_player()
 		Globals.HUD._update_hud()
 
-func spawn(spawn_position : Vector2 = Players.select_spawn_point()):
+func spawn(spawn_position : Vector2 = Players.select_spawn_point(), init_hp := Manager.current_minigame.initial_hp, is_hp_visible := Manager.current_minigame.visible_hp):
 #	if there is a player or ragdoll, ensures it's freed before a new instance is created
 	_clear_children()
 
@@ -135,7 +141,8 @@ func spawn(spawn_position : Vector2 = Players.select_spawn_point()):
 	var add = player_scene.instance()
 	add.position = Vector2.ZERO
 	position = spawn_position
-	add.hit_points = 100
+	add.hit_points = init_hp
+	add.visible_hp = is_hp_visible
 	child = add
 	add_child(add)
 	dead = false
@@ -246,8 +253,9 @@ func _setup_controller_config(player_string : String):
 
 func _map_controller_action(action_suffix : String, deadzone := 0.5):
 	var action_string := 'player_' + player_string + action_suffix
-	InputMap.add_action(action_string)
-	InputMap.action_set_deadzone(action_string, deadzone)
+	if not InputMap.has_action(action_string) :
+		InputMap.add_action(action_string)
+		InputMap.action_set_deadzone(action_string, deadzone)
 	return action_string
 
 func _map_controller_event_to_action(current_action : String, button_or_axis := false, mapping := JOY_BUTTON_0, value := 0.0):

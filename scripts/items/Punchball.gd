@@ -4,7 +4,7 @@ onready var hit_cooldown := $HitCooldownTimer
 onready var runaway_area := $RunawayArea
 export var random_speed := 200
 export var runaway_speed := 32
-export var knockback_speed := 5000
+export var knockback_speed := 100
 var player_near_ball : Player
 var can_be_hit := true
 var painful := false
@@ -52,14 +52,15 @@ func _on_ImpulseTimer_timeout():
 	if !player_near_ball && can_be_hit:
 		_handle_random_motion()
 
-func hit(by : Node, damage : int, knockback :Vector2, type := Damage.ENVIRONMENTAL):
+func hit(by : Node2D, damage : int, knockback := Vector2.ZERO, type := Damage.ENVIRONMENTAL):
 	if can_be_hit :
 		$Hit.play()
 		$Hover.pitch_scale += 2
 		var knockback_velocity : Vector2 = Vector2.ZERO
-
-		knockback_velocity.x = knockback.x * knockback_speed
-		knockback_velocity.y = knockback.y * knockback_speed * 2
+		var dist = global_position - by.global_position
+		
+		knockback_velocity.x = sign(dist.x)  * knockback_speed
+		knockback_velocity.y = sign(dist.y) * knockback_speed
 		apply_central_impulse(knockback_velocity)
 
 		can_be_hit = false
@@ -91,7 +92,7 @@ func _on_RunawayArea_body_exited(body):
 func _on_PainfulArea_body_entered(body):
 	var player = body as Player
 	if player && painful:
-		player.hit(self, 50, linear_velocity, Damage.ENVIRONMENTAL)
+		player.hit(self, 1, linear_velocity.length() * Vector2.ONE, Damage.ENVIRONMENTAL)
 		pain_area.set_collision_mask_bit(player.parent.single_bit, false)
 		player.modulate.a = .5
 		players_hit.append(player)

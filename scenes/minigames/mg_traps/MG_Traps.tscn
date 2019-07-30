@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/minigames/MGTemplate.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/minigame_scripts/mg_traps/MG_Traps.gd" type="Script" id=2]
+[ext_resource path="res://scenes/minigames/mg_traps/maps/Any_TrapsMap1.tscn" type="PackedScene" id=3]
+
+[node name="MG_Traps" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+game_time = 30
+win_condition = 4
+visible_name = "Traps"
+visible_hp = true
+
+[node name="Any_TrapsMap1" parent="." index="1" instance=ExtResource( 3 )]
+

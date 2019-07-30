@@ -1,0 +1,124 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://scripts/map_elements/Laser.gd" type="Script" id=1]
+[ext_resource path="res://assets/sphere_soft.png" type="Texture" id=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform vec4 baseColor : hint_color;
+
+void fragment(){
+	
+	
+	vec4 output = vec4(abs(sin(UV.x*3.1415926)));
+//	output.rgb += abs(sin(SCREEN_UV.y*40.0)*.5*sin(3.0*TIME-UV.y));
+	output.rgb += abs(sin(10.0*TIME+SCREEN_UV.y)*.25);
+	output.b = abs(cos(UV.x*6.28)*2.0);
+//	output.b = 1.0;
+//	output.a = 1.0;
+	
+	COLOR = output;
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/baseColor = null
+
+[sub_resource type="ParticlesMaterial" id=3]
+emission_shape = 2
+emission_box_extents = Vector3( 1000, 40, 1 )
+flag_disable_z = true
+spread = 30.0
+flatness = 1.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 10.0
+initial_velocity_random = 1.0
+angular_velocity = 360.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 3.0
+scale_random = 1.0
+color = Color( 0.835294, 0.811765, 1, 1 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 64, 10 )
+
+[sub_resource type="Gradient" id=5]
+offsets = PoolRealArray( 0, 0.519481, 1 )
+colors = PoolColorArray( 0, 0.0352941, 1, 0.117647, 0.0235294, 0.862745, 1, 0.258824, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=6]
+gradient = SubResource( 5 )
+
+[sub_resource type="Curve" id=7]
+_data = [ Vector2( 0.00195375, 1 ), 0.0, 1.73516, 0, 0, Vector2( 0.530952, 0.2437 ), -0.164601, 0.0, 0, 0, Vector2( 0.981163, 0.1073 ), -1.83986, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=8]
+curve = SubResource( 7 )
+
+[sub_resource type="ParticlesMaterial" id=9]
+emission_shape = 1
+emission_sphere_radius = 20.0
+flag_disable_z = true
+spread = 180.0
+flatness = 1.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 500.0
+initial_velocity_random = 0.8
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 0.05
+scale_curve = SubResource( 8 )
+color_ramp = SubResource( 6 )
+
+[node name="Beam" type="Node2D"]
+material = SubResource( 2 )
+script = ExtResource( 1 )
+
+[node name="ray" type="RayCast2D" parent="."]
+enabled = true
+collision_mask = 65553
+
+[node name="sprite" type="ColorRect" parent="."]
+use_parent_material = true
+margin_left = -64.0
+margin_right = 64.0
+margin_bottom = 230.0
+rect_pivot_offset = Vector2( 32, 32 )
+color = Color( 0, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PreParticles" type="Particles2D" parent="."]
+position = Vector2( 0, 1000 )
+rotation = 1.5708
+amount = 4000
+visibility_rect = Rect2( -5000, -5000, 10000, 10000 )
+process_material = SubResource( 3 )
+
+[node name="Hurtbox" type="Area2D" parent="."]
+monitoring = false
+monitorable = false
+collision_layer = 65536
+collision_mask = 17344
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource( 4 )
+
+[node name="HitTimer" type="Timer" parent="."]
+process_mode = 0
+
+[node name="StaticEffect" type="Node" parent="."]
+
+[node name="HitParticles" type="Particles2D" parent="StaticEffect"]
+rotation = -1.5708
+amount = 600
+visibility_rect = Rect2( -5000, -5000, 10000, 10000 )
+local_coords = false
+draw_order = 1
+process_material = SubResource( 9 )
+texture = ExtResource( 2 )
+

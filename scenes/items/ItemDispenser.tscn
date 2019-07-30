@@ -2,11 +2,11 @@
 
 [ext_resource path="res://scenes/items/Item.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/items/ItemDispenser.gd" type="Script" id=2]
-[ext_resource path="res://assets/bucket.png" type="Texture" id=3]
+[ext_resource path="res://assets/map_elements/itemdispenser.png" type="Texture" id=3]
 [ext_resource path="res://assets/audio/UI_SFX_Set/click5.wav" type="AudioStream" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 35.4193, 58.5543 )
+extents = Vector2( 32, 32 )
 
 [node name="ItemDispenser" instance=ExtResource( 1 )]
 mode = 1
@@ -16,17 +16,21 @@ grabbable = false
 
 [node name="Sprite" parent="Obj" index="0"]
 modulate = Color( 0.796078, 0.796078, 0.796078, 1 )
-position = Vector2( 1.36139, -36.4748 )
-scale = Vector2( 0.4, 0.4 )
+position = Vector2( 0, 0 )
+scale = Vector2( 0.5, 0.5 )
 z_index = -2
 texture = ExtResource( 3 )
 
 [node name="CollisionShape2D" parent="Pickup_area" index="0"]
-position = Vector2( 2.43733, -48.0278 )
 shape = SubResource( 1 )
 
 [node name="Dispense" type="AudioStreamPlayer2D" parent="." index="2"]
 stream = ExtResource( 4 )
 volume_db = -15.0
 pitch_scale = 0.7
+
+[node name="Display" type="Sprite" parent="." index="3"]
+position = Vector2( 0, -16 )
+scale = Vector2( 0.1, 0.1 )
+z_index = -1
 

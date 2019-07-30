@@ -10,9 +10,9 @@ onready var ordered_spawns : Array = $WinningCutsceneMap/SpawnPoints.get_childre
 func _ready():
 	Manager.minigame_name = 'winning_cutscene'
 	game_instructions = 'Press 1 to\ngo back!'
-	
+
 	Globals.HUD.instructions.text = game_instructions
-	
+
 	yield(get_tree().create_timer(.05),'timeout')
 	for player in Players._update_active_players():
 		player.child.remove_from_group('focus')
@@ -21,7 +21,7 @@ func _ready():
 
 func _insert_players():
 	ordered_players.sort_custom(ScoringSort, 'sort')
-	
+
 	var i := 0
 	for player in ordered_players :
 		player.spawn(ordered_spawns[i].position)

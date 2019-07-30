@@ -14,6 +14,7 @@ gradient = SubResource( 1 )
 trail_divisor = 5
 flag_disable_z = true
 gravity = Vector3( 0, 100, 0 )
+angular_velocity = 1.72554e+25
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 angle = 90.0

@@ -14,4 +14,14 @@ has_timer = false
 visible_name = "Horseshoes"
 visible_hp = true
 
-[node name="Any_HorseshoesMap1" parent="." index="2" instance=ExtResource( 3 )]
+[node name="CanvasLayer" parent="." index="0"]
+editor/display_folded = false
+
+[node name="HUD" parent="CanvasLayer" index="0"]
+margin_left = -770.095
+margin_top = -443.112
+margin_right = 765.905
+margin_bottom = 452.888
+
+[node name="Any_HorseshoesMap1" parent="." index="1" instance=ExtResource( 3 )]
+

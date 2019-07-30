@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scripts/map_elements/Booster.gd" type="Script" id=1]
 [ext_resource path="res://assets/sphere_soft.png" type="Texture" id=2]
 [ext_resource path="res://assets/audio/launches/slimeballnonloop.wav" type="AudioStream" id=3]
+[ext_resource path="res://assets/map_elements/leverbase.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 64 )
@@ -53,4 +54,8 @@ stream = ExtResource( 3 )
 volume_db = -18.0
 pitch_scale = 4.0
 bus = "Sounds"
+
+[node name="Base" type="Sprite" parent="."]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 4 )
 

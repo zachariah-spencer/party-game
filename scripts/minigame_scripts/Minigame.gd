@@ -3,7 +3,7 @@ extends Node
 class_name Minigame
 
 enum attack_modes {non_lethal, lethal}
-enum win_conditions {timeout, last_alive_allow_no_winners, lobby_readied, highest_local_score}
+enum win_conditions {timeout, last_alive_allow_no_winners, lobby_readied, highest_local_score, custom}
 
 export var game_time : int
 export var game_instructions : String
@@ -19,6 +19,8 @@ export var has_local_score := false
 export var has_map_rotations := false
 export var visible_hp := false
 export var respawn_time := 2.0
+export var even_only := false
+export var initial_hp := 3
 
 var game_active : bool = false
 var game_over : bool = false
@@ -27,9 +29,9 @@ var spawn_points : Array
 var map : Node2D
 var maps : Array = []
 var forced_to_lobby := false
+var spawn_index = {}
 
 onready var hud : Node = $CanvasLayer/HUD
-onready var camera = get_node("Cam")
 
 signal game_times_up
 
@@ -46,7 +48,6 @@ func _ready():
 	_update_active_spawn_points()
 	spawn_points.shuffle()
 
-	camera.current = true
 	connect('game_times_up', Manager, '_on_game_times_up')
 	Globals.HUD.connect('begin_game', Manager.current_minigame, '_on_begin_game')
 
@@ -56,8 +57,6 @@ func _ready():
 	minigame_timer.set_autostart(true)
 	minigame_timer.set_one_shot(false)
 	minigame_timer.start(1)
-
-
 
 	call_deferred('_insert_players')
 	call_deferred('_pregame', has_countdown)
@@ -92,6 +91,7 @@ func _select_a_map():
 	add_child(map)
 
 func _physics_process(delta):
+	_run_minigame_loop()
 	if Players._update_active_players().size() < 2 && Manager.minigame_name != 'lobby' && !forced_to_lobby:
 		_game_won(true)
 		forced_to_lobby = true
@@ -104,6 +104,7 @@ func _insert_players():
 	var i := 0
 	for player in Players.active_players :
 		player.spawn(spawn_points[i].position)
+		spawn_index[spawn_points[i]] = player
 		i += 1
 
 func _pregame(has_countdown : bool = true):
@@ -121,7 +122,8 @@ func _on_begin_game():
 	game_active = true
 
 func _run_minigame_loop():
-	pass
+	if game_active:
+		_check_game_win_conditions()
 
 func _check_game_win_conditions():
 	match win_condition:
@@ -134,7 +136,6 @@ func _check_game_win_conditions():
 			elif Players._get_alive_players().size() == 0:
 				_game_won(true)
 
-
 		win_conditions.last_alive_allow_no_winners:
 			if Players._get_alive_players().size() == 1:
 				_game_won()
@@ -146,6 +147,9 @@ func _check_game_win_conditions():
 				_game_won()
 			elif Players._get_alive_players().size() == 0:
 				_game_won(true)
+
+		win_conditions.custom:
+			pass
 
 
 

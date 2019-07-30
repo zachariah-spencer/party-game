@@ -16,8 +16,12 @@ var disable_movement := false
 var disable_fists := false
 var spawn_point : Node2D
 
+var punch_knockback = Vector2(40* Globals.CELL_SIZE, 500)
+
 var can_wall_jump := true
 var can_jump := true
+var is_crouching := false
+var crouch_set := false
 var velocity : Vector2
 var adjusted_velocity : Vector2
 var target_velocity : float
@@ -27,7 +31,7 @@ var aim_direction := Vector2.ZERO
 var facing_direction := 1.0
 var wall_direction := 1.0
 var move_speed := 14.0 * Globals.CELL_SIZE
-var hit_points := 100
+var hit_points := 3
 var held_item
 var holding_item := false
 
@@ -35,6 +39,7 @@ var can_attack := true
 var punch_arm := 'left'
 var attack_area
 var hit_exceptions := []
+var invincible := false
 
 var max_jump_height := 8.25 * Globals.CELL_SIZE
 var min_jump_height := 0.8 * Globals.CELL_SIZE
@@ -70,7 +75,6 @@ var wall_action : Vector2
 onready var parent := get_parent()
 onready var local_score := $LocalScore
 onready var state_label := $StateLabel
-onready var hit_points_label := $HitPoints
 onready var anim_tree := $Rig/AnimationTree
 
 onready var jump_cooldown := $JumpCooldownTimer
@@ -84,6 +88,7 @@ onready var hurt_cooldown_timer := $HurtCooldownTimer
 onready var feet_timer := $WalkingFeetTimer
 
 onready var fall_through_area := $FallingThroughPlatformArea
+onready var standing_area := $StandingArea
 onready var left_wall_raycasts := $WallRaycasts/LeftWallRaycasts
 onready var right_wall_raycasts := $WallRaycasts/RightWallRaycasts
 onready var platform_raycasts := $GroundRaycasts
@@ -93,8 +98,15 @@ onready var gravity_magnitude := 2 * max_jump_height / pow(jump_duration, 2)
 onready var gravity = Vector2.DOWN
 onready var max_jump_velocity = -sqrt(2 * gravity_magnitude * max_jump_height)
 onready var min_jump_velocity = -sqrt(2 * gravity_magnitude * min_jump_height)
+onready var visible_onscreen := $VisibilityNotifier2D
+onready var player_rig := $Rig
+onready var top_of_head_area := $TopOfHeadArea
 
-signal interacted
+onready var footstool_particles := preload('res://assets/vfx/FootstoolDust.tscn')
+onready var health_anims := $Health/HealthAnims
+onready var health_ui := $Health
+var visible_hp := true
+
 signal dropped
 
 func _set_gravity(new_gravity := Vector2.DOWN ):
@@ -106,16 +118,16 @@ func _ready():
 	_set_gravity(Vector2.DOWN)
 	#call state machines ready function
 	_state_machine_ready()
-	#set players hitpoints box equal to his health
-	_update_player_stats()
+	#set starting hp
+	_set_hp()
 	#set idle facial expression
 	_set_face()
 
-	var interactables = get_tree().get_nodes_in_group('interactable')
-
-	if interactables.size() != 0:
-		for interactable in interactables:
-			connect('interacted',interactable, 'interact')
+#	var interactables = get_tree().get_nodes_in_group('interactable')
+#
+#	if interactables.size() != 0:
+#		for interactable in interactables:
+#			connect('interacted',interactable, 'interact')
 
 func _physics_process(delta):
 	if state != null:
@@ -125,7 +137,7 @@ func _physics_process(delta):
 			_set_state(transition)
 
 func _input(event : InputEvent):
-	
+
 	if state != states.wall_slide:
 		if event.is_action_pressed(taunt_input1):
 			_taunt1()
@@ -135,7 +147,7 @@ func _input(event : InputEvent):
 			_taunt3()
 		if event.is_action_pressed(taunt_input4):
 			_taunt4()
-	
+
 	if event.is_action_pressed(attack_input) && attack_cooldown_timer.is_stopped() && state != states.wall_slide:
 		if state == states.disabled :
 			pass
@@ -148,31 +160,36 @@ func _input(event : InputEvent):
 		if event.is_action_released(move_jump) && adjusted_velocity.y < min_jump_velocity:
 			velocity = (velocity - velocity.project(gravity)) + (min_jump_velocity * Vector2.DOWN.rotated(gravity.angle() - PI/2))
 
-func hit(by : Node, damage : int, knockback := Vector2.ZERO, type := Damage.ENVIRONMENTAL) :
-	var x = 40* Globals.CELL_SIZE
-	var y = 500
-	if knockback != Vector2.ZERO :
-		velocity = ((Vector2.UP * y) + (x * sign(knockback.x)*Vector2.RIGHT)).rotated(gravity.angle() -PI/2)
-	$Shockwave.set_emitting(true)
 
-	if holding_item :
-		held_item.hit(by, damage, knockback, type)
-	#set a special h weight here
-	_set_state(states.hitstun)
-	hurt_cooldown_timer.start()
+func hit(by : Node2D, damage : int, knockback := Vector2.ZERO, type := Damage.ENVIRONMENTAL) :
+	if !invincible:
+		var dist =  global_position - by.global_position
+#		var x = 40* Globals.CELL_SIZE
+#		var y = 500
+		if knockback != Vector2.ZERO :
+			var temp_v = Vector2(knockback.x * sign(dist.x), -knockback.y)
+			velocity = temp_v.rotated(gravity.angle() - PI/2)
 
-	if type == Damage.PUNCHES:
-		match Manager.current_minigame.attack_mode:
-			Manager.current_minigame.attack_modes.non_lethal:
-				parent.play_random("Hit")
-			Manager.current_minigame.attack_modes.lethal:
-				hit_points -= damage
-				$Rig/AnimationPlayer.play('hurt')
-				parent.play_random("Hit")
-	else:
-		hit_points -= damage
-		$Rig/AnimationPlayer.play('hurt')
-		parent.play_random("Hit")
+		$Shockwave.set_emitting(true)
+
+		if holding_item :
+			held_item.hit(by, damage, knockback, type)
+		#set a special h weight here
+		_set_state(states.hitstun)
+		hurt_cooldown_timer.start()
+
+		if type == Damage.PUNCHES:
+			match Manager.current_minigame.attack_mode:
+				Manager.current_minigame.attack_modes.non_lethal:
+					parent.play_random("Hit")
+				Manager.current_minigame.attack_modes.lethal:
+					hit_points -= damage
+					_update_player_stats()
+					parent.play_random("Hit")
+		else:
+			hit_points -= damage
+			_update_player_stats()
+			parent.play_random("Hit")
 
 
 func jump():
@@ -195,7 +212,7 @@ func wall_jump():
 		velocity = rotated.project(gravity) + ((rotated - rotated.project(gravity)) * wall_direction)
 
 func throw():
-	if holding_item :
+	if holding_item and is_instance_valid(held_item) :
 		parent.play_sound('Throw')
 		holding_item = false
 		var dir
@@ -219,9 +236,14 @@ func drop():
 		holding_item = false
 		held_item.throw(velocity, global_position+Vector2.DOWN*10 ,self)
 
+func _interact():
+	for area in $PickupRange.get_overlapping_areas() :
+		if area.has_method("interact") :
+			area.interact(self)
+
 func attack():
 	if !disable_fists:
-		emit_signal('interacted', self)
+		_interact()
 		var hand = null
 		var vel = Vector2(0,0)
 		var body_part = $Rig/Body
@@ -262,13 +284,37 @@ func attack():
 		attack_cooldown_timer.start()
 
 func _update_player_stats():
-	if Manager.current_minigame.visible_hp:
-		hit_points_label.visible = true
-
-	hit_points_label.text = String(hit_points)
+	match hit_points:
+		2:
+			if health_anims.is_playing():
+				yield(health_anims, 'animation_finished')
+			health_anims.play('3-2')
+		1:
+			if health_anims.is_playing():
+				yield(health_anims, 'animation_finished')
+			health_anims.play('2-1')
+		0:
+			if health_anims.is_playing():
+				yield(health_anims, 'animation_finished')
+			health_anims.play('1-0')
+	
 	if hit_points <= 0:
 		if !parent.is_dead():
 			parent.die(Manager.current_minigame.allow_respawns)
+
+func _set_hp():
+	if visible_hp:
+		health_ui.visible = true
+	else:
+		health_ui.visible = false
+	
+	match hit_points:
+		1:
+			health_anims.play('set-1')
+		2:
+			health_anims.play('set-2')
+		3:
+			health_anims.play('set-3')
 
 func _apply_gravity(delta : float):
 	if rotation != gravity.angle() - PI/2 :
@@ -341,17 +387,61 @@ func _handle_move_input(h_weight := .2):
 	if !disable_movement:
 		var y_comp = velocity.project(gravity)
 		var x_comp = (move_direction - move_direction.project(gravity)) * move_speed
+
+		if is_crouching:
+			if [states.jump, states.fall].has(state):
+				x_comp /= 2
+			else:
+				x_comp /= 3
 		velocity = velocity.linear_interpolate(x_comp + y_comp, h_weight)
 
 
 func _handle_wall_slide_sticking():
 	var rel_move_dir = move_direction_adjusted.x
-	
+
 	if gravity.project(Vector2.LEFT).length() > 0.1 :
 		rel_move_dir *= -1
-	
+
 	if sign(rel_move_dir) == sign(wall_direction) :
 		wall_slide_sticky_timer.start()
+
+func _handle_crouching():
+	var rel_move_dir = move_direction_adjusted.y
+
+	if gravity.project(Vector2.LEFT).length() > 0.1 :
+		rel_move_dir *= -1
+
+
+	if rel_move_dir > .2:
+		if !crouch_set:
+			_crouch()
+			is_crouching = true
+	else:
+		if crouch_set && _can_standup():
+			_decrouch()
+			is_crouching = false
+
+func _crouch():
+	player_rig.get_node('Body').mode = RigidBody2D.MODE_KINEMATIC
+	player_rig.get_node('Body').position.y += 15
+	_set_crouching_collisions(true)
+	crouch_set = true
+
+func _decrouch():
+	player_rig.get_node('Body').mode = RigidBody2D.MODE_RIGID
+	player_rig.get_node('Body').position.y = -16.06
+	_set_crouching_collisions(false)
+	crouch_set = false
+
+func _set_crouching_collisions(crouched : bool):
+	if crouched:
+		$PlayerShape.position.y += 19
+		$PlayerShape.shape.height = 25
+		top_of_head_area.position.y += 16
+	else:
+		$PlayerShape.position.y -= 19
+		$PlayerShape.shape.height = 63
+		top_of_head_area.position.y -= 16
 
 #statemachine code begins here
 func _state_machine_ready():
@@ -372,18 +462,19 @@ func _add_state(state_name):
 	states[state_name] = states.size()
 
 func _state_logic(delta : float):
-	_update_player_stats()
+	_handle_top_of_head()
 	_update_move_direction()
 	_update_wall_direction()
 	_update_wall_action()
 	_apply_gravity(delta)
 	if state != states.wall_slide and state != states.disabled:
+		_handle_crouching()
 		if state == states.hitstun :
 			_handle_move_input(.02)
 		elif state == states.jump or state == states.fall :
 			_handle_move_input(.1)
-		else :
-			 _handle_move_input()
+		elif state != states.wall_slide :
+			_handle_move_input()
 	if state == states.disabled:
 		_stop_movement()
 	if state == states.wall_slide:
@@ -424,7 +515,7 @@ func _get_transition(delta : float):
 				set_collision_mask_bit(DROP_THRU_BIT, true)
 			if wall_direction != 0 && wall_slide_cooldown.is_stopped() && move_direction.project(wall_action).length() > 0 :
 				return states.wall_slide
-			elif is_on_floor():
+			elif is_on_floor() :
 				parent.play_sound('Land')
 				return states.idle
 			elif adjusted_velocity.y < 0:
@@ -475,6 +566,8 @@ func _enter_state(new_state, old_state):
 		states.hitstun:
 			mod = .5
 			state_label.text = 'hitstun'
+			if crouch_set:
+				_decrouch()
 
 	modulate.a = mod
 	if state_name :
@@ -515,7 +608,7 @@ func _set_face(type='default'):
 	else:
 		# for now it's just the punching, but I plan to implement more
 		face.set_texture(face_textures[0][1])
-	
+
 func _voice(type):
 	# play a certain voice clip, sometimes these could be randomized
 	if type == 'taunt1-1':
@@ -582,6 +675,12 @@ func _is_in_platform():
 			return true
 	return false
 
+func _can_standup():
+	if standing_area.get_overlapping_bodies().size() == 0:
+		return true
+	else:
+		return false
+
 func _is_on_platform():
 	for body in platform_raycasts.get_children():
 		if body.is_colliding() :
@@ -619,15 +718,32 @@ func _on_WallSlideStickyTimer_timeout():
 	if state == states.wall_slide:
 		_set_state(states.fall)
 
-func _on_TopOfHeadArea_body_entered(affected_player):
+var i = 0
+
+func _footstool(affected_player):
 	if not affected_player.is_in_group("player") :
 		return
 	var affected_player_feet = affected_player.get_node('Rig/Feet/CollisionShape2D')
+
 	if affected_player.state == affected_player.states.fall:
+
+		var dust = footstool_particles.instance()
+		parent.get_parent().add_child(dust)
+		dust.global_position = global_position
+		dust.global_position.y -= 75
+
+		parent.play_sound('Footstool')
+
 		affected_player._set_state(affected_player.states.jump)
 		affected_player.velocity.y = -30 * Globals.CELL_SIZE
 		_set_state(states.fall)
 		velocity.y = 25 * Globals.CELL_SIZE
+
+func _handle_top_of_head():
+	var bodies = top_of_head_area.get_overlapping_bodies()
+
+	for body in bodies:
+		_footstool(body)
 
 func _on_AttackTimer_timeout():
 	hit_exceptions = []
@@ -635,7 +751,7 @@ func _on_AttackTimer_timeout():
 
 func _on_AttackArea_body_entered(body):
 	if body.has_method("hit") and not hit_exceptions.has(body):
-		body.hit(self, 20, (body.global_position - global_position).normalized(), Damage.PUNCHES)
+		body.hit(self, 1, punch_knockback, Damage.PUNCHES)
 		hit_exceptions.append(body)
 
 func _on_HurtCooldownTimer_timeout():
@@ -678,3 +794,11 @@ func _manual_move_hand(dir := Vector2.ZERO, force := 1, hand := 'right'):
 
 func _on_WalkingFeetTimer_timeout():
 	parent.play_sound('Feet')
+
+
+func _on_TopOfHeadArea_body_entered(affected_player):
+	if not affected_player.is_in_group("player") :
+		return
+
+	if affected_player.state == affected_player.states.fall:
+		pass

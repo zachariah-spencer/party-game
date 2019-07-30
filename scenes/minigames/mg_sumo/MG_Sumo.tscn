@@ -12,15 +12,13 @@ win_condition = 1
 has_timer = false
 visible_name = "Sumo"
 
-[node name="Cam" parent="." index="0"]
-smoothing_enabled = false
+[node name="Any_SumoMap1" parent="." index="1" instance=ExtResource( 3 )]
 
-[node name="Any_SumoMap1" parent="." index="2" instance=ExtResource( 3 )]
-
-[node name="DeathBoundary" parent="." index="3" instance=ExtResource( 4 )]
+[node name="DeathBoundary" parent="." index="2" instance=ExtResource( 4 )]
 position = Vector2( 192, 748 )
 
-[node name="DropTimer" type="Timer" parent="." index="4"]
+[node name="DropTimer" type="Timer" parent="." index="3"]
 process_mode = 0
 wait_time = 5.0
+
 [connection signal="timeout" from="DropTimer" to="." method="_drop_timeout"]
