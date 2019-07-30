@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scripts/map_elements/ExitDoor.gd" type="Script" id=1]
+[ext_resource path="res://assets/flag.png" type="Texture" id=2]
+[ext_resource path="res://monogram.ttf" type="DynamicFontData" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 32, 64 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 60
+font_data = ExtResource( 3 )
+
+[node name="ExitDoor" type="Area2D" groups=[
+"interactable",
+]]
+collision_layer = 16384
+collision_mask = 960
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 2 )
+
+[node name="InteractArea" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = -64.0
+margin_top = -128.0
+margin_right = 64.0
+margin_bottom = -64.0
+custom_fonts/font = SubResource( 2 )
+text = "QUIT"
+align = 1
+valign = 1
+

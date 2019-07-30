@@ -28,6 +28,8 @@ var player_two : Node
 var player_three : Node
 var player_four : Node
 
+var pause_menu : Node
+
 onready var game_music := get_tree().get_root().get_node('World/GameMusic')
 
 var players : Array = [player_one, player_two, player_three, player_four]
