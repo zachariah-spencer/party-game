@@ -119,7 +119,7 @@ func _input(event):
 	if event.is_action_pressed(start_button):
 		if !active :
 			_activate_player(Manager.current_minigame.instant_player_insertion)
-		elif active && Manager.minigame_name != 'lobby' && Globals.pause_menu.can_pause:
+		elif active && Manager.minigame_name != 'lobby':
 			emit_signal('paused_game', self)
 		elif !ready :
 			ready = true
