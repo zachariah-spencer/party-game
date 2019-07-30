@@ -16,6 +16,7 @@ signal player_got_a_punch
 
 func _ready():
 	connect('player_got_a_punch',get_parent().get_parent(),'_increase_local_score')
+	$Hover.play()
 	_weight = 10
 	bounce = .6
 
@@ -53,6 +54,8 @@ func _on_ImpulseTimer_timeout():
 
 func hit(by : Node, damage : int, knockback :Vector2, type := Damage.ENVIRONMENTAL):
 	if can_be_hit :
+		$Hit.play()
+		$Hover.pitch_scale += 2
 		var knockback_velocity : Vector2 = Vector2.ZERO
 
 		knockback_velocity.x = knockback.x * knockback_speed
@@ -65,6 +68,7 @@ func hit(by : Node, damage : int, knockback :Vector2, type := Damage.ENVIRONMENT
 		$Obj/Sprite.modulate = Color.darkred
 
 func _on_HitCooldownTimer_timeout():
+	$Hover.pitch_scale -= 2
 	painful = false
 	can_be_hit = true
 	$Obj/Sprite.modulate = Color.white
@@ -91,3 +95,7 @@ func _on_PainfulArea_body_entered(body):
 		pain_area.set_collision_mask_bit(player.parent.single_bit, false)
 		player.modulate.a = .5
 		players_hit.append(player)
+
+
+func _on_Punchball_body_entered(body):
+	$Collision.play()
