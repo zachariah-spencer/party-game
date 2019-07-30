@@ -156,4 +156,3 @@ editor/display_folded = true
 [node name="3" type="AudioStreamPlayer2D" parent="Sounds/Taunts"]
 
 [node name="4" type="AudioStreamPlayer2D" parent="Sounds/Taunts"]
-
