@@ -1,4 +1,4 @@
-[gd_scene load_steps=67 format=2]
+[gd_scene load_steps=68 format=2]
 
 [ext_resource path="res://scripts/player_scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/player/foot_placeholder.png" type="Texture" id=2]
@@ -17,9 +17,10 @@
 [ext_resource path="res://assets/sphere_soft.png" type="Texture" id=15]
 [ext_resource path="res://monogram.ttf" type="DynamicFontData" id=16]
 [ext_resource path="res://assets/audio/player_voices/taunts/taunt1-1b.wav" type="AudioStream" id=17]
-[ext_resource path="res://assets/audio/player_voices/taunts/taunt1-2a.wav" type="AudioStream" id=18]
-[ext_resource path="res://assets/audio/player_voices/taunts/taunt1-2b.wav" type="AudioStream" id=19]
-[ext_resource path="res://assets/vfx/hp_orb.png" type="Texture" id=20]
+[ext_resource path="res://assets/audio/player_voices/taunts/taunt1-1a.wav" type="AudioStream" id=18]
+[ext_resource path="res://assets/audio/player_voices/taunts/taunt1-2a.wav" type="AudioStream" id=19]
+[ext_resource path="res://assets/audio/player_voices/taunts/taunt1-2b.wav" type="AudioStream" id=20]
+[ext_resource path="res://assets/vfx/hp_orb.png" type="Texture" id=21]
 
 [sub_resource type="Curve" id=1]
 max_value = 0.4
@@ -367,9 +368,10 @@ audio_stream = ExtResource( 17 )
 audio_stream = ExtResource( 18 )
 
 [sub_resource type="AudioStreamRandomPitch" id=39]
+audio_stream = ExtResource( 19 )
 
 [sub_resource type="AudioStreamRandomPitch" id=40]
-audio_stream = ExtResource( 19 )
+audio_stream = ExtResource( 20 )
 
 [sub_resource type="Animation" id=41]
 resource_name = "1-0"
@@ -520,7 +522,6 @@ rotation = -0.0311069
 
 [node name="Right Foot Sprite" type="Sprite" parent="Rig/Right Foot"]
 position = Vector2( 6, 0 )
-rotation = 0.610865
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 2 )
 offset = Vector2( 0, -95 )
@@ -607,7 +608,6 @@ position = Vector2( 0, -6.23 )
 shape = SubResource( 3 )
 
 [node name="Body" type="Sprite" parent="Rig/Body"]
-rotation = -0.0426636
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 5 )
 
@@ -621,7 +621,6 @@ rotation = -0.0406802
 
 [node name="Left Foot Sprite" type="Sprite" parent="Rig/Left Foot"]
 position = Vector2( -6, 0 )
-rotation = 0.610865
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 2 )
 offset = Vector2( 0, -95 )
@@ -926,11 +925,9 @@ process_mode = 0
 wait_time = 0.21
 
 [node name="Taunts" type="Node2D" parent="."]
-editor/display_folded = true
 visible = false
 
 [node name="1" type="Node2D" parent="Taunts"]
-editor/display_folded = true
 
 [node name="A1" type="AudioStreamPlayer2D" parent="Taunts/1"]
 position = Vector2( 0, -39.01 )
@@ -971,20 +968,19 @@ anims/set-3 = SubResource( 46 )
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( -20, -100 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 20 )
+texture = ExtResource( 21 )
 
 [node name="2" type="Sprite" parent="Health"]
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 0, -100 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 20 )
+texture = ExtResource( 21 )
 
 [node name="3" type="Sprite" parent="Health"]
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 20, -100 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 20 )
-
+texture = ExtResource( 21 )
 [connection signal="body_entered" from="Rig/Left Hand/Hitbox" to="." method="_on_AttackArea_body_entered"]
 [connection signal="body_entered" from="Rig/Right Hand/Hitbox" to="." method="_on_AttackArea_body_entered"]
 [connection signal="body_entered" from="TopOfHeadArea" to="." method="_on_TopOfHeadArea_body_entered"]
