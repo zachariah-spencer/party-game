@@ -33,7 +33,7 @@ script = SubResource( 1 )
 [node name="PlayerFour" parent="Players" instance=ExtResource( 4 )]
 
 [node name="MenuLayer" type="CanvasLayer" parent="."]
-layer = 10
+layer = 100
 
 [node name="PauseMenu" parent="MenuLayer" instance=ExtResource( 5 )]
 
@@ -45,4 +45,3 @@ stream = ExtResource( 7 )
 volume_db = -12.0
 attenuation = 0.00328474
 bus = "Music"
-

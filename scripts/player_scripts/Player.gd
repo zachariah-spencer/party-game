@@ -776,6 +776,23 @@ func _taunt4():
 	print('taunt4')
 	parent.play_sound('Taunts/4')
 
+func _manual_move_hand(dir := Vector2.ZERO, force := 1, hand := 'right'):
+	var body_part = $Rig/Body
+	var head = $Rig/Head
+	var vel = Vector2.ZERO
+	var hand_ref
+	
+	# change hands for each punch
+	if hand == 'right':
+		hand_ref = right_hand
+	elif hand == 'head':
+		hand_ref = head
+	else:
+		hand_ref = left_hand
+	
+	vel = hand_ref.get_gravity_scale() * force * dir.normalized()
+	hand_ref.apply_central_impulse(vel)
+
 func _on_WalkingFeetTimer_timeout():
 	parent.play_sound('Feet')
 
