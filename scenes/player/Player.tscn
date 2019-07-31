@@ -515,6 +515,7 @@ collision_mask = 6169
 script = ExtResource( 1 )
 
 [node name="Rig" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Right Foot" type="Node2D" parent="Rig"]
 position = Vector2( 0, 1 )
@@ -981,6 +982,7 @@ modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 20, -100 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 21 )
+
 [connection signal="body_entered" from="Rig/Left Hand/Hitbox" to="." method="_on_AttackArea_body_entered"]
 [connection signal="body_entered" from="Rig/Right Hand/Hitbox" to="." method="_on_AttackArea_body_entered"]
 [connection signal="body_entered" from="TopOfHeadArea" to="." method="_on_TopOfHeadArea_body_entered"]

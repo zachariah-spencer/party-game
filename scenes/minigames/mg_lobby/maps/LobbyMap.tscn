@@ -105,6 +105,7 @@ position = Vector2( 1536, 1312 )
 
 [node name="ItemDispenser" parent="." index="7" instance=ExtResource( 5 )]
 position = Vector2( 512, 840 )
+item_path = "res://scenes/items/Pushgun.tscn"
 
 [node name="ItemDispenser2" parent="." index="8" instance=ExtResource( 5 )]
 position = Vector2( 2048, 736 )
@@ -181,7 +182,6 @@ shape = SubResource( 8 )
 [node name="GravityCompass" parent="." index="18" instance=ExtResource( 10 )]
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="." index="19"]
-editor/display_folded = true
 layer = -5
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground" index="0"]

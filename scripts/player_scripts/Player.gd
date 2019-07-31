@@ -40,6 +40,7 @@ var punch_arm := 'left'
 var attack_area
 var hit_exceptions := []
 var invincible := false
+var held_weapon
 
 var max_jump_height := 8.25 * Globals.CELL_SIZE
 var min_jump_height := 0.8 * Globals.CELL_SIZE
@@ -229,6 +230,8 @@ func throw():
 			velocity = Vector2.ZERO
 			velocity -= dir.normalized()*held_item._weight*100
 		held_item.throw(dir*1600, pos, self)
+		if held_item is Weapon:
+			held_weapon = null
 		held_item = null
 
 func drop():
@@ -332,6 +335,9 @@ func _apply_movement():
 			jump_cooldown.start()
 
 func _update_move_direction():
+	if held_weapon:
+		_handle_weapon_mechanics()
+	
 	move_direction.y = -Input.get_action_strength(move_up) + Input.get_action_strength(move_down)
 	move_direction.x = -Input.get_action_strength(move_left) + Input.get_action_strength(move_right)
 	aim_direction.y = -Input.get_action_strength(rs_up) + Input.get_action_strength(rs_down)
@@ -641,6 +647,8 @@ func set_item(item):
 		holding_item = true
 		item.grab(self)
 		held_item = item
+		if held_item is Weapon:
+			held_weapon = item
 		item.position = Vector2.ZERO
 		right_hand.call_deferred('add_child', item)
 
@@ -802,3 +810,13 @@ func _on_TopOfHeadArea_body_entered(affected_player):
 
 	if affected_player.state == affected_player.states.fall:
 		pass
+
+
+func _handle_weapon_mechanics():
+	pass
+
+func _handle_aiming():
+	pass
+
+func _shoot():
+	pass
