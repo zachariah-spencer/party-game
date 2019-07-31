@@ -637,7 +637,7 @@ func _pickup_item():
 
 	if item && item.grabbable && !disable_fists:
 		set_item(item)
-	elif item :
+	elif item:
 		item.grab(self)
 	return holding_item
 
@@ -647,10 +647,14 @@ func set_item(item):
 		holding_item = true
 		item.grab(self)
 		held_item = item
+		item.position = Vector2.ZERO
+		
 		if held_item is Weapon:
 			held_weapon = item
-		item.position = Vector2.ZERO
-		right_hand.call_deferred('add_child', item)
+			item.position.x += 25
+			player_rig.get_node('Body').call_deferred('add_child', item)
+		else:
+			right_hand.call_deferred('add_child', item)
 
 func _stop_movement():
 	velocity = velocity.project(gravity)
@@ -813,10 +817,14 @@ func _on_TopOfHeadArea_body_entered(affected_player):
 
 
 func _handle_weapon_mechanics():
-	pass
+	_handle_aiming()
 
 func _handle_aiming():
-	pass
+	if aim_direction == Vector2.ZERO:
+		held_weapon.rotation = 0
+	else:
+		held_weapon.rotation = aim_direction.angle()
+		held_weapon.position = aim_direction.normalized() * 15
 
 func _shoot():
 	pass
