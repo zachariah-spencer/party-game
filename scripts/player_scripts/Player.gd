@@ -830,13 +830,43 @@ func _handle_weapon_mechanics():
 func _handle_aiming():
 	var x_comp = move_direction.cross(gravity)
 	
+	if move_direction.x < 0 && aim_direction.x > 0 || move_direction.x > 0 && aim_direction.x < 0:
+		aim_direction.x = 0
+	
 	if aim_direction == Vector2.ZERO:
 		held_weapon.rotation = PI if facing_direction < 0 else 0
+		held_weapon.position = Vector2.LEFT * 15 if facing_direction < 0 else Vector2.RIGHT * 15
 	else:
 		held_weapon.rotation = aim_direction.angle()
 		held_weapon.position = aim_direction.normalized() * 15
 	
-	if facing_direction < 0 || aim_direction.x < 0:
+	
+	if aim_direction.x < 0 && facing_direction > 0 || aim_direction.x > 0 && facing_direction < 0:
+		_flip_player_direction()
+	
+	if aim_direction.x < 0 || facing_direction < 0:
 		held_weapon.sprite.flip_v = true
 	else:
 		held_weapon.sprite.flip_v = false
+
+func _flip_player_direction():
+	var new_dir = Vector2.LEFT if facing_direction > 0 else Vector2.RIGHT
+	var x_comp = new_dir.cross(gravity)
+	
+	if x_comp != 0:
+		# all nodes in here will be mirrored when changing directions
+		# these range from simple sprites to feet that require mirroring the parent node, not the sprites themselves
+		var mirror_group = [get_node("Rig/Right Foot"),
+				get_node("Rig/Left Foot"),
+				get_node("Rig/Body/Body"),
+				get_node("Rig/Head/Sprite"),
+				get_node("Rig/Head/Face"),
+				get_node("Rig/Right Hand/Sprite"),
+				get_node("Rig/Left Hand/Sprite")]
+		#could implement face rotation here
+		for i in mirror_group:
+			var s = i.get_scale()
+			if (s.x > 0 and x_comp < 0) or (s.x < 0 and x_comp > 0) :
+				s.x *= -1
+			i.scale.x = s.x
+		facing_direction = x_comp
