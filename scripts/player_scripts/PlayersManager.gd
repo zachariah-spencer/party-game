@@ -185,6 +185,7 @@ func register_player_inputs():
 		child.move_up = 'player_' + player_string + '_move_up'
 		child.move_down = 'player_' + player_string + '_move_down'
 		child.attack_input = 'player_' + player_string + '_attack'
+		child.interact_input = 'player_' + player_string + '_interact'
 
 		child.rs_left = 'player_' + player_string + '_rs_left'
 		child.rs_right = 'player_' + player_string + '_rs_right'
@@ -230,8 +231,10 @@ func _setup_controller_config(player_string : String):
 	_map_controller_event_to_action(current_action, false, JOY_BUTTON_6)
 
 	current_action = _map_controller_action('_attack')
-	_map_controller_event_to_action(current_action, false, JOY_BUTTON_2)
 	_map_controller_event_to_action(current_action, false, JOY_BUTTON_7)
+	
+	current_action = _map_controller_action('_interact')
+	_map_controller_event_to_action(current_action, false, JOY_BUTTON_2)
 
 	current_action = _map_controller_action('_taunt_1')
 	_map_controller_event_to_action(current_action, false, JOY_DPAD_LEFT)

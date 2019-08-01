@@ -59,6 +59,7 @@ var move_down : String
 var move_jump : String
 var move_up : String
 var attack_input : String
+var interact_input : String
 var rs_left : String
 var rs_right : String
 var rs_down : String
@@ -131,6 +132,9 @@ func _ready():
 #			connect('interacted',interactable, 'interact')
 
 func _physics_process(delta):
+	if Input.is_action_pressed(attack_input) && !holding_item && attack_cooldown_timer.is_stopped() && state != states.wall_slide:
+			attack()
+	
 	if state != null:
 		_state_logic(delta)
 		var transition = _get_transition(delta)
@@ -149,13 +153,15 @@ func _input(event : InputEvent):
 		if event.is_action_pressed(taunt_input4):
 			_taunt4()
 
-	if event.is_action_pressed(attack_input) && attack_cooldown_timer.is_stopped() && state != states.wall_slide:
+	if event.is_action_pressed(interact_input) && attack_cooldown_timer.is_stopped() && state != states.wall_slide:
 		if state == states.disabled :
 			pass
 		elif holding_item :
 			throw()
-		elif !_pickup_item() :
-			attack()
+			_interact()
+		else:
+			_pickup_item()
+			_interact()
 	elif state == states.jump:
 		#VARIABLE JUMP
 		if event.is_action_released(move_jump) && adjusted_velocity.y < min_jump_velocity:
@@ -246,7 +252,6 @@ func _interact():
 
 func attack():
 	if !disable_fists:
-		_interact()
 		var hand = null
 		var vel = Vector2(0,0)
 		var body_part = $Rig/Body
@@ -818,13 +823,20 @@ func _on_TopOfHeadArea_body_entered(affected_player):
 
 func _handle_weapon_mechanics():
 	_handle_aiming()
+	
+	if Input.is_action_pressed(attack_input) && held_weapon.has_method('attack'):
+		held_weapon.attack()
 
 func _handle_aiming():
+	var x_comp = move_direction.cross(gravity)
+	
 	if aim_direction == Vector2.ZERO:
-		held_weapon.rotation = 0
+		held_weapon.rotation = PI if facing_direction < 0 else 0
 	else:
 		held_weapon.rotation = aim_direction.angle()
 		held_weapon.position = aim_direction.normalized() * 15
-
-func _shoot():
-	pass
+	
+	if facing_direction < 0 || aim_direction.x < 0:
+		held_weapon.sprite.flip_v = true
+	else:
+		held_weapon.sprite.flip_v = false
