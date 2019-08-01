@@ -1,8 +1,7 @@
 extends Item
 class_name Weapon
 
-func _on_grab():
-	pass
+onready var cd := $AttackCooldown
 
 func attack():
 	pass

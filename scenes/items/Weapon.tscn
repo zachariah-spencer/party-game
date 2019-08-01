@@ -6,3 +6,8 @@
 [node name="Weapon" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
+[node name="AttackCooldown" type="Timer" parent="." index="2"]
+process_mode = 0
+wait_time = 0.8
+one_shot = true
+

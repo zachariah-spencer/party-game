@@ -830,7 +830,7 @@ func _handle_weapon_mechanics():
 func _handle_aiming():
 	var x_comp = move_direction.cross(gravity)
 	
-	if move_direction.x < 0 && aim_direction.x > 0 || move_direction.x > 0 && aim_direction.x < 0:
+	if move_direction_adjusted.x < 0 && aim_direction.x > 0 || move_direction_adjusted.x > 0 && aim_direction.x < 0:
 		aim_direction.x = 0
 	
 	if aim_direction == Vector2.ZERO:

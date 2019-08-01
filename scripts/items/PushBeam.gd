@@ -2,7 +2,7 @@ extends Area2D
 
 onready var vfx := $Particles
 onready var shoot_time := $ShootTime
-var launch_speed := 80
+var launch_speed := 60
 
 func _physics_process(delta):
 	vfx.modulate.a -= .02
