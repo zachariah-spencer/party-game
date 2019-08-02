@@ -102,6 +102,8 @@ onready var visible_onscreen := $VisibilityNotifier2D
 onready var player_rig := $Rig
 onready var top_of_head_area := $TopOfHeadArea
 
+onready var pushed_particles := $PushedParticles
+onready var hit_particles := $HitParticles
 onready var footstool_particles := preload('res://assets/vfx/FootstoolDust.tscn')
 onready var health_anims := $Health/HealthAnims
 onready var health_ui := $Health
@@ -182,11 +184,17 @@ func hit(by : Node2D, damage : int, knockback := Vector2.ZERO, type := Damage.EN
 			match Manager.current_minigame.attack_mode:
 				Manager.current_minigame.attack_modes.non_lethal:
 					parent.play_random("Hit")
+					pushed_particles.emitting = true
+					pushed_particles.restart()
 				Manager.current_minigame.attack_modes.lethal:
+					hit_particles.emitting = true
+					hit_particles.restart()
 					hit_points -= damage
 					_update_player_stats()
 					parent.play_random("Hit")
 		else:
+			hit_particles.emitting = true
+			hit_particles.restart()
 			hit_points -= damage
 			_update_player_stats()
 			parent.play_random("Hit")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=2]
+[gd_scene load_steps=73 format=2]
 
 [ext_resource path="res://scripts/player_scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/player/foot_placeholder.png" type="Texture" id=2]
@@ -21,6 +21,7 @@
 [ext_resource path="res://assets/audio/player_voices/taunts/taunt1-2a.wav" type="AudioStream" id=19]
 [ext_resource path="res://assets/audio/player_voices/taunts/taunt1-2b.wav" type="AudioStream" id=20]
 [ext_resource path="res://assets/vfx/hp_orb.png" type="Texture" id=21]
+[ext_resource path="res://assets/vfx/explosion.png" type="Texture" id=22]
 
 [sub_resource type="Curve" id=1]
 max_value = 0.4
@@ -505,6 +506,33 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
+[sub_resource type="ParticlesMaterial" id=49]
+emission_shape = 1
+emission_sphere_radius = 20.0
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 1000.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 0.04
+
+[sub_resource type="Gradient" id=50]
+colors = PoolColorArray( 1, 1, 1, 1, 1, 0.956863, 0.956863, 0 )
+
+[sub_resource type="GradientTexture" id=51]
+gradient = SubResource( 50 )
+
+[sub_resource type="ParticlesMaterial" id=52]
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 500.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 0.1
+color_ramp = SubResource( 51 )
+
 [node name="Player" type="KinematicBody2D" groups=[
 "focus",
 "player",
@@ -981,6 +1009,25 @@ modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 20, -100 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 21 )
+
+[node name="HitParticles" type="Particles2D" parent="."]
+position = Vector2( 0, -20 )
+emitting = false
+amount = 20
+lifetime = 0.1
+one_shot = true
+process_material = SubResource( 49 )
+texture = ExtResource( 15 )
+
+[node name="PushedParticles" type="Particles2D" parent="."]
+position = Vector2( 0, -20 )
+emitting = false
+amount = 30
+lifetime = 0.1
+one_shot = true
+process_material = SubResource( 52 )
+texture = ExtResource( 22 )
+
 [connection signal="body_entered" from="Rig/Left Hand/Hitbox" to="." method="_on_AttackArea_body_entered"]
 [connection signal="body_entered" from="Rig/Right Hand/Hitbox" to="." method="_on_AttackArea_body_entered"]
 [connection signal="body_entered" from="TopOfHeadArea" to="." method="_on_TopOfHeadArea_body_entered"]
